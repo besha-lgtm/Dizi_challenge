@@ -1,1 +1,157 @@
-<p>login works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your account</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-page">
+        <!-- 
+             LEFT SIDE - Brand & Details Container
+              -->
+        <div class="details-container">
+            <button type="button" class="back-btn">← Back to App</button>
+            
+            <!-- BRAND SECTION -->
+            <div class="brand-section">
+                <div class="brand-logo">D</div>
+                <h1>DiziEduTech</h1>
+            </div>
+
+            <!-- MAIN CONTENT SECTION -->
+            <div class="main-content">
+                <div class="badge">WELCOME BACK!!</div>
+                
+                <h2>Sign in to access your dashboard</h2>
+                
+                <p class="description">Manage your account, track your progress, and explore new opportunities on our platform.</p>
+
+                <!-- FEATURES SECTION -->
+                <div class="features-list">
+                    <div class="feature-card">
+                        <h3> Track Progress</h3>
+                        <p>Monitor your achievements and statistics</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3> Access Challenges</h3>
+                        <p>Explore and participate in new opportunities</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3> Earn Rewards</h3>
+                        <p>Win prizes and recognition for your work</p>
+                    </div>
+                </div>
+
+                <!-- STATS SECTION -->
+                <div class="stats-section">
+                    <div class="stat">
+                        <p class="stat-number">50K+</p>
+                        <p class="stat-label">Active Users</p>
+                    </div>
+                    <div class="stat">
+                        <p class="stat-number">500+</p>
+                        <p class="stat-label">Challenges</p>
+                    </div>
+                    <div class="stat">
+                        <p class="stat-number">$100K</p>
+                        <p class="stat-label">In Prizes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 
+             RIGHT SIDE - Login Form Container
+              -->
+        <div class="login-container">
+            <!-- LOGIN HEADER SECTION -->
+            <div class="login-header">
+                <h1>Sign in to your account</h1>
+                <p class="login-subtitle">Enter your credentials to continue</p>
+            </div>
+
+            <!-- FORM SECTION -->
+            <form class="login-form" id="loginForm">
+                
+                <!-- EMAIL INPUT SECTION -->
+                <div class="form-section">
+                    <label for="email" class="form-label">EMAIL ADDRESS</label>
+                    <div class="input-group">
+                        <span class="input-icon">📧</span>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input"
+                            placeholder="you@example.com"
+                        >
+                    </div>
+                </div>
+
+                <!-- PASSWORD INPUT SECTION -->
+                <div class="form-section">
+                    <label for="password" class="form-label">PASSWORD</label>
+                    <div class="input-group">
+                        <span class="input-icon">🔒</span>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input"
+                            placeholder="Enter your password"
+                        >
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 
+                     CHECKBOX & FORGOT PASSWORD SECTION
+                      -->
+                <div class="form-footer">
+                    <div class="remember-section">
+                        <input 
+                            type="checkbox" 
+                            id="keepSigned" 
+                            name="keepSigned"
+                            class="checkbox-input"
+                        >
+                        <label for="keepSigned" class="checkbox-label">Keep me signed in on this device</label>
+                    </div>
+                    <a href="#" class="forgot-password-link">Forgot password?</a>
+                </div>
+
+                <!-- 
+                     SUBMIT BUTTON SECTION
+                      -->
+                <button type="submit" class="sign-in-btn">Sign In →</button>
+
+            </form>
+
+            <!-- 
+                 SIGNUP LINK SECTION
+                  -->
+            <div class="signup-section">
+                <p class="signup-text">
+                    Don't have an account? 
+                    <a href="#" class="signup-link">Create one free</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+         FOOTER SECTION
+          -->
+    <!-- <footer class="footer-section">
+        <p>&copy; 2026 Platform Name. All rights reserved.</p>
+    </footer> -->
+
+    <script src="login.ts"></script>
+</body>
+</html>
