@@ -1,1 +1,61 @@
-<p>submission works!</p>
+<body><div class="page-wrapper"><div class="card">
+    <h2 class="card-title">Submit Your Solution</h2>
+    <p class="card-subtitle">Upload documents, link your demo, and summarize your approach.</p>
+ 
+    <!-- Drop Zone -->
+    <div class="drop-zone" id="dropZone">
+      <svg class="folder-icon" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="10" width="50" height="32" rx="4" fill="#f5c842" opacity="0.18"/>
+        <path d="M2 14C2 11.8 3.8 10 6 10H20L24 6H46C48.2 6 50 7.8 50 10V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V14Z" fill="#f5c842"/>
+        <path d="M2 18H50V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V18Z" fill="#e6a800"/>
+        <rect x="2" y="14" width="48" height="4" rx="2" fill="#f5c842"/>
+      </svg>
+ 
+      <span class="drop-zone-label">Drag &amp; Drop files here</span>
+      <span class="drop-zone-hint">PDF · PPT · Images · Videos up to 50MB</span>
+      <button type="button" class="btn-browse">Browse Files</button>
+ 
+      <input type="file" id="fileInput" multiple accept=".pdf,.ppt,.pptx,image/*,video/*" style="display:none"/>
+    </div>
+ 
+    <!-- GitHub + Demo row -->
+    <div class="field-row">
+      <div class="field">
+        <label for="githubRepo">GitHub Repository <span class="req">*</span></label>
+        <input
+          type="url"
+          id="githubRepo"
+          name="githubRepo"
+          placeholder="https://github.com/team-alpha/energy-dashboard"
+        />
+      </div>
+ 
+      <div class="field">
+        <label for="demoLink">Demo / Video Link</label>
+        <input
+          type="url"
+          id="demoLink"
+          name="demoLink"
+          placeholder="YouTube, Google Drive…"
+        />
+      </div>
+    </div>
+ 
+    <!-- Solution Summary -->
+    <div class="field field-full">
+      <label for="solutionSummary">Solution Summary <span class="req">*</span></label>
+      <textarea
+        id="solutionSummary"
+        name="solutionSummary"
+        placeholder="Describe your approach, architecture, and key decisions…"
+      ></textarea>
+    </div>
+ 
+    <!-- Actions -->
+    <div class="action-row">
+      <button type="button" class="btn-submit">Submit Final Solution</button>
+      <button type="button" class="btn-draft">Save Draft</button>
+    </div>
+  </div>
+  </div>
+  </body>

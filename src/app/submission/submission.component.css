@@ -1,0 +1,241 @@
+*, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+ 
+    html {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f4f6fb;
+      min-height: 100vh;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      padding: 40px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+ 
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px 0 rgba(80, 100, 180, 0.08);
+      padding: 36px 32px 28px;
+      width: 100%;
+      max-width: 760px;
+      justify-content: center;
+    }
+ 
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a2340;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+ 
+    .card-subtitle {
+      font-size: 0.875rem;
+      color: #6b7a99;
+      margin-bottom: 24px;
+    }
+ 
+    /* Drop Zone */
+    .drop-zone {
+      border: 2px dashed #b3c4f5;
+      border-radius: 10px;
+      background: #eef3fd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px;
+      gap: 10px;
+      margin-bottom: 24px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+ 
+    .drop-zone:hover {
+      border-color: #4f7df3;
+      background: #e6edfc;
+    }
+ 
+    .drop-zone svg.folder-icon {
+      width: 52px;
+      height: 44px;
+      display: block;
+    }
+ 
+    .drop-zone-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1a2340;
+    }
+ 
+    .drop-zone-hint {
+      font-size: 0.78rem;
+      color: #6b7a99;
+      margin-top: -4px;
+    }
+ 
+    .btn-browse {
+      margin-top: 6px;
+      border: 1.5px solid #dde3f0;
+      background: #ffffff;
+      color: #1a2340;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 7px 22px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+ 
+    .btn-browse:hover {
+      border-color: #4f7df3;
+      background: #f0f4ff;
+    }
+ 
+    /* Two-col row */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+ 
+    /* Field */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+ 
+    .field label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8492b0;
+    }
+ 
+    .field label .req {
+      color: #4f7df3;
+      margin-left: 1px;
+    }
+ 
+    .field input,
+    .field textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      color: #1a2340;
+      background: #f9fafc;
+      border: 1.5px solid #dde3f0;
+      border-radius: 8px;
+      padding: 10px 13px;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      resize: none;
+    }
+ 
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #b0bdd4;
+    }
+ 
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #4f7df3;
+      box-shadow: 0 0 0 3px rgba(79, 125, 243, 0.12);
+    }
+ 
+    .field textarea {
+      min-height: 110px;
+      line-height: 1.55;
+    }
+ 
+    .field-full {
+      margin-bottom: 24px;
+    }
+ 
+    /* Action row */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+ 
+    .btn-submit {
+      
+      background:linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+      color: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 10px ;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+    }
+ 
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+        transform: translate y(-2px);
+    }
+ 
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+ 
+    .btn-draft {
+      background: #ffffff;
+      color: #1a2340;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: 1.5px solid #dde3f0;
+      border-radius: 8px;
+      padding: 13px 22px;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      white-space: nowrap;
+    }
+ 
+    .btn-draft:hover {
+      border-color: #4f7df3;
+      background: #f0f4ff;
+    }
+ 
+    /* Responsive */
+    @media (max-width: 480px) {
+      .card {
+        padding: 24px 16px 20px;
+      }
+ 
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+ 
+      .action-row {
+        flex-direction: column;
+      }
+ 
+      .btn-draft {
+        width: 100%;
+        text-align: center;
+      }
+    }
