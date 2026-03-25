@@ -41,7 +41,9 @@ body {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    position: relative;
+    position: absolute;
+    top:0;
+    left:0;
 }
 
 /* BACK BUTTON */
@@ -164,7 +166,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding-top: 30px;
+    padding-top: 10px;
     
 }
 
@@ -197,13 +199,13 @@ body {
    RIGHT SIDE - Login Container
    =================================================== */
 .login-container {
-    position: relative;
+    position: absolute;
     padding: 60px 40px;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     margin-top: 140px;
-    left:110px;
+    left:57vw;
     align-content: center;
 }
 
@@ -297,7 +299,7 @@ body {
 
 .form-input::placeholder {
     color: #bbb;
-    text-align: center;
+    text-align: left;
 }
 
 .form-input:focus {

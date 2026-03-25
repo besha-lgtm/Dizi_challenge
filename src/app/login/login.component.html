@@ -67,15 +67,35 @@
         </div>
 
         <!-- FORM SECTION -->
-        <form class="login-form" id="loginForm">
+        <!-- BEFORE: <form class="login-form" id="loginForm"> -->
+        <!-- CHANGE: Added [formGroup]="loginForm" directive to bind reactive form -->
+        <!-- CHANGE: Added (ngSubmit)="onSubmit()" to handle form submission with validation -->
+        <form class="login-form" id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            
+            <!-- CHANGE: Added error message display for form validation errors -->
+            <div *ngIf="formError" class="error-message" style="color: red; padding: 10px; margin-bottom: 15px; background-color: #ffe6e6; border-radius: 4px;">
+                {{ formError }}
+            </div>
+            
+            <!-- CHANGE: Added success message display for successful login -->
+            <div *ngIf="formSuccess" class="success-message" style="color: green; padding: 10px; margin-bottom: 15px; background-color: #e6ffe6; border-radius: 4px;">
+                {{ formSuccess }}
+            </div>
 
             <!-- EMAIL INPUT SECTION -->
             <div class="form-section">
                 <label for="email" class="form-label">EMAIL ADDRESS</label>
                 <div class="input-group">
                     <span class="input-icon">📧</span>
-                    <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com">
+                    <!-- BEFORE: <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com"> -->
+                    <!-- CHANGE: Replaced name="email" with formControlName="email" for reactive forms -->
+                    <!-- CHANGE: Added email format validation via Validators.email -->
+                    <input type="email" id="email" formControlName="email" class="form-input" placeholder="you@example.com">
                 </div>
+                <!-- CHANGE: Added inline error message for email validation -->
+                <small *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" style="color: red;">
+                    Please enter a valid email format
+                </small>
             </div>
 
             <!-- PASSWORD INPUT SECTION -->
@@ -83,12 +103,21 @@
                 <label for="password" class="form-label">PASSWORD</label>
                 <div class="input-group">
                     <span class="input-icon">🔒</span>
-                    <input type="password" id="password" name="password" class="form-input"
+                    <!-- BEFORE: <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password"> -->
+                    <!-- CHANGE: Replaced name="password" with formControlName="password" for reactive forms -->
+                    <!-- CHANGE: Added dynamic [type] binding to toggle between password/text based on showPassword flag -->
+                    <!-- CHANGE: Added password min 8 characters validation via Validators.minLength(8) -->
+                    <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" class="form-input"
                         placeholder="Enter your password">
-                    <button type="button" class="password-toggle" id="togglePassword">
-
+                    <!-- CHANGE: Added (click) event to togglePasswordVisibility() method -->
+                    <button type="button" class="password-toggle" id="togglePassword" (click)="togglePasswordVisibility()">
+                        
                     </button>
                 </div>
+                <!-- CHANGE: Added inline error message for password validation -->
+                <small *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched" style="color: red;">
+                    Password must be at least 8 characters long
+                </small>
             </div>
 
             <!-- 
@@ -96,7 +125,9 @@
                       -->
             <div class="form-footer">
                 <div class="remember-section">
-                    <input type="checkbox" id="keepSigned" name="keepSigned" class="checkbox-input">
+                    <!-- BEFORE: <input type="checkbox" id="keepSigned" name="keepSigned" class="checkbox-input"> -->
+                    <!-- CHANGE: Replaced name="keepSigned" with formControlName="keepSigned" for reactive forms -->
+                    <input type="checkbox" id="keepSigned" formControlName="keepSigned" class="checkbox-input">
                     <label for="keepSigned" class="checkbox-label">Keep me signed in on this device</label>
                 </div>
                 <a href="#" class="forgot-password-link">Forgot password?</a>
@@ -112,10 +143,11 @@
         <!-- 
                  SIGNUP LINK SECTION
                   -->
+        <!-- CHANGE: Added goToSignUp() method and event.preventDefault() for sign up navigation -->
         <div class="signup-section">
             <p class="signup-text">
                 Don't have an account?
-                <a routerLink="/register" class="signup-link">Create one free</a>
+                <a href="#" (click)="goToSignUp($event)" class="signup-link">Create one free</a>
             </p>
         </div>
     </div>
