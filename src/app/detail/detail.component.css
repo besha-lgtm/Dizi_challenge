@@ -1,0 +1,382 @@
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page base ── */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #eef0f5;
+  color: #0f1724;
+  min-height: 100vh;
+  padding: 28px 20px 60px;
+}
+
+/* ── Outer wrapper ── */
+.page-wrapper {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ── Two-column layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 290px;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ════════════════════════════════════
+   HEADER CARD  (dark navy)
+════════════════════════════════════ */
+.header-card {
+  background-color: #1e2d4d;
+  border-radius: 16px;
+  padding: 24px 26px 0 26px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft blue glow top-right corner */
+.header-card::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Tag row ── */
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.tag {
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 3px 12px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.6;
+}
+
+/* Grey outlined tags */
+.tag-grey {
+  color: #9ab0d0;
+  border: 1px solid rgba(154, 176, 208, 0.35);
+  background-color: rgba(154, 176, 208, 0.08);
+}
+
+/* Green live badge */
+.tag-live {
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  background-color: rgba(74, 222, 128, 0.08);
+  font-size: 11.5px;
+}
+
+/* ── Challenge title ── */
+.challenge-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+  margin-bottom: 7px;
+}
+
+/* ── Company / posted meta ── */
+.challenge-meta {
+  font-size: 12.5px;
+  color: #7b92b8;
+  margin-bottom: 20px;
+}
+
+/* ── Tab bar ── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  margin: 0 -26px;
+  padding: 0 26px;
+  overflow-x: auto;
+}
+
+.tab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7b92b8;
+  padding: 13px 15px 12px;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.18s;
+  outline: none;
+}
+
+.tab:hover {
+  color: #c5d8f0;
+}
+
+.tab-active {
+  color: #ffffff;
+}
+
+.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #60a5fa;
+  border-radius: 2px 2px 0 0;
+}
+
+/* ════════════════════════════════════
+   INFO CARDS  (white content boxes)
+════════════════════════════════════ */
+.info-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e6ef;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Small all-caps heading like "PROBLEM STATEMENT" */
+.card-heading {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  color: #0f1724;
+  margin-bottom: 11px;
+  text-transform: uppercase;
+}
+
+/* Body paragraph */
+.card-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.72;
+  color: #4a5568;
+}
+
+/* ── Evaluation criteria boxes ── */
+.criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 520px) {
+  .criteria-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.criteria-box {
+  background-color: #f5f7fb;
+  border: 1px solid #e2e6ef;
+  border-radius: 10px;
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.criteria-pct {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f1724;
+}
+
+.criteria-lbl {
+  font-size: 12px;
+  font-weight: 400;
+  color: #8a95a8;
+}
+
+/* ════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════ */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 24px;
+}
+
+/* ── Prize card ── */
+.prize-card {
+  background-color: #fffceb;
+  border: 1.5px solid #f5e08a;
+  border-radius: 14px;
+  padding: 20px 18px 18px;
+  text-align: center;
+}
+
+.prize-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a16207;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.prize-amount {
+  font-size: 32px;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+
+.prize-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.prize-badge {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.prize-gold {
+  background-color: rgba(251, 191, 36, 0.22);
+  color: #92400e;
+}
+
+.prize-silver {
+  background-color: rgba(148, 163, 184, 0.2);
+  color: #475569;
+}
+
+.prize-bronze {
+  background-color: rgba(161, 120, 80, 0.15);
+  color: #78350f;
+}
+
+/* ── Meta info card ── */
+.meta-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e6ef;
+  border-radius: 14px;
+  padding: 4px 18px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e6ef;
+}
+
+.meta-row-last {
+  border-bottom: none;
+}
+
+.meta-key {
+  font-size: 13px;
+  font-weight: 400;
+  color: #8a95a8;
+}
+
+.meta-val {
+  font-size: 13px;
+  text-align: right;
+}
+
+.meta-bold {
+  font-weight: 700;
+  color: #0f1724;
+}
+
+.meta-red {
+  font-weight: 700;
+  color: #e03333;
+}
+
+.meta-green {
+  font-weight: 700;
+  color: #16a34a;
+}
+
+/* ── CTA buttons ── */
+.btn-apply {
+  display: block;
+  width: 100%;
+  background-color: #1e2d4d;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.btn-apply:hover {
+  background-color: #263552;
+}
+
+.btn-team {
+  display: block;
+  width: 100%;
+  background-color: #ffffff;
+  color: #0f1724;
+  border: 1.5px solid #dde1ea;
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.btn-team:hover {
+  border-color: #a0aec0;
+}
+
+.free-note {
+  text-align: center;
+  font-size: 11.5px;
+  color: #9aa3b2;
+  margin-top: -2px;
+}
