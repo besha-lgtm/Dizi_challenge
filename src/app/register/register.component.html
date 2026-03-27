@@ -1,11 +1,10 @@
 <div class="register-page">
     <!-- Left Side - Details Container -->
     <div class="details-container">
-        <button type="button" class="back-btn" (click)="goBack()">← Back to App</button>
         
         <div class="brand-section">
             <div class="brand-logo">D</div>
-            <h1>DIZIChallenges</h1>
+            <h1>DIZIEduTech</h1>
         </div>
 
         <div class="main-content">
@@ -51,26 +50,26 @@
 
     <!-- Right Side - Registration Form -->
     <div class="register-container">
-        <div class="register-header">
-            <h1>Create your account</h1>
-            <p class="subtitle">Fill in the details below to join the Challenge Hub</p>
-        </div>
+        <div class="form-card-wrapper">
+            <div class="register-header">
+                <h1>Create your account</h1>
+                <p class="subtitle">Fill in the details below to join the Challenge Hub</p>
+            </div>
 
-        <!-- Display form-level error messages -->
-        <div *ngIf="formError" class="form-error-message">
-            {{ formError }}
-        </div>
-        <div *ngIf="formSuccess" class="form-success-message">
-            {{ formSuccess }}
-        </div>
+            <!-- Display form-level error messages -->
+            <div *ngIf="formError" class="form-error-message">
+                {{ formError }}
+            </div>
+            <div *ngIf="formSuccess" class="form-success-message">
+                {{ formSuccess }}
+            </div>
 
-        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="register-form">
+            <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="register-form">
             <!-- First Name & Last Name -->
             <div class="form-row">
                 <div class="form-group">
                     <label for="firstName">FIRST NAME</label>
                     <div class="input-group" [class.input-error]="firstName.invalid && (firstName.dirty || firstName.touched)">
-                        <span class="input-icon">👤</span>
                         <input 
                             type="text" 
                             id="firstName" 
@@ -92,7 +91,6 @@
                 <div class="form-group">
                     <label for="lastName">LAST NAME</label>
                     <div class="input-group" [class.input-error]="lastName.invalid && (lastName.dirty || lastName.touched)">
-                        <span class="input-icon">👤</span>
                         <input 
                             type="text" 
                             id="lastName" 
@@ -116,7 +114,6 @@
             <div class="form-group">
                 <label for="email">COLLEGE / WORK EMAIL</label>
                 <div class="input-group" [class.input-error]="email.invalid && (email.dirty || email.touched)">
-                    <span class="input-icon">📧</span>
                     <input 
                         type="email" 
                         id="email" 
@@ -138,7 +135,6 @@
             <div class="form-group">
                 <label for="institution">INSTITUTION / COMPANY</label>
                 <div class="input-group" [class.input-error]="institution.invalid && (institution.dirty || institution.touched)">
-                    <span class="input-icon">🏢</span>
                     <input 
                         type="text" 
                         id="institution" 
@@ -161,7 +157,6 @@
             <div class="form-group">
                 <label for="password">CREATE PASSWORD</label>
                 <div class="input-group" [class.input-error]="password.invalid && (password.dirty || password.touched)">
-                    <span class="input-icon">🔒</span>
                     <input 
                         [type]="showPassword ? 'text' : 'password'" 
                         id="password" 
@@ -186,7 +181,6 @@
             <div class="form-group">
                 <label for="confirmPassword">CONFIRM PASSWORD</label>
                 <div class="input-group" [class.input-error]="(confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)) || (user.password !== user.confirmPassword && confirmPassword.touched)">
-                    <span class="input-icon">🔒</span>
                     <input 
                         [type]="showConfirmPassword ? 'text' : 'password'" 
                         id="confirmPassword" 
@@ -227,9 +221,9 @@
                 [disabled]="registerForm.invalid">
                 Create Account →
             </button>
+            </form>
+        </div>
 
-            <!-- Sign In Link -->
-            <p class="signin-link">Already have an account? <a href="#signin" (click)="goToSignIn($event)">Sign in instead</a></p>
-        </form>
+        <!-- Sign In Link - Outside the card -->
+        <p class="signin-link">Already have an account? <a href="#signin" (click)="goToSignIn($event)">Sign in instead</a></p>
     </div>
-</div>

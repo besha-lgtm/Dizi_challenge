@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'segoe ui', tahoma, geneva, verdana, sans-serif;
 }
 
 html {
@@ -25,29 +26,36 @@ body {
     left: 0;
     top: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+    height: 100vh;
+    overflow: hidden;
     background-color: #ffffff;
 }
 
 /* LEFT SIDE - Details Container */
 .details-container {
     width: 50%;
-    background: linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+    background: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(100, 149, 237, 0.15) 0%, rgba(65, 105, 225, 0.1) 50%, transparent 100%),
+        linear-gradient(180deg, rgba(30, 45, 76, 0.95) 0%, rgba(22, 33, 64, 0.95) 100%);
+    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%;
     color: white;
-    padding: 40px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: 100vh;
+    overflow: hidden;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .back-btn {
     align-self: flex-start;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
     color: white;
     padding: 10px 20px;
     border-radius: 20px;
@@ -56,36 +64,45 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .back-btn:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 /* Brand Section */
 .brand-section {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 50px;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
 .brand-logo {
-    width: 50px;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(100, 149, 237, 0.3) 0%, rgba(65, 105, 225, 0.2) 100%);
+    border: 2px solid rgba(100, 149, 237, 0.6);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
-    color: white;
+    color: #87CEEB;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .brand-section h1 {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.5px;
 }
@@ -93,19 +110,22 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
+    margin-top: 30px;
 }
 
 .badge {
     display: inline-block;
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(76, 175, 80, 0.2);
+    border: 1.5px solid rgba(76, 175, 80, 0.6);
+    color: #66BB6A;
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+    transition: all 0.3s ease;
 }
 
 .main-content h2 {
@@ -114,6 +134,7 @@ body {
     line-height: 1.2;
     margin-bottom: 20px;
     letter-spacing: -0.5px;
+    color: #FFFFFF;
 }
 
 .description {
@@ -122,6 +143,7 @@ body {
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: 40px;
 }
+
 
 /* Register Types */
 .register-types {
@@ -132,17 +154,32 @@ body {
 }
 
 .type-card {
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 1.5px solid rgba(100, 149, 237, 0.4);
     padding: 20px;
     border-radius: 12px;
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .type-card:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 100%);
+    border-color: rgba(100, 149, 237, 0.6);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+/* Remove hover on mobile and tablets */
+@media (max-width: 1000px) {
+    .type-card:hover {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-color: rgba(100, 149, 237, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        transform: none;
+    }
 }
 
 .type-icon {
@@ -155,6 +192,7 @@ body {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 5px;
+    color: #FFFFFF;
 }
 
 .type-card p {
@@ -167,22 +205,37 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding-top: 20px;
+    padding: 50px 0;
 }
 
 .stat {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+    border: 1.5px solid rgba(100, 149, 237, 0.4);
     padding: 25px 20px;
     border-radius: 12px;
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .stat:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+    border-color: rgba(100, 149, 237, 0.6);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+/* Remove hover on mobile and tablets */
+@media (max-width: 1000px) {
+    .stat:hover {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+        border-color: rgba(100, 149, 237, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transform: none;
+    }
 }
 
 .stat-number {
@@ -199,34 +252,61 @@ body {
 
 /* RIGHT SIDE - Register Container */
 .register-container {
-    padding: 60px 40px;
-    position: relative;
+    width: 50%;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-    overflow-y: auto;
-    overflow-x: hidden;
     justify-content: center;
-    width: 50%;
-    min-height: 100vh;
+    align-items: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.register-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(32, 128, 216, 0.05) 0%, rgba(26, 104, 196, 0.02) 100%);
+    pointer-events: none;
+}
+
+/* Glass Card Wrapper */
+.form-card-wrapper {
+    min-width: 550px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(100, 149, 237, 0.3);
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1;
+    animation: fadeInScale 0.5s ease-out;
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .register-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 22px;
 }
 
 .register-header h1 {
-    font-size: 36px;
+    font-size: 26px;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 12px;
+    color: #1E2D4C;
+    margin-bottom: 6px;
     letter-spacing: -0.5px;
 }
 
 .subtitle {
-    font-size: 16px;
-    color: #999;
+    font-size: 12px;
+    color: #666;
     font-weight: 400;
 }
 
@@ -234,25 +314,25 @@ body {
 .register-form {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 16px;
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px;
+    gap: 16px;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
 }
 
 label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    color: #333;
+    color: #1E2D4C;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -261,51 +341,57 @@ label {
     position: relative;
     display: flex;
     align-items: center;
-    background-color: #f5f7fa;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    border: 1.5px solid rgba(100, 149, 237, 0.3);
     transition: all 0.3s ease;
-    padding: 12px 16px;
+    padding: 11px 14px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .input-group:focus-within {
     border-color: #2080d8;
-    background-color: #f0f6ff;
+    background-color: rgba(32, 128, 216, 0.1);
+    box-shadow: 0 4px 12px rgba(32, 128, 216, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 .input-group.input-error {
     border-color: #dc3545;
-    background-color: #fff5f5;
+    background-color: rgba(220, 53, 69, 0.05);
 }
 
 .input-group.input-error:focus-within {
     border-color: #dc3545;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
 }
 
 .input-icon {
-    font-size: 18px;
-    margin-right: 12px;
-    color: #999;
+    font-size: 16px;
+    margin-right: 10px;
+    color: #2080d8;
 }
 
 .input-group input {
     flex: 1;
     border: none;
     background: transparent;
-    font-size: 14px;
-    color: #666;
+    font-size: 13px;
+    color: #333;
     font-family: inherit;
     outline: none;
 }
 
 .input-group input::placeholder {
-    color: #bbb;
+    color: #aaa;
 }
 
 .toggle-password {
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    color: #999;
+    color: #2080d8;
     transition: color 0.3s ease;
     user-select: none;
     padding: 4px 8px;
@@ -313,20 +399,20 @@ label {
 }
 
 .toggle-password:hover {
-    color: #2080d8;
+    color: #1a68c4;
 }
 
 .helper-text {
-    font-size: 12px;
+    font-size: 11px;
     color: #999;
-    margin-top: -5px;
+    margin-top: -3px;
 }
 
 /* Error Message Styles */
 .error-message {
-    font-size: 12px;
+    font-size: 11px;
     color: #dc3545;
-    margin-top: -5px;
+    margin-top: -3px;
     display: block;
 }
 
@@ -336,26 +422,26 @@ label {
 
 /* Form-level Messages */
 .form-error-message {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
     color: #721c24;
-    padding: 12px 16px;
+    padding: 10px 12px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     animation: slideDown 0.3s ease-out;
 }
 
 .form-success-message {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
     color: #155724;
-    padding: 12px 16px;
+    padding: 10px 12px;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     animation: slideDown 0.3s ease-out;
 }
 
@@ -374,21 +460,21 @@ label {
 .terms-checkbox {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-top: 10px;
+    gap: 8px;
+    margin-top: 4px;
 }
 
 .terms-checkbox input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
     cursor: pointer;
     accent-color: #2080d8;
     flex-shrink: 0;
 }
 
 .terms-checkbox label {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     color: #666;
     text-transform: none;
@@ -410,27 +496,40 @@ label {
 
 /* Submit Button */
 .register-btn {
-    padding: 14px 24px;
-    font-size: 15px;
+    padding: 12px 24px;
+    font-size: 13px;
     font-weight: 600;
     color: white;
     background: linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-top: 10px;
+    margin-top: 4px;
+    box-shadow: 0 4px 12px rgba(32, 128, 216, 0.25);
 }
 
 .register-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(32, 128, 216, 0.3);
+    box-shadow: 0 6px 20px rgba(32, 128, 216, 0.35);
 }
 
 .register-btn:active:not(:disabled) {
     transform: translateY(0);
+}
+
+/* Remove hover animations on mobile and tablets */
+@media (max-width: 1000px) {
+    .register-btn:hover:not(:disabled) {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(32, 128, 216, 0.25);
+    }
+
+    .register-btn:active:not(:disabled) {
+        transform: none;
+    }
 }
 
 .register-btn:disabled {
@@ -438,12 +537,14 @@ label {
     cursor: not-allowed;
 }
 
-/* Sign In Link */
+/* Sign In Link - Outside Card */
 .signin-link {
     text-align: center;
-    font-size: 13px;
-    color: #999;
-    margin-top: 20px;
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
 }
 
 .signin-link a {
@@ -460,16 +561,17 @@ label {
 
 /* Responsive Design - Large Screens (1920px and above) */
 @media (min-width: 1920px) {
-    .register-container {
-        padding: 80px 60px;
+    .form-card-wrapper {
+        max-width: 480px;
+        padding: 50px;
+    }
+
+    .register-header h1 {
+        font-size: 32px;
     }
 
     .details-container {
         padding: 60px;
-    }
-
-    .register-header h1 {
-        font-size: 42px;
     }
 
     .main-content h2 {
@@ -479,8 +581,9 @@ label {
 
 /* Responsive Design - Medium-Large Screens (1200px - 1919px) */
 @media (min-width: 1200px) and (max-width: 1919px) {
-    .register-container {
-        padding: 60px 40px;
+    .form-card-wrapper {
+        max-width: 420px;
+        padding: 40px;
     }
 
     .details-container {
@@ -497,21 +600,20 @@ label {
     .details-container {
         width: 45%;
         padding: 35px;
-        position: relative;
-        overflow-y: auto;
-        min-height: 100vh;
     }
 
     .register-container {
         width: 55%;
-        padding: 40px 30px;
-        position: relative;
-        overflow-y: auto;
-        min-height: 100vh;
+        padding: 30px 20px;
+    }
+
+    .form-card-wrapper {
+        max-width: 380px;
+        padding: 35px;
     }
 
     .register-header h1 {
-        font-size: 28px;
+        font-size: 26px;
     }
 
     .main-content h2 {
@@ -522,171 +624,109 @@ label {
         font-size: 20px;
     }
 
-    .description {
-        font-size: 14px;
-    }
-
     .register-form {
-        gap: 20px;
+        gap: 16px;
     }
 
     .form-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-
-    .input-group {
-        padding: 10px 12px;
-    }
-
-    .subtitle {
-        font-size: 14px;
+        gap: 16px;
     }
 }
 
 /* Responsive Design - Medium Screens (768px - 999px) */
 @media (min-width: 768px) and (max-width: 999px) {
     .register-page {
-        flex-direction: row;
+        flex-direction: column;
+        height: auto;
         min-height: 100vh;
     }
 
     .details-container {
-        width: 42%;
+        width: 100%;
+        height: auto;
+        min-height: auto;
         padding: 30px 25px;
         position: relative;
-        overflow-y: auto;
-        min-height: 100vh;
-        flex-shrink: 0;
+        overflow: visible;
+    }
+
+    .main-content {
+        margin-top: 20px;
     }
 
     .register-container {
-        width: 58%;
-        padding: 35px 25px;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        padding: 40px 20px;
         position: relative;
-        overflow-y: auto;
-        min-height: 100vh;
-        flex-shrink: 0;
-        justify-content: flex-start;
-        padding-top: 40px;
     }
 
-    .register-header {
-        margin-bottom: 30px;
+    .form-card-wrapper {
+        max-width: 400px;
+        padding: 35px;
+        margin: 0 auto;
+        animation: none;
     }
 
     .register-header h1 {
-        font-size: 26px;
-        margin-bottom: 8px;
+        font-size: 24px;
     }
 
     .main-content h2 {
         font-size: 28px;
-        margin-bottom: 15px;
-    }
-
-    .brand-section {
-        margin-bottom: 40px;
-        gap: 12px;
-    }
-
-    .brand-logo {
-        width: 45px;
-        height: 45px;
-        font-size: 24px;
-    }
-
-    .brand-section h1 {
-        font-size: 18px;
-    }
-
-    .description {
-        font-size: 13px;
-        margin-bottom: 30px;
-    }
-
-    .register-form {
-        gap: 15px;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-
-    .input-group {
-        padding: 10px 12px;
-        font-size: 13px;
-    }
-
-    .subtitle {
-        font-size: 13px;
-    }
-
-    .back-btn {
-        font-size: 12px;
-        padding: 8px 16px;
-        margin-bottom: 30px;
-    }
-
-    .badge {
-        font-size: 11px;
-        padding: 6px 12px;
-        margin-bottom: 15px;
-    }
-
-    .register-btn {
-        padding: 12px 20px;
-        font-size: 13px;
-    }
-
-    .register-types {
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .type-card {
-        padding: 15px;
-    }
-
-    .type-card h3 {
-        font-size: 14px;
-    }
-
-    .type-card p {
-        font-size: 12px;
     }
 
     .stats-section {
-        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        padding: 30px 0;
     }
 
     .stat {
-        padding: 15px;
+        padding: 20px 15px;
     }
 
     .stat-number {
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .stat-label {
         font-size: 11px;
     }
 
-    label {
-        font-size: 11px;
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
     }
 
-    .helper-text {
-        font-size: 11px;
+    .register-form {
+        gap: 14px;
     }
 
-    .terms-checkbox label {
+    .register-types {
+        gap: 12px;
+    }
+
+    .type-card {
+        padding: 18px;
+    }
+
+    .type-card h3 {
+        font-size: 15px;
+    }
+
+    .type-card p {
         font-size: 12px;
+    }
+
+    .badge {
+        font-size: 11px;
+        padding: 7px 14px;
     }
 
     .signin-link {
-        font-size: 12px;
+        margin-top: 20px;
     }
 }
 
@@ -694,98 +734,38 @@ label {
 @media (min-width: 600px) and (max-width: 767px) {
     .register-page {
         flex-direction: column;
-        min-height: auto;
+        height: auto;
+        min-height: 100vh;
     }
 
     .details-container {
         width: 100%;
+        min-height: auto;
         padding: 30px 20px;
         text-align: center;
         position: relative;
-        overflow-y: auto;
-        min-height: auto;
+        overflow: visible;
+        height: auto;
+    }
+
+    .main-content {
+        margin-top: 15px;
     }
 
     .register-container {
         width: 100%;
+        min-height: auto;
         padding: 30px 20px;
         position: relative;
-        overflow-y: auto;
-        min-height: auto;
+        height: auto;
     }
 
-    .register-header h1 {
-        font-size: 28px;
-    }
-
-    .main-content h2 {
-        font-size: 26px;
-    }
-
-    .brand-section {
-        justify-content: center;
-        margin-bottom: 30px;
-    }
-
-    .brand-logo {
-        width: 45px;
-        height: 45px;
-        font-size: 24px;
-    }
-
-    .brand-section h1 {
-        font-size: 20px;
-    }
-
-    .description {
-        font-size: 14px;
-    }
-
-    .back-btn {
-        align-self: center;
-        margin-bottom: 25px;
-        font-size: 12px;
-        padding: 8px 16px;
-    }
-
-    .register-form {
-        gap: 18px;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .register-btn {
-        padding: 12px 20px;
-        font-size: 14px;
-        width: 100%;
-    }
-}
-
-/* Responsive Design - Small Phones (480px - 599px) */
-@media (min-width: 480px) and (max-width: 599px) {
-    .register-page {
-        flex-direction: column;
-        min-height: auto;
-    }
-
-    .details-container {
-        width: 100%;
-        padding: 25px 18px;
-        text-align: center;
-        position: relative;
-        overflow-y: auto;
-        min-height: auto;
-    }
-
-    .register-container {
-        width: 100%;
-        padding: 25px 18px;
-        position: relative;
-        overflow-y: auto;
-        min-height: auto;
+    .form-card-wrapper {
+        max-width: 100%;
+        padding: 30px;
+        margin: 0 auto;
+        min-width: auto;
+        animation: none;
     }
 
     .register-header h1 {
@@ -793,51 +773,272 @@ label {
     }
 
     .main-content h2 {
-        font-size: 20px;
-    }
-
-    .brand-section {
-        justify-content: center;
-        margin-bottom: 25px;
-        gap: 10px;
-    }
-
-    .brand-logo {
-        width: 38px;
-        height: 38px;
-        font-size: 20px;
-    }
-
-    .brand-section h1 {
-        font-size: 16px;
+        font-size: 26px;
+        line-height: 1.3;
     }
 
     .description {
-        font-size: 12px;
+        font-size: 15px;
+        line-height: 1.5;
     }
 
-    .badge {
+    .stats-section {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 25px 0;
+    }
+
+    .stat {
+        padding: 18px 12px;
+    }
+
+    .stat-number {
+        font-size: 22px;
+    }
+
+    .stat-label {
         font-size: 10px;
-        padding: 5px 10px;
-    }
-
-    .register-form {
-        gap: 16px;
     }
 
     .form-row {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 12px;
+    }
+
+    .register-form {
+        gap: 12px;
+    }
+
+    .register-types {
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .type-card {
+        padding: 16px;
+    }
+
+    .type-card h3 {
+        font-size: 14px;
+    }
+
+    .type-card p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    label {
+        font-size: 10px;
     }
 
     .input-group {
         padding: 10px 12px;
     }
 
-    .register-btn {
-        padding: 11px 18px;
+    .input-group input {
         font-size: 13px;
+    }
+
+    .input-group input::placeholder {
+        font-size: 12px;
+    }
+
+    .register-btn {
+        padding: 11px 20px;
+        font-size: 12px;
+    }
+
+    .badge {
+        font-size: 10px;
+        padding: 7px 13px;
+    }
+
+    .brand-section {
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .brand-logo {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .brand-section h1 {
+        font-size: 16px;
+    }
+
+    .terms-checkbox label {
+        font-size: 11px;
+    }
+}
+
+/* Responsive Design - Small Phones (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+    .register-page {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        position: absolute;
+    }
+
+    .details-container {
         width: 100%;
+        min-height: auto;
+        padding: 25px 18px;
+        text-align: center;
+        position: relative;
+        overflow: visible;
+        height: auto;
+    }
+
+    .main-content {
+        margin-top: 15px;
+    }
+
+    .register-container {
+        width: 100%;
+        min-height: auto;
+        padding: 25px 15px;
+        position: relative;
+        height: auto;
+    }
+
+    .form-card-wrapper {
+        max-width: 100%;
+        padding: 25px;
+        margin: 0 auto;
+        min-width: auto;
+        animation: none;
+    }
+
+    .register-header h1 {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .main-content h2 {
+        font-size: 20px;
+        line-height: 1.3;
+    }
+
+    .description {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 20px 0;
+    }
+
+    .stat {
+        padding: 16px 10px;
+    }
+
+    .stat:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    .stat-number {
+        font-size: 20px;
+    }
+
+    .stat-label {
+        font-size: 10px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .register-form {
+        gap: 12px;
+    }
+
+    .register-types {
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .type-card {
+        padding: 15px;
+    }
+
+    .type-card h3 {
+        font-size: 13px;
+    }
+
+    .type-card p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    label {
+        font-size: 10px;
+    }
+
+    .input-group {
+        padding: 9px 11px;
+        font-size: 12px;
+    }
+
+    .input-icon {
+        font-size: 14px;
+        margin-right: 8px;
+    }
+
+    .input-group input {
+        font-size: 12px;
+    }
+
+    .input-group input::placeholder {
+        font-size: 11px;
+    }
+
+    .register-btn {
+        padding: 10px 18px;
+        font-size: 12px;
+    }
+
+    .terms-checkbox label {
+        font-size: 11px;
+    }
+
+    .signin-link {
+        font-size: 11px;
+    }
+
+    .badge {
+        font-size: 10px;
+        padding: 6px 12px;
+    }
+
+    .brand-section {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .brand-logo {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .brand-section h1 {
+        font-size: 14px;
+    }
+
+    .back-btn {
+        padding: 9px 16px;
+        font-size: 12px;
+        margin-bottom: 30px;
     }
 }
 
@@ -845,192 +1046,140 @@ label {
 @media (max-width: 479px) {
     .register-page {
         flex-direction: column;
-        min-height: auto;
-        overflow-x: hidden;
+        height: auto;
+        min-height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
     }
 
     .details-container {
         width: 100%;
+        min-height: auto;
         padding: 20px 15px;
         text-align: center;
         position: relative;
-        overflow-y: auto;
-        min-height: auto;
+        overflow: visible;
+        height: auto;
     }
 
     .register-container {
         width: 100%;
-        padding: 20px 15px;
+        min-height: auto;
+        padding: 20px 12px;
         position: relative;
-        overflow-y: auto;
-        min-height: auto;
+        height: auto;
     }
 
-    .back-btn {
-        align-self: center;
-        margin-bottom: 20px;
-        font-size: 11px;
-        padding: 6px 12px;
-    }
-
-    .brand-section {
-        justify-content: center;
-        margin-bottom: 20px;
-        gap: 8px;
-    }
-
-    .brand-logo {
-        width: 35px;
-        height: 35px;
-        font-size: 18px;
-        flex-shrink: 0;
-    }
-
-    .brand-section h1 {
-        font-size: 14px;
-        margin: 0;
-    }
-
-    .badge {
-        font-size: 9px;
-        padding: 4px 8px;
-        margin-bottom: 12px;
-        display: inline-block;
-    }
-
-    .main-content h2 {
-        font-size: 18px;
-        margin-bottom: 10px;
-        line-height: 1.3;
-    }
-
-    .description {
-        font-size: 11px;
-        line-height: 1.5;
-        margin-bottom: 15px;
-    }
-
-    .register-types {
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-
-    .type-card {
-        padding: 10px;
-    }
-
-    .type-card h3 {
-        font-size: 12px;
-        margin-bottom: 3px;
-    }
-
-    .type-card p {
-        font-size: 10px;
-        line-height: 1.4;
-    }
-
-    .stats-section {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        padding-top: 15px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .stat {
-        padding: 10px 6px;
-        border-radius: 6px;
-        min-height: auto;
-    }
-
-    .stat-number {
-        font-size: 16px;
-        margin-bottom: 3px;
-        font-weight: 700;
-    }
-
-    .stat-label {
-        font-size: 9px;
-        font-weight: 500;
+    .form-card-wrapper {
+        max-width: 100%;
+        padding: 20px;
+        margin: 0 auto;
+        min-width: auto;
+        animation: none;
     }
 
     .register-header {
         margin-bottom: 20px;
-        text-align: center;
     }
 
     .register-header h1 {
         font-size: 18px;
         margin-bottom: 5px;
-        line-height: 1.2;
     }
 
     .subtitle {
         font-size: 11px;
     }
 
-    .register-form {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+    .main-content h2 {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    .description {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 25px;
+    }
+
+    .stats-section {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 15px 0;
+    }
+
+    .stat {
+        padding: 14px 10px;
+    }
+
+    .stat-number {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .stat-label {
+        font-size: 9px;
     }
 
     .form-row {
-        display: grid;
         grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 10px;
     }
 
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
+    .register-form {
+        gap: 10px;
+    }
+
+    .register-types {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .type-card {
+        padding: 12px;
+    }
+
+    .type-card h3 {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .type-card p {
+        font-size: 10px;
+        line-height: 1.3;
     }
 
     label {
         font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.3px;
     }
 
     .input-group {
         padding: 8px 10px;
-        display: flex;
-        align-items: center;
+        font-size: 11px;
     }
 
     .input-icon {
         font-size: 14px;
         margin-right: 8px;
-        flex-shrink: 0;
     }
 
     .input-group input {
         font-size: 12px;
-        flex: 1;
     }
 
     .input-group input::placeholder {
+        font-size: 10px;
+    }
+
+    .register-btn {
+        padding: 9px 16px;
         font-size: 11px;
-    }
-
-    .toggle-password {
-        font-size: 14px;
-        flex-shrink: 0;
-    }
-
-    .helper-text {
-        font-size: 9px;
-        margin-top: -2px;
-    }
-
-    .error-message {
-        font-size: 9px;
+        margin-top: 6px;
     }
 
     .terms-checkbox {
-        display: flex;
-        align-items: flex-start;
         gap: 8px;
         margin-top: 6px;
     }
@@ -1038,32 +1187,57 @@ label {
     .terms-checkbox input[type="checkbox"] {
         width: 14px;
         height: 14px;
-        flex-shrink: 0;
-        margin-top: 1px;
     }
 
     .terms-checkbox label {
         font-size: 10px;
-        font-weight: 400;
-        margin: 0;
-        line-height: 1.4;
-    }
-
-    .register-btn {
-        padding: 10px 16px;
-        font-size: 12px;
-        margin-top: 5px;
-        width: 100%;
     }
 
     .signin-link {
         font-size: 10px;
-        margin-top: 10px;
+        margin-top: 15px;
     }
 
     .form-error-message,
     .form-success-message {
-        font-size: 11px;
+        font-size: 10px;
         padding: 8px 10px;
+    }
+
+    .badge {
+        font-size: 9px;
+        padding: 5px 10px;
+    }
+
+    .brand-section {
+        gap: 8px;
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+    .brand-logo {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .brand-section h1 {
+        font-size: 13px;
+    }
+
+    .back-btn {
+        display: none;
+    }
+
+    .helper-text {
+        font-size: 10px;
+    }
+
+    .error-message {
+        font-size: 10px;
+    }
+
+    .main-content {
+        margin-top: 10px;
     }
 }

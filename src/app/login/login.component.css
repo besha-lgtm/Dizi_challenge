@@ -1,115 +1,107 @@
-/* ===================================================
-   GLOBAL RESET & BASE STYLES
-   =================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-html, body {
-    width: 100%;
+html {
+    scroll-behavior: smooth;
     height: 100%;
+    overflow-x: hidden;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-                 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', sans-serif;
     background-color: #ffffff;
-    color: #333;
-    line-height: 1.6;
+    height: 100%;
+    overflow-x: hidden;
 }
 
-/* ===================================================
-   LOGIN PAGE - Main Container (2-Column Layout)
-   =================================================== */
+/* Main Page Layout */
 .login-page {
     display: flex;
     flex-direction: row;
     width: 100%;
-    min-height: 100vh;
-    
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff;
 }
 
-/* ===================================================
-   LEFT SIDE - Details Container with Brand
-   =================================================== */
+/* LEFT SIDE - Details Container */
 .details-container {
     width: 50%;
-    background: linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+    background: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(100, 149, 237, 0.15) 0%, rgba(65, 105, 225, 0.1) 50%, transparent 100%),
+        linear-gradient(180deg, rgba(30, 45, 76, 0.95) 0%, rgba(22, 33, 64, 0.95) 100%);
+    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%;
     color: white;
-    padding: 40px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top:0;
-    left:0;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* BACK BUTTON */
-.back-btn {
-    align-self: flex-start;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 40px;
-}
-
-.back-btn:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: translateX(-2px);
-}
-
-/* BRAND SECTION */
+/* Brand Section */
 .brand-section {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 50px;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
 .brand-logo {
-    width: 50px;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(100, 149, 237, 0.3) 0%, rgba(65, 105, 225, 0.2) 100%);
+    border: 2px solid rgba(100, 149, 237, 0.6);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 700;
-    color: white;
+    color: #87CEEB;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .brand-section h1 {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     letter-spacing: 0.5px;
 }
 
-/* MAIN CONTENT SECTION */
+/* Main Content */
 .main-content {
     flex: 1;
+    margin-top: 30px;
 }
 
 .badge {
     display: inline-block;
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(76, 175, 80, 0.2);
+    border: 1.5px solid rgba(76, 175, 80, 0.6);
+    color: #66BB6A;
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+    transition: all 0.3s ease;
 }
 
 .main-content h2 {
@@ -118,6 +110,7 @@ body {
     line-height: 1.2;
     margin-bottom: 20px;
     letter-spacing: -0.5px;
+    color: #FFFFFF;
 }
 
 .description {
@@ -127,7 +120,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* FEATURES LIST SECTION */
+/* Features List */
 .features-list {
     display: flex;
     flex-direction: column;
@@ -136,24 +129,39 @@ body {
 }
 
 .feature-card {
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 1.5px solid rgba(100, 149, 237, 0.4);
     padding: 20px;
     border-radius: 12px;
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .feature-card:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateX(5px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 100%);
+    border-color: rgba(100, 149, 237, 0.6);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+/* Remove hover on mobile and tablets */
+@media (max-width: 1000px) {
+    .feature-card:hover {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-color: rgba(100, 149, 237, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        transform: none;
+    }
 }
 
 .feature-card h3 {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 5px;
+    color: #FFFFFF;
 }
 
 .feature-card p {
@@ -161,377 +169,1384 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* STATS SECTION */
+/* Stats Section */
 .stats-section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding-top: 10px;
-    
+    padding: 50px 0;
 }
 
 .stat {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+    border: 1.5px solid rgba(100, 149, 237, 0.4);
     padding: 25px 20px;
     border-radius: 12px;
     transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .stat:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+    border-color: rgba(100, 149, 237, 0.6);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+}
+
+/* Remove hover on mobile and tablets */
+@media (max-width: 1000px) {
+    .stat:hover {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+        border-color: rgba(100, 149, 237, 0.4);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transform: none;
+    }
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+/* RIGHT SIDE - Login Container */
+.login-container {
+    width: 50%;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(32, 128, 216, 0.05) 0%, rgba(26, 104, 196, 0.02) 100%);
+    pointer-events: none;
+}
+
+/* Glass Card Wrapper */
+.form-card-wrapper {
+    min-width: 550px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(100, 149, 237, 0.3);
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+
+.login-header {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.login-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1E2D4C;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #666;
+    font-weight: 400;
+}
+
+/* Form Styles */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1E2D4C;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    border: 1.5px solid rgba(100, 149, 237, 0.3);
+    transition: all 0.3s ease;
+    padding: 11px 14px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.input-group:focus-within {
+    border-color: #2080d8;
+    background-color: rgba(32, 128, 216, 0.1);
+    box-shadow: 0 4px 12px rgba(32, 128, 216, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.input-group.input-error {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.input-group.input-error:focus-within {
+    border-color: #dc3545;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: #333;
+    font-family: inherit;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.toggle-password {
+    font-size: 16px;
+    cursor: pointer;
+    color: #2080d8;
+    transition: color 0.3s ease;
+    user-select: none;
+    padding: 4px 8px;
+    margin: -4px -8px -4px 8px;
+}
+
+.toggle-password:hover {
+    color: #1a68c4;
+}
+
+/* Remove hover animations on mobile and tablets */
+@media (max-width: 1000px) {
+    .toggle-password:hover {
+        color: #2080d8;
+    }
+}
+
+.helper-text {
+    font-size: 11px;
+    color: #999;
+    margin-top: -3px;
+}
+
+/* Error Message Styles */
+.error-message {
+    font-size: 11px;
+    color: #dc3545;
+    margin-top: -3px;
+    display: block;
+}
+
+.error-message span {
+    display: block;
+}
+
+/* Form-level Messages */
+.form-error-message {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: #721c24;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.form-success-message {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    color: #155724;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Checkbox */
+.remember-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.remember-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: #2080d8;
+    flex-shrink: 0;
+}
+
+.remember-checkbox label {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+}
+
+.forgot-link {
+    color: #2080d8;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    font-size: 12px;
+}
+
+.forgot-link:hover {
+    color: #1a68c4;
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.login-btn {
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    box-shadow: 0 4px 12px rgba(32, 128, 216, 0.25);
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(32, 128, 216, 0.35);
+}
+
+/* Remove hover animations on mobile and tablets */
+@media (max-width: 1000px) {
+    .login-btn:hover:not(:disabled) {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(32, 128, 216, 0.25);
+    }
+}
+
+.login-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Sign Up Link - Outside Card */
+.signup-link-section {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.signup-link-section a {
+    color: #2080d8;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.signup-link-section a:hover {
+    color: #1a68c4;
+    text-decoration: underline;
+}
+
+/* LEFT SIDE - Details Container */
+.details-container {
+    width: 50%;
+    background: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(135deg, rgba(100, 149, 237, 0.15) 0%, rgba(65, 105, 225, 0.1) 50%, transparent 100%),
+        linear-gradient(180deg, rgba(30, 45, 76, 0.95) 0%, rgba(22, 33, 64, 0.95) 100%);
+    background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%;
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-btn {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Brand Section */
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.brand-logo {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(100, 149, 237, 0.3) 0%, rgba(65, 105, 225, 0.2) 100%);
+    border: 2px solid rgba(100, 149, 237, 0.6);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #87CEEB;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.brand-section h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+}
+
+.badge {
+    display: inline-block;
+    background: rgba(76, 175, 80, 0.2);
+    border: 1.5px solid rgba(76, 175, 80, 0.6);
+    color: #66BB6A;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+    transition: all 0.3s ease;
+}
+
+.main-content h2 {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    letter-spacing: -0.5px;
+    color: #FFFFFF;
+}
+
+.description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 30px;
+}
+
+/* Features List */
+.features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.feature-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border: 1.5px solid rgba(100, 149, 237, 0.4);
+    padding: 18px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.feature-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.12) 100%);
+    border-color: rgba(100, 149, 237, 0.6);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+.type-icon {
+    display: inline-block;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.feature-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #FFFFFF;
+}
+
+.feature-card p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Stats Section */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+    border: 1.5px solid rgba(100, 149, 237, 0.4);
+    padding: 20px 15px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.stat:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+    border-color: rgba(100, 149, 237, 0.6);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
 }
 
 .stat-number {
     font-size: 24px;
     font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .stat-label {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
 }
 
-/* ===================================================
-   RIGHT SIDE - Login Container
-   =================================================== */
+/* RIGHT SIDE - Login Container */
 .login-container {
-    position: absolute;
-    padding: 60px 40px;
+    width: 50%;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.75) 100%);
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-    margin-top: 140px;
-    left:57vw;
-    align-content: center;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* LOGIN HEADER SECTION */
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(32, 128, 216, 0.05) 0%, rgba(26, 104, 196, 0.02) 100%);
+    pointer-events: none;
+}
+
+/* Glass Card Wrapper */
+.form-card-wrapper {
+    min-width: 550px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1.5px solid rgba(100, 149, 237, 0.3);
+    border-radius: 16px;
+    padding: 35px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1;
+    animation: fadeInScale 0.5s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 .login-header {
     text-align: center;
-    margin-bottom: 40px;
-
+    margin-bottom: 22px;
 }
 
 .login-header h1 {
-    font-size: 36px;
+    font-size: 26px;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 12px;
+    color: #1E2D4C;
+    margin-bottom: 6px;
     letter-spacing: -0.5px;
 }
 
-.login-subtitle {
-    font-size: 16px;
-    color: #999;
+.subtitle {
+    font-size: 12px;
+    color: #666;
     font-weight: 400;
-    
 }
 
-/* ===================================================
-   FORM STYLING - Form Elements
-   =================================================== */
+/* Form Styles */
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    
+    gap: 14px;
 }
 
-.form-section {
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 30vw;
-    
-    
+    gap: 6px;
 }
 
-.form-label {
-    display: block;
-    font-size: 12px;
+label {
+    font-size: 11px;
     font-weight: 700;
-    color: #333;
+    color: #1E2D4C;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    
 }
 
-/* INPUT GROUP - Container with Icon */
 .input-group {
     position: relative;
     display: flex;
     align-items: center;
-    background-color: #f5f7fa;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    border: 1.5px solid rgba(100, 149, 237, 0.3);
     transition: all 0.3s ease;
-    padding: 12px 16px;
-    
+    padding: 11px 14px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .input-group:focus-within {
     border-color: #2080d8;
-    background-color: #f0f6ff;
-    box-shadow: 0 0 0 3px rgba(32, 128, 216, 0.1);
-    
+    background-color: rgba(32, 128, 216, 0.1);
+    box-shadow: 0 4px 12px rgba(32, 128, 216, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.input-group.input-error {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.input-group.input-error:focus-within {
+    border-color: #dc3545;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
 }
 
 .input-icon {
-    font-size: 18px;
-    margin-right: 12px;
-    color: #999;
-}
-
-.form-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    color: #666;
-    font-family: inherit;
-    outline: none;
-    
-}
-
-.form-input::placeholder {
-    color: #bbb;
-    text-align: left;
-}
-
-.form-input:focus {
-    color: #333;
-}
-
-/* PASSWORD TOGGLE BUTTON */
-.password-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
     font-size: 16px;
-    padding: 0;
-    color: #999;
-    transition: color 0.2s ease;
-}
-
-.password-toggle:hover {
+    margin-right: 10px;
     color: #2080d8;
 }
 
-/* ===================================================
-   FORM FOOTER - Remember & Forgot Password
-   =================================================== */
+.input-group input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: #333;
+    font-family: inherit;
+    outline: none;
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+.toggle-password {
+    font-size: 16px;
+    cursor: pointer;
+    color: #2080d8;
+    transition: color 0.3s ease;
+    user-select: none;
+    padding: 4px 8px;
+    margin: -4px -8px -4px 8px;
+}
+
+.toggle-password:hover {
+    color: #1a68c4;
+}
+
+.helper-text {
+    font-size: 11px;
+    color: #999;
+    margin-top: -3px;
+}
+
+/* Error Message Styles */
+.error-message {
+    font-size: 11px;
+    color: #dc3545;
+    margin-top: -3px;
+    display: block;
+}
+
+.error-message span {
+    display: block;
+}
+
+/* Form-level Messages */
+.form-error-message {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: #721c24;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    animation: slideDown 0.3s ease-out;
+}
+
+.form-success-message {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    color: #155724;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Footer */
 .form-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
     gap: 12px;
 }
 
-.remember-section {
+.remember-checkbox {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.checkbox-input {
-    width: 18px;
-    height: 18px;
+.remember-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
     cursor: pointer;
     accent-color: #2080d8;
 }
 
-.checkbox-label {
-    font-size: 13px;
-    color: #555;
-    cursor: pointer;
+.remember-checkbox label {
+    font-size: 12px;
     font-weight: 400;
-    user-select: none;
+    color: #666;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+    cursor: pointer;
 }
 
-.forgot-password-link {
-    font-size: 13px;
+.forgot-link {
+    font-size: 12px;
     color: #2080d8;
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.2s ease;
-    white-space: nowrap;
+    transition: color 0.3s ease;
 }
 
-.forgot-password-link:hover {
+.forgot-link:hover {
     color: #1a68c4;
     text-decoration: underline;
 }
 
-/* ===================================================
-   SIGN IN BUTTON
-   =================================================== */
-.sign-in-btn {
-    padding: 14px 24px;
-    font-size: 15px;
+/* Checkbox */
+.terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.terms-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: #2080d8;
+    flex-shrink: 0;
+}
+
+.terms-checkbox label {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+    text-transform: none;
+    letter-spacing: normal;
+    margin: 0;
+}
+
+.terms-checkbox a {
+    color: #2080d8;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.terms-checkbox a:hover {
+    color: #1a68c4;
+    text-decoration: underline;
+}
+
+/* Submit Button */
+.submit-btn {
+    padding: 12px 24px;
+    font-size: 13px;
     font-weight: 600;
     color: white;
     background: linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    box-shadow: 0 4px 12px rgba(32, 128, 216, 0.25);
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(32, 128, 216, 0.35);
+}
+
+.submit-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Social Login Divider */
+.social-divider {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 18px 0;
+    text-align: center;
+}
+
+.social-divider::before,
+.social-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(100, 149, 237, 0.2);
+}
+
+.social-divider span {
+    font-size: 11px;
+    color: #999;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Social Login Inline Buttons */
+.social-login-inline {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.social-btn-inline {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
 }
 
-.sign-in-btn:hover {
+.social-icon-inline {
+    display: inline-block;
+    font-size: 14px;
+}
+
+.google-btn-inline {
+    background: linear-gradient(135deg, #4285f4 0%, #357ae8 100%);
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.25);
+}
+
+.google-btn-inline:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(32, 128, 216, 0.3);
+    box-shadow: 0 6px 20px rgba(66, 133, 244, 0.35);
 }
 
-.sign-in-btn:active {
-    transform: translateY(0);
+.linkedin-btn-inline {
+    background: linear-gradient(135deg, #0a66c2 0%, #054399 100%);
+    box-shadow: 0 4px 12px rgba(10, 102, 194, 0.25);
 }
 
-.sign-in-btn:disabled {
-    background: linear-gradient(135deg, #ccc 0%, #999 100%);
-    cursor: not-allowed;
-    opacity: 0.6;
+.linkedin-btn-inline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(10, 102, 194, 0.35);
 }
 
-/* ===================================================
-   SIGNUP SECTION
-   =================================================== */
-.signup-section {
+/* Sign In Link - Outside Card */
+.signin-link {
     text-align: center;
-    margin-top: 24px;
-    padding-top: 2px;
-    
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
 }
 
-.signup-text {
-    font-size: 13px;
-    color: #999;
-    font-weight: 400;
-}
-
-.signup-link {
+.signin-link a {
     color: #2080d8;
     text-decoration: none;
     font-weight: 600;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
 }
 
-.signup-link:hover {
+.signin-link a:hover {
     color: #1a68c4;
     text-decoration: underline;
 }
 
-/* ===================================================
-   FOOTER SECTION
-   =================================================== */
-/* .footer-section {
-    background-color: #f5f5f5;
-    padding: 20px 40px;
-    text-align: center;
-    border-top: 1px solid #e0e0e0;
-} */
+/* Responsive Design - Large Screens (1920px and above) */
+@media (min-width: 1920px) {
+    .form-card-wrapper {
+        max-width: 480px;
+        padding: 50px;
+    }
 
-/* .footer-section p {
-    font-size: 12px;
-    color: #888;
-    font-weight: 400;
-} */
+    .login-header h1 {
+        font-size: 32px;
+    }
 
-/* ===================================================
-   RESPONSIVE DESIGN - Tablet & Mobile
-   =================================================== */
-@media (max-width: 1024px) {
+    .details-container {
+        padding: 60px;
+    }
+
+    .main-content h2 {
+        font-size: 48px;
+    }
+}
+
+/* Responsive Design - Medium-Large Screens (1200px - 1919px) */
+@media (min-width: 1200px) and (max-width: 1919px) {
+    .form-card-wrapper {
+        max-width: 420px;
+        padding: 40px;
+    }
+
+    .details-container {
+        padding: 40px;
+    }
+}
+
+/* Responsive Design - Tablets Landscape (1000px - 1199px) */
+@media (min-width: 1000px) and (max-width: 1199px) {
+    .login-page {
+        flex-direction: row;
+    }
+
+    .details-container {
+        width: 45%;
+        padding: 35px;
+    }
+
+    .login-container {
+        width: 55%;
+        padding: 30px 20px;
+    }
+
+    .form-card-wrapper {
+        max-width: 380px;
+        padding: 35px;
+    }
+
+    .login-header h1 {
+        font-size: 26px;
+    }
+
+    .main-content h2 {
+        font-size: 32px;
+    }
+
+    .brand-section h1 {
+        font-size: 20px;
+    }
+
+    .login-form {
+        gap: 16px;
+    }
+
+    .form-row {
+        gap: 16px;
+    }
+}
+
+/* Responsive Design - Medium Screens (768px - 999px) */
+@media (min-width: 768px) and (max-width: 999px) {
     .login-page {
         flex-direction: column;
+        height: auto;
+        min-height: 100vh;
     }
 
     .details-container {
         width: 100%;
-        padding: 30px 20px;
+        height: auto;
         min-height: auto;
+        padding: 30px 25px;
+        position: relative;
+        overflow: visible;
+    }
+
+    .main-content {
+        margin-top: 20px;
     }
 
     .login-container {
         width: 100%;
+        height: auto;
+        min-height: auto;
         padding: 40px 20px;
+        position: relative;
     }
 
-    .main-content h2 {
-        font-size: 28px;
+    .form-card-wrapper {
+        max-width: 400px;
+        padding: 35px;
+        margin: 0 auto;
+        animation: none;
     }
 
     .login-header h1 {
+        font-size: 24px;
+    }
+
+    .main-content h2 {
         font-size: 28px;
     }
 
     .stats-section {
         grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .details-container {
-        padding: 20px 16px;
-        text-align: center;
+        gap: 15px;
+        padding: 30px 0;
     }
 
-    .back-btn {
-        align-self: center;
+    .stat {
+        padding: 20px 15px;
     }
 
-    .brand-section {
-        justify-content: center;
-        margin-bottom: 30px;
-    }
-
-    .main-content h2 {
+    .stat-number {
         font-size: 24px;
     }
 
-    .login-container {
-        padding: 30px 16px;
+    .stat-label {
+        font-size: 11px;
     }
 
-    .login-header h1 {
-        font-size: 24px;
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
     }
 
-    .form-section {
-        gap: 8px;
+    .login-form {
+        gap: 14px;
     }
 
-    .form-footer {
-        flex-direction: column;
-        align-items: flex-start;
+    .feature-card {
+        gap: 12px;
     }
 
-    .footer-section {
-        padding: 16px 12px;
+    .feature-card {
+        padding: 18px;
     }
-}
 
-@media (max-width: 480px) {
-    .details-container {
-        padding: 16px 12px;
+    .feature-card h3 {
+        font-size: 15px;
+    }
+
+    .feature-card p {
+        font-size: 12px;
     }
 
     .badge {
         font-size: 11px;
+        padding: 7px 14px;
+    }
+
+    .signin-link {
+        margin-top: 20px;
+    }
+}
+
+/* Responsive Design - Tablets (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+    .login-page {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .details-container {
+        width: 100%;
+        min-height: auto;
+        padding: 30px 20px;
+        text-align: center;
+        position: relative;
+        overflow: visible;
+        height: auto;
+    }
+
+    .main-content {
+        margin-top: 15px;
+    }
+
+    .login-container {
+        width: 100%;
+        min-height: auto;
+        padding: 30px 20px;
+        position: relative;
+        height: auto;
+    }
+
+    .form-card-wrapper {
+        max-width: 100%;
+        padding: 30px;
+        margin: 0 auto;
+        min-width: auto;
+        animation: none;
+    }
+
+    .login-header h1 {
+        font-size: 22px;
+    }
+
+    .main-content h2 {
+        font-size: 26px;
+        line-height: 1.3;
+    }
+
+    .description {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .stats-section {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 25px 0;
+    }
+
+    .stat {
+        padding: 18px 12px;
+    }
+
+    .stat-number {
+        font-size: 22px;
+    }
+
+    .stat-label {
+        font-size: 10px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .login-form {
+        gap: 12px;
+    }
+
+    .feature-card {
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .feature-card {
+        padding: 16px;
+    }
+
+    .feature-card h3 {
+        font-size: 14px;
+    }
+
+    .feature-card p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    label {
+        font-size: 10px;
+    }
+
+    .input-group {
+        padding: 10px 12px;
+    }
+
+    .input-group input {
+        font-size: 13px;
+    }
+
+    .input-group input::placeholder {
+        font-size: 12px;
+    }
+
+    .submit-btn {
+        padding: 11px 20px;
+        font-size: 12px;
+    }
+
+    .badge {
+        font-size: 10px;
+        padding: 7px 13px;
+    }
+
+    .brand-section {
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .brand-logo {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .brand-section h1 {
+        font-size: 16px;
+    }
+
+    .terms-checkbox label {
+        font-size: 11px;
+    }
+}
+
+/* Responsive Design - Small Phones (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+    .login-page {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        position: absolute;
+    }
+
+    .details-container {
+        width: 100%;
+        min-height: auto;
+        padding: 25px 18px;
+        text-align: center;
+        position: relative;
+        overflow: visible;
+        height: auto;
+    }
+
+    .main-content {
+        margin-top: 15px;
+    }
+
+    .login-container {
+        width: 100%;
+        min-height: auto;
+        padding: 25px 15px;
+        position: relative;
+        height: auto;
+    }
+
+    .form-card-wrapper {
+        max-width: 100%;
+        padding: 25px;
+        margin: 0 auto;
+        min-width: auto;
+        animation: none;
+    }
+
+    .login-header h1 {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+
+    .subtitle {
+        font-size: 12px;
     }
 
     .main-content h2 {
         font-size: 20px;
+        line-height: 1.3;
     }
 
     .description {
         font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 20px 0;
+    }
+
+    .stat {
+        padding: 16px 10px;
+    }
+
+    .stat:nth-child(3) {
+        grid-column: 1 / -1;
+    }
+
+    .stat-number {
+        font-size: 20px;
+    }
+
+    .stat-label {
+        font-size: 10px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .login-form {
+        gap: 12px;
+    }
+
+    .feature-card {
+        gap: 12px;
+        margin-bottom: 25px;
     }
 
     .feature-card {
@@ -539,23 +1554,272 @@ body {
     }
 
     .feature-card h3 {
+        font-size: 13px;
+    }
+
+    .feature-card p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    label {
+        font-size: 10px;
+    }
+
+    .input-group {
+        padding: 9px 11px;
+        font-size: 12px;
+    }
+
+    .input-icon {
         font-size: 14px;
+        margin-right: 8px;
+    }
+
+    .input-group input {
+        font-size: 12px;
+    }
+
+    .input-group input::placeholder {
+        font-size: 11px;
+    }
+
+    .submit-btn {
+        padding: 10px 18px;
+        font-size: 12px;
+    }
+
+    .terms-checkbox label {
+        font-size: 11px;
+    }
+
+    .signin-link {
+        font-size: 11px;
+    }
+
+    .badge {
+        font-size: 10px;
+        padding: 6px 12px;
+    }
+
+    .brand-section {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .brand-logo {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .brand-section h1 {
+        font-size: 14px;
+    }
+
+    .back-btn {
+        padding: 9px 16px;
+        font-size: 12px;
+        margin-bottom: 30px;
+    }
+}
+
+/* Responsive Design - Extra Small Phones (320px - 479px) */
+@media (max-width: 479px) {
+    .login-page {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .details-container {
+        width: 100%;
+        min-height: auto;
+        padding: 20px 15px;
+        text-align: center;
+        position: relative;
+        overflow: visible;
+        height: auto;
+    }
+
+    .login-container {
+        width: 100%;
+        min-height: auto;
+        padding: 20px 12px;
+        position: relative;
+        height: auto;
+    }
+
+    .form-card-wrapper {
+        max-width: 100%;
+        padding: 20px;
+        margin: 0 auto;
+        min-width: auto;
+        animation: none;
+    }
+
+    .login-header {
+        margin-bottom: 20px;
     }
 
     .login-header h1 {
-        font-size: 20px;
+        font-size: 18px;
+        margin-bottom: 5px;
     }
 
-    .login-subtitle {
+    .subtitle {
+        font-size: 11px;
+    }
+
+    .main-content h2 {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    .description {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 25px;
+    }
+
+    .stats-section {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 15px 0;
+    }
+
+    .stat {
+        padding: 14px 10px;
+    }
+
+    .stat-number {
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .stat-label {
+        font-size: 9px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .login-form {
+        gap: 10px;
+    }
+
+    .feature-card {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .feature-card {
+        padding: 12px;
+    }
+
+    .feature-card h3 {
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+
+    .feature-card p {
+        font-size: 10px;
+        line-height: 1.3;
+    }
+
+    label {
+        font-size: 9px;
+    }
+
+    .input-group {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .input-icon {
+        font-size: 14px;
+        margin-right: 8px;
+    }
+
+    .input-group input {
+        font-size: 12px;
+    }
+
+    .input-group input::placeholder {
+        font-size: 10px;
+    }
+
+    .submit-btn {
+        padding: 9px 16px;
+        font-size: 11px;
+        margin-top: 6px;
+    }
+
+    .terms-checkbox {
+        gap: 8px;
+        margin-top: 6px;
+    }
+
+    .terms-checkbox input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+    }
+
+    .terms-checkbox label {
+        font-size: 10px;
+    }
+
+    .signin-link {
+        font-size: 10px;
+        margin-top: 15px;
+    }
+
+    .form-error-message,
+    .form-success-message {
+        font-size: 10px;
+        padding: 8px 10px;
+    }
+
+    .badge {
+        font-size: 9px;
+        padding: 5px 10px;
+    }
+
+    .brand-section {
+        gap: 8px;
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+    .brand-logo {
+        width: 30px;
+        height: 30px;
         font-size: 14px;
     }
 
-    .sign-in-btn {
-        padding: 12px 20px;
-        font-size: 14px;
+    .brand-section h1 {
+        font-size: 13px;
     }
 
-    input {
-        font-size: 16px;
+    .back-btn {
+        display: none;
+    }
+
+    .helper-text {
+        font-size: 10px;
+    }
+
+    .error-message {
+        font-size: 10px;
+    }
+
+    .main-content {
+        margin-top: 10px;
     }
 }
