@@ -1,4 +1,11 @@
-/* RESET */
+/* ================================
+   FONT
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+
+/* ================================
+   RESET
+================================ */
 * {
   margin: 0;
   padding: 0;
@@ -6,200 +13,298 @@
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
   height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden; /* ✅ Prevent body scrollbar */
+  font-family: 'DM Sans', sans-serif;
+  overflow: hidden;
 }
 
-/* MAIN LAYOUT */
+/* ================================
+   LAYOUT
+================================ */
 .app-layout {
   display: flex;
   height: 100vh;
-  margin-top: 60px; /* Space for fixed header */
+  margin-top: 60px;
 }
 
-/* SIDEBAR */
+/* ================================
+   SIDEBAR
+================================ */
 .sidebar {
   width: 240px;
-  background: #0f2a4d;
-  padding: 20px 10px;
-  box-sizing: border-box;
+  background: #0d1f3c;
 
   position: fixed;
-  top: 60px; /* Below the fixed header */
+  top: 60px;
   left: 0;
-  height: calc(100vh - 60px); /* Adjust height for header */
-  
-  overflow-y: auto;
-  overflow-x: hidden; /* ✅ Hide horizontal scrollbar */
-  transition: all 0.3s ease;
-  z-index: 999;
-}
+  height: calc(100vh - 60px);
 
-/* ✅ Scrollbar styling for sidebar */
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
+  display: flex;
+  flex-direction: column;
 
-.sidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* CONTENT AREA */
-.main-content {
-  margin-left: 240px;
-  flex: 1;
-  padding: 30px;
+  padding: 10px;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100vh - 60px); /* ✅ Exact height to prevent overflow */
-  background: #f4f6f9;
+
+  transition: width 0.3s ease;
+  z-index: 1000;
+
+  /* 🔥 HIDE SCROLLBAR */
+  scrollbar-width: none;
 }
 
-/* ✅ Scrollbar styling for content */
-.main-content::-webkit-scrollbar {
-  width: 8px;
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
-.main-content::-webkit-scrollbar-track {
-  background: #f4f6f9;
+/* COLLAPSED */
+.sidebar.collapsed {
+  width: 68px;
+  padding: 10px 6px;
 }
 
-.main-content::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+/* ================================
+   TOGGLE BUTTON
+================================ */
+.toggle-btn {
+  align-self: flex-end;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #8fa8c8;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.toggle-btn:hover {
+  background: rgba(0,195,255,0.15);
+  color: #00c3ff;
 }
 
-/* MENU */
+.sidebar.collapsed .toggle-btn {
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+/* ================================
+   PROFILE (🔥 SANS-SERIF FIX)
+================================ */
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 8px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e4080, #2563eb);
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Name */
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+/* Subtitle */
+.user-sub {
+  font-size: 13px;
+  color: #9fb3d1;
+  margin-bottom: 6px; /* 🔥 space before rank */
+}
+
+/* Rank badge */
+.user-rank {
+  font-size: 11.5px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(0,195,255,0.15);
+  color: #00c3ff;
+  width: fit-content;
+}
+/* collapsed avatar */
+.avatar-only {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* ================================
+   DIVIDER
+================================ */
+.divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 10px 0;
+}
+
+/* ================================
+   MENU
+================================ */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
-/* MENU ITEM */
+/* ================================
+   MENU ITEM
+================================ */
 .menu-item {
   display: flex;
   align-items: center;
   gap: 12px;
 
-  padding: 12px 16px;
-  border-radius: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
 
   font-size: 14px;
   font-weight: 500;
-
-  color: #cfd8e3;
+  background: transparent;
+  color: #8fa8c8;
   text-decoration: none;
   cursor: pointer;
 
   position: relative;
-  transition: all 0.2s ease;
-}
+  transition: all 0.25s ease;
 
-/* LINK FIX */
-.menu-item:link,
-.menu-item:visited {
-  color: #cfd8e3;
-}
-
-/* ICON */
-.icon {
-  width: 24px;
-  height: 24px;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 18px;
-  flex-shrink: 0;
-  transform: translateY(1px);
-}
-
-/* TEXT */
-.label {
-  display: flex;
-  align-items: center;
+  white-space: nowrap;
 }
 
 /* HOVER */
+
 .menu-item:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(46, 86, 140, 0.65); /* 🔥 same as dashboard */
   color: #ffffff;
+
+  border-radius: 14px;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 195, 255, 0.25),
+    0 6px 18px rgba(0, 0, 0, 0.25);
+
   transform: translateX(4px);
 }
 
-/* ACTIVE */
-.menu-item.active {
-  background: #1e3a63;
-  color: #ffffff;
-}
-
-/* ACTIVE INDICATOR */
-.menu-item.active::before {
+.menu-item:hover::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 8px;
-  bottom: 8px;
+  top: 10px;
+  bottom: 10px;
   width: 4px;
   background: #00c3ff;
   border-radius: 4px;
 }
 
-/* ========================= */
-/* 📱 RESPONSIVE FIX */
-/* ========================= */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  .main-content {
-    margin-left: 200px;
-  }
+/* ICON HOVER */
+.menu-item:hover .icon {
+  color: #00c3ff;
+  transform: scale(1.1);
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .app-layout {
-    flex-direction: column;
-  }
+/* ICON */
+.icon {
+  width: 24px;
+  text-align: center;
+  font-size: 16px;
+  transition: all 0.25s ease;
+}
 
+/* ACTIVE ICON */
+.menu-item.active .icon {
+  color: #00c3ff;
+  transform: scale(1.1);
+}
+
+/* ================================
+   COLLAPSED MODE (🔥 FINAL LOOK)
+================================ */
+.sidebar.collapsed .menu {
+  align-items: center;
+  gap: 18px;
+}
+
+.sidebar.collapsed .menu-item {
+  width: 44px;
+  height: 44px;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+  border-radius: 12px;
+}
+
+.sidebar.collapsed .label {
+  display: none;
+}
+
+.sidebar.collapsed .menu-item::before {
+  display: none;
+}
+
+/* COLLAPSED ACTIVE */
+/* .sidebar.collapsed .menu-item.active {
+  background: rgba(46, 86, 140, 0.6);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 195, 255, 0.4),
+    0 6px 16px rgba(0, 0, 0, 0.3);
+} */
+
+/* ================================
+   CONTENT
+================================ */
+.main-content {
+  margin-left: 240px;
+  padding: 30px;
+  height: calc(100vh - 60px);
+  width: calc(100% - 240px);
+  /* overflow-y: auto; */
+  background: #f4f6f9;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 68px;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
   .sidebar {
-    width: 100%;
-    top: 60px;
-    height: auto;
-    max-height: 300px;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    width: 240px;
   }
 
   .sidebar.open {
-    transform: scaleY(1);
+    transform: translateX(0);
   }
 
   .main-content {
     margin-left: 0;
-    margin-top: 0;
   }
 }
