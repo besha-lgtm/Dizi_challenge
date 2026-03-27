@@ -1,174 +1,167 @@
+<app-header></app-header>
 
-  <div class="page-wrapper">
-    <div class="layout">
+<div class="page-wrapper">
+  
+  <div class="layout">
 
-      <!-- ════════════════════════════════════════════════════
-           LEFT COLUMN — Main content
-      ════════════════════════════════════════════════════ -->
-      <div class="main-col">
+    <!-- ════════════════════════════════════════════════════
+         LEFT COLUMN — Main content
+    ════════════════════════════════════════════════════ -->
+    <div class="main-col">
 
-        <!-- ── Header card ─────────────────────────────── -->
-        <div class="header-card">
+      <!-- ── Header card ─────────────────────────────── -->
+      <div class="header-card">
 
-          <!-- Tags: each <span> is a dynamic tag chip.
-               The JS clears this list and re-renders it.    -->
-          <div class="tag-row" id="tagRow">
-            <!-- Dynamically injected by JS -->
-            <span class="tag tag-grey" data-tag>Manufacturing</span>
-            <span class="tag tag-grey" data-tag>IoT</span>
-            <span class="tag tag-live" id="statusTag">&#9679; Live</span>
-          </div>
-
-          <!-- Challenge title -->
-          <h1 class="challenge-title" id="challengeTitle">
-            Reduce Power Loss in Corrugation Plant
-          </h1>
-
-          <!-- Company · location · posted -->
-          <p class="challenge-meta" id="challengeMeta">
-            Visipak Industries &middot; Visakhapatnam &middot; Posted 12 days ago
-          </p>
-
-          <!-- Tab bar: JS re-renders buttons from a tabs array -->
-          <div class="tab-bar" id="tabBar">
-            <!-- Dynamically injected by JS -->
-            <a routerlink="#" ><button class="tab" data-tab>Overview</button></a>
-            <a routerlink="#" ><button class="tab tab-active" data-tab>Files &amp; Resources</button></a>
-            <a routerlink="#" ><button class="tab" data-tab>Discussion</button></a>
-            <a routerlink="#" ><button class="tab" data-tab>Submissions (12)</button></a>
-          </div>
-
-        </div><!-- /header-card -->
-
-        <!-- ── Problem Statement card ───────────────────── -->
-        <div class="info-card" id="cardProblem">
-          <p class="card-heading">PROBLEM STATEMENT</p>
-          <!-- id="problemText" is the binding target -->
-          <p class="card-text" id="problemText">
-            The industry experiences inconsistent visibility into energy consumption
-            across production lines, resulting in increased operating cost and limited
-            root-cause analysis. Each corrugation line operates independently with no
-            centralized monitoring system.
-          </p>
+        <!-- Tags -->
+        <div class="tag-row" id="tagRow">
+          <span class="tag tag-grey" data-tag>Manufacturing</span>
+          <span class="tag tag-grey" data-tag>IoT</span>
+          <span class="tag tag-live" id="statusTag">● Live</span>
         </div>
 
-        <!-- ── Current Situation card ───────────────────── -->
-        <div class="info-card" id="cardSituation">
-          <p class="card-heading">CURRENT SITUATION</p>
-          <!-- id="situationText" is the binding target -->
-          <p class="card-text" id="situationText">
-            Energy readings are manually reviewed at the end of each shift.
-            Machine-wise analysis is not available, and shift-level exception
-            tracking is entirely absent. The team estimates 15&ndash;20%
-            preventable energy waste per month.
-          </p>
+        <!-- Challenge title -->
+        <h1 class="challenge-title" id="challengeTitle">
+          Reduce Power Loss in Corrugation Plant
+        </h1>
+
+        <!-- Company · location · posted -->
+        <p class="challenge-meta" id="challengeMeta">
+          Visipak Industries · Visakhapatnam · Posted 12 days ago
+        </p>
+
+        <!-- Tab bar -->
+        <div class="tab-bar" id="tabBar">
+          <a routerLink="#">
+            <button class="tab" data-tab>Overview</button>
+          </a>
+          <a routerLink="#">
+            <button class="tab tab-active" data-tab>Files & Resources</button>
+          </a>
+          <a routerLink="#">
+            <button class="tab" data-tab>Discussion</button>
+          </a>
+          <a routerLink="#">
+            <button class="tab" data-tab>Submissions (12)</button>
+          </a>
         </div>
 
-        <!-- ── Expected Outcome card ─────────────────────── -->
-        <div class="info-card" id="cardOutcome">
-          <p class="card-heading">EXPECTED OUTCOME</p>
-          <!-- id="outcomeText" is the binding target -->
-          <p class="card-text" id="outcomeText">
-            A low-cost monitoring model using sensors, dashboards, or machine-level
-            data capture to identify avoidable energy loss. The solution should be
-            deployable within 3 months with a budget under &#8377;50,000 and
-            operational by non-technical staff.
-          </p>
-        </div>
+      </div><!-- /header-card -->
 
-        <!-- ── Evaluation Criteria card ──────────────────── -->
-        <div class="info-card" id="cardCriteria">
-          <p class="card-heading">EVALUATION CRITERIA</p>
-          <!-- id="criteriaGrid" — JS clears & re-renders the boxes -->
-          <div class="criteria-grid" id="criteriaGrid">
-            <!-- Dynamically injected by JS -->
-            <div class="criteria-box" data-criteria>
-              <span class="criteria-pct">30%</span>
-              <span class="criteria-lbl">Innovation</span>
-            </div>
-            <div class="criteria-box" data-criteria>
-              <span class="criteria-pct">25%</span>
-              <span class="criteria-lbl">Feasibility</span>
-            </div>
-            <div class="criteria-box" data-criteria>
-              <span class="criteria-pct">25%</span>
-              <span class="criteria-lbl">Cost Efficiency</span>
-            </div>
-            <div class="criteria-box" data-criteria>
-              <span class="criteria-pct">20%</span>
-              <span class="criteria-lbl">Scalability</span>
-            </div>
+      <!-- ── Problem Statement card ───────────────────── -->
+      <div class="info-card" id="cardProblem">
+        <p class="card-heading">PROBLEM STATEMENT</p>
+        <p class="card-text" id="problemText">
+          The industry experiences inconsistent visibility into energy consumption
+          across production lines, resulting in increased operating cost and limited
+          root-cause analysis. Each corrugation line operates independently with no
+          centralized monitoring system.
+        </p>
+      </div>
+
+      <!-- ── Current Situation card ───────────────────── -->
+      <div class="info-card" id="cardSituation">
+        <p class="card-heading">CURRENT SITUATION</p>
+        <p class="card-text" id="situationText">
+          Energy readings are manually reviewed at the end of each shift.
+          Machine-wise analysis is not available, and shift-level exception
+          tracking is entirely absent. The team estimates 15–20%
+          preventable energy waste per month.
+        </p>
+      </div>
+
+      <!-- ── Expected Outcome card ─────────────────────── -->
+      <div class="info-card" id="cardOutcome">
+        <p class="card-heading">EXPECTED OUTCOME</p>
+        <p class="card-text" id="outcomeText">
+          A low-cost monitoring model using sensors, dashboards, or machine-level
+          data capture to identify avoidable energy loss. The solution should be
+          deployable within 3 months with a budget under ₹50,000 and
+          operational by non-technical staff.
+        </p>
+      </div>
+
+      <!-- ── Evaluation Criteria card ──────────────────── -->
+      <div class="info-card" id="cardCriteria">
+        <p class="card-heading">EVALUATION CRITERIA</p>
+        <div class="criteria-grid" id="criteriaGrid">
+          <div class="criteria-box" data-criteria>
+            <span class="criteria-pct">30%</span>
+            <span class="criteria-lbl">Innovation</span>
+          </div>
+          <div class="criteria-box" data-criteria>
+            <span class="criteria-pct">25%</span>
+            <span class="criteria-lbl">Feasibility</span>
+          </div>
+          <div class="criteria-box" data-criteria>
+            <span class="criteria-pct">25%</span>
+            <span class="criteria-lbl">Cost Efficiency</span>
+          </div>
+          <div class="criteria-box" data-criteria>
+            <span class="criteria-pct">20%</span>
+            <span class="criteria-lbl">Scalability</span>
           </div>
         </div>
+      </div>
 
-      </div><!-- /main-col -->
+    </div><!-- /main-col -->
 
+    <!-- ════════════════════════════════════════════════════
+         RIGHT COLUMN — Sidebar
+    ════════════════════════════════════════════════════ -->
+    <aside class="sidebar">
 
-      <!-- ════════════════════════════════════════════════════
-           RIGHT COLUMN — Sidebar
-      ════════════════════════════════════════════════════ -->
-      <aside class="sidebar">
+      <!-- ── Prize pool card ──────────────────────────── -->
+      <div class="prize-card">
+        <p class="prize-label">Total Prize Pool</p>
+        <p class="prize-amount" id="prizeTotal">₹15,000</p>
+        <div class="prize-row">
+          <span class="prize-badge prize-gold" id="prize1">🥇 ₹10,000</span>
+          <span class="prize-badge prize-silver" id="prize2">🥈 ₹3,500</span>
+          <span class="prize-badge prize-bronze" id="prize3">🥉 ₹1,500</span>
+        </div>
+      </div>
 
-        <!-- ── Prize pool card ──────────────────────────── -->
-        <div class="prize-card">
-          <p class="prize-label">Total Prize Pool</p>
-          <!-- id="prizeTotal" updates when any prize value changes -->
-          <p class="prize-amount" id="prizeTotal">&#8377;15,000</p>
-          <div class="prize-row">
-            <!-- Each badge id lets JS update rank amounts individually -->
-            <span class="prize-badge prize-gold"   id="prize1">🥇 &#8377;10,000</span>
-            <span class="prize-badge prize-silver" id="prize2">🥈 &#8377;3,500</span>
-            <span class="prize-badge prize-bronze" id="prize3">🥉 &#8377;1,500</span>
-          </div>
+      <!-- ── Meta info card ───────────────────────────── -->
+      <div class="meta-card">
+
+        <div class="meta-row">
+          <span class="meta-key">Deadline</span>
+          <span class="meta-val meta-red" id="metaDeadline">12 Apr 2026</span>
         </div>
 
-        <!-- ── Meta info card ───────────────────────────── -->
-        <div class="meta-card">
+        <div class="meta-row">
+          <span class="meta-key">Teams Applied</span>
+          <span class="meta-val meta-bold" id="metaTeams">12 teams</span>
+        </div>
 
-          <div class="meta-row">
-            <span class="meta-key">Deadline</span>
-            <!-- id="metaDeadline" — JS writes formatted date here -->
-            <span class="meta-val meta-red" id="metaDeadline">12 Apr 2026</span>
-          </div>
+        <div class="meta-row">
+          <span class="meta-key">Team Size</span>
+          <span class="meta-val meta-bold" id="metaTeamSize">2–4 members</span>
+        </div>
 
-          <div class="meta-row">
-            <span class="meta-key">Teams Applied</span>
-            <!-- id="metaTeams" -->
-            <span class="meta-val meta-bold" id="metaTeams">12 teams</span>
-          </div>
+        <div class="meta-row">
+          <span class="meta-key">Pilot Opportunity</span>
+          <span class="meta-val meta-green" id="metaPilot">Yes ✓</span>
+        </div>
 
-          <div class="meta-row">
-            <span class="meta-key">Team Size</span>
-            <!-- id="metaTeamSize" -->
-            <span class="meta-val meta-bold" id="metaTeamSize">2&ndash;4 members</span>
-          </div>
+        <div class="meta-row">
+          <span class="meta-key">Internship Offer</span>
+          <span class="meta-val meta-green" id="metaInternship">Yes ✓</span>
+        </div>
 
-          <div class="meta-row">
-            <span class="meta-key">Pilot Opportunity</span>
-            <!-- id="metaPilot" — JS also swaps class between meta-green / meta-bold -->
-            <span class="meta-val meta-green" id="metaPilot">Yes &#10003;</span>
-          </div>
+        <div class="meta-row meta-row-last">
+          <span class="meta-key">Mode</span>
+          <span class="meta-val meta-bold" id="metaMode">Online + Demo</span>
+        </div>
 
-          <div class="meta-row">
-            <span class="meta-key">Internship Offer</span>
-            <!-- id="metaInternship" — same yes/no colour logic -->
-            <span class="meta-val meta-green" id="metaInternship">Yes &#10003;</span>
-          </div>
+      </div><!-- /meta-card -->
 
-          <div class="meta-row meta-row-last">
-            <span class="meta-key">Mode</span>
-            <!-- id="metaMode" -->
-            <span class="meta-val meta-bold" id="metaMode">Online + Demo</span>
-          </div>
+      <!-- ── CTA buttons ───────────────────────────────── -->
+      <button class="btn-apply" id="btnApply">Apply & Submit Solution</button>
+      <button class="btn-team" id="btnTeam">Form a Team</button>
+      <p class="free-note">Free to participate · No registration fee</p>
 
-        </div><!-- /meta-card -->
+    </aside>
 
-        <!-- ── CTA buttons ───────────────────────────────── -->
-        <button class="btn-apply" id="btnApply">Apply &amp; Submit Solution</button>
-        <button class="btn-team"  id="btnTeam">Form a Team</button>
-        <p class="free-note">Free to participate &middot; No registration fee</p>
-
-      </aside>
-
-    </div><!-- /layout -->
-  </div><!-- /page-wrapper -->
+  </div><!-- /layout -->
+</div><!-- /page-wrapper -->

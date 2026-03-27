@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'dizi_challenge';
+   constructor(public router: Router) {}
+
+  // Function to check if header should be hidden
+  showGlobalHeader(): boolean {
+    const hideOn = ['/login', '/register', '/dashboard']; // Hide on auth and dashboard (since dashboard has its own in sidebar)
+    return !hideOn.includes(this.router.url);
+  }
 }
+

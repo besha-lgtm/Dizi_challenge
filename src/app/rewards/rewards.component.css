@@ -5,6 +5,19 @@
   font-family: 'Inter', sans-serif;
 }
 
+/* Remove the body { ... } block entirely from this file */
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers everything horizontally */
+  
+  max-width: 1200px; /* Increased to fit 4 winner cards nicely */
+  margin: 0 auto;
+  padding: 100px 20px 60px; /* Top padding for fixed header */
+}
+
+
 body {
   background: #f5f7fb;
   padding: 30px;

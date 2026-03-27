@@ -1,0 +1,164 @@
+/* NAVBAR - FIXED AT TOP */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 25px;
+  background: #fff9f9;
+  border-bottom: 1px solid #e5e7eb;
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1001; /* Above sidebar */
+  box-sizing: border-box;
+}
+
+/* LOGO */
+.logo {
+  font-weight: 600;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.logo .dizi {
+  color: #111827;
+}
+
+.logo .edu {
+  color: #2563eb;
+}
+
+/* NAV LINKS */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
+  margin-left: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 13px;
+  color: #4b5563;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* HOVER */
+.nav-links a:hover {
+  background: #1e3a5f;
+  color: white;
+}
+
+/* ACTIVE TAB */
+.nav-links .active {
+  color: #2563eb;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-weight: 500;
+  background: #dbeafe;
+}
+
+/* RIGHT ACTIONS */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* BUTTONS */
+.btn {
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+/* LIGHT BUTTON */
+.btn.light {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.btn.light:hover {
+  background: #e5e7eb;
+}
+
+/* DARK BUTTON */
+.btn.dark {
+  background: #1e3a5f;
+  color: white;
+}
+
+.btn.dark:hover {
+  background: #0f2a4d;
+}
+
+/* BUTTON HOVER */
+.nav-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* PROFILE */
+.profile {
+  width: 32px;
+  height: 32px;
+  background: #1e3a5f;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav-links {
+    display: none;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .profile {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+}

@@ -1,14 +1,23 @@
 /* RESET */
-body {
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
 
-/* MAIN LAYOUT (IMPORTANT) */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* ✅ Prevent body scrollbar */
+}
+
+/* MAIN LAYOUT */
 .app-layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  margin-top: 60px; /* Space for fixed header */
 }
 
 /* SIDEBAR */
@@ -19,20 +28,61 @@ body {
   box-sizing: border-box;
 
   position: fixed;
-  top: 0;
+  top: 60px; /* Below the fixed header */
   left: 0;
-  height: 100vh;
-
+  height: calc(100vh - 60px); /* Adjust height for header */
+  
+  overflow-y: auto;
+  overflow-x: hidden; /* ✅ Hide horizontal scrollbar */
   transition: all 0.3s ease;
-  z-index: 1000;
+  z-index: 999;
 }
 
-/* CONTENT AREA (FIX OVERLAP ISSUE) */
+/* ✅ Scrollbar styling for sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* CONTENT AREA */
 .main-content {
   margin-left: 240px;
   flex: 1;
-  padding: 20px;
-  transition: margin-left 0.3s ease;
+  padding: 30px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 60px); /* ✅ Exact height to prevent overflow */
+  background: #f4f6f9;
+}
+
+/* ✅ Scrollbar styling for content */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f4f6f9;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 /* MENU */
@@ -130,15 +180,26 @@ body {
 
 /* Mobile */
 @media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
   .sidebar {
-    transform: translateX(-100%);
+    width: 100%;
+    top: 60px;
+    height: auto;
+    max-height: 300px;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
   }
 
   .sidebar.open {
-    transform: translateX(0);
+    transform: scaleY(1);
   }
 
   .main-content {
     margin-left: 0;
+    margin-top: 0;
   }
 }

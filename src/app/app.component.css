@@ -1,0 +1,27 @@
+/* ✅ Global app root styles */
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* ✅ Prevent scrollbar on body */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Remove default scrollbar styling */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure app component takes full height */
+app-root {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
