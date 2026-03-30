@@ -1,3 +1,4 @@
+/* 
 * {
   margin: 0;
   padding: 0;
@@ -5,16 +6,15 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* Remove the body { ... } block entirely from this file */
+
 
 .page-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers everything horizontally */
-  
-  max-width: 1200px; /* Increased to fit 4 winner cards nicely */
+  align-items: center; 
+  max-width: 1200px; 
   margin: 0 auto;
-  padding: 100px 20px 60px; /* Top padding for fixed header */
+  padding: 100px 20px 60px; 
 }
 
 
@@ -32,7 +32,7 @@ body {
     color: #6b7280;     
 }
 
-/* HEADER */
+
 .header-card {
   background: #1e3a5f;
   color: white;
@@ -47,7 +47,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* CARDS */
+
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -75,7 +75,7 @@ body {
   margin: 12px 0;
 }
 
-/* BUTTON (SUBTLE LIKE IMAGE) */
+
 .card button {
   background: rgba(255,255,255,0.15);
   border: 1px solid rgba(255,255,255,0.25);
@@ -91,19 +91,19 @@ body {
   background: rgba(255,255,255,0.25);
 }
 
-/* COLORS */
+
 .blue { background: #1e3a5f; }
 .red { background: #e11d48; }
 .green { background: #0f766e; }
 
-/* SECTION TITLE */
+
 .section-title {
   margin-bottom: 12px;
   font-size: 16px;
   font-weight: 600;
 }
 
-/* ✅ SPECIAL AWARDS FRAME */
+
 .awards-wrapper {
   background: #f5f7fb;
   padding: 20px;
@@ -112,14 +112,14 @@ body {
   margin-bottom: 25px;
 }
 
-/* GRID */
+
 .awards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
 }
 
-/* CARD */
+
 .award {
   background: white;
   padding: 28px;
@@ -149,7 +149,7 @@ body {
   color: #6b7280;
 }
 
-/* WINNERS */
+
 .winners {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -203,7 +203,7 @@ body {
   border-radius: 10px;
 }
 
-/* RESPONSIVE */
+
 @media (max-width: 900px) {
   .cards, .awards, .winners {
     grid-template-columns: repeat(2, 1fr);
@@ -215,3 +215,5 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+*/

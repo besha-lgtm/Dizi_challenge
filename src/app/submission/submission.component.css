@@ -1,3 +1,4 @@
+/* /*
 *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -19,11 +20,11 @@
     }
 .page-wrapper {
   display: flex;
-  justify-content: center; /* Horizontal center */
-  align-items: flex-start;  /* Keeps it at the top area */
+  justify-content: center; 
+  align-items: flex-start;  
   
   margin: 0 auto;
-  padding-top: 100px; /* Space for the fixed header */
+  padding-top: 100px; 
   padding-bottom: 60px;
   min-height: 100vh;
   width: 100%;
@@ -53,7 +54,7 @@
       margin-bottom: 24px;
     }
  
-    /* Drop Zone */
+
     .drop-zone {
       border: 2px dashed #b3c4f5;
       border-radius: 10px;
@@ -111,7 +112,7 @@
       background: #f0f4ff;
     }
  
-    /* Two-col row */
+
     .field-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -119,7 +120,7 @@
       margin-bottom: 20px;
     }
  
-    /* Field */
+
     .field {
       display: flex;
       flex-direction: column;
@@ -173,7 +174,7 @@
       margin-bottom: 24px;
     }
  
-    /* Action row */
+
     .action-row {
       display: flex;
       gap: 12px;
@@ -223,7 +224,7 @@
       background: #f0f4ff;
     }
  
-    /* Responsive */
+
     @media (max-width: 480px) {
       .card {
         padding: 24px 16px 20px;
@@ -241,4 +242,4 @@
         width: 100%;
         text-align: center;
       }
-    }
+    } */

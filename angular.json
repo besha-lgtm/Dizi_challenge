@@ -31,15 +31,15 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets"
             ],
             "styles": [
+              "src/assets/style.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/scripts.ts"
+            ]
           },
           "configurations": {
             "production": {
@@ -89,15 +89,15 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/style.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/scripts.ts"
+            ]
           }
         }
       }

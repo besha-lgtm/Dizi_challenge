@@ -1,11 +1,7 @@
-/* ================================
-   FONT
-================================ */
+/*
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
 
-/* ================================
-   RESET
-================================ */
 * {
   margin: 0;
   padding: 0;
@@ -18,18 +14,12 @@ html, body {
   overflow: hidden;
 }
 
-/* ================================
-   LAYOUT
-================================ */
 .app-layout {
   display: flex;
   height: 100vh;
   margin-top: 60px;
 }
 
-/* ================================
-   SIDEBAR
-================================ */
 .sidebar {
   width: 240px;
   background: #0d1f3c;
@@ -49,7 +39,6 @@ html, body {
   transition: width 0.3s ease;
   z-index: 1000;
 
-  /* 🔥 HIDE SCROLLBAR */
   scrollbar-width: none;
 }
 
@@ -57,15 +46,12 @@ html, body {
   display: none;
 }
 
-/* COLLAPSED */
+
 .sidebar.collapsed {
   width: 68px;
   padding: 10px 6px;
 }
 
-/* ================================
-   TOGGLE BUTTON
-================================ */
 .toggle-btn {
   align-self: flex-end;
   width: 34px;
@@ -94,9 +80,6 @@ html, body {
   margin-bottom: 20px;
 }
 
-/* ================================
-   PROFILE (🔥 SANS-SERIF FIX)
-================================ */
 .user-profile {
   display: flex;
   flex-direction: column;
@@ -119,7 +102,7 @@ html, body {
   font-family: 'DM Sans', sans-serif;
 }
 
-/* Name */
+
 .user-name {
   font-size: 16px;
   font-weight: 600;
@@ -127,14 +110,13 @@ html, body {
   margin-bottom: 2px;
 }
 
-/* Subtitle */
+
 .user-sub {
   font-size: 13px;
   color: #9fb3d1;
-  margin-bottom: 6px; /* 🔥 space before rank */
+  margin-bottom: 6px; 
 }
 
-/* Rank badge */
 .user-rank {
   font-size: 11.5px;
   padding: 5px 12px;
@@ -143,34 +125,24 @@ html, body {
   color: #00c3ff;
   width: fit-content;
 }
-/* collapsed avatar */
 .avatar-only {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-/* ================================
-   DIVIDER
-================================ */
 .divider {
   height: 1px;
   background: rgba(255,255,255,0.08);
   margin: 10px 0;
 }
 
-/* ================================
-   MENU
-================================ */
 .menu {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* ================================
-   MENU ITEM
-================================ */
 .menu-item {
   display: flex;
   align-items: center;
@@ -192,10 +164,10 @@ html, body {
   white-space: nowrap;
 }
 
-/* HOVER */
+
 
 .menu-item:hover {
-  background: rgba(46, 86, 140, 0.65); /* 🔥 same as dashboard */
+  background: rgba(46, 86, 140, 0.65); 
   color: #ffffff;
 
   border-radius: 14px;
@@ -218,13 +190,12 @@ html, body {
   border-radius: 4px;
 }
 
-/* ICON HOVER */
+
 .menu-item:hover .icon {
   color: #00c3ff;
   transform: scale(1.1);
 }
 
-/* ICON */
 .icon {
   width: 24px;
   text-align: center;
@@ -232,15 +203,11 @@ html, body {
   transition: all 0.25s ease;
 }
 
-/* ACTIVE ICON */
 .menu-item.active .icon {
   color: #00c3ff;
   transform: scale(1.1);
 }
 
-/* ================================
-   COLLAPSED MODE (🔥 FINAL LOOK)
-================================ */
 .sidebar.collapsed .menu {
   align-items: center;
   gap: 18px;
@@ -275,25 +242,19 @@ html, body {
 } */
 
 /* ================================
-   CONTENT
-================================ */
 .main-content {
   margin-left: 240px;
   padding: 30px;
   height: calc(100vh - 60px);
   width: calc(100% - 240px);
-  /* overflow-y: auto; */
   background: #f4f6f9;
   transition: margin-left 0.3s ease;
-}
+} 
 
 .sidebar.collapsed ~ .main-content {
   margin-left: 68px;
 }
 
-/* ================================
-   RESPONSIVE
-================================ */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
@@ -308,3 +269,4 @@ html, body {
     margin-left: 0;
   }
 }
+  */

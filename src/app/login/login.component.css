@@ -1,8 +1,10 @@
+/* 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 html {
@@ -17,7 +19,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Main Page Layout */
+
 .login-page {
     display: flex;
     flex-direction: row;
@@ -31,7 +33,7 @@ body {
     background-color: #ffffff;
 }
 
-/* LEFT SIDE - Details Container */
+
 .details-container {
     width: 50%;
     background: 
@@ -52,7 +54,7 @@ body {
     border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Brand Section */
+
 .brand-section {
     display: flex;
     align-items: center;
@@ -83,7 +85,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Main Content */
+
 .main-content {
     flex: 1;
     margin-top: 30px;
@@ -120,7 +122,7 @@ body {
     margin-bottom: 40px;
 }
 
-/* Features List */
+
 .features-list {
     display: flex;
     flex-direction: column;
@@ -147,7 +149,7 @@ body {
     transform: translateY(-3px);
 }
 
-/* Remove hover on mobile and tablets */
+
 @media (max-width: 1000px) {
     .feature-card:hover {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
@@ -169,7 +171,7 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* Stats Section */
+
 .stats-section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -197,7 +199,7 @@ body {
     transform: translateY(-3px);
 }
 
-/* Remove hover on mobile and tablets */
+
 @media (max-width: 1000px) {
     .stat:hover {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
@@ -219,7 +221,7 @@ body {
     font-weight: 500;
 }
 
-/* RIGHT SIDE - Login Container */
+
 .login-container {
     width: 50%;
     height: 100vh;
@@ -244,7 +246,7 @@ body {
     pointer-events: none;
 }
 
-/* Glass Card Wrapper */
+
 .form-card-wrapper {
     min-width: 550px;
     background: rgba(255, 255, 255, 0.75);
@@ -279,7 +281,7 @@ body {
     font-weight: 400;
 }
 
-/* Form Styles */
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -359,7 +361,7 @@ label {
     color: #1a68c4;
 }
 
-/* Remove hover animations on mobile and tablets */
+
 @media (max-width: 1000px) {
     .toggle-password:hover {
         color: #2080d8;
@@ -372,7 +374,7 @@ label {
     margin-top: -3px;
 }
 
-/* Error Message Styles */
+
 .error-message {
     font-size: 11px;
     color: #dc3545;
@@ -384,7 +386,7 @@ label {
     display: block;
 }
 
-/* Form-level Messages */
+
 .form-error-message {
     background: rgba(220, 53, 69, 0.1);
     border: 1px solid rgba(220, 53, 69, 0.3);
@@ -420,7 +422,7 @@ label {
     }
 }
 
-/* Checkbox */
+
 .remember-checkbox {
     display: flex;
     align-items: flex-start;
@@ -459,7 +461,7 @@ label {
     text-decoration: underline;
 }
 
-/* Submit Button */
+
 .login-btn {
     padding: 12px 24px;
     font-size: 13px;
@@ -481,7 +483,7 @@ label {
     box-shadow: 0 6px 20px rgba(32, 128, 216, 0.35);
 }
 
-/* Remove hover animations on mobile and tablets */
+
 @media (max-width: 1000px) {
     .login-btn:hover:not(:disabled) {
         transform: none;
@@ -498,7 +500,7 @@ label {
     cursor: not-allowed;
 }
 
-/* Sign Up Link - Outside Card */
+
 .signup-link-section {
     text-align: center;
     font-size: 12px;
@@ -520,7 +522,7 @@ label {
     text-decoration: underline;
 }
 
-/* LEFT SIDE - Details Container */
+
 .details-container {
     width: 50%;
     background: 
@@ -565,7 +567,7 @@ label {
     transform: translateY(-2px);
 }
 
-/* Brand Section */
+
 .brand-section {
     display: flex;
     align-items: center;
@@ -595,7 +597,7 @@ label {
     letter-spacing: 0.5px;
 }
 
-/* Main Content */
+
 .main-content {
     flex: 1;
 }
@@ -631,7 +633,7 @@ label {
     margin-bottom: 30px;
 }
 
-/* Features List */
+
 .features-list {
     display: flex;
     flex-direction: column;
@@ -676,7 +678,7 @@ label {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* Stats Section */
+
 .stats-section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -715,7 +717,7 @@ label {
     font-weight: 500;
 }
 
-/* RIGHT SIDE - Login Container */
+
 .login-container {
     width: 50%;
     height: 100vh;
@@ -740,7 +742,7 @@ label {
     pointer-events: none;
 }
 
-/* Glass Card Wrapper */
+
 .form-card-wrapper {
     min-width: 550px;
     background: rgba(255, 255, 255, 0.75);
@@ -786,7 +788,7 @@ label {
     font-weight: 400;
 }
 
-/* Form Styles */
+
 .login-form {
     display: flex;
     flex-direction: column;
@@ -884,7 +886,7 @@ label {
     margin-top: -3px;
 }
 
-/* Error Message Styles */
+
 .error-message {
     font-size: 11px;
     color: #dc3545;
@@ -896,7 +898,7 @@ label {
     display: block;
 }
 
-/* Form-level Messages */
+
 .form-error-message {
     background: rgba(220, 53, 69, 0.1);
     border: 1px solid rgba(220, 53, 69, 0.3);
@@ -932,7 +934,7 @@ label {
     }
 }
 
-/* Form Footer */
+
 .form-footer {
     display: flex;
     justify-content: space-between;
@@ -976,7 +978,7 @@ label {
     text-decoration: underline;
 }
 
-/* Checkbox */
+
 .terms-checkbox {
     display: flex;
     align-items: flex-start;
@@ -1014,7 +1016,7 @@ label {
     text-decoration: underline;
 }
 
-/* Submit Button */
+
 .submit-btn {
     padding: 12px 24px;
     font-size: 13px;
@@ -1045,7 +1047,7 @@ label {
     cursor: not-allowed;
 }
 
-/* Social Login Divider */
+
 .social-divider {
     display: flex;
     align-items: center;
@@ -1069,7 +1071,7 @@ label {
     white-space: nowrap;
 }
 
-/* Social Login Inline Buttons */
+
 .social-login-inline {
     display: flex;
     gap: 10px;
@@ -1119,7 +1121,7 @@ label {
     box-shadow: 0 6px 20px rgba(10, 102, 194, 0.35);
 }
 
-/* Sign In Link - Outside Card */
+
 .signin-link {
     text-align: center;
     font-size: 12px;
@@ -1141,7 +1143,7 @@ label {
     text-decoration: underline;
 }
 
-/* Responsive Design - Large Screens (1920px and above) */
+
 @media (min-width: 1920px) {
     .form-card-wrapper {
         max-width: 480px;
@@ -1161,7 +1163,7 @@ label {
     }
 }
 
-/* Responsive Design - Medium-Large Screens (1200px - 1919px) */
+
 @media (min-width: 1200px) and (max-width: 1919px) {
     .form-card-wrapper {
         max-width: 420px;
@@ -1173,7 +1175,7 @@ label {
     }
 }
 
-/* Responsive Design - Tablets Landscape (1000px - 1199px) */
+
 @media (min-width: 1000px) and (max-width: 1199px) {
     .login-page {
         flex-direction: row;
@@ -1215,7 +1217,7 @@ label {
     }
 }
 
-/* Responsive Design - Medium Screens (768px - 999px) */
+
 @media (min-width: 768px) and (max-width: 999px) {
     .login-page {
         flex-direction: column;
@@ -1312,7 +1314,7 @@ label {
     }
 }
 
-/* Responsive Design - Tablets (600px - 767px) */
+
 @media (min-width: 600px) and (max-width: 767px) {
     .login-page {
         flex-direction: column;
@@ -1455,7 +1457,7 @@ label {
     }
 }
 
-/* Responsive Design - Small Phones (480px - 599px) */
+
 @media (min-width: 480px) and (max-width: 599px) {
     .login-page {
         flex-direction: column;
@@ -1624,7 +1626,7 @@ label {
     }
 }
 
-/* Responsive Design - Extra Small Phones (320px - 479px) */
+
 @media (max-width: 479px) {
     .login-page {
         flex-direction: column;
@@ -1822,4 +1824,4 @@ label {
     .main-content {
         margin-top: 10px;
     }
-}
+} /* */

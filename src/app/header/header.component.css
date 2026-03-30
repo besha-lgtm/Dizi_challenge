@@ -1,4 +1,5 @@
-/* NAVBAR - FIXED AT TOP */
+ /*
+
 .navbar {
   display: flex;
   align-items: center;
@@ -12,11 +13,11 @@
   left: 0;
   right: 0;
   height: 60px;
-  z-index: 1001; /* Above sidebar */
+  z-index: 1001;
   box-sizing: border-box;
 }
 
-/* LOGO */
+
 .logo {
   font-weight: 600;
   font-size: 18px;
@@ -31,7 +32,7 @@
   color: #2563eb;
 }
 
-/* NAV LINKS */
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -50,13 +51,13 @@
   white-space: nowrap;
 }
 
-/* HOVER */
+
 .nav-links a:hover {
   background: #1e3a5f;
   color: white;
 }
 
-/* ACTIVE TAB */
+
 .nav-links .active {
   color: #2563eb;
   padding: 6px 14px;
@@ -65,14 +66,14 @@
   background: #dbeafe;
 }
 
-/* RIGHT ACTIONS */
+
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* BUTTONS */
+
 .btn {
   border: none;
   padding: 6px 12px;
@@ -83,7 +84,7 @@
   white-space: nowrap;
 }
 
-/* LIGHT BUTTON */
+
 .btn.light {
   background: #f3f4f6;
   color: #111827;
@@ -93,7 +94,7 @@
   background: #e5e7eb;
 }
 
-/* DARK BUTTON */
+
 .btn.dark {
   background: #1e3a5f;
   color: white;
@@ -103,13 +104,13 @@
   background: #0f2a4d;
 }
 
-/* BUTTON HOVER */
+
 .nav-actions .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* PROFILE */
+
 .profile {
   width: 32px;
   height: 32px;
@@ -124,7 +125,7 @@
   flex-shrink: 0;
 }
 
-/* RESPONSIVE */
+
 @media (max-width: 1200px) {
   .nav-links {
     gap: 12px;
@@ -161,4 +162,4 @@
     height: 28px;
     font-size: 10px;
   }
-}
+} */

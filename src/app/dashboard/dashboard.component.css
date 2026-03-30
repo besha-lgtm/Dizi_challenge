@@ -1,12 +1,5 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* /*
 
-/* LAYOUT */
 .app-layout-wrapper {
   display: flex;
   height: 100vh;
@@ -20,13 +13,13 @@
   background: #f4f6f9;
 }
 
-/* CONTAINER */
+
 .container {
   max-width: 1200px;
   margin: auto;
 }
 
-/* HEADER */
+
 h2 {
   margin-bottom: 5px;
 }
@@ -37,7 +30,7 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* STATS */
+
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -63,7 +56,7 @@ h2 {
   margin-bottom: 5px;
 }
 
-/* MAIN GRID */
+
 .main {
   display: grid;
   grid-template-columns: 1.7fr 1.3fr;
@@ -71,7 +64,7 @@ h2 {
   margin-bottom: 25px;
 }
 
-/* BOX */
+
 .box {
   background: white;
   padding: 25px;
@@ -83,9 +76,6 @@ h2 {
   box-shadow: 0 6px 20px rgba(0,0,0,0.06);
 }
 
-/* ========================= */
-/* ✅ LIST ITEM (UPDATED UI) */
-/* ========================= */
 
 .list-item {
   display: flex;
@@ -107,7 +97,7 @@ h2 {
 .icon-box i {
   font-size: 18px;
 }
-/* ICON BOX */
+
 .icon-box {
   width: 40px;
   height: 40px;
@@ -117,7 +107,7 @@ h2 {
   justify-content: center;
 }
 
-/* ICON COLORS */
+
 .icon-box.yellow {
   background: #fff3cd;
   color: #e0a800;
@@ -133,13 +123,12 @@ h2 {
   color: #8b5a2b;
 }
 
-/* TEXT */
+
 .list-item p {
   font-size: 13px;
   color: gray;
 }
 
-/* BUTTON */
 .view-btn {
   background: #f1f1f1;
   border: none;
@@ -153,7 +142,7 @@ h2 {
   background: #e0e0e0;
 }
 
-/* OLD ITEM (fallback if still used) */
+
 .item {
   display: flex;
   justify-content: space-between;
@@ -161,7 +150,7 @@ h2 {
   margin: 18px 0;
 }
 
-/* BUTTONS */
+
 button {
   padding: 7px 14px;
   border: none;
@@ -187,7 +176,7 @@ button:hover {
   background: #3b5be0;
 }
 
-/* TEAM SECTION */
+
 .box p {
   margin: 8px 0;
 }
@@ -211,7 +200,7 @@ button:hover {
   margin-bottom: 6px;
 }
 
-/* PROGRESS BAR */
+
 .progress-bar {
   height: 8px;
   background: #eee;
@@ -226,7 +215,7 @@ button:hover {
   border-radius: 10px;
 }
 
-/* BADGES */
+
 .badge {
   padding: 6px 12px;
   border-radius: 15px;
@@ -245,11 +234,7 @@ button:hover {
   background: #b6f2d4;
 }
 
-/* ========================= */
-/* 📱 RESPONSIVE */
-/* ========================= */
 
-/* TABLET */
 @media (max-width: 992px) {
 
   .stats {
@@ -262,7 +247,7 @@ button:hover {
 
 }
 
-/* MOBILE */
+
 @media (max-width: 600px) {
 
   .content-viewport {
@@ -295,4 +280,4 @@ button:hover {
     font-size: 20px;
   }
 
-}
+} */
