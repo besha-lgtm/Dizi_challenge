@@ -7,6 +7,7 @@ import { RegisterComponent } from './register/register.component';
 import { DetailComponent } from './detail/detail.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,7 +27,7 @@ const routes: Routes = [
   { path: 'detail', component: DetailComponent },
   { path: 'submission', component: SubmissionComponent },
   { path: 'rewards', component: RewardsComponent },
-
+  { path: 'home', component: HomeComponent},
   { path: '**', redirectTo: 'login' }
 ];
 

@@ -3637,3 +3637,394 @@ body {
         text-align: center;
       }
     }
+ 
+
+
+
+   p {
+    font-family: 'Plus Jakarta Sans', sans-serif; /* Recommended body font */
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #cbd5e1; /* Within Hero */
+    margin-bottom: 1rem;
+}
+  .featured h2 {
+    color: #1e293b;
+    font-size: 2rem;
+}
+
+.highlight-cyan {
+    color: #0ea5e9; /* Vibrant cyan for main contrast */
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #0ea5e9;
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+    background: #0284c7;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.4);
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+}
+
+/* ===== HERO SECTION (Dark Blue Background Only Here) ===== */
+.hero {
+    
+    background: linear-gradient(135deg, #1e3a5f 0%, #162d4f 100%);
+    width: 100%;
+    margin: 0 auto 3rem;
+    padding: 4rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+    border-radius: 24px; /* Rounded corners for the container */
+    box-sizing: border-box;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    color: #0ea5e9;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.badge .dot {
+    width: 6px;
+    height: 6px;
+    background-color: #0ea5e9;
+    border-radius: 50%;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+}
+
+/* stats on the left inside Hero */
+/* STATS GRID - INSIDE HERO */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Exactly 2 cards per row */
+  gap: 1.5rem; /* Spacing between cards */
+  margin-top: 3rem; /* Push down from the buttons */
+  max-width: 600px; /* Keeps the grid on the left side of the hero */
+}
+
+/* INDIVIDUAL STAT CARD */
+.stat-card {
+  /* Semi-transparent background to let the navy gradient show through */
+  background: rgba(255, 255, 255, 0.05); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns text to the left as per reference */
+  backdrop-filter: blur(10px); /* Subtle glass effect */
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  border-color: rgba(14, 165, 233, 0.3); /* Subtle cyan glow on hover */
+}
+
+/* LARGE NUMBERS (25, 500+, etc.) */
+.stat-number {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+/* LABELS (Live Challenges, etc.) */
+.stat-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #94a3b8; /* Muted slate color for secondary text */
+  letter-spacing: 0.01em;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr; /* Stack cards on small mobile screens */
+    gap: 1rem;
+  }
+}
+/* ===== HOW IT WORKS (Right Side of Hero) ===== */
+.how-it-works {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2.5rem;
+    border-radius: 16px;
+    height: 100%;
+}
+
+.how-it-works h3 {
+    color: #ffffff;
+    font-size: 1.35rem;
+    margin-bottom: 2rem;
+}
+
+.step {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+    align-items: center;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+/* Specific colors for steps */
+.step:nth-child(2) .step-circle { background-color: #0ea5e9; } /* Industry Posts */
+.step:nth-child(3) .step-circle { background-color: #8b5cf6; } /* Challenge Goes Live */
+.step:nth-child(4) .step-circle { background-color: #10b981; } /* Students Explore */
+.step:nth-child(5) .step-circle { background-color: #f97316; } /* Submit Solutions */
+.step:nth-child(6) .step-circle { background-color: #ef4444; } /* Evaluation */
+.step:nth-child(7) .step-circle { background-color: #22c55e; } /* Winners */
+
+.step-content h5 {
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+}
+
+.step-content .text-small {
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+/* ===== METRICS SECTION (White Background) ===== */
+.metrics {
+    max-width: 1400px;
+    margin: 0 auto 3rem;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+}
+
+.metric-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.metric-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.metric-value {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.metric-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* ===== FEATURED CHALLENGES ===== */
+.featured {
+    padding: 0 1rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.view-all {
+    color: #ffffff;
+    background:linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.challenge-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.challenge-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Tag Specific Colors */
+.tag-manufacturing { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+.tag-iot { background: rgba(14, 165, 233, 0.1); color: #0ea5e9; }
+.tag-live { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+.tag-agriculture { background: rgba(249, 115, 22, 0.1); color: #f97316; }
+.tag-ai { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+.tag-closing { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+.challenge-card h4 {
+    font-size: 1.15rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.challenge-company {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+}
+
+.progress-container {
+    margin-bottom: 1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #0ea5e9;
+    border-radius: 3px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.challenge-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.prize-amount, .teams-number {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.prize-label, .teams-label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+    .challenges-grid { grid-template-columns: repeat(2, 1fr); }
+    .metrics { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .btn-group { flex-direction: column; gap: 10px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+

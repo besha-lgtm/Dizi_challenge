@@ -13,6 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DetailComponent } from './detail/detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     SidebarComponent,
     DetailComponent,
     DashboardComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
