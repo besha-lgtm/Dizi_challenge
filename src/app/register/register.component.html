@@ -3,12 +3,10 @@
     <div class="details-container">
         
         <div class="brand-section">
-            <div class="brand-logo">D</div>
-            <h1>DIZIEduTech</h1>
+           <img src="assets/images/Logo.jpeg" alt="DiziEduTech Logo" class="logo" />
         </div>
 
         <div class="main-content">
-            <div class="badge">JOIN 500+ INNOVATORS</div>
             
             <h2>Start solving real-world problems today</h2>
             
@@ -75,7 +73,7 @@
                             id="firstName" 
                             name="firstName" 
                             [(ngModel)]="user.firstName"
-                            placeholder="Deepika"
+                            placeholder="Ex.FName"
                             required
                             minlength="2"
                             maxlength="50"
@@ -96,7 +94,7 @@
                             id="lastName" 
                             name="lastName" 
                             [(ngModel)]="user.lastName"
-                            placeholder="Sharma"
+                            placeholder="Ex.LName"
                             required
                             minlength="2"
                             maxlength="50"
@@ -119,7 +117,7 @@
                         id="email" 
                         name="email" 
                         [(ngModel)]="user.email"
-                        placeholder="vd@anits.edu.in"
+                        placeholder="you@gmail.com"
                         required
                         email
                         #email="ngModel">
@@ -140,7 +138,7 @@
                         id="institution" 
                         name="institution" 
                         [(ngModel)]="user.institution"
-                        placeholder="ANITS, Visakhapatnam"
+                        placeholder="Institute, City"
                         required
                         minlength="3"
                         maxlength="100"
