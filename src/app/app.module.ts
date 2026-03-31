@@ -16,6 +16,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ChallengesComponent } from './challenges/challenges.component';
+import { PostchallengeComponent } from './postchallenge/postchallenge.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ChallengesComponent } from './challenges/challenges.component';
     HomeComponent,
     LeaderboardComponent,
     ChallengesComponent,
+    PostchallengeComponent,
   ],
   imports: [
     BrowserModule,

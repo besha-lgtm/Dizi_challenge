@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ChallengesComponent } from './challenges/challenges.component';
+import { PostchallengeComponent } from './postchallenge/postchallenge.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -32,7 +33,9 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'challenges', component: ChallengesComponent },
   { path: 'leaderboard', component: LeaderboardComponent },
+  {path:'postchallenge', component: PostchallengeComponent},
   { path: '**', redirectTo: 'login' }
+ 
 ];
 
 @NgModule({

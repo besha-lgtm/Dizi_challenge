@@ -1,0 +1,615 @@
+
+
+  <main class="page-wrapper">
+
+    <!-- ═══════════════════════════════
+         HERO BANNER
+    ════════════════════════════════ -->
+    <header class="hero-banner">
+      <div class="hero-banner__inner">
+        <div class="hero-banner__badge">Industry Partner Portal</div>
+        <h1 class="hero-banner__title">Post a New Challenge</h1>
+        <p class="hero-banner__subtitle">
+          A simple InnoCentive-style posting experience for industry partners.
+          Reach 500+ students across Andhra Pradesh.
+        </p>
+      </div>
+      
+    </header>
+
+    <!-- ═══════════════════════════════
+         STEPPER TABS
+    ════════════════════════════════ -->
+    <nav class="stepper-bar" role="tablist" aria-label="Form steps">
+
+      <button
+        class="step-tab step-tab--active"
+        id="tab-step-1"
+        role="tab"
+        aria-selected="true"
+        aria-controls="panel-step-1"
+        data-step="1"
+        type="button"
+      >
+        <span class="step-tab__indicator">
+          <span class="step-tab__number">1</span>
+          <svg class="step-tab__check" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="step-tab__label">
+          <span class="step-tab__step-text">Step 1</span>
+          <span class="step-tab__title">Company Info</span>
+        </span>
+      </button>
+
+      <div class="step-tab__connector" aria-hidden="true">
+        <div class="step-tab__connector-line"></div>
+        <svg class="step-tab__connector-arrow" viewBox="0 0 8 12" fill="none">
+          <path d="M1 1l6 5-6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <button
+        class="step-tab"
+        id="tab-step-2"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-step-2"
+        data-step="2"
+        type="button"
+        disabled
+      >
+        <span class="step-tab__indicator">
+          <span class="step-tab__number">2</span>
+          <svg class="step-tab__check" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="step-tab__label">
+          <span class="step-tab__step-text">Step 2</span>
+          <span class="step-tab__title">Problem Details</span>
+        </span>
+      </button>
+
+      <div class="step-tab__connector" aria-hidden="true">
+        <div class="step-tab__connector-line"></div>
+        <svg class="step-tab__connector-arrow" viewBox="0 0 8 12" fill="none">
+          <path d="M1 1l6 5-6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <button
+        class="step-tab"
+        id="tab-step-3"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-step-3"
+        data-step="3"
+        type="button"
+        disabled
+      >
+        <span class="step-tab__indicator">
+          <span class="step-tab__number">3</span>
+          <svg class="step-tab__check" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="step-tab__label">
+          <span class="step-tab__step-text">Step 3</span>
+          <span class="step-tab__title">Rewards</span>
+        </span>
+      </button>
+
+    </nav>
+
+    <!-- ═══════════════════════════════
+         FORM CARD
+    ════════════════════════════════ -->
+    <div class="form-card">
+
+      <!-- Progress bar -->
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="progress-fill" style="width: 33.33%"></div>
+      </div>
+
+      <!-- ───────────────────────
+           PANEL 1 — Company Info
+      ─────────────────────────── -->
+      <section
+        class="step-panel step-panel--active"
+        id="panel-step-1"
+        role="tabpanel"
+        aria-labelledby="tab-step-1"
+        data-panel="1"
+      >
+        <div class="section-header">
+          <div class="section-header__icon-wrap">
+            <span class="section-header__icon" aria-hidden="true">🏢</span>
+          </div>
+          <div>
+            <h2 class="section-header__title">Company Information</h2>
+            <p class="section-header__sub">Tell us about your organisation and the point of contact.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+
+          <div class="field-group" data-field="challenge-title">
+            <label class="field-label" for="challenge-title">
+              Challenge Title <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="text"
+                id="challenge-title"
+                name="challengeTitle"
+                placeholder="e.g. Reduce Power Loss in Corrugation Plant"
+                autocomplete="off"
+                aria-required="true"
+              />
+              <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <span class="field-error" id="err-challenge-title" role="alert" aria-live="polite">Please enter a challenge title.</span>
+          </div>
+
+          <div class="field-group" data-field="company-name">
+            <label class="field-label" for="company-name">
+              Company Name <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="text"
+                id="company-name"
+                name="companyName"
+                placeholder="e.g. Visipak Industries"
+                autocomplete="organization"
+                aria-required="true"
+              />
+              <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <span class="field-error" id="err-company-name" role="alert" aria-live="polite">Please enter your company name.</span>
+          </div>
+
+          <div class="field-group" data-field="sector">
+            <label class="field-label" for="sector">
+              Sector <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-select-wrap">
+              <select class="field-select" id="sector" name="sector" aria-required="true">
+                <option value="">Select sector</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="agriculture">Agriculture</option>
+                <option value="it">Information Technology</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="logistics">Logistics &amp; Supply Chain</option>
+                <option value="energy">Energy &amp; Utilities</option>
+                <option value="education">Education</option>
+                <option value="retail">Retail &amp; E-Commerce</option>
+                <option value="fintech">FinTech</option>
+                <option value="other">Other</option>
+              </select>
+              <svg class="field-select-arrow" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="field-error" id="err-sector" role="alert" aria-live="polite">Please select a sector.</span>
+          </div>
+
+          <div class="field-group" data-field="location">
+            <label class="field-label" for="location">
+              Location <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="text"
+                id="location"
+                name="location"
+                placeholder="e.g. Visakhapatnam, Andhra Pradesh"
+                autocomplete="address-level2"
+                aria-required="true"
+              />
+              <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <span class="field-error" id="err-location" role="alert" aria-live="polite">Please enter your location.</span>
+          </div>
+
+          <div class="field-group" data-field="contact-person">
+            <label class="field-label" for="contact-person">
+              Contact Person <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="text"
+                id="contact-person"
+                name="contactPerson"
+                placeholder="Full name"
+                autocomplete="name"
+                aria-required="true"
+              />
+              <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <span class="field-error" id="err-contact-person" role="alert" aria-live="polite">Please enter the contact person's name.</span>
+          </div>
+
+          <div class="field-group" data-field="work-email">
+            <label class="field-label" for="work-email">
+              Work Email <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="email"
+                id="work-email"
+                name="workEmail"
+                placeholder="you@company.com"
+                autocomplete="work email"
+                aria-required="true"
+              />
+              <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <span class="field-error" id="err-work-email" role="alert" aria-live="polite">Please enter a valid work email address.</span>
+          </div>
+
+        </div><!-- /form-grid -->
+
+        <div class="form-nav">
+          <div class="form-nav__left"></div>
+          <div class="form-nav__right">
+            <button class="btn btn--primary" id="btn-next-1" type="button" data-action="next" data-from="1">
+              <span>Next: Problem Details</span>
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ───────────────────────
+           PANEL 2 — Problem Details
+      ─────────────────────────── -->
+      <section
+        class="step-panel"
+        id="panel-step-2"
+        role="tabpanel"
+        aria-labelledby="tab-step-2"
+        data-panel="2"
+        hidden
+      >
+        <div class="section-header">
+          <div class="section-header__icon-wrap">
+            <span class="section-header__icon" aria-hidden="true">📋</span>
+          </div>
+          <div>
+            <h2 class="section-header__title">Problem Details</h2>
+            <p class="section-header__sub">Describe the challenge clearly so students can understand the real-world context.</p>
+          </div>
+        </div>
+
+        <div class="form-grid form-grid--single">
+
+          <div class="field-group" data-field="problem-description">
+            <label class="field-label" for="problem-description">
+              Problem Description <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <textarea
+                class="field-textarea"
+                id="problem-description"
+                name="problemDescription"
+                rows="4"
+                placeholder="Our plant needs better visibility into power consumption across lines and shifts. We need to identify which machines are consuming excess energy and build a low-cost monitoring solution."
+                aria-required="true"
+              ></textarea>
+            </div>
+            <span class="field-error" id="err-problem-description" role="alert" aria-live="polite">Please describe the problem.</span>
+          </div>
+
+          <div class="field-group" data-field="current-situation">
+            <label class="field-label" for="current-situation">Current Situation</label>
+            <div class="field-input-wrap">
+              <textarea
+                class="field-textarea"
+                id="current-situation"
+                name="currentSituation"
+                rows="3"
+                placeholder="Current process is manual, delayed, and not machine-wise. Shift supervisors record energy readings in a register at the end of each shift."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="field-group" data-field="expected-outcome">
+            <label class="field-label" for="expected-outcome">
+              Expected Outcome <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <textarea
+                class="field-textarea"
+                id="expected-outcome"
+                name="expectedOutcome"
+                rows="3"
+                placeholder="A dashboard or low-cost IoT model to identify power loss, machine-wise consumption, and shift-level anomalies to improve energy efficiency by 15–20%."
+                aria-required="true"
+              ></textarea>
+            </div>
+            <span class="field-error" id="err-expected-outcome" role="alert" aria-live="polite">Please describe the expected outcome.</span>
+          </div>
+
+        </div>
+
+        <div class="form-grid" style="margin-top: 20px;">
+
+          <div class="field-group" data-field="domain-skills">
+            <label class="field-label" for="domain-skills">Domain / Skills Needed</label>
+            <div class="field-select-wrap">
+              <select class="field-select" id="domain-skills" name="domainSkills">
+                <option value="">Select domain</option>
+                <option value="iot-dashboard">IoT + Dashboard</option>
+                <option value="ml-ai">Machine Learning / AI</option>
+                <option value="web-dev">Web Development</option>
+                <option value="data-analytics">Data Analytics</option>
+                <option value="embedded">Embedded Systems</option>
+                <option value="mechanical">Mechanical Design</option>
+                <option value="civil">Civil / Structural</option>
+                <option value="chemical">Chemical Engineering</option>
+                <option value="other">Other</option>
+              </select>
+              <svg class="field-select-arrow" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="field-group" data-field="eligibility">
+            <label class="field-label" for="eligibility">Eligibility</label>
+            <div class="field-select-wrap">
+              <select class="field-select" id="eligibility" name="eligibility">
+                <option value="">Select eligibility</option>
+                <option value="all">All Students</option>
+                <option value="ug">Undergraduate Only</option>
+                <option value="pg">Postgraduate Only</option>
+                <option value="final-year">Final Year Students</option>
+                <option value="stem">STEM Students</option>
+              </select>
+              <svg class="field-select-arrow" viewBox="0 0 12 8" fill="none">
+                <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-nav">
+          <div class="form-nav__left">
+            <button class="btn btn--ghost" type="button" data-action="prev" data-from="2">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Back</span>
+            </button>
+          </div>
+          <div class="form-nav__right">
+            <button class="btn btn--primary" type="button" data-action="next" data-from="2">
+              <span>Next: Rewards &amp; Timeline</span>
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ───────────────────────
+           PANEL 3 — Rewards & Timeline
+      ─────────────────────────── -->
+      <section
+        class="step-panel"
+        id="panel-step-3"
+        role="tabpanel"
+        aria-labelledby="tab-step-3"
+        data-panel="3"
+        hidden
+      >
+        <div class="section-header">
+          <div class="section-header__icon-wrap">
+            <span class="section-header__icon" aria-hidden="true">🏆</span>
+          </div>
+          <div>
+            <h2 class="section-header__title">Rewards &amp; Timeline</h2>
+            <p class="section-header__sub">Set prize amounts, key dates, and additional perks for participants.</p>
+          </div>
+        </div>
+
+        <!-- Prize Podium -->
+        <div class="prizes-grid">
+
+          <div class="prize-card prize-card--selected" data-prize="1" tabindex="0" role="button" aria-pressed="true">
+            <div class="prize-card__glow" aria-hidden="true"></div>
+            <div class="prize-card__medal">🥇</div>
+            <div class="prize-card__place">1st Place</div>
+            <div class="prize-input-wrap">
+              <span class="prize-input-wrap__currency" aria-hidden="true">₹</span>
+              <input
+                class="prize-input"
+                type="number"
+                id="prize-1"
+                name="prize1"
+                value="10000"
+                min="0"
+                step="500"
+                aria-label="First place prize amount in rupees"
+              />
+            </div>
+          </div>
+
+          <div class="prize-card" data-prize="2" tabindex="0" role="button" aria-pressed="false">
+            <div class="prize-card__medal">🥈</div>
+            <div class="prize-card__place">2nd Place</div>
+            <div class="prize-input-wrap">
+              <span class="prize-input-wrap__currency" aria-hidden="true">₹</span>
+              <input
+                class="prize-input"
+                type="number"
+                id="prize-2"
+                name="prize2"
+                value="3500"
+                min="0"
+                step="500"
+                aria-label="Second place prize amount in rupees"
+              />
+            </div>
+          </div>
+
+          <div class="prize-card" data-prize="3" tabindex="0" role="button" aria-pressed="false">
+            <div class="prize-card__medal">🥉</div>
+            <div class="prize-card__place">3rd Place</div>
+            <div class="prize-input-wrap">
+              <span class="prize-input-wrap__currency" aria-hidden="true">₹</span>
+              <input
+                class="prize-input"
+                type="number"
+                id="prize-3"
+                name="prize3"
+                value="1500"
+                min="0"
+                step="500"
+                aria-label="Third place prize amount in rupees"
+              />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Total prize banner -->
+        <div class="prize-total-banner">
+          <span class="prize-total-banner__label">Total Prize Pool</span>
+          <span class="prize-total-banner__amount" id="prize-total">₹15,000</span>
+        </div>
+
+        <!-- Dates -->
+        <div class="form-grid" style="margin-top: 24px; margin-bottom: 24px;">
+
+          <div class="field-group" data-field="start-date">
+            <label class="field-label" for="start-date">
+              Start Date <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="date"
+                id="start-date"
+                name="startDate"
+                aria-required="true"
+              />
+            </div>
+            <span class="field-error" id="err-start-date" role="alert" aria-live="polite">Please select a start date.</span>
+          </div>
+
+          <div class="field-group" data-field="submission-deadline">
+            <label class="field-label" for="submission-deadline">
+              Submission Deadline <span class="field-label__required" aria-hidden="true">*</span>
+            </label>
+            <div class="field-input-wrap">
+              <input
+                class="field-input"
+                type="date"
+                id="submission-deadline"
+                name="submissionDeadline"
+                aria-required="true"
+              />
+            </div>
+            <span class="field-error" id="err-submission-deadline" role="alert" aria-live="polite">Please select a submission deadline.</span>
+          </div>
+
+        </div>
+
+        <!-- Perks -->
+        <div class="field-group">
+          <span class="field-label">Additional Perks</span>
+          <div class="perks-row">
+
+            <label class="perk-check" for="perk-internship">
+              <input class="perk-check__input" type="checkbox" id="perk-internship" name="perks" value="internship" checked/>
+              <span class="perk-check__box" aria-hidden="true">
+                <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="perk-check__label">Internship Opportunity</span>
+            </label>
+
+            <label class="perk-check" for="perk-pilot">
+              <input class="perk-check__input" type="checkbox" id="perk-pilot" name="perks" value="pilot" checked/>
+              <span class="perk-check__box" aria-hidden="true">
+                <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="perk-check__label">Pilot Implementation</span>
+            </label>
+
+            <label class="perk-check" for="perk-lor">
+              <input class="perk-check__input" type="checkbox" id="perk-lor" name="perks" value="lor"/>
+              <span class="perk-check__box" aria-hidden="true">
+                <svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="perk-check__label">Letter of Recommendation</span>
+            </label>
+
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <div class="form-nav__left">
+            <button class="btn btn--ghost" type="button" data-action="prev" data-from="3">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 12L3 8l4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Back</span>
+            </button>
+          </div>
+          <div class="form-nav__right">
+            <button class="btn btn--outline" type="button" id="btn-save-draft">
+              Save as Draft
+            </button>
+            <button class="btn btn--primary" type="button" id="btn-publish">
+              <span>Publish Challenge</span>
+              <svg viewBox="0 0 16 16" fill="none"><path d="M8 2v9M4 7l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </div><!-- /form-card -->
+
+    <!-- ═══════════════════════════════
+         SUCCESS STATE
+    ════════════════════════════════ -->
+    <div class="success-overlay" id="success-overlay" hidden aria-live="assertive" role="status">
+      <div class="success-card">
+        <div class="success-card__burst" aria-hidden="true">🎉</div>
+        <div class="success-card__icon-ring" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="18" stroke="#16a34a" stroke-width="2.5" opacity="0.2"/>
+            <path d="M12 20l5.5 5.5L28 14" stroke="#16a34a" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="success-card__title">Challenge Published!</h2>
+        <p class="success-card__body">
+          Your challenge is now live and visible to 500+ students across Andhra Pradesh.
+          Expect submissions to start coming in soon.
+        </p>
+        <div class="success-card__actions">
+          <button class="btn btn--primary" type="button" id="btn-post-another">Post Another Challenge</button>
+          <button class="btn btn--ghost" type="button" id="btn-view-dashboard">View Dashboard</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
