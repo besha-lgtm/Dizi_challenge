@@ -14,6 +14,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DetailComponent } from './detail/detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { ChallengesComponent } from './challenges/challenges.component';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { HomeComponent } from './home/home.component';
     DetailComponent,
     DashboardComponent,
     HomeComponent,
+    LeaderboardComponent,
+    ChallengesComponent,
   ],
   imports: [
     BrowserModule,

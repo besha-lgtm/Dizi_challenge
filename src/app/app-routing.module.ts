@@ -8,6 +8,8 @@ import { DetailComponent } from './detail/detail.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { ChallengesComponent } from './challenges/challenges.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,6 +30,8 @@ const routes: Routes = [
   { path: 'submission', component: SubmissionComponent },
   { path: 'rewards', component: RewardsComponent },
   { path: 'home', component: HomeComponent},
+  { path: 'challenges', component: ChallengesComponent },
+  { path: 'leaderboard', component: LeaderboardComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

@@ -1,0 +1,112 @@
+<app-header></app-header>
+
+<div class="page-wrapper">
+  <div class="layout">
+    <!-- Main Column -->
+    <div class="main-col">
+      <!-- Header Card -->
+      <div class="header-card">
+        <h1 class="page-title">🏆 Leaderboard</h1>
+        <p class="page-subtitle">Top performing teams across all challenges. Be one of them and show your skills!</p>
+      </div>
+
+      <!-- Top 3 Teams Section -->
+      <div class="top-teams-section">
+        
+        <div class="top-teams-grid">
+          <!-- Rank 2 (Left) -->
+          <div class="top-team-card rank-2">
+            <div class="rank-badge">🥈 2nd</div>
+            <div class="team-avatar">GV</div>
+            <h3 class="team-name">Green Vision</h3>
+            <p class="team-subtitle">KL University</p>
+            <p class="score-display">88 pts</p>
+          </div>
+
+          <!-- Rank 1 (Center) -->
+          <div class="top-team-card rank-1">
+            <div class="rank-badge">🏆 1st</div>
+            <div class="team-avatar">AI</div>
+            <h3 class="team-name">Alpha Innovators</h3>
+            <p class="team-subtitle">ANITS, Vizag</p>
+            <p class="score-display">92 pts</p>
+          </div>
+
+          <!-- Rank 3 (Right) -->
+          <div class="top-team-card rank-3">
+            <div class="rank-badge">🥉 3rd</div>
+            <div class="team-avatar">TM</div>
+            <h3 class="team-name">Track Masters</h3>
+            <p class="team-subtitle">GITAM, Hyderabad</p>
+            <p class="score-display">84 pts</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard Table -->
+      <div class="leaderboard-section">
+        <div class="section-header">
+          <h2 class="section-label">Full Rankings</h2>
+          <div class="filter-buttons">
+            <button 
+              class="filter-btn" 
+              [class.active]="activeFilter === 'top5'"
+              (click)="setFilter(5, 'top5')">
+              Top 5
+            </button>
+            <button 
+              class="filter-btn" 
+              [class.active]="activeFilter === 'top10'"
+              (click)="setFilter(10, 'top10')">
+              Top 10
+            </button>
+            <button 
+              class="filter-btn" 
+              [class.active]="activeFilter === 'top50'"
+              (click)="setFilter(50, 'top50')">
+              Top 50
+            </button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <div class="table-header">
+            <div class="header-row">
+              <span class="col-rank">RANK</span>
+              <span class="col-team">TEAM</span>
+              <span class="col-institution">INSTITUTION</span>
+              <span class="col-score">SCORE</span>
+              <span class="col-change">CHANGE</span>
+            </div>
+          </div>
+
+          <div class="table-body">
+            <div class="table-row" *ngFor="let team of filteredTeams">
+              <div class="col-rank">
+                <span class="rank-num">{{ team.emoji }} {{ team.rank }}</span>
+              </div>
+              <div class="col-team">
+                <div class="team-info">
+                  <span class="team-name">{{ team.name }}</span>
+                  <span class="members-count">{{ team.members }}</span>
+                </div>
+              </div>
+              <div class="col-institution">{{ team.institution }}</div>
+              <div class="col-score">
+                <span class="score-badge">{{ team.score }}</span>
+              </div>
+              <div class="col-change" [class]="team.changeType">
+                <span class="change-icon">{{ team.changeType === 'positive' ? '↑' : team.changeType === 'negative' ? '↓' : '−' }}</span>
+                <span class="change-value" *ngIf="team.change > 0">{{ team.change }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="cta-section">
+        <button class="cta-button">View Rewards & Recognition →</button>
+      </div>
+    </div>
+  </div>
+</div>

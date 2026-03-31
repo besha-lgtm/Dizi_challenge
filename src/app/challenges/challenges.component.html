@@ -1,0 +1,125 @@
+<app-header></app-header>
+
+<!-- Main Page Wrapper: Centers all content with max-width and background color -->
+<div class="page-wrapper">
+  <div class="layout">
+    <!-- Main Column: Contains all sections vertically stacked with consistent spacing -->
+    <div class="main-col">
+      <!-- Header Card: Displays page title and subtitle with dark background -->
+      <div class="header-card">
+        <h1 class="page-title">Explore Live Challenges</h1>
+        <p class="page-subtitle">Browse current industry & agriculture challenges open for student participation.</p>
+      </div>
+
+      <!-- Search & Filter Section: White card containing search bar and filter buttons -->
+      <div class="search-filter-row">
+        <!-- Search Box: Input field with search emoji icon -->
+        <div class="search-box-compact">
+          <span class="icon-inline">🔍</span>
+          <input 
+            type="text" 
+            class="search-input-compact" 
+            placeholder="Search challenges, companies, domains..."
+            (input)="onSearchChange($any($event.target).value)"
+          >
+        </div>
+
+        <!-- Filter Buttons: Buttons to filter challenges by status (All, Open, Closing, New) -->
+        <div class="filter-buttons">
+          <!-- All Challenges Button -->
+          <button 
+            class="filter-btn" 
+            [class.active]="activeFilter === 'all'"
+            (click)="filterByStatus('all')"
+          >
+            All <span>({{ getStatusCount('all') }})</span>
+          </button>
+
+          <!-- Open Challenges Button -->
+          <button 
+            class="filter-btn" 
+            [class.active]="activeFilter === 'open'"
+            (click)="filterByStatus('open')"
+          >
+            Open <span>({{ getStatusCount('open') }})</span>
+          </button>
+
+          <!-- Closing Soon Button -->
+          <button 
+            class="filter-btn" 
+            [class.active]="activeFilter === 'closing'"
+            (click)="filterByStatus('closing')"
+          >
+            Closing <span>({{ getStatusCount('closing') }})</span>
+          </button>
+
+          <!-- New Challenges Button -->
+          <button 
+            class="filter-btn" 
+            [class.active]="activeFilter === 'new'"
+            (click)="filterByStatus('new')"
+          >
+            New <span>({{ getStatusCount('new') }})</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Challenges Grid: Responsive grid displaying all challenge cards -->
+      <div class="challenges-grid">
+        <!-- Challenge Card: Repeats for each challenge in the filtered list -->
+        <div class="challenge-card" *ngFor="let challenge of filteredChallenges">
+          <!-- Sector Tags & Status Badge: Shows industry sectors and challenge status -->
+          <div class="tag-row">
+            <span class="tag tag-grey" *ngFor="let sector of challenge.sectors">
+              {{ sector }}
+            </span>
+            <span [class]="'tag tag-' + challenge.status">
+              {{ getStatusBadge(challenge.status) }}
+            </span>
+          </div>
+
+          <!-- Challenge Title: Main heading of the challenge -->
+          <h3 class="challenge-title">{{ challenge.title }}</h3>
+
+          <!-- Partner & Location Info: Shows company/partner and location -->
+          <p class="challenge-meta">
+            {{ challenge.partner }} · {{ challenge.location }}
+          </p>
+
+          <!-- Capacity Progress Bar: Visual representation of team capacity used -->
+          <div class="capacity-section">
+            <div class="capacity-bar">
+              <div class="capacity-fill" [style.width.%]="challenge.capacity"></div>
+            </div>
+            <p class="capacity-text">{{ challenge.capacity }}% capacity</p>
+          </div>
+
+          <!-- Days Remaining: Shows how many days are left for the challenge deadline -->
+          <p class="days-left">
+            <span class="icon-inline">📅</span>
+            {{ challenge.daysLeft }} days left
+          </p>
+
+          <!-- Prize & Teams Section: Bottom section showing prize money and number of teams -->
+          <div class="prize-teams">
+            <div class="prize-info">
+              <span class="label">Prize</span>
+              <span class="value">₹{{ challenge.prize.toLocaleString() }}</span>
+            </div>
+            <div class="teams-info">
+              <span class="label">Teams</span>
+              <span class="value">{{ challenge.teams }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results Message: Displayed when no challenges match the search/filter criteria -->
+      <div *ngIf="filteredChallenges.length === 0" class="no-results">
+        <span class="icon-inline">🔍</span>
+        <p>No challenges found matching your search.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
