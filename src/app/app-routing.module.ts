@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ChallengesComponent } from './challenges/challenges.component';
 import { PostchallengeComponent } from './postchallenge/postchallenge.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';  
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'challenges', component: ChallengesComponent },
   { path: 'leaderboard', component: LeaderboardComponent },
   {path:'postchallenge', component: PostchallengeComponent},
+  { path: 'evaluation', component: EvaluationComponent },
   { path: '**', redirectTo: 'login' }
  
 ];

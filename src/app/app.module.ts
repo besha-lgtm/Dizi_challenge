@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
@@ -17,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ChallengesComponent } from './challenges/challenges.component';
 import { PostchallengeComponent } from './postchallenge/postchallenge.component';
+import { EvaluationComponent } from './evaluation/evaluation.component';
 
 
 @NgModule({
@@ -33,7 +33,7 @@ import { PostchallengeComponent } from './postchallenge/postchallenge.component'
     HomeComponent,
     LeaderboardComponent,
     ChallengesComponent,
-    PostchallengeComponent,
+    PostchallengeComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +41,7 @@ import { PostchallengeComponent } from './postchallenge/postchallenge.component'
     RouterModule,  
     ReactiveFormsModule,
     FormsModule,
+    EvaluationComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
