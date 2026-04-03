@@ -166,7 +166,7 @@
                         maxlength="128"
                         #password="ngModel">
                     <span class="toggle-password" (click)="togglePasswordVisibility()" role="button" tabindex="0">
-                        {{ showPassword ? '👁️' : '👁️' }}
+                        <i [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
                     </span>
                 </div>
                 <span class="error-message" *ngIf="password.invalid && (password.dirty || password.touched)">
@@ -188,7 +188,7 @@
                         required
                         #confirmPassword="ngModel">
                     <span class="toggle-password" (click)="toggleConfirmPasswordVisibility()" role="button" tabindex="0">
-                        {{ showConfirmPassword ? '👁️' : '👁️' }}
+                        <i [class]="showConfirmPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
                     </span>
                 </div>
                 <span class="error-message" *ngIf="(confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)) || (user.password !== user.confirmPassword && confirmPassword.touched)">

@@ -100,7 +100,7 @@
                             minlength="8"
                             #password="ngModel">
                         <span class="toggle-password" (click)="togglePasswordVisibility()" role="button" tabindex="0">
-                            
+                            <i [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
                         </span>
                     </div>
                     <span class="error-message" *ngIf="password.invalid && (password.dirty || password.touched)">
@@ -136,11 +136,11 @@
                 <!-- Social Login Buttons Inside Form Card -->
                 <div class="social-login-inline">
                     <button class="social-btn-inline google-btn-inline" type="button" title="Sign in with Google">
-                        <span class="social-icon-inline"></span>
+                        <img src="assets/images/google.png" alt="Google" class="social-icon-img">
                         continue with Google
                     </button>
                     <button class="social-btn-inline linkedin-btn-inline" type="button" title="Sign in with LinkedIn">
-                        <span class="social-icon-inline"></span>
+                        <img src="assets/images/linkedin.png" alt="LinkedIn" class="social-icon-img">
                         continue with LinkedIn
                     </button>
                 </div>
