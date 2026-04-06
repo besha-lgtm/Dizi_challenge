@@ -183,13 +183,6 @@ button{
     }
 }
 
-.social-icon-img {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    object-fit: contain;
-}
-
 .feature-card h3 {
     font-size: 14px;
     font-weight: 700;
@@ -831,7 +824,7 @@ label {
 .social-btn-inline {
     flex: 1;
     padding: 10px 12px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 600;
     color: white;
     border: none;
@@ -849,6 +842,13 @@ label {
 .social-icon-inline {
     display: inline-block;
     font-size: 14px;
+}
+
+.social-icon-img {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    object-fit: contain;
 }
 
 .google-btn-inline {
@@ -874,6 +874,25 @@ label {
 }
 
 
+/* Responsive Design - Large Screens (1920px and above) */
+@media (min-width: 1920px) {
+    .form-card-wrapper {
+        max-width: 480px;
+        padding: 50px;
+    }
+
+    .login-header h1 {
+        font-size: 32px;
+    }
+
+    .details-container {
+        padding: 60px;
+    }
+
+    .main-content h2 {
+        font-size: 48px;
+    }
+}
 
 /* Register PAGE CSS  ************************************************************************************************* */
 
@@ -1254,7 +1273,6 @@ label {
     color: #1a68c4;
     text-decoration: underline;
 }
-
 /* Home Page CSS and Media Queries **********************************************************************************
 
 /* ===== GLOBAL RESET & BASE STYLES ===== */
@@ -3245,7 +3263,7 @@ body {
    CONTAINER
 ============================================= */
 .container {
-  /* max-width: 1600px; */
+  max-width: 1200px;
   margin: auto;
 }
 
@@ -3911,13 +3929,10 @@ h2 {
 .sidebar {
   width: 240px;
   background: #0d1f3c;
-
-  /* ❌ removed fixed positioning */
   height: 100%;
-
   display: flex;
   flex-direction: column;
-position: relative;
+  position: relative;
   padding: 10px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -4090,6 +4105,25 @@ position: relative;
   transform: scale(1.1);
 }
 
+/* ACTIVE STATE - Highlight current page */
+.menu-item.active {
+  background: rgba(0, 195, 255, 0.15);
+  color: #ffffff;
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 1px rgba(0, 195, 255, 0.3), 0 4px 12px rgba(0, 195, 255, 0.15);
+}
+
+.menu-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  background: #00c3ff;
+  border-radius: 4px;
+}
+
 .icon {
   width: 24px;
   text-align: center;
@@ -4166,15 +4200,40 @@ position: relative;
     position: relative !important;
   }
 
-  /* EXPAND */
+  /* EXPAND - OVERLAY PATTERN (NOT PUSH) */
   .sidebar:not(.collapsed) {
-    width: 200px;
+    position: fixed;
+    width: 240px;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 999;
     align-items: flex-start;
     padding: 10px;
+    background: #0d1f3c;
+    overflow-y: auto;
   }
 
+  /* BACKDROP OVERLAY */
+  .sidebar:not(.collapsed)::after {
+    content: '';
+    position: fixed;
+    left: 240px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 998;
+  }
+
+  /* Don't change grid when sidebar expands (overlay, not push) */
   .app-layout:has(.sidebar:not(.collapsed)) {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 70px 1fr;
+  }
+
+  /* Hide body scrollbar when sidebar is open on mobile/tablet */
+  body:has(.sidebar:not(.collapsed)) {
+    overflow: hidden;
   }
 
   /* MAIN */
@@ -4222,6 +4281,30 @@ position: relative;
   .sidebar .divider {
     display: none !important;
   }
+
+  /* SHOW TEXT AND PROFILE WHEN EXPANDED */
+  .sidebar:not(.collapsed) .label {
+    display: block !important;
+  }
+
+  .sidebar:not(.collapsed) .menu-item {
+    width: 100%;
+    height: auto;
+    padding: 10px 8px !important;
+    justify-content: flex-start;
+    gap: 12px !important;
+  }
+
+  .sidebar:not(.collapsed) .user-profile {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .sidebar:not(.collapsed) .divider {
+    display: block !important;
+  }
 }
 
 
@@ -4243,6 +4326,33 @@ position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    position: relative !important;
+  }
+
+  /* EXPAND - OVERLAY PATTERN (NOT PUSH) */
+  .sidebar:not(.collapsed) {
+    position: fixed;
+    width: 240px;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 999;
+    padding: 10px;
+    background: #0d1f3c;
+    overflow-y: auto;
+  }
+
+  /* BACKDROP OVERLAY */
+  .sidebar:not(.collapsed)::after {
+    content: '';
+    position: fixed;
+    left: 240px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 998;
   }
 
   /* 🔥 FIX MENU */
@@ -4283,7 +4393,38 @@ position: relative;
     display: none;
   }
 
+  /* SHOW TEXT AND PROFILE WHEN EXPANDED */
+  .sidebar:not(.collapsed) .label {
+    display: block !important;
+  }
+
+  .sidebar:not(.collapsed) .menu-item {
+    width: 100%;
+    height: auto;
+    padding: 10px 8px !important;
+    justify-content: flex-start;
+    gap: 12px !important;
+  }
+
+  .sidebar:not(.collapsed) .user-profile {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .sidebar:not(.collapsed) .divider {
+    display: block !important;
+  }
+
+  /* Hide body scrollbar when sidebar is open on mobile */
+  body:has(.sidebar:not(.collapsed)) {
+    overflow: hidden;
+  }
+
 }
+
+
 
 /* SUBMISSION PAGE CSS  ************************************************************************************************* */
 
@@ -4492,531 +4633,845 @@ position: relative;
       background: #f0f4ff;
     }
 
-/*Leaderboard Page CSS********************************************************************************************/
+/* ════════════════════════════════════════════════════════════════════════════════
+   LEADERBOARD COMPONENT - CSS STYLESHEET
+   ════════════════════════════════════════════════════════════════════════════════
+   
+   Purpose:
+   - Responsive leaderboard component for displaying team rankings and scores
+   - Fully optimized for desktop (1400px), tablet (768px), mobile (480px), and extra-small (360px) screens
+   
+   Design Philosophy:
+   - Mobile-first responsive approach with progressive enhancement
+   - Modern, clean design with gradients, shadows, and smooth transitions
+   - Accessibility-focused with proper color contrast and touch-friendly buttons
+   - Performance-optimized with hardware acceleration on transitions
+   
+   Color Scheme:
+   - Primary: Blue gradient (#2563eb → #1d4ed8) for active/CTA elements
+   - Rank Colors: Gold (#fbbf24) for 1st, Silver (#b8becc) for 2nd, Bronze (#f97316) for 3rd
+   - Neutral: Dark navy (#1e2d4d, #0f1724) for text, light grays (#f9fafb, #e5e7eb) for backgrounds
+   
+   Font Family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif (System font stack for optimal performance)
+   
+════════════════════════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════
+   GLOBAL RESET & BASE STYLES
+   ════════════════════════════════════════════════════
+   
+   Purpose: Remove default browser margins/padding and establish
+   consistent box-sizing model for all elements.
+   
+   Why: Ensures predictable layout and prevents margin/padding cascade issues
+================================================== */
+
+
+/* ════════════════════════════════════════════════════
+   MAIN LAYOUT WRAPPER STYLES
+   ════════════════════════════════════════════════════
+   
+   .page-wrapper:
+   - Container for entire leaderboard component
+   - max-width: 1400px = optimized for desktop viewing without excessive horizontal scroll
+   - Centered with auto margins for symmetrical layout
+   - padding: 100px 20px 60px = navigation spacing (100px top) + breathing room + footer space
+   - Background color: #eef0f5 = light blue-gray to complement dark header card
+   
+   Changed from: Standard flex layout to column-based vertical stacking
+   Why: Better maintains vertical flow of content from top to bottom (header → teams → leaderboard)
+================================================== */
 
 .page-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 100px 20px 60px;
-  background-color: #eef0f5;
-  width: 100%;
+  display: flex;                 /* Enable flexbox layout */
+  flex-direction: column;        /* Stack children vertically */
+  align-items: center;           /* Center all child elements horizontally */
+  justify-content: flex-start;   /* Align items from top of container */
+  max-width: 1400px;             /* Prevent excessive width on ultra-wide screens */
+  margin: 0 auto;                /* Center wrapper on page */
+  padding: 100px 20px 60px;      /* Top: 100px (navigation space), sides: 20px (gutter), bottom: 60px */
+  background-color: #eef0f5;     /* Light blue-gray background for visual separation */
+  width: 100%;                   /* Full width for responsive behavior */
 }
 
 .layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  position: relative;
+  display: flex;                 /* Enable flexbox for child alignment */
+  flex-direction: column;        /* Stack layout children vertically */
+  align-items: center;           /* Center content horizontally */
+  width: 100%;                   /* Full width of parent */
+  position: relative;            /* Enable absolute positioning of children */
 }
 
 .main-col {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;                   /* Full width container */
+  display: flex;                 /* Enable flexbox */
+  flex-direction: column;        /* Stack contents vertically */
+  align-items: center;           /* Center all children horizontally */
 }
 
 /* ════════════════════════════════════════════════════
-   HEADER CARD
-════════════════════════════════════════════════════ */
+   HEADER CARD SECTION
+   ════════════════════════════════════════════════════
+   
+   Purpose: Hero banner displaying main title and subtitle
+   
+   .header-card:
+   - Dark navy background (#1e2d4d) for strong visual emphasis
+   - max-width: 900px = matches content container width for visual cohesion
+   - padding: 35px = generous internal spacing for breathing room
+   - Border with 10% blue transparency = subtle accent without overwhelming
+   - ::after pseudo-element = decorative blue glowing orb (right side)
+   
+   Design Notes:
+   - Gradient background with overlay creates depth
+   - Rounded corners (16px) matches modern design standards
+   - Small ornamental circle adds sophistication without distraction
+   
+================================================== */
 
 .header-card {
-  background-color: #1e2d4d;
-  border-radius: 16px;
-  padding: 35px;
-  margin-bottom: 40px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(96, 165, 250, 0.1);
-  text-align: center;
-  width: 100%;
-  max-width: 900px;
+  background-color: #1e2d4d;     /* Dark navy blue background for strong contrast */
+  border-radius: 16px;           /* Rounded corners for modern appearance */
+  padding: 35px;                 /* Generous internal spacing */
+  margin-bottom: 40px;           /* Space between header and next section */
+  position: relative;            /* Enable positioning for pseudo-element */
+  overflow: hidden;              /* Clip decorative elements outside bounds */
+  border: 1px solid rgba(96, 165, 250, 0.1); /* Subtle blue accent border */
+  text-align: center;            /* Center-align title and subtitle */
+  width: 100%;                   /* Full width of parent */
+  max-width: 900px;              /* Max width for content container consistency */
 }
 
 .header-card::after {
-  content: '';
-  position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, transparent 70%);
-  pointer-events: none;
+  content: '';                   /* Required for pseudo-element to display */
+  position: absolute;            /* Position relative to .header-card */
+  top: -50px;                    /* Partially visible from top */
+  right: -50px;                  /* Partially visible from right */
+  width: 200px;                  /* Large decorative circle */
+  height: 200px;                 /* Keep aspect ratio circular */
+  border-radius: 50%;            /* Create perfect circle */
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, transparent 70%); /* Blue glow effect */
+  pointer-events: none;          /* Prevent interaction with decorative element */
 }
 
 .page-title {
-  font-size: 32px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.35;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
+  font-size: 32px;               /* Large prominent heading */
+  font-weight: 700;              /* Bold weight for emphasis */
+  color: #ffffff;                /* White text for contrast on dark background */
+  line-height: 1.35;             /* Tighter line-height for large text (desktop standard) */
+  margin-bottom: 10px;           /* Space between title and subtitle */
+  position: relative;            /* Appear above ::after pseudo-element */
+  z-index: 1;                    /* Stack above decorative background elements */
 }
 
 .page-subtitle {
-  font-size: 15px;
-  color: #7b92b8;
-  margin-bottom: 0;
-  line-height: 1.6;
-  position: relative;
-  z-index: 1;
+  font-size: 15px;               /* Smaller secondary text */
+  color: #7b92b8;                /* Light blue-gray for subservient hierarchy */
+  margin-bottom: 0;              /* No margin since parent handles spacing */
+  line-height: 1.6;              /* Loose line-height for readability on tiny text */
+  position: relative;            /* Appear above decorative elements */
+  z-index: 1;                    /* Stack above background */
 }
 
 /* ════════════════════════════════════════════════════
-   SECTION LABELS
-════════════════════════════════════════════════════ */
+   SECTION LABELS STYLING
+   ════════════════════════════════════════════════════
+   
+   Purpose: "Full Ranking" heading that dominates filter buttons
+   
+   .section-label Design Decisions:
+   - font-size: 18px = prominent heading size (increased from 16px for dominance)
+   - font-weight: 800 = maximum boldness to emphasize importance over filter buttons
+   - color: #0f1724 = dark navy for strong contrast and visual weight
+   - text-transform: uppercase = enhances authority and readability
+   - letter-spacing: 0.8px = opens up text for premium appearance
+   - white-space: nowrap = prevents title wrapping across lines
+   - flex-shrink: 0 = maintains full size when paired with flex-grow elements
+   
+   Why These Changes:
+   - Section heading is critical for viewers to understand page purpose
+   - Bold weight (800) vs button weight (600) creates clear visual hierarchy
+   - Darker color (#0f1724) draws attention ahead of lighter filter buttons
+   - Larger size ensures dominance without overshadowing top teams section
+   
+================================================== */
 
 .section-label {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1e2d4d;
-  margin-bottom: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 0;
-  white-space: nowrap;
+  font-size: 18px;               /* Prominent heading size (increased for dominance) */
+  font-weight: 800;              /* Maximum boldness - exceeds button weight (600) */
+  color: #0f1724;                /* Darkest navy for maximum visual weight */
+  margin: 0;                     /* No margin - managed by parent container */
+  text-transform: uppercase;     /* Convert to uppercase for authority */
+  letter-spacing: 0.8px;         /* Increase spacing between letters for premium look */
+  padding: 0;                    /* No padding - managed by parent */
+  white-space: nowrap;           /* Prevent text wrapping across lines */
+  flex-shrink: 0;                /* Never shrink when paired with flex-grow elements */
 }
 
 /* ════════════════════════════════════════════════════
-   SECTION HEADER WITH FILTER
-════════════════════════════════════════════════════ */
+   SECTION HEADER WITH FILTER BUTTONS
+   ════════════════════════════════════════════════════
+   
+   Purpose: Container for "Full Ranking" title and filter button chips
+   
+   Design Pattern: Modern Horizontal Scrollable Pill-Style Chips
+   - Alternative to wrapped buttons that would overflow on mobile
+   - Enables unlimited filter options without page overflow
+   - Touch-friendly on mobile with smooth scrolling behavior
+   
+   .section-header-leaderboard:
+   - Flex layout with space-between distribution
+   - gap: 20px = breathing room between title and buttons on desktop
+   - Responsive: changes flex-direction on tablets/mobile for better layout
+   
+   .filter-buttons Container Strategy:
+   - overflow-x: auto = horizontal scroll only (no vertical scroll)
+   - -webkit-overflow-scrolling: touch = momentum scrolling on iOS/Android
+   - scroll-behavior: smooth = smooth animation when scrolling
+   - padding-bottom: 4px = room for custom scrollbar on desktop/tablet
+   - Custom webkit scrollbars = modern appearance on Chrome/Safari/Edge
+   
+   Why This Approach:
+   - Scrollable container prevents layout overflow and page width issues
+   - Maintains mobile-first design while accommodating unlimited filters
+   - Smooth scrolling provides better UX than abrupt scroll
+   - Custom scrollbars visible on desktop/tablet (4px/3px) but hidden on mobile
+   
+================================================== */
 
 .section-header-leaderboard {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 900px;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  margin-bottom: 24px;
-  gap: 20px;
-  margin: 0 auto 24px;
+  display: flex;                 /* Enable flexbox for alignment */
+  align-items: center;           /* Vertically center title and buttons */
+  justify-content: space-between; /* Push title left, buttons right */
+  width: 100%;                   /* Full width of parent */
+  max-width: 900px;              /* Max width matches content containers */
+  padding: 0 20px;               /* Horizontal padding for gutter spacing */
+  box-sizing: border-box;        /* Include padding in width calculation */
+  margin: 0 auto 24px;           /* Center container, space below */
+  gap: 20px;                     /* Space between title and buttons */
 }
 
 .filter-buttons {
-  display: flex;
-  gap: 12px;
-
+  display: flex;                 /* Enable flexbox for button arrangement */
+  align-items: center;           /* Vertically center buttons */
+  gap: 0;                        /* No gap between items (use margin instead) */
+  overflow-x: auto;              /* Enable horizontal scrolling only */
+  overflow-y: hidden;            /* Hide vertical scrollbar */
+  -webkit-overflow-scrolling: touch; /* Smooth momentum scrolling on iOS/Android */
+  scroll-behavior: smooth;       /* Smooth animation when scrolling programmatically */
+  padding-bottom: 4px;           /* Room for scrollbar on desktop */
 }
 
-.filter-btn {
-  padding: 3px 10px;
-  background: #f3f4f6;
-  color: #4b5563;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+/* Custom webkit scrollbar styling for modern browsers (Chrome, Safari, Edge) */
+.filter-buttons::-webkit-scrollbar {
+  height: 4px;                   /* Scrollbar height (very thin for subtle appearance) */
 }
 
-.filter-btn:hover {
-  background: #e5e7eb;
-  border-color: #9ca3af;
+.filter-buttons::-webkit-scrollbar-track {
+  background: transparent;       /* Invisible track for cleaner look */
 }
 
-.filter-btn.active {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: white;
-  border-color: #2563eb;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+.filter-buttons::-webkit-scrollbar-thumb {
+  background: #d1d5db;           /* Light gray scrollbar handle */
+  border-radius: 4px;            /* Rounded edges for modern appearance */
 }
 
 /* ════════════════════════════════════════════════════
-   TOP TEAMS SECTION
-════════════════════════════════════════════════════ */
+   FILTER BUTTONS - INDIVIDUAL CHIP STYLING
+   ════════════════════════════════════════════════════
+   
+   Design: Modern Pill-Style Chip Buttons
+   
+   Desktop Button Sizing (1400px+):
+   - padding: 6px 16px = compact vertical, comfortable horizontal
+   - min-height: 28px = smaller than section heading for visual hierarchy
+   - font-size: 11px = subservient to 18px heading
+   - border-radius: 20px = fully rounded pill shape for modern look
+   
+   Why Reduced from Original:
+   - Original: padding 10px 20px, min-height 36px, font-size 13px
+   - Buttons were competing with section heading for visual dominance
+   - Reduced sizing makes heading clearly the primary element
+   - Compact buttons now secondary navigation, not primary focus
+   
+   Styling Features:
+   - flex: 0 0 auto = prevents flex-grow/shrink in scrollable container
+   - margin-right: 10px = spacing between pills (no gap used in flex container)
+   - white-space: nowrap = prevents text from wrapping inside button
+   - transition: all 0.3s ease = smooth color/shadow changes on hover
+   - border: 1.5px solid = refined border weight (not too thick)
+   - display: inline-flex = proper alignment of content inside button
+   
+   State Changes:
+   - Hover: Light background + subtle shadow (not too aggressive)
+   - Active: Blue gradient background + stronger shadow for depth
+   
+================================================== */
+
+.filter-btn {
+  flex: 0 0 auto;                /* Prevent flex-grow/shrink (important for scroll container) */
+  padding: 6px 16px;             /* Compact vertical (6px), comfortable horizontal (16px) */
+  background: white;             /* Clean white background */
+  color: #4b5563;                /* Medium gray text for neutral appearance */
+  border: 1.5px solid #d1d5db;   /* Subtle gray border for definition */
+  border-radius: 20px;           /* Fully rounded pill shape for modern design */
+  font-size: 11px;               /* Smaller than section heading (18px) for hierarchy */
+  font-weight: 600;              /* Medium bold - less bold than heading (800) */
+  cursor: pointer;               /* Pointer cursor to indicate interactivity */
+  transition: all 0.3s ease;     /* Smooth animation on all property changes */
+  white-space: nowrap;           /* Prevent text wrapping inside button */
+  display: inline-flex;          /* Flex layout for proper content alignment */
+  align-items: center;           /* Vertically center button content */
+  justify-content: center;       /* Horizontally center button content */
+  min-height: 28px;              /* Touch-friendly height (not too small) */
+  margin-right: 10px;            /* Space between pills in scrollable container */
+}
+
+/* Hover State: Subtle feedback for interactivity */
+.filter-btn:hover {
+  background: #f9fafb;           /* Lightest gray background (almost white) */
+  border-color: #9ca3af;         /* Slightly darker border for definition */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+/* Active State: Prominent blue gradient to indicate selection */
+.filter-btn.active {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* Premium blue gradient */
+  color: white;                  /* White text on colored background */
+  border-color: #2563eb;         /* Match gradient color */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); /* Stronger shadow for emphasis */
+}
+
+/* ════════════════════════════════════════════════════
+   TOP TEAMS SECTION - PODIUM DISPLAY
+   ════════════════════════════════════════════════════
+   
+   Purpose: Showcase top 3 teams in a visually appealing podium-style layout
+   
+   Desktop Layout (1400px+):
+   - 3-column grid (repeat(3, 1fr))
+   - Rank 1 and 2 have flex-end alignment for traditional podium effect
+   - Rank 1 (gold) in center with tallest height (320px)
+   - Rank 2 (silver) on left with medium height (280px)
+   - Rank 3 (bronze) on right with medium height (280px)
+   - Visual order: 2-1-3 (creates classic podium appearance)
+   
+   Mobile Layout (768px and below):
+   - Converts to single column (grid-template-columns: 1fr)
+   - Logical order: 1-2-3 (using CSS order property)
+   - More readable for small screens
+   
+   Design Decisions:
+   - Unique gradients for each rank (gold, silver, bronze)
+   - Colored borders match rank theme
+   - Hover effects lift cards with shadow + translateY
+   - Flexible height on mobile (min-height: auto)
+   
+================================================== */
 
 .top-teams-section {
-  margin-bottom: 50px;
-  width: 100%;
-  max-width: 900px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 20px;
-  box-sizing: border-box;
+  margin-bottom: 50px;           /* Space after top teams */
+  width: 100%;                   /* Full width */
+  max-width: 900px;              /* Max width matches content */
+  display: flex;                 /* Enable flexbox */
+  flex-direction: column;        /* Stack children vertically */
+  align-items: center;           /* Center content horizontally */
+  padding: 0 20px;               /* Horizontal gutter spacing */
+  box-sizing: border-box;        /* Include padding in width */
 }
 
 .top-teams-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  align-items: flex-end;
-  width: 100%;
+  display: grid;                 /* Enable CSS Grid layout */
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns on desktop */
+  gap: 24px;                     /* Large gap between cards */
+  align-items: flex-end;         /* Align cards to bottom (podium effect) */
+  width: 100%;                   /* Full width */
 }
 
+/* Breakpoint: Tablet and below - single column podium */
 @media (max-width: 768px) {
   .top-teams-grid {
-    grid-template-columns: 1fr;
-    align-items: stretch;
+    grid-template-columns: 1fr;  /* Single column layout */
+    align-items: stretch;        /* Full height cards */
   }
 }
 
+/* ════════════════════════════════════════════════════
+   RANK CARDS - INDIVIDUAL TEAM DISPLAY
+   
+   Design: Elevated card with custom border/gradient per rank
+   Animations: Smooth hover transitions and lift effect
+   ════════════════════════════════════════════════════ */
+
 .top-team-card {
-  background: white;
-  border-radius: 14px;
-  border: 1px solid #e2e6ef;
-  padding: 24px 20px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  background: white;             /* Clean white card background */
+  border-radius: 14px;           /* Modern rounded corners */
+  border: 1px solid #e2e6ef;     /* Light gray default border */
+  padding: 24px 20px;            /* Comfortable internal spacing */
+  text-align: center;            /* Center all content inside */
+  position: relative;            /* Enable positioning of children */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05); /* Subtle depth shadow */
+  transition: all 0.3s ease;     /* Smooth animation on hover */
+  display: flex;                 /* Enable flexbox */
+  flex-direction: column;        /* Stack content vertically */
+  align-items: center;           /* Center horizontally */
 }
 
+/* Hover State: Lift effect with enhanced shadow */
 .top-team-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow for depth */
+  transform: translateY(-2px);   /* Lift card 2px upward */
 }
 
+/* RANK 1 (GOLD) - First Place Champion */
 .top-team-card.rank-1 {
-  order: 2;
-  min-height: 320px;
-  border-color: #fbbf24;
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, white 100%);
+  order: 2;                      /* Display in middle position (podium effect) */
+  min-height: 320px;             /* Tallest card for visual dominance */
+  border-color: #fbbf24;         /* Gold border */
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, white 100%); /* Subtle gold tint */
 }
 
+/* RANK 2 (SILVER) - Second Place Runner-Up */
 .top-team-card.rank-2 {
-  order: 1;
-  min-height: 280px;
-  border-color: #b8becc;
-  background: linear-gradient(135deg, rgba(184, 190, 204, 0.1) 0%, white 100%);
+  order: 1;                      /* Display on left (podium effect) */
+  min-height: 280px;             /* Shorter than rank 1 */
+  border-color: #b8becc;         /* Silver gray border */
+  background: linear-gradient(135deg, rgba(184, 190, 204, 0.1) 0%, white 100%); /* Subtle silver tint */
 }
 
+/* RANK 3 (BRONZE) - Third Place */
 .top-team-card.rank-3 {
-  order: 3;
-  min-height: 280px;
-  border-color: #f97316;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, white 100%);
+  order: 3;                      /* Display on right (podium effect) */
+  min-height: 280px;             /* Shorter than rank 1 */
+  border-color: #f97316;         /* Bronze border */
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, white 100%); /* Subtle bronze tint */
 }
 
-/* Rank Badge */
+/* ════════════════════════════════════════════════════
+   RANK CARD SUB-ELEMENTS
+   ════════════════════════════════════════════════════ */
+
+/* Rank Badge: Small label showing position (1st, 2nd, 3rd) */
 .rank-badge {
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  padding: 4px 12px;
-  border-radius: 20px;
+  display: inline-block;         /* Inline element with dimensions */
+  font-size: 14px;               /* Small prominent text */
+  font-weight: 700;              /* Bold for emphasis */
+  margin-bottom: 12px;           /* Space before avatar */
+  padding: 4px 12px;             /* Compact vertical, comfortable horizontal */
+  border-radius: 20px;           /* Pill shape to match filter buttons */
 }
 
+/* Rank-specific badge colors matching card themes */
 .rank-1 .rank-badge {
-  background: #fef3c7;
-  color: #b45309;
+  background: #fef3c7;           /* Light gold background */
+  color: #b45309;                /* Dark gold text */
 }
 
 .rank-2 .rank-badge {
-  background: #e8ebf2;
-  color: #2d3748;
+  background: #e8ebf2;           /* Light silver/gray background */
+  color: #2d3748;                /* Dark gray text */
 }
 
 .rank-3 .rank-badge {
-  background: #fed7aa;
-  color: #9a3412;
+  background: #fed7aa;           /* Light bronze/orange background */
+  color: #9a3412;                /* Dark bronze text */
 }
 
-/* Team Avatar */
+/* Team Avatar: Circular profile picture container */
 .team-avatar {
-  width: 60px;
+  width: 60px;                   /* Square dimensions for circular shape */
   height: 60px;
-  border-radius: 50%;
-  display: flex;
+  border-radius: 50%;            /* Perfect circle */
+  display: flex;                 /* Center content inside */
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 12px;
-  margin-top: 8px;
+  font-size: 20px;               /* Large initials */
+  font-weight: 700;              /* Bold letters */
+  color: white;                  /* White text for contrast */
+  margin-bottom: 12px;           /* Space below avatar */
+  margin-top: 8px;               /* Space above avatar */
 }
 
+/* Rank-specific avatar gradients */
 .rank-1 .team-avatar {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); /* Gold gradient */
 }
 
 .rank-2 .team-avatar {
-  background: linear-gradient(135deg, #f0f1f3 0%, #7a8095 100%);
+  background: linear-gradient(135deg, #f0f1f3 0%, #7a8095 100%); /* Silver gradient */
 }
 
 .rank-3 .team-avatar {
-  background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+  background: linear-gradient(135deg, #fb923c 0%, #f97316 100%); /* Bronze gradient */
 }
 
-/* Team Name */
+/* Team Name and Info */
 .team-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0f1724;
-  margin-bottom: 4px;
-  line-height: 1.4;
-  flex-grow: 1;
+  font-size: 16px;               /* Prominent name */
+  font-weight: 700;              /* Bold for emphasis */
+  color: #0f1724;                /* Dark navy */
+  margin-bottom: 4px;            /* Space before subtitle */
+  line-height: 1.4;              /* Comfortable line height */
+  flex-grow: 1;                  /* Grow to push score to bottom */
 }
 
 .team-subtitle {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 12px;
+  font-size: 12px;               /* Small secondary text */
+  color: #6b7280;                /* Medium gray */
+  margin-bottom: 12px;           /* Space before score */
 }
 
-/* Score Display */
+/* Score Display: Large prominent score */
 .score-display {
-  font-size: 20px;
-  font-weight: 700;
-  color: #2563eb;
-  margin-top: auto;
-  padding-top: 12px;
+  font-size: 20px;               /* Large prominent number */
+  font-weight: 700;              /* Bold weight */
+  color: #2563eb;                /* Blue accent color */
+  margin-top: auto;              /* Push to bottom of flexible container */
+  padding-top: 12px;             /* Space above score */
 }
 
 /* ════════════════════════════════════════════════════
-   LEADERBOARD TABLE
+   LEADERBOARD TABLE - COMPLETE RANKINGS
+   ════════════════════════════════════════════════════
+   
+   Purpose: Display ranked list beyond top 3 teams with detailed information
+   
+   Desktop Layout (1400px+):
+   - 5-column grid: Rank | Team | Institution | Score | Change
+   - Header row displays column labels
+   - Full information visible for all teams
+   
+   Tablet Layout (768px):
+   - 3-column grid: Rank | Team | Score
+   - Simplified to fit screen without excess scrolling
+   - Institution and Change columns hidden
+   - Header row remains visible for reference
+   
+   Mobile Layout (480px and below):
+   - Single column layout
+   - Header row hidden (not needed on vertical layout)
+   - Rank shown above team info with border separator
+   - "Points: " and "Change: " labels added with ::before pseudo-elements
+   - Vertical stacking for better readability
+   
+   Design:
+   - White background with subtle borders
+   - Hover state: light gray background for row highlighting
+   - Rounded corners for modern appearance
+   - Smooth transitions for interactivity
+   
+   Why This Approach:
+   - Grid system allows responsive column changes without restructuring HTML
+   - Gap sizing automatically adjusts per breakpoint
+   - Display: none on hidden columns is more flexible than :nth-child hiding
+   - Single column on mobile improves readability on small screens
+   
 ════════════════════════════════════════════════════ */
 
 .leaderboard-section {
-  background: white;
-  border-radius: 14px;
-  border: 1px solid #e2e6ef;
-  overflow: hidden;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 40px;
-  width: 100%;
-  max-width: 900px;
-  padding: 0 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
+  background: white;             /* Clean white background */
+  border-radius: 14px;           /* Modern rounded corners */
+  border: 1px solid #e2e6ef;     /* Light gray border */
+  overflow: hidden;              /* Clip content within borders */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05); /* Subtle depth shadow */
+  margin: 0 auto 40px;           /* Center with space below */
+  width: 100%;                   /* Full width */
+  max-width: 900px;              /* Max width matches other sections */
+  padding: 0 20px;               /* Horizontal gutter (managed by parent grid) */
+  box-sizing: border-box;        /* Include padding in width */
+  display: flex;                 /* Enable flexbox */
+  flex-direction: column;        /* Stack header and body vertically */
 }
 
 .table-header {
-  background: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-  width: 100%;
+  background: #f9fafb;           /* Light gray header background */
+  border-bottom: 1px solid #e5e7eb; /* Border separates header from data */
+  width: 100%;                   /* Full width of table */
 }
 
 .table-wrapper {
-  width: 100%;
+  width: 100%;                   /* Full width container */
 }
 
+/* Header Row: Column Labels */
 .header-row {
-  display: grid;
-  grid-template-columns: 80px 1fr 200px 100px 100px;
-  gap: 20px;
-  padding: 16px 24px;
-  align-items: center;
+  display: grid;                 /* Grid layout matching data rows */
+  grid-template-columns: 80px 1fr 200px 100px 100px; /* 5 columns on desktop */
+  gap: 20px;                     /* Spacing between columns */
+  padding: 16px 24px;            /* Internal spacing */
+  align-items: center;           /* Vertically center labels */
 }
 
 .header-row span {
-  font-size: 11px;
-  font-weight: 700;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 11px;               /* Small uppercase labels */
+  font-weight: 700;              /* Bold for emphasis */
+  color: #6b7280;                /* Medium gray for secondary hierarchy */
+  text-transform: uppercase;     /* Convert to uppercase */
+  letter-spacing: 0.5px;         /* Subtle spacing for readability */
 }
 
+/* Table Column Adjustments for Tablet (hidden on mobile) */
 @media (max-width: 768px) {
   .header-row {
-    grid-template-columns: 60px 1fr 100px;
-    gap: 12px;
+    grid-template-columns: 60px 1fr 100px; /* 3 columns on tablet */
+    gap: 12px;                   /* Smaller gaps on tablet */
   }
 
-  .col-institution,
-  .col-change {
+  .col-institution,             /* Hide institution column on tablet */
+  .col-change {                  /* Hide change column on tablet */
     display: none;
   }
 }
 
-/* Table Body */
+/* ════════════════════════════════════════════════════
+   TABLE BODY & ROWS
+   ════════════════════════════════════════════════════ */
+
 .table-body {
-  display: flex;
-  flex-direction: column;
+  display: flex;                 /* Enable flexbox */
+  flex-direction: column;        /* Stack rows vertically */
 }
 
 .table-row {
-  display: grid;
-  grid-template-columns: 80px 1fr 200px 100px 100px;
-  gap: 20px;
-  padding: 18px 24px;
-  align-items: center;
-  border-bottom: 1px solid #f3f4f6;
-  transition: background-color 0.2s ease;
+  display: grid;                 /* Grid layout for columns */
+  grid-template-columns: 80px 1fr 200px 100px 100px; /* 5 columns desktop */
+  gap: 20px;                     /* Spacing between columns */
+  padding: 18px 24px;            /* Comfortable internal spacing */
+  align-items: center;           /* Vertically center content */
+  border-bottom: 1px solid #f3f4f6; /* Light border separates rows */
+  transition: background-color 0.2s ease; /* Smooth hover transition */
 }
 
+/* Hover State: Highlight row for better interactivity */
 .table-row:hover {
-  background-color: #f9fafb;
+  background-color: #f9fafb;     /* Very light gray background */
 }
 
 .table-row:last-child {
-  border-bottom: none;
+  border-bottom: none;           /* No border on last row */
 }
 
+/* Tablet Layout: 3 columns with adjusted gaps */
 @media (max-width: 768px) {
   .table-row {
-    grid-template-columns: 60px 1fr 100px;
-    gap: 12px;
+    grid-template-columns: 60px 1fr 100px; /* 3 columns on tablet */
+    gap: 12px;                   /* Smaller gaps */
   }
 
-  .col-institution,
-  .col-change {
+  .col-institution,             /* Hide institution column */
+  .col-change {                  /* Hide change column */
     display: none;
   }
 }
 
-/* Table Columns */
+/* ════════════════════════════════════════════════════
+   TABLE COLUMN STYLES
+   ════════════════════════════════════════════════════
+   
+   Each column has specific styling for alignment and emphasis
+   
+   col-rank: Position number (1, 4, 5, etc.)
+   col-team: Team name with member count
+   col-institution: Team organization/school
+   col-score: Points/score badge
+   col-change: Change in rank (up/down/neutral)
+   
+════════════════════════════════════════════════════ */
+
 .col-rank {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0f1724;
+  font-size: 14px;               /* Prominent rank number */
+  font-weight: 700;              /* Bold for emphasis */
+  color: #0f1724;                /* Dark navy */
 }
 
 .col-team {
-  display: flex;
-  align-items: center;
+  display: flex;                 /* Flex layout for horizontal alignment */
+  align-items: center;           /* Vertically center content */
 }
 
 .team-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: flex;                 /* Flex container */
+  flex-direction: column;        /* Stack name and count vertically */
+  gap: 4px;                      /* Small space between elements */
 }
 
 .team-info .team-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #0f1724;
-  margin: 0;
+  font-size: 14px;               /* Regular text size */
+  font-weight: 600;              /* Semi-bold */
+  color: #0f1724;                /* Dark navy */
+  margin: 0;                     /* No default margins */
 }
 
 .members-count {
-  font-size: 12px;
-  color: #9ca3af;
+  font-size: 12px;               /* Small secondary text */
+  color: #9ca3af;                /* Light gray */
 }
 
 .col-institution {
-  font-size: 13px;
-  color: #6b7280;
+  font-size: 13px;               /* Secondary text size */
+  color: #6b7280;                /* Medium gray */
 }
 
 .col-score {
-  display: flex;
-  justify-content: center;
+  display: flex;                 /* Flex layout */
+  justify-content: center;       /* Center score badge */
 }
 
 .score-badge {
-  font-size: 14px;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 6px;
+  font-size: 14px;               /* Large visible number */
+  font-weight: 700;              /* Bold for emphasis */
+  padding: 4px 8px;              /* Compact padding */
+  border-radius: 6px;            /* Rounded corners */
 }
 
-/* Score badge colors by rank */
+/* Rank-specific score colors for visual diversity */
 .table-row:nth-child(1) .score-badge {
-  color: #d97706;
+  color: #d97706;                /* Amber/gold for top rank */
 }
 
 .table-row:nth-child(2) .score-badge {
-  color: #4b5563;
+  color: #4b5563;                /* Gray for second */
 }
 
 .table-row:nth-child(3) .score-badge {
-  color: #c2410c;
+  color: #c2410c;                /* Orange/bronze for third */
 }
 
 .table-row:nth-child(n+4) .score-badge {
-  color: #0d9488;
+  color: #0d9488;                /* Teal for remainder */
 }
 
+/* Rank Change Column: Visual indicator of position movement */
 .col-change {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-size: 13px;
-  font-weight: 600;
+  display: flex;                 /* Flex layout for alignment */
+  align-items: center;           /* Vertically center */
+  justify-content: center;       /* Horizontally center */
+  gap: 3px;                      /* Space between icon and value */
+  font-size: 13px;               /* Regular text size */
+  font-weight: 600;              /* Semi-bold */
+  min-width: 60px;               /* Minimum width to prevent collapse */
 }
 
 .col-change.positive {
-  color: #059669;
+  color: #059669;                /* Green for rank increase (moved up) */
 }
 
 .col-change.negative {
-  color: #dc2626;
+  color: #dc2626;                /* Red for rank decrease (moved down) */
 }
 
 .col-change.neutral {
-  color: #9ca3af;
+  color: #9ca3af;                /* Gray for no change */
 }
 
 .change-icon {
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: 700;              /* Bold icon for visibility */
+  font-size: 16px;               /* Large icon */
 }
 
 .change-value {
-  font-weight: 600;
+  font-weight: 600;              /* Semi-bold value */
 }
 
 /* ════════════════════════════════════════════════════
-   CTA SECTION
+   CALL-TO-ACTION (CTA) SECTION
+   ════════════════════════════════════════════════════
+   
+   Purpose: Primary action button to drive user engagement
+   (e.g., "View All Rankings", "Join Competition", etc.)
+   
+   Design Strategy:
+   - Blue gradient background matches active filter button for visual consistency
+   - Elevated shadow creates sense of importance
+   - Hover effect: Enhanced shadow + lift (translateY) for tactile feedback
+   - Positioned below leaderboard table as final CTA
+   
+   Button Sizing Strategy:
+   - padding: 14px 32px = generous touch-friendly area
+   - font-size: 15px = prominent but not oversized
+   - Maintains hierarchy below header (32px) but above other text
+   
+   Why Blue Gradient:
+   - Matches primary brand color used throughout component
+   - Consistent with active filter button state
+   - Creates visual unity and improves usability
+   
 ════════════════════════════════════════════════════ */
 
 .cta-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  width: 100%;
+  display: flex;                 /* Enable flexbox */
+  justify-content: center;       /* Center button horizontally */
+  margin-top: 50px;              /* Large space above button */
+  margin-bottom: 20px;           /* Space below button */
+  width: 100%;                   /* Full width */
 }
 
 .cta-btn {
-  padding: 14px 32px;
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  padding: 14px 32px;            /* Large touch-friendly button */
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* Blue gradient */
+  color: white;                  /* White text on blue */
+  border: none;                  /* No border */
+  border-radius: 12px;           /* Rounded corners */
+  font-size: 15px;               /* Prominent font size */
+  font-weight: 600;              /* Semi-bold weight */
+  cursor: pointer;               /* Pointer cursor */
+  transition: all 0.3s ease;     /* Smooth animation on hover */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); /* Soft shadow for depth */
 }
 
 .cta-btn:hover {
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); /* Enhanced shadow */
+  transform: translateY(-2px);   /* Lift button 2px upward */
 }
 
 .cta-button {
-  padding: 14px 32px;
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  padding: 14px 32px;            /* Large touch-friendly button */
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* Blue gradient */
+  color: white;                  /* White text on blue */
+  border: none;                  /* No border */
+  border-radius: 12px;           /* Rounded corners */
+  font-size: 15px;               /* Prominent font size */
+  font-weight: 600;              /* Semi-bold weight */
+  cursor: pointer;               /* Pointer cursor */
+  transition: all 0.3s ease;     /* Smooth animation on hover */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); /* Soft shadow for depth */
 }
 
 .cta-button:hover {
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); /* Enhanced shadow */
+  transform: translateY(-2px);   /* Lift button 2px upward */
 }
 
-/* ════════════════════════════════════════════════════
-   Leader board RESPONSIVE
-════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════════════
+   TABLET RESPONSIVE (768px and below)
+════════════════════════════════════════════════════════════════════════════════
+   
+   Purpose: Optimize layout for tablet devices (iPad, etc.)
+   
+   Breakpoint Strategy: 768px
+   - Industry-standard tablet breakpoint
+   - Accommodates most tablets in portrait orientation
+   - Maintains readable font sizes and touch-friendly spacing
+   
+   Key Changes from Desktop:
+   1. PADDING: Reduced page wrapper padding (80px top, 15px sides)
+   2. HEADER CARD: More compact (25px padding vs 35px)
+   3. FONT SIZES: Scaled down proportionally (26px title, 13px subtitle)
+   4. SECTION LABEL: Reduced to 15px with maintained weight 800 (still dominant)
+   5. FILTER BUTTONS: Compact (padding 5px 12px, min-height 26px, font-size 10px)
+   6. SCROLLBAR: Thinner 3px height for subtle appearance
+   7. TOP TEAMS: Single column layout (1fr) instead of 3-column grid
+   8. LEADERBOARD TABLE: 3 columns (Rank | Team | Score) with hidden Institution & Change
+   9. CTA BUTTON: Smaller font (14px) and padding (12px 28px)
+   
+   Design Rationale:
+   - Single-column top teams improves readability on smaller screens
+   - Table simplification reduces cognitive load without losing important info
+   - Font size reductions maintain hierarchy while fitting smaller viewport
+   - Scrollable pills prevent layout overflow and provide familiar mobile interaction
+   - All text remains readable at arm's length comfortable tablet viewing distance
+   
+════════════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
   .page-wrapper {
@@ -5027,41 +5482,100 @@ position: relative;
     padding: 25px 24px;
     margin-bottom: 30px;
     max-width: none;
+    border-radius: 14px;
+  }
+
+  .header-card::after {
+    width: 150px;
+    height: 150px;
+    top: -40px;
+    right: -40px;
   }
 
   .page-title {
     font-size: 26px;
+    margin-bottom: 8px;
   }
 
   .page-subtitle {
     font-size: 13px;
+    line-height: 1.5;
   }
 
   .section-label {
+    font-size: 15px;
+    font-weight: 800;
     max-width: none;
     padding: 0;
     margin-bottom: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.6px;
   }
 
   .section-header-leaderboard {
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     max-width: none;
     padding: 0 15px;
-    margin-bottom: 24px;
+    margin: 0 auto 24px;
     gap: 20px;
   }
 
   .filter-buttons {
     width: auto;
-    gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding-bottom: 4px;
+  }
+
+  .filter-buttons::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .filter-buttons::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .filter-buttons::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
   }
 
   .filter-btn {
-    flex: 0 1 auto;
-    min-width: 60px;
-    padding: 7px 14px;
-    font-size: 12px;
+    flex: 0 0 auto;
+    min-width: auto;
+    padding: 5px 12px;
+    font-size: 10px;
+    border-radius: 18px;
+    border: 1.5px solid #e5e7eb;
+    background: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 26px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-right: 8px;
+  }
+
+  .filter-btn:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .filter-btn.active {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
   }
 
   .top-teams-section {
@@ -5072,112 +5586,41 @@ position: relative;
 
   .top-teams-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: stretch;
   }
 
   .top-team-card {
     padding: 20px 16px;
-    min-height: auto !important;
-  }
-
-  .leaderboard-section {
-    max-width: none;
-    padding: 0 15px;
-    margin-bottom: 30px;
-  }
-
-  .header-row {
-    grid-template-columns: 60px 1fr 100px;
-    gap: 12px;
-  }
-
-  .col-institution,
-  .col-change {
-    display: none;
-  }
-
-  .table-row {
-    grid-template-columns: 60px 1fr 100px;
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-wrapper {
-    padding: 70px 12px 30px;
-    background-color: #f5f6f8;
-  }
-
-  .header-card {
-    padding: 18px 20px;
-    margin-bottom: 24px;
-    max-width: none;
-  }
-
-  .page-title {
-    font-size: 22px;
-    margin-bottom: 6px;
-  }
-
-  .page-subtitle {
-    font-size: 12px;
-  }
-
-  .section-label {
-    font-size: 14px;
-    margin-bottom: 12px;
-    max-width: none;
-    padding: 0 12px;
-  }
-
-  .section-header-leaderboard {
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: none;
-    padding: 0 12px;
-    margin-bottom: 20px;
-    gap: 12px;
-  }
-
-  .filter-buttons {
-    width: 100%;
-    gap: 8px;
-  }
-
-  .filter-btn {
-    flex: 1;
-    padding: 7px 12px;
-    font-size: 12px;
-    min-width: auto;
-  }
-
-  .top-teams-section {
-    margin-bottom: 24px;
-    max-width: none;
-    padding: 0 12px;
-  }
-
-  .top-teams-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .top-team-card {
-    padding: 16px 14px;
     border-radius: 12px;
     min-height: auto !important;
+    order: unset;
+  }
+
+  .top-team-card.rank-1 {
+    order: 1;
+  }
+
+  .top-team-card.rank-2 {
+    order: 2;
+  }
+
+  .top-team-card.rank-3 {
+    order: 3;
   }
 
   .rank-badge {
-    font-size: 12px;
+    font-size: 13px;
     padding: 3px 10px;
     margin-bottom: 10px;
   }
 
   .team-avatar {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     font-size: 18px;
     margin-bottom: 10px;
+    margin-top: 6px;
   }
 
   .team-name {
@@ -5192,29 +5635,90 @@ position: relative;
 
   .score-display {
     font-size: 18px;
-    padding-top: 10px;
+    padding-top: 8px;
   }
 
   .leaderboard-section {
-    border-radius: 12px;
-    margin-bottom: 24px;
     max-width: none;
-    padding: 0 12px;
+    padding: 0 15px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+  }
+
+  .table-header {
+    display: block;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    width: 100%;
   }
 
   .header-row {
-    display: none;
+    display: grid;
+    grid-template-columns: 60px 1fr 70px 80px;
+    gap: 10px;
+    padding: 12px 14px;
+    align-items: center;
+  }
+
+  .header-row span {
+    font-size: 10px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .table-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 16px 14px;
-    border-bottom: 1px solid #f0f1f3;
+    grid-template-columns: 60px 1fr 70px 80px;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .col-rank {
+    font-size: 13px;
+  }
+
+  .col-team {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .team-info .team-name {
+    font-size: 13px;
+  }
+
+  .members-count {
+    font-size: 11px;
+  }
+
+  .col-score {
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+  }
+
+  .score-badge {
+    font-size: 13px;
+    padding: 3px 6px;
+    display: inline-block;
+  }
+
+  .col-change {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .col-institution {
+    display: none;
   }
 
   .cta-section {
-    margin-top: 30px;
+    margin-top: 40px;
+    margin-bottom: 15px;
   }
 
   .cta-button {
@@ -5223,6 +5727,504 @@ position: relative;
   }
 }
 
+/* ════════════════════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE (480px and below)
+════════════════════════════════════════════════════════════════════════════════
+   
+   Purpose: Optimize layout for mobile phones (iPhone, Android, etc.)
+   
+   Breakpoint Strategy: 480px
+   - Accommodates most portrait mobile phones
+   - Standard breakpoint for responsive design
+   - Small screen requires significant layout restructuring
+   
+   Key Changes from Desktop:
+   1. PADDING: Minimal page padding (70px top, 10px sides) to maximize content area
+   2. HEADER CARD: Compact display (16px padding, 12px border-radius)
+   3. DECORATIVE ELEMENT: Hidden (.header-card::after display: none)
+   4. FONT SIZES: Heavily reduced (20px title, 11px subtitle, 14px section label)
+   5. SECTION HEADER: Stacked vertically (flex-direction: column)
+   6. FILTER BUTTONS: Extremely compact (padding 5px 13px, min-height 26px, font-size 10px)
+   7. SCROLLBAR: Preserved at 3px for touch accessibility
+   8. TOP TEAMS: Stacked single column with flexible heights
+   9. LEADERBOARD TABLE: 
+      - Single column layout (grid-template-columns: 1fr)
+      - Header row HIDDEN for mobile (display: none)
+      - Rank shown above content with border separator
+      - Pseudo-element labels added: "Points: " and "Change: " using ::before
+   10. LABELS: Dynamic content labels via CSS (::before pseudo-elements)
+   11. CTA BUTTON: Full width with reduced padding
+   
+   Mobile-Specific Design Decisions:
+   - Vertical stacking for single-column readability
+   - Hidden decorative elements (savings rendered dimensions)
+   - Pseudo-element labels save space vs visible column headers
+   - Border separator provides visual organization without grid overhead
+   - Full-width CTA button easier to tap (larger touch target)
+   - Scrollable filter pills prevent layout overflow
+   - Tighter margins/padding maximizes usable space
+   
+   Touch Optimization:
+   - Minimum button height 26px ensures tap targets are comfortable
+   - Spacing between interactive elements prevents accidental taps
+   - Smooth scrolling behavior on filter buttons
+   
+   Performance Considerations:
+   - Removed decorative ::after saves rendering cycles
+   - Single column layout simpler than grid calculations
+   - CSS pseudo-element labels reduce DOM complexity
+   
+════════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    padding: 70px 10px 30px;
+    background-color: #f5f6f8;
+  }
+
+  .layout {
+    width: 100%;
+  }
+
+  .header-card {
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    max-width: none;
+    border-radius: 12px;
+    border: 1px solid rgba(96, 165, 250, 0.08);
+  }
+
+  .header-card::after {
+    display: none;
+  }
+
+  .page-title {
+    font-size: 20px;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .page-subtitle {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .section-label {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 0;
+    max-width: none;
+    padding: 0;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .section-header-leaderboard {
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: none;
+    padding: 0 10px;
+    margin: 0 auto 16px;
+    gap: 12px;
+  }
+
+  .filter-buttons {
+    width: 100%;
+    gap: 0;
+    flex-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding-bottom: 4px;
+  }
+
+  .filter-buttons::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .filter-buttons::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .filter-buttons::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+  }
+
+.filter-btn {
+    flex: 0 0 auto;
+    min-width: auto;
+    padding: 5px 13px;
+    font-size: 10px;
+    border-radius: 20px;
+    border: 1.5px solid #e5e7eb;
+    background: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 26px;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-right: 8px;
+  }
+
+  .filter-btn:last-child {
+    margin-right: 0;
+  }
+
+  .filter-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .filter-btn.active {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
+  .top-teams-section {
+    margin-bottom: 20px;
+    max-width: none;
+    padding: 0 10px;
+  }
+
+  .top-teams-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+
+  .top-team-card {
+    padding: 14px 12px;
+    border-radius: 10px;
+    border: 1px solid #e2e6ef;
+    min-height: auto !important;
+    order: unset;
+  }
+
+  .top-team-card.rank-1 {
+    order: 1;
+  }
+
+  .top-team-card.rank-2 {
+    order: 2;
+  }
+
+  .top-team-card.rank-3 {
+    order: 3;
+  }
+
+  .top-team-card.rank-1 {
+    border-color: #fbbf24;
+  }
+
+  .top-team-card.rank-2 {
+    border-color: #b8becc;
+  }
+
+  .top-team-card.rank-3 {
+    border-color: #f97316;
+  }
+
+  .rank-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+    border-radius: 16px;
+  }
+
+  .team-avatar {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    margin-top: 4px;
+  }
+
+  .team-name {
+    font-size: 13px;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+
+  .team-subtitle {
+    font-size: 10px;
+    margin-bottom: 8px;
+    color: #9ca3af;
+  }
+
+  .score-display {
+    font-size: 16px;
+    padding-top: 6px;
+    font-weight: 700;
+  }
+
+  .leaderboard-section {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    max-width: none;
+    padding: 0 10px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  .table-header {
+    display: none;
+  }
+
+  .header-row {
+    display: none;
+  }
+
+  .table-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px 10px;
+    border-bottom: 1px solid #f0f1f3;
+    align-items: stretch;
+  }
+
+  .table-row:last-child {
+    border-bottom: none;
+  }
+
+  .col-rank {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f1724;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .col-team {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .team-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .team-info .team-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0f1724;
+  }
+
+  .members-count {
+    font-size: 10px;
+    color: #9ca3af;
+  }
+
+  .col-institution {
+    display: none;
+  }
+
+  .col-score {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .col-score::before {
+    content: 'Points: ';
+    font-size: 10px;
+    font-weight: 600;
+    color: #6b7280;
+  }
+
+  .score-badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .col-change {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .col-change::before {
+    content: 'Change: ';
+    font-size: 10px;
+    color: #6b7280;
+  }
+
+  .change-icon {
+    font-size: 14px;
+  }
+
+  .change-value {
+    font-weight: 600;
+  }
+
+  .cta-section {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+  }
+
+  .cta-button {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 10px;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════════
+   EXTRA SMALL DEVICES (360px and below)
+════════════════════════════════════════════════════════════════════════════════
+   
+   Purpose: Optimize layout for ultra-small screens (old phones, small watches, etc.)
+   
+   Breakpoint Strategy: 360px
+   - Accommodates smallest common mobile screens (e.g., iPhone SE)
+   - Ensures readability and usability on minimum viable screen sizes
+   - Aggressive size/spacing reductions while maintaining hierarchy
+   
+   Key Changes from Mobile (480px):
+   1. PADDING: Extremely minimal (60px top, 8px sides) - maximum content
+   2. HEADER CARD: Ultra-compact (12px padding)
+   3. FONT SIZES: Severely reduced across all elements (18px title → 18px, but tighter)
+   4. SECTION LABEL: Smallest visible size (12px) with maintained boldness
+   5. FILTER BUTTONS: Minimal sizing (padding 4px 10px, font-size 9px, min-height 24px)
+   6. BUTTON TEXT: Truncated via smaller font to fit narrow screens
+   7. TOP TEAMS: Compact gap (10px between cards)
+   8. CARD PADDING: Reduced to 12px 10px
+   9. TABLE ROW PADDING: Very tight (10px 8px)
+   10. CTA BUTTON: Smaller padding (9px 16px) with font-size 11px
+   
+   Extreme Space-Saving Decisions:
+   - Aggressive padding/margin reductions (8px instead of 10px)
+   - Smaller font sizes maintain readability but fit narrow viewport
+   - Compact button sizing reduces touch target slightly (still 24px minimum for some taps)
+   - All elements stretched width-wise to take full advantage of narrow screen
+   - Reduced whitespace improves perceived density
+   
+   Readability Safeguards:
+   - Font sizes stay above minimum readable thresholds (9px+)
+   - Color contrast maintained from mobile version
+   - Line heights preserved for legibility
+   - Touch targets remain mostly usable (though less comfortable than mobile)
+   
+   Use Case: This breakpoint represents extreme edge cases (old devices, developer testing)
+   - Most modern phones are 375px+ (iPhone 6+), so this is backward compatibility
+   - Ensures graceful degradation on very old/small devices
+   - Prevents horizontal scrolling and layout breakage
+   
+════════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 360px) {
+  .page-wrapper {
+    padding: 60px 8px 20px;
+  }
+
+  .header-card {
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .page-subtitle {
+    font-size: 10px;
+  }
+
+  .section-label {
+    font-size: 12px;
+  }
+
+  .filter-btn {
+    padding: 4px 10px;
+    font-size: 9px;
+    min-height: 24px;
+  }
+
+  .top-teams-grid {
+    gap: 10px;
+  }
+
+  .top-team-card {
+    padding: 12px 10px;
+    order: unset;
+  }
+
+  .top-team-card.rank-1 {
+    order: 1;
+  }
+
+  .top-team-card.rank-2 {
+    order: 2;
+  }
+
+  .top-team-card.rank-3 {
+    order: 3;
+  }
+
+  .rank-badge {
+    font-size: 10px;
+  }
+
+  .team-avatar {
+    width: 42px;
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .team-name {
+    font-size: 12px;
+  }
+
+  .score-display {
+    font-size: 14px;
+  }
+
+  .table-row {
+    padding: 10px 8px;
+  }
+
+  .col-rank {
+    font-size: 11px;
+  }
+
+  .team-info .team-name {
+    font-size: 11px;
+  }
+
+  .cta-button {
+    padding: 9px 16px;
+    font-size: 11px;
+  }
+}
 /* ════════════════════════════════════════════════════
   Challenges component
 
@@ -5751,13 +6753,6 @@ position: relative;
 /* -------------------------------------------------------
    Large Screens (1920px and above)
 ------------------------------------------------------- */
-/* ============================================================
-   Combined Responsive Media Queries — Login & Register Pages
-   ============================================================ */
-
-/* -------------------------------------------------------
-   Large Screens (1920px and above)
-------------------------------------------------------- */
 @media (min-width: 1920px) {
     .login-page,
     .register-page {
@@ -5804,7 +6799,7 @@ position: relative;
         padding: 10px;
         height: 100vh;
         overflow: hidden;
-        overflow-y: auto;
+        overflow-y: hidden;
     }
 
     .login-container,
@@ -5840,29 +6835,45 @@ position: relative;
     }
 
     .main-content {
-        margin-top: 12px;
+        margin-top: 38px;
     }
 
     .main-content h2 {
-        font-size: 26px;
+        position: relative;
+        left: 5px;
+        font-size: 35px;
         margin-bottom: 4px;
         line-height: 1.1;
     }
 
     .register-types
     {
-      margin-top: 10px;
+      margin-top: 20px;
     }
 
     .type-card
     {
-      padding: 14px;
+      padding: 15px;
       margin-bottom: 8px;
     }
 
+    .type-card h3{
+      position: relative;
+      top: 10px;
+      font-size: 20px;
+    }
+
+    .type-card p{
+      position: relative;
+      top: 10px;
+      font-size: 13px;
+    }
+
     .description {
-        font-size: 10px;
-        margin-bottom: 6px;
+      position: relative;
+      left: 7px;
+        font-size: 12px;
+        margin-top: 10px;
         line-height: 1.2;
     }
 
@@ -5880,12 +6891,17 @@ position: relative;
     }
 
     .stat-number {
-        font-size: 18px;
+        
+        position: relative;
+        top: 10px;
+        font-size: 28px;
         margin-bottom: 2px;
     }
 
     .stat-label {
-        font-size: 9px;
+        position: relative;
+        top: 10px;
+        font-size: 12px;
     }
 
     .login-form,
@@ -6056,162 +7072,203 @@ position: relative;
     .login-page,
     .register-page {
         grid-template-columns: 1fr 1fr;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .details-container {
         width: 100%;
-        padding: 12px;
+        padding: 1.2rem;
+        height: 100vh;
+        overflow: hidden;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 
-    .login-container,
     .register-container {
         width: 100%;
-        padding: 16px 10px;
+        padding: 1.2rem;
+        height: 100vh;
+        overflow: hidden;
+        overflow-y: auto;
+        box-sizing: border-box;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        padding-top: clamp(5vh, 5vh, 60px) !important;
+    }
+
+    .login-container{
+       width: 100%;
+        padding: 1.2rem;
+        height: 100vh;
+        overflow: hidden;
+        overflow-y: auto;
+        box-sizing: border-box;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        padding-top: clamp(15vh, 5vh, 60px) !important;
     }
 
     .form-card-wrapper {
         min-width: 270px;
-        padding: 14px;
+        padding: clamp(12px, 1.5vw, 18px);
         box-sizing: border-box;
+        margin: 0 auto;
     }
 
     .brand-section {
-        margin-bottom: 6px;
+        margin-bottom: clamp(4px, 0.5vh, 8px);
     }
 
     .brand-section h1 {
-        font-size: 14px;
+        font-size: clamp(12px, 1.3vw, 16px);
     }
 
     .login-header h1,
     .register-header h1 {
-        font-size: 24px;
-        margin-bottom: 5px;
+        font-size: clamp(20px, 2.2vw, 26px);
+        margin-bottom: clamp(3px, 0.5vh, 8px);
     }
 
     .main-content {
-        margin-top: 18px;
+        margin-top: clamp(20px, 1vh, 12px);
     }
 
     .main-content h2 {
-        font-size: 24px;
-        margin-bottom: 5px;
-        line-height: 1.15;
+        font-size: clamp(20px, 2vw, 24px);
+        margin-bottom: clamp(3px, 0.5vh, 6px);
+        line-height: 1.1;
     }
 
     .description {
-        font-size: 11px;
-        margin-bottom: 7px;
-        line-height: 1.3;
+        font-size: clamp(10px, 1vw, 12px);
+        margin-bottom: clamp(4px, 0.8vh, 8px);
+        line-height: 1.25;
     }
 
     .features-list {
-        gap: 4px;
-        margin-bottom: 8px;
+        gap: clamp(3px, 0.5vh, 6px);
+        margin-bottom: clamp(4px, 0.8vh, 8px);
     }
 
     .feature-card {
-        padding: 6px 8px;
+        padding: clamp(5px, 0.8vh, 8px);
     }
 
     .feature-card h3 {
-        font-size: 10px;
-        margin-bottom: 1px;
+        font-size: clamp(9px, 1.1vw, 12px);
+        margin-bottom: clamp(1px, 0.3vh, 3px);
     }
 
     .feature-card p {
-        font-size: 9px;
-        line-height: 1.2;
+        font-size: clamp(8px, 0.95vw, 11px);
+        line-height: 1.15;
     }
 
     .login-form,
     .register-form {
-        gap: 8px;
+        gap: clamp(6px, 0.8vh, 10px);
     }
 
     .form-row {
-        gap: 8px;
+        gap: clamp(6px, 0.8vh, 10px);
     }
 
     .form-group {
-        gap: 3px;
+        gap: clamp(2px, 0.4vh, 4px);
     }
 
     .form-group label {
-        font-size: 9px;
-        margin-bottom: 2px;
+        font-size: clamp(8px, 0.95vw, 11px);
+        margin-bottom: clamp(1px, 0.3vh, 3px);
     }
 
     .input-group {
-        padding: 7px 9px;
+        padding: clamp(6px, 0.8vh, 9px) clamp(8px, 1vw, 11px);
         width: 100%;
         box-sizing: border-box;
     }
 
     .form-group input,
     .form-group textarea {
-        font-size: 10px;
+        font-size: clamp(10px, 1vw, 12px);
     }
 
     .form-group input::placeholder {
-        font-size: 10px;
+        font-size: clamp(9px, 0.95vw, 11px);
     }
 
     .input-icon {
-        font-size: 13px;
-        margin-right: 5px;
+        font-size: clamp(12px, 1.3vw, 15px);
+        margin-right: clamp(4px, 0.5vw, 6px);
     }
 
     .badge {
-        font-size: 8px;
-        padding: 3px 7px;
+        font-size: clamp(7px, 0.85vw, 10px);
+        padding: clamp(2px, 0.4vh, 5px) clamp(6px, 0.8vw, 10px);
     }
 
     .login-form button,
     .register-form button {
-        font-size: 11px;
-        padding: 8px 12px;
-        margin-top: 2px;
+        font-size: clamp(10px, 1.1vw, 13px);
+        padding: clamp(7px, 0.8vh, 10px) clamp(10px, 1.2vw, 16px);
+        margin-top: clamp(1px, 0.3vh, 3px);
     }
 
     .stats-section {
-        padding: 3px 0;
+        padding: clamp(2px, 0.5vh, 5px) 0;
+        margin-top: clamp(3px, 0.8vh, 8px);
+        gap: clamp(4px, 0.7vh, 8px);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
     }
 
-     .stat {
-        padding: 6px
+    .stat {
+        padding: clamp(4px, 0.8vh, 8px) clamp(4px, 0.6vw, 8px);
     }
 
-    .stat-number{
+    .stat-number {
       position: relative;
-      font-size: 19px;  
       top: 10px;
+        font-size: clamp(13px, 1.5vw, 18px);
+        margin-bottom: clamp(1px, 0.2vh, 3px);
+        font-weight: 700;
     }
-    .stat-label{
+
+    .stat-label {
       position: relative;
-      top: 8px;
-      font-size: 11px;
-    }
-    .register-types
-    {
-      margin-top: 30px;
+      top: 10px;
+        font-size: clamp(7px, 0.9vw, 10px);
+        font-weight: 500;
     }
 
-    .type-card
-    {
-      padding: 15px;
+    .register-types {
+        margin-top: clamp(20px, 1vh, 12px);
+        gap: clamp(6px, 0.8vh, 10px);
     }
 
-    .type-card h3{
-      font-size: 14px;
+    .type-card {
+        padding: clamp(8px, 1.2vh, 15px);
+        margin-bottom: 10px;
     }
 
-    .type-card p{
-      font-size: 12px;
+    .type-card h3 {
+      position: relative;
+      top: 10px;
+        font-size: clamp(11px, 1.2vw, 14px);
+        margin-bottom: clamp(2px, 0.4vh, 4px);
     }
 
-    .description{
-      font-size: 12px;
+    .type-card p {
+      position: relative;
+      top: 10px;
+        font-size: clamp(9px, 1vw, 12px);
+        line-height: 1.15;
+    }
+
+    .comp-Logo {
+        width: clamp(100px, 12vw, 140px);
+        height: auto;
     }
 }
 
@@ -6430,13 +7487,13 @@ position: relative;
     }
 
     .main-content h2 {
-        font-size: 20px;
+        font-size: 26px;
         line-height: 1.3;
         margin-bottom: 8px;
     }
 
     .description {
-        font-size: 12px;
+        font-size: 15px;
         margin-bottom: 10px;
     }
 
@@ -6488,14 +7545,18 @@ position: relative;
     }
 
     .stat {
-        padding: 18px 12px;
+        padding: 10px 0px;
     }
 
     .stat-number {
+      position: relative;
+      top: 10px;
         font-size: 22px;
     }
 
     .stat-label {
+      position: relative;
+      top: 10px;
         font-size: 10px;
     }
 
@@ -6586,11 +7647,15 @@ position: relative;
     }
 
     .type-card h3 {
-        font-size: 14px;
+      position: relative;
+      top: 10px;
+        font-size: 18px;
     }
 
     .type-card p {
-        font-size: 12px;
+      position: relative;
+      top: 10px;
+        font-size: 13px;
         line-height: 1.4;
     }
 }
@@ -6799,6 +7864,69 @@ position: relative;
     }
 }
 
+/* =============================================
+   RESPONSIVE
+============================================= */
+
+/* TABLET */
+@media (max-width: 1024px) {
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .content-viewport {
+    padding: 20px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .view-btn {
+    align-self: flex-end;
+  }
+
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+  .content-viewport {
+    padding: 14px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .card h3 {
+    font-size: 20px;
+  }
+
+}
+
+
 /* -------------------------------------------------------
    Extra Small Phones (max-width: 479px)
 ------------------------------------------------------- */
@@ -6876,8 +8004,18 @@ position: relative;
         margin-bottom: 25px;
     }
 
+    .type-card h3{
+      position: relative;
+      top: 10px;  
+    }
+
+    .type-card p{
+      position: relative;
+      top: 10px;
+    }
+
     .stats-section {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 8px;
         padding: 15px 0;
     }
@@ -6887,11 +8025,15 @@ position: relative;
     }
 
     .stat-number {
+        position: relative;
+        top: 10px;
         font-size: 18px;
         margin-bottom: 6px;
     }
 
     .stat-label {
+        position: relative;
+        top: 10px;
         font-size: 9px;
     }
 
@@ -7082,6 +8224,457 @@ position: relative;
   }
 
 }
+
+/*Header Page Media Queries */
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav-links {
+    display: none;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .profile {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+}
+
+/* Reward Page Media Queries */
+
+@media (max-width: 900px) {
+  .card-rewards, .awards, .winners {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cards-rewards, .awards, .winners {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*Sidebar Page Media Queries*/
+@media (max-width: 768px) {
+  /* Sidebar is visible on tablet - managed by app-layout grid and .collapsed class */
+  .sidebar {
+    display: flex !important;
+    width: 70px !important;
+    transform: none !important;
+  }
+
+  .sidebar:not(.collapsed) {
+    width: 240px !important;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* Submission Page Media Queries */
+    @media (max-width: 480px) {
+      .card {
+        padding: 24px 16px 20px;
+      }
+ 
+      .field-row {
+        grid-template-columns: 1fr;
+      }
+ 
+      .action-row {
+        flex-direction: column;
+      }
+ 
+      .btn-draft {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+
+    /* Evaluation Page CSS and Media Queries */
+    /* =============================================
+   RESET
+   ============================================= */
+
+/* =============================================
+   PAGE WRAPPER  (.evaluation = host component)
+   ============================================= */
+.evaluation {
+  padding: 30px 24px;
+  background: white;
+  min-height: 100vh;
+  width: 70%;
+  margin: 0 auto;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+.evaluation .header {
+    margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.evaluation .header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 5px;
+}
+
+.evaluation .header p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* =============================================
+   TOP SCORE CARDS
+   ============================================= */
+.evaluation .top-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.evaluation .score-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px 14px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.evaluation .score-card .score {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.evaluation .score-card .label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.evaluation .bar {
+  height: 5px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.evaluation .fill {
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* =============================================
+   MAIN GRID
+   ============================================= */
+.evaluation .main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* =============================================
+   TABLE CARD
+   ============================================= */
+.evaluation .table-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.evaluation .table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.evaluation .table-card thead tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.evaluation .table-card thead th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 13px 16px;
+  text-align: left;
+}
+
+.evaluation .table-card tbody td {
+  font-size: 13.5px;
+  color: #111827;
+  padding: 12px 16px;
+  vertical-align: middle;
+}
+
+.evaluation .table-card tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.evaluation .table-card tbody tr:last-child {
+  border-bottom: none;
+}
+
+.evaluation .table-card tbody tr.active td {
+  background: #eef3fe;
+}
+
+/* =============================================
+   STATUS BADGES
+   ============================================= */
+.evaluation .badge {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.evaluation .badge.scoring  { background: #fde68a; color: #92400e; }
+.evaluation .badge.reviewed { background: #bbf7d0; color: #065f46; }
+.evaluation .badge.toreview { background: #fed7aa; color: #9a3412; }
+.evaluation .badge.pending  { background: #e5e7eb; color: #374151; }
+
+/* =============================================
+   SIDE CARD (SCORE PANEL)
+   ============================================= */
+.evaluation .side-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.evaluation .side-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 14px;
+}
+
+/* =============================================
+   SCORE ROWS
+   ============================================= */
+.evaluation .score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.evaluation .score-row:last-of-type {
+  border-bottom: none;
+}
+
+.evaluation .score-row span {
+  font-size: 13.5px;
+  color: #111827;
+}
+
+.evaluation .score-row input {
+  width: 58px;
+  padding: 5px 8px;
+  border-radius: 7px;
+  border: 1px solid #d1d5db;
+  text-align: center;
+  font-size: 13.5px;
+  font-family: "Segoe UI", sans-serif;
+  color: #111827;
+  background: #fff;
+  outline: none;
+}
+
+.evaluation .score-row input:focus {
+  border-color: #6366f1;
+}
+
+/* =============================================
+   EVALUATOR COMMENTS
+   ============================================= */
+.evaluation .comments {
+  margin-top: 16px;
+}
+
+.evaluation .comments label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 7px;
+}
+
+.evaluation .comments textarea {
+  width: 100%;
+  height: 82px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: "Segoe UI", sans-serif;
+  color: #374151;
+  background: #fff;
+  resize: vertical;
+  outline: none;
+}
+
+.evaluation .comments textarea:focus {
+  border-color: #6366f1;
+}
+
+/* =============================================
+   ACTION BUTTONS
+   ============================================= */
+.evaluation .actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.evaluation .btn {
+  flex: 1;
+  border: none;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: "Segoe UI", sans-serif;
+  transition: opacity 0.15s ease;
+}
+
+/* Mobile screens less than 400px - Hide social button text, show only icons */
+@media (max-width: 399px) {
+    .social-btn-inline {
+        padding: 0 !important;
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 0;
+        overflow: visible;
+        white-space: nowrap;
+        border-radius: 50% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+        min-width: 48px !important;
+        min-height: 48px !important;
+        max-width: 48px !important;
+        max-height: 48px !important;
+        line-height: 48px;
+    }
+
+    .social-icon-img {
+      position: relative;
+      left: 8px;
+        width: 20px !important;
+        height: 20px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: inline-block !important;
+    }
+
+    .social-login-inline {
+        flex-direction: row;
+        gap: 14px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
+
+/* Dashboard page Media Queries */
+@media (max-width: 992px) {
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  .content-viewport {
+    padding: 15px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .box {
+    padding: 18px;
+  }
+
+  .list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .view-btn {
+    align-self: flex-end;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+}
 /* Mobile screens less than 400px - Hide social button text, show only icons */
 @media (max-width: 399px) {
     .social-btn-inline {
@@ -7155,56 +8748,6 @@ position: relative;
   }
 
 }
-
-
-/* Dashboard page Media Queries */
-@media (max-width: 992px) {
-
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .main {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-
-  .content-viewport {
-    padding: 15px;
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .card {
-    padding: 18px;
-  }
-
-  .box {
-    padding: 18px;
-  }
-
-  .list-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .view-btn {
-    align-self: flex-end;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-}
-
 /*Header Page Media Queries */
 /* RESPONSIVE */
 @media (max-width: 1200px) {
