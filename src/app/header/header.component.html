@@ -5,7 +5,7 @@
     <span class="dizi">DIZI</span><span class="edu">Edutech</span>
   </div>
 
-  <!-- NAV LINKS -->
+  <!-- NAV LINKS (Desktop) -->
   <nav class="nav-links">
     <a routerLink="/home" routerLinkActive="active">Home</a>
     <a routerLink="/challenges" routerLinkActive="active">Challenges</a>
@@ -18,14 +18,61 @@
     <a routerLink="/rewards" routerLinkActive="active">Rewards</a>
   </nav>
 
-  <!-- RIGHT SIDE -->
+  <!-- RIGHT SIDE (Desktop) -->
   <div class="nav-actions">
-    <a routerLink="/postchallenge" routerLinkActive="active">
+    <!-- <a routerLink="/postchallenge" routerLinkActive="active">
       <button class="btn light">Post Challenge</button>
     </a>
     <a routerLink="/dashboard" routerLinkActive="active">
       <button class="btn dark">My Dashboard</button>
-    </a>
+    </a> -->
     <div class="profile">DS</div>
   </div>
+
+  <!-- HAMBURGER BUTTON (Mobile/Tablet) -->
+  <button class="hamburger" [class.active]="menuOpen" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- MOBILE OVERLAY MENU -->
+  <div class="overlay-menu" [class.active]="menuOpen">
+    <!-- Close Button -->
+    <button class="close-btn" (click)="toggleMenu()">
+      <span class="close-icon">×</span>
+    </button>
+
+    <!-- Profile Avatar at Top -->
+    <div class="overlay-profile">
+      <div class="profile-avatar">DS</div>
+      <span class="profile-label">Profile</span>
+    </div>
+
+    <!-- Mobile Nav Links -->
+    <nav class="mobile-nav-links">
+      <a routerLink="/home" routerLinkActive="active" (click)="toggleMenu()">Home</a>
+      <a routerLink="/challenges" routerLinkActive="active" (click)="toggleMenu()">Challenges</a>
+      <a routerLink="/detail" routerLinkActive="active" (click)="toggleMenu()">Detail</a>
+      <a routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">Post Challenge</a>
+      <a routerLink="/dashboard" routerLinkActive="active" (click)="toggleMenu()">Dashboard</a>
+      <a routerLink="/submission" routerLinkActive="active" (click)="toggleMenu()">Submission</a>
+      <a routerLink="/evaluation" routerLinkActive="active" (click)="toggleMenu()">Evaluation</a>
+      <a routerLink="/leaderboard" routerLinkActive="active" (click)="toggleMenu()">Leaderboard</a>
+      <a routerLink="/rewards" routerLinkActive="active" (click)="toggleMenu()">Rewards</a>
+    </nav>
+
+    <!-- Mobile Action Buttons -->
+    <div class="mobile-actions">
+      <a routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">
+        <button class="btn light">Post Challenge</button>
+      </a>
+      <a routerLink="/dashboard" routerLinkActive="active" (click)="toggleMenu()">
+        <button class="btn dark">My Dashboard</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Overlay Backdrop -->
+  <div class="overlay-backdrop" [class.active]="menuOpen" (click)="toggleMenu()"></div>
 </header>

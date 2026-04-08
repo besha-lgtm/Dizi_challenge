@@ -9,5 +9,9 @@ import { DetailComponent } from '../detail/detail.component';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  menuOpen = false;
 
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }
