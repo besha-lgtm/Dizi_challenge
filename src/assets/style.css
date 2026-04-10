@@ -1699,6 +1699,511 @@ p {
     .metrics { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* ════════════════════════════════════════════════════════════════════════════════
+   HOME PAGE — COMPREHENSIVE RESPONSIVE MEDIA QUERIES
+   ════════════════════════════════════════════════════════════════════════════════
+   
+   Purpose: Perfect responsive design for home page across all devices
+   
+   Breakpoints:
+   - 320-479px: Extra small phones
+   - 480-599px: Small phones
+   - 600-767px: Large phones
+   - 768-999px: Tablets
+   - 1000-1199px: Large tablets
+   - 1200px+: Desktop (full width)
+   ════════════════════════════════════════════════════════════════════════════════ */
+
+/* Extra Small Phones (320-479px) */
+@media (max-width: 479px) {
+  .page-wrapper {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    margin-bottom: 1rem;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  .btn-group {
+    gap: 0.75rem;
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .stat-number {
+    font-size: 1.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  .how-it-works {
+    padding: 16px 20px 0;
+    border-radius: 12px;
+  }
+
+  .how-it-works h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .step {
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .step-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+
+  .step-content h5 {
+    font-size: 1rem;
+  }
+
+  .step-content .text-small {
+    font-size: 0.7rem;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    padding: 1.5rem;
+    border-radius: 10px;
+  }
+
+  .metric-icon {
+    font-size: 1.5rem;
+  }
+
+  .metric-value {
+    font-size: 1.25rem;
+  }
+
+  .metric-label {
+    font-size: 0.7rem;
+  }
+
+  .featured {
+    padding: 0 0.5rem;
+  }
+
+  .section-header-home {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    gap: 1rem;
+  }
+
+  .section-header-home h2 {
+    font-size: 1.5rem;
+  }
+
+  .view-all {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+
+  .challenges-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .challenge-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .challenge-card h4 {
+    font-size: 1rem;
+  }
+
+  .challenge-company {
+    font-size: 0.75rem;
+  }
+
+  .prize-amount, .teams-number {
+    font-size: 1rem;
+  }
+
+  .prize-label, .teams-label {
+    font-size: 0.65rem;
+  }
+}
+
+/* Small Phones (480-599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+  .page-wrapper {
+    padding-top: 40px;
+    padding-bottom: 45px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.75rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .badge {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 11px 22px;
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    margin-top: 1.75rem;
+  }
+
+  .stat-card {
+    padding: 1.1rem;
+  }
+
+  .stat-number {
+    font-size: 1.9rem;
+  }
+
+  .how-it-works {
+    padding: 18px 22px 0;
+  }
+
+  .how-it-works h3 {
+    font-size: 1.1rem;
+  }
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .metric-card {
+    padding: 1.75rem;
+  }
+
+  .metric-value {
+    font-size: 1.4rem;
+  }
+
+  .section-header-home {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.1rem;
+  }
+
+  .section-header-home h2 {
+    font-size: 1.65rem;
+  }
+
+  .challenges-grid {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .challenge-card {
+    padding: 1.1rem;
+  }
+}
+
+/* Large Phones (600-767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+  .page-wrapper {
+    padding-top: 70px;
+    padding-bottom: 50px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 1.75rem;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+    padding: 5px 13px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .stat-card {
+    padding: 1.2rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .how-it-works {
+    padding: 20px 24px 0;
+  }
+
+  .how-it-works h3 {
+    font-size: 1.2rem;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .metric-card {
+    padding: 2rem;
+  }
+
+  .metric-value {
+    font-size: 1.5rem;
+  }
+
+  .section-header-home h2 {
+    font-size: 1.85rem;
+  }
+
+  .challenges-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .challenge-card {
+    padding: 1.25rem;
+  }
+
+  .challenge-card h4 {
+    font-size: 1.05rem;
+  }
+}
+
+/* Tablets (768-999px) */
+@media (min-width: 768px) and (max-width: 999px) {
+  .page-wrapper {
+    padding-top: 75px;
+    padding-bottom: 55px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+    gap: 2.25rem;
+    margin-bottom: 2.75rem;
+  }
+
+  .badge {
+    font-size: 0.85rem;
+    padding: 6px 14px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 12px 26px;
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 2.25rem;
+  }
+
+  .stat-card {
+    padding: 1.35rem;
+  }
+
+  .stat-number {
+    font-size: 2.1rem;
+  }
+
+  .how-it-works {
+    padding: 22px 28px 0;
+  }
+
+  .how-it-works h3 {
+    font-size: 1.3rem;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.25rem;
+    margin-bottom: 2.75rem;
+  }
+
+  .metric-card {
+    padding: 2.25rem;
+    width: 40vw;
+  }
+
+  .metric-value {
+    font-size: 1.6rem;
+  }
+
+  .section-header-home {
+    margin-bottom: 2rem;
+  }
+
+  .section-header-home h2 {
+    font-size: 2rem;
+  }
+
+  .challenges-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .challenge-card {
+    padding: 1.35rem;
+  }
+
+  .challenge-card h4 {
+    font-size: 1.1rem;
+  }
+}
+
+/* Large Tablets (1000-1199px) */
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .page-wrapper {
+    padding-top: 80px;
+    padding-bottom: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    padding: 2.25rem;
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .challenges-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .section-header-home h2 {
+    font-size: 2.1rem;
+  }
+}
+
+/* Desktop (1200px and above) */
+@media (min-width: 1200px) {
+  .page-wrapper {
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    padding: 2.5rem;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3.5rem;
+  }
+
+  .challenges-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .featured h2 {
+    font-size: 2rem;
+  }
+}
+
 /* DETAIL PAGE CSS  ************************************************************************************************* */
 
 /* *, *::before, *::after {
@@ -1822,6 +2327,19 @@ body {
   margin: 0 -26px;
   padding: 0 26px;
   overflow-x: auto;
+  /* Hide scrollbar for webkit browsers */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide scrollbar for Firefox */
+.tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.tab-bar {
+  -ms-overflow-style: none;
 }
 
 .tab {
@@ -2052,11 +2570,35 @@ body {
   font-weight: 600;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(30, 45, 77, 0.2);
 }
 
 .btn-apply:hover {
   background-color: #263552;
+  box-shadow: 0 6px 16px rgba(30, 45, 77, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-apply:active {
+  animation: btnApplyClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(30, 45, 77, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Mobile: Remove hover, keep only click animations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-apply:hover {
+    background-color: #1e2d4d;
+    box-shadow: 0 4px 12px rgba(30, 45, 77, 0.2);
+    transform: none;
+  }
+
+  .btn-apply:active {
+    animation: btnApplyClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 8px rgba(30, 45, 77, 0.15);
+    transform: translateY(-1px);
+  }
 }
 
 .btn-team {
@@ -2085,6 +2627,633 @@ body {
   color: #9aa3b2;
   margin-top: -2px;
 }
+
+/* ════════════════════════════════════════════════════════════════════════════════
+   DETAIL PAGE — RESPONSIVE MEDIA QUERIES
+   ════════════════════════════════════════════════════════════════════════════════
+   
+   Purpose: Perfect responsive design for detail page across all devices
+   
+   Breakpoints:
+   - 320-479px: Extra small phones
+   - 480-599px: Small phones
+   - 600-767px: Large phones
+   - 768-999px: Tablets (iPad portrait)
+   - 1000-1199px: Large tablets
+   - 1200px+: Desktop (full width)
+   ════════════════════════════════════════════════════════════════════════════════ */
+
+/* Extra Small Phones (320-479px) */
+@media (max-width: 479px) {
+  .page-wrapper-details {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .layout-details {
+    gap: 12px;
+  }
+
+  .header-card-detail {
+    padding: 16px 16px 0 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+
+  .challenge-title-detail {
+    font-size: 16px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .challenge-meta {
+    font-size: 11px;
+    margin-bottom: 14px;
+  }
+
+  .tag-row {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 2px 10px;
+  }
+
+  .tab-bar {
+    margin: 0 -16px;
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+
+  .tab {
+    font-size: 9px;
+    padding: 10px 12px 9px;
+  }
+
+  .info-card {
+    padding: 14px 14px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+  }
+
+  .card-heading {
+    font-size: 10px;
+    letter-spacing: 0.7px;
+    margin-bottom: 8px;
+  }
+
+  .card-text {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .criteria-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .criteria-box {
+    padding: 10px 6px;
+    border-radius: 8px;
+  }
+
+  .criteria-pct {
+    font-size: 18px;
+  }
+
+  .criteria-lbl {
+    font-size: 10px;
+  }
+
+  .sidebarDetail {
+    top: 60px;
+    max-height: calc(100vh - 80px);
+    gap: 12px;
+  }
+
+  .prize-card {
+    padding: 14px 12px 12px;
+    border-radius: 10px;
+  }
+
+  .prize-label {
+    font-size: 10px;
+    margin-bottom: 4px;
+  }
+
+  .prize-amount {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .prize-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+
+  .meta-card {
+    padding: 4px 12px;
+    border-radius: 10px;
+  }
+
+  .meta-row {
+    padding: 9px 0;
+  }
+
+  .meta-key,
+  .meta-val {
+    font-size: 12px;
+  }
+
+  .btn-apply,
+  .btn-team {
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
+}
+
+/* Small Phones (480-599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+  .page-wrapper-details {
+    padding-top: 65px;
+    padding-bottom: 45px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .layout-details {
+    gap: 14px;
+  }
+
+  .header-card-detail {
+    padding: 18px 18px 0 18px;
+    margin-bottom: 12px;
+    border-radius: 13px;
+  }
+
+  .challenge-title-detail {
+    font-size: 17px;
+    line-height: 1.3;
+    margin-bottom: 5px;
+  }
+
+  .challenge-meta {
+    font-size: 11.5px;
+    margin-bottom: 15px;
+  }
+
+  .tag {
+    font-size: 10.5px;
+    padding: 3px 11px;
+  }
+
+  .tab {
+    font-size: 12.5px;
+    padding: 11px 13px 10px;
+  }
+
+  .info-card {
+    padding: 16px 16px;
+    margin-bottom: 12px;
+    border-radius: 11px;
+  }
+
+  .card-heading {
+    font-size: 10.5px;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+
+  .card-text {
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  .criteria-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+  }
+
+  .criteria-box {
+    padding: 12px 8px;
+    border-radius: 9px;
+  }
+
+  .criteria-pct {
+    font-size: 20px;
+  }
+
+  .criteria-lbl {
+    font-size: 11px;
+  }
+
+  .sidebarDetail {
+    top: 65px;
+    gap: 13px;
+  }
+
+  .prize-card {
+    padding: 16px 14px 14px;
+    border-radius: 11px;
+  }
+
+  .prize-label {
+    font-size: 10.5px;
+    margin-bottom: 5px;
+  }
+
+  .prize-amount {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+
+  .meta-card {
+    padding: 4px 14px;
+    border-radius: 11px;
+  }
+
+  .meta-row {
+    padding: 10px 0;
+  }
+
+  .btn-apply,
+  .btn-team {
+    padding: 12px 15px;
+    border-radius: 9px;
+    font-size: 13.5px;
+  }
+}
+
+/* Large Phones (600-767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+  .page-wrapper-details {
+    padding-top: 70px;
+    padding-bottom: 50px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .layout-details {
+    gap: 16px;
+  }
+
+  .header-card-detail {
+    padding: 20px 20px 0 20px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+  }
+
+  .challenge-title-detail {
+    font-size: 18px;
+    line-height: 1.35;
+    margin-bottom: 6px;
+  }
+
+  .challenge-meta {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 12px;
+  }
+
+  .tab {
+    font-size: 13px;
+    padding: 12px 14px 11px;
+  }
+
+  .info-card {
+    padding: 18px 18px;
+    margin-bottom: 13px;
+    border-radius: 12px;
+  }
+
+  .card-heading {
+    font-size: 11px;
+    letter-spacing: 0.85px;
+    margin-bottom: 9px;
+  }
+
+  .card-text {
+    font-size: 14px;
+    line-height: 1.68;
+  }
+
+  .criteria-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .criteria-box {
+    padding: 13px 9px;
+    border-radius: 10px;
+  }
+
+  .criteria-pct {
+    font-size: 21px;
+  }
+
+  .sidebarDetail {
+    top: 70px;
+    max-height: calc(100vh - 90px);
+    gap: 14px;
+  }
+
+  .prize-card {
+    padding: 18px 16px 16px;
+    border-radius: 12px;
+  }
+
+  .prize-label {
+    font-size: 11px;
+    margin-bottom: 5px;
+  }
+
+  .prize-amount {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .meta-card {
+    padding: 6px 16px;
+    border-radius: 12px;
+  }
+
+  .meta-row {
+    padding: 11px 0;
+  }
+
+  .btn-apply,
+  .btn-team {
+    padding: 13px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Tablets (768-999px) - Side-by-side becomes single column */
+@media (min-width: 768px) and (max-width: 999px) {
+  .page-wrapper-details {
+    padding-top: 75px;
+    padding-bottom: 55px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .layout-details {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .header-card-detail {
+    padding: 22px 22px 0 22px;
+    margin-bottom: 15px;
+    border-radius: 14px;
+  }
+
+  .challenge-title-detail {
+    font-size: 19px;
+    line-height: 1.35;
+    margin-bottom: 7px;
+  }
+
+  .challenge-meta {
+    font-size: 12.5px;
+    margin-bottom: 18px;
+  }
+
+  .tab {
+    font-size: 13.5px;
+    padding: 13px 15px 12px;
+  }
+
+  .info-card {
+    padding: 20px 20px;
+    margin-bottom: 14px;
+    border-radius: 13px;
+  }
+
+  .card-heading {
+    font-size: 11.5px;
+    letter-spacing: 0.9px;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  .criteria-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 11px;
+  }
+
+  .criteria-box {
+    padding: 14px 10px;
+    border-radius: 11px;
+  }
+
+  .criteria-pct {
+    font-size: 22px;
+  }
+
+  .criteria-lbl {
+    font-size: 12px;
+  }
+
+  .sidebarDetail {
+    top: 75px;
+    max-height: calc(100vh - 95px);
+    gap: 15px;
+    position: relative;
+  }
+
+  .prize-card {
+    padding: 20px 18px 18px;
+    border-radius: 13px;
+  }
+
+  .prize-label {
+    font-size: 11.5px;
+    margin-bottom: 6px;
+  }
+
+  .prize-amount {
+    font-size: 30px;
+    margin-bottom: 12px;
+  }
+
+  .prize-badge {
+    font-size: 13px;
+    padding: 3px 11px;
+  }
+
+  .meta-card {
+    padding: 6px 18px;
+    border-radius: 13px;
+  }
+
+  .meta-row {
+    padding: 12px 0;
+  }
+
+  .meta-key,
+  .meta-val {
+    font-size: 13.5px;
+  }
+
+  .btn-apply,
+  .btn-team {
+    padding: 14px 16px;
+    border-radius: 11px;
+    font-size: 14.5px;
+  }
+}
+
+/* Large Tablets (1000-1199px) */
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .page-wrapper-details {
+    padding-top: 80px;
+    padding-bottom: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .layout-details {
+    grid-template-columns: 1fr 270px;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .header-card-detail {
+    padding: 23px 24px 0 24px;
+    margin-bottom: 15px;
+  }
+
+  .challenge-title-detail {
+    font-size: 19.5px;
+  }
+
+  .challenge-meta {
+    font-size: 12.5px;
+  }
+
+  .info-card {
+    padding: 21px 23px;
+    margin-bottom: 14px;
+  }
+
+  .card-heading {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .card-text {
+    font-size: 14.5px;
+  }
+
+  .criteria-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .sidebarDetail {
+    top: 80px;
+    max-height: calc(100vh - 100px);
+    gap: 14px;
+  }
+
+  .prize-card {
+    padding: 19px 17px 17px;
+  }
+
+  .meta-card {
+    padding: 5px 17px;
+  }
+
+  .btn-apply,
+  .btn-team {
+    padding: 13.5px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Desktop (1200px and above) */
+@media (min-width: 1200px) {
+  .page-wrapper-details {
+    padding-top: 80px;
+    padding-bottom: 60px;
+  }
+
+  .layout-details {
+    grid-template-columns: 1fr 290px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .header-card-detail {
+    padding: 24px 26px 0 26px;
+    margin-bottom: 14px;
+  }
+
+  .challenge-title-detail {
+    font-size: 20px;
+  }
+
+  .challenge-meta {
+    font-size: 12.5px;
+    margin-bottom: 20px;
+  }
+
+  .info-card {
+    padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+
+  .card-heading {
+    font-size: 11px;
+    margin-bottom: 11px;
+  }
+
+  .card-text {
+    font-size: 14px;
+    line-height: 1.72;
+  }
+
+  .criteria-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .sidebarDetail {
+    top: 80px;
+    max-height: calc(100vh - 100px);
+    gap: 15px;
+  }
+
+  .prize-card {
+    padding: 20px 18px 18px;
+  }
+
+  .meta-card {
+    padding: 4px 18px;
+  }
+
+  .btn-apply,
+  .btn-team {
+    padding: 14px 16px;
+    font-size: 14.5px;
+  }
+}
+
 /* ═══════════════════════════════════════════════════
    POST CHALLENGE — styles.css
    Fonts: Bricolage Grotesque (display) + Plus Jakarta Sans (body)
@@ -3460,21 +4629,126 @@ h2 {
 ============================================= */
 .progress-text {
   margin-top: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-text .step-label {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.progress-text .step-percentage {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2937;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 6px;
 }
 
 .progress-bar {
-  height: 8px;
-  background: #eee;
-  border-radius: 10px;
+  height: 10px;
+  background: linear-gradient(90deg, #f0f0f0 0%, #e5e7eb 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%);
+  border-radius: 12px;
 }
 
 .progress {
   height: 100%;
-  width: 65%;
-  background: #4a6cf7;
-  border-radius: 10px;
+  background: linear-gradient(90deg, #4a6cf7 0%, #2563eb 50%, #1d4ed8 100%);
+  border-radius: 12px;
+  position: relative;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(74, 108, 247, 0.35);
+  overflow: hidden;
+}
+
+.progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Progress bar color variants based on percentage */
+.progress[style*="width: 25%"]::after,
+.progress[style*="width: 25"]::after {
+  animation: none;
+}
+
+.progress[style*="width: 50%"]::after,
+.progress[style*="width: 50"]::after {
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%);
+}
+
+.progress[style*="width: 75%"]::after,
+.progress[style*="width: 75"]::after {
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%);
+}
+
+.progress[style*="width: 100%"]::after,
+.progress[style*="width: 99"]::after,
+.progress[style*="width: 100"]::after {
+  animation: shimmer-complete 1s ease-in-out infinite;
+}
+
+@keyframes shimmer-complete {
+  0%, 100% {
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  }
+  50% {
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  }
 }
 
 /* =============================================
@@ -3631,6 +4905,69 @@ h2 {
 }
 
 /* =============================================
+   MAIN LOGO IMAGE (Header Logo)
+   ============================================= */
+.main-logo {
+  width: 180px;
+  height: 40px;
+  object-fit: cover;
+  cursor: pointer;
+  background: #FFF9F9;
+}
+
+/* =============================================
+   MAIN LOGO MEDIA QUERIES
+   ============================================= */
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  .main-logo {
+    width: 140px;
+    height: 38px;
+  }
+}
+
+/* Large Tablets & Small Desktops (1000-1199px) */
+@media (min-width: 1000px) and (max-width: 1199px) {
+  .main-logo {
+    width: 135px;
+    height: 36px;
+  }
+}
+
+/* Tablets (768-999px) */
+@media (min-width: 768px) and (max-width: 999px) {
+  .main-logo {
+    width: 130px;
+    height: 35px;
+  }
+}
+
+/* Large Phones (600-767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+  .main-logo {
+    width: 120px;
+    height: 32px;
+  }
+}
+
+/* Small Phones (480-599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+  .main-logo {
+    width: 110px;
+    height: 30px;
+  }
+}
+
+/* Extra Small Phones (320-479px) */
+@media (max-width: 479px) {
+  .main-logo {
+    width: 100px;
+    height: 28px;
+  }
+}
+
+/* =============================================
    DESKTOP NAV LINKS (Visible on 1000px+)
    ============================================= */
 .nav-links {
@@ -3764,44 +5101,63 @@ h2 {
    OVERLAY MENU & BACKDROP
    ============================================= */
 .overlay-backdrop {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   z-index: 999;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
+  visibility: hidden;
 }
 
 .overlay-backdrop.active {
-  display: block;
   opacity: 1;
+  visibility: visible;
+}
+
+/* Prevent body scroll when overlay is active */
+.overlay-backdrop.active ~ body,
+body.overlay-active {
+  overflow: hidden;
+  height: 100vh;
 }
 
 .overlay-menu {
-  display: none;
+  display: flex;
   position: fixed;
   top: 60px;
   left: 0;
   width: 100%;
-  max-width: 280px;
+  max-width: 320px;
   height: calc(100vh - 60px);
-  background: #fff;
+  background: linear-gradient(135deg, rgba(15, 31, 56, 0.85) 0%, rgba(26, 45, 77, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   flex-direction: column;
   padding: 0;
   z-index: 1000;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5), inset 1px 0 0 rgba(255, 255, 255, 0.05);
   transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
+  border-right: 2px solid rgba(0, 150, 255, 0.2);
+  border-radius: 0 24px 24px 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .overlay-menu.active {
-  display: flex;
   transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Close Button */
@@ -3810,11 +5166,16 @@ h2 {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: none;
-  border: none;
+  background: linear-gradient(135deg, rgba(0, 150, 255, 0.2) 0%, rgba(0, 100, 200, 0.15) 100%);
+  border: 1.5px solid rgba(0, 150, 255, 0.4);
   cursor: pointer;
   z-index: 1001;
   padding: 8px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 100, 200, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .overlay-menu.active .close-btn {
@@ -3823,9 +5184,17 @@ h2 {
   justify-content: center;
 }
 
+.close-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 195, 255, 0.3) 0%, rgba(0, 150, 255, 0.25) 100%);
+  border-color: rgba(0, 195, 255, 0.6);
+  box-shadow: 0 6px 16px rgba(0, 150, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
 .close-icon {
-  font-size: 28px;
-  color: #111827;
+  position: relative;
+  bottom: 5.1px;
+  font-size: 24px;
+  color: #00d4ff;
   line-height: 1;
 }
 
@@ -3837,29 +5206,35 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 16px;
-  border-bottom: 1px solid #f3f4f6;
-  background: linear-gradient(135deg, #f9fafb 0%, #fff 100%);
-  gap: 8px;
+  padding: 28px 16px;
+  border-bottom: 1px solid rgba(0, 150, 255, 0.15);
+  background: linear-gradient(135deg, rgba(0, 80, 160, 0.2) 0%, rgba(0, 100, 200, 0.15) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  gap: 14px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .profile-avatar {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  font-size: 16px;
+  border-radius: 16px;
+  font-size: 18px;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 150, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(0, 195, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .profile-label {
   font-size: 12px;
-  color: #6b7280;
+  color: #7fa3c8;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -3872,30 +5247,39 @@ h2 {
   gap: 0;
   margin-top: 0;
   flex: 1;
+  padding: 8px 12px;
 }
 
 .mobile-nav-links a {
   text-decoration: none;
   font-size: 14px;
-  color: #4b5563;
-  padding: 14px 18px;
-  border-bottom: 1px solid #f3f4f6;
-  transition: all 0.2s ease;
+  color: #8fa8c8;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 150, 255, 0.08);
+  transition: all 0.3s ease;
   display: block;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  border-radius: 12px;
+  margin: 2px 0;
+  background: rgba(0, 100, 200, 0.05);
 }
 
-.mobile-nav-links a:hover {
-  background: #f9fafb;
-  color: #1e3a5f;
-  padding-left: 22px;
+.mobile-nav-links a:active {
+  transform: scale(0.98);
+  background: rgba(0, 100, 200, 0.25);
+  animation: tapRipple 0.6s ease-out;
 }
 
 .mobile-nav-links a.active {
-  background: #dbeafe;
-  color: #2563eb;
-  font-weight: 500;
-  border-left: 3px solid #2563eb;
-  padding-left: 15px;
+  background: linear-gradient(90deg, rgba(0, 100, 200, 0.35) 0%, rgba(0, 100, 200, 0.15) 100%);
+  color: #00d4ff;
+  font-weight: 600;
+  border-left: 4px solid #00d4ff;
+  padding-left: 12px;
+  box-shadow: inset 0 0 0 1px rgba(0, 150, 255, 0.25), 0 4px 12px rgba(0, 150, 255, 0.15);
+  border-bottom: none;
 }
 
 /* Mobile Action Buttons */
@@ -3903,8 +5287,12 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px 18px;
-  border-top: 1px solid #f3f4f6;
+  padding: 16px;
+  border-top: 1px solid rgba(0, 150, 255, 0.15);
+  background: linear-gradient(135deg, rgba(0, 80, 160, 0.15) 0%, rgba(0, 100, 200, 0.1) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-top: auto;
 }
 
 .mobile-actions a {
@@ -3913,19 +5301,161 @@ h2 {
 
 .mobile-actions .btn {
   width: 100%;
-  padding: 10px 12px;
-  font-size: 13px;
-  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mobile-actions .btn:active {
+  transform: scale(0.95);
+  animation: buttonTap 0.4s ease-out;
 }
 
 .mobile-actions .btn.light {
-  background: #f3f4f6;
-  color: #111827;
+  background: linear-gradient(135deg, rgba(0, 150, 255, 0.15) 0%, rgba(0, 120, 200, 0.1) 100%);
+  color: #00d4ff;
+  border: 1.5px solid rgba(0, 150, 255, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 100, 200, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.mobile-actions .btn.light:active {
+  background: linear-gradient(135deg, rgba(0, 150, 255, 0.3) 0%, rgba(0, 120, 200, 0.2) 100%);
+  border-color: rgba(0, 195, 255, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(0, 195, 255, 0.3), 0 6px 16px rgba(0, 150, 255, 0.35);
 }
 
 .mobile-actions .btn.dark {
-  background: #1e3a5f;
+  background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
   color: white;
+  box-shadow: 0 6px 20px rgba(0, 150, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(0, 195, 255, 0.3);
+}
+
+.mobile-actions .btn.dark:active {
+  box-shadow: 0 3px 10px rgba(0, 150, 255, 0.3), inset 0 0 0 1px rgba(0, 195, 255, 0.2);
+  transform: scale(0.95);
+}
+
+/* =============================================
+   MOBILE CLICK ANIMATIONS
+   ============================================= */
+@keyframes tapRipple {
+  0% {
+    background: rgba(0, 100, 200, 0.25);
+    transform: scale(0.98);
+  }
+  50% {
+    background: rgba(0, 100, 200, 0.15);
+  }
+  100% {
+    background: linear-gradient(90deg, rgba(0, 100, 200, 0.25) 0%, rgba(0, 100, 200, 0.1) 100%);
+    transform: scale(1);
+  }
+}
+
+@keyframes buttonTap {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Detailed Apply Button Click Animation */
+@keyframes btnApplyClick {
+  0% {
+    transform: scale(1) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(30, 45, 77, 0.35);
+  }
+  25% {
+    transform: scale(0.98) translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 45, 77, 0.25);
+  }
+  50% {
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 2px 6px rgba(30, 45, 77, 0.15);
+  }
+  75% {
+    transform: scale(0.97) translateY(-0.5px);
+    box-shadow: 0 3px 8px rgba(30, 45, 77, 0.2);
+  }
+  100% {
+    transform: scale(1) translateY(-1px);
+    box-shadow: 0 2px 8px rgba(30, 45, 77, 0.15);
+  }
+}
+
+/* Detailed CTA Button Click Animation */
+@keyframes ctaButtonClick {
+  0% {
+    transform: scale(1) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+  }
+  25% {
+    transform: scale(0.98) translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  }
+  50% {
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.15);
+  }
+  75% {
+    transform: scale(0.97) translateY(-0.5px);
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+  }
+  100% {
+    transform: scale(1) translateY(-1px);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+  }
+}
+
+/* Detailed Submit Button Click Animation */
+@keyframes btnSubmitClick {
+  0% {
+    transform: scale(1) translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 51, 81, 0.3);
+  }
+  25% {
+    transform: scale(0.98) translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 51, 81, 0.25);
+  }
+  50% {
+    transform: scale(0.96) translateY(0);
+    box-shadow: 0 2px 6px rgba(37, 51, 81, 0.15);
+  }
+  75% {
+    transform: scale(0.97) translateY(-0.5px);
+    box-shadow: 0 3px 8px rgba(37, 51, 81, 0.2);
+  }
+  100% {
+    transform: scale(1) translateY(-1px);
+    box-shadow: 0 2px 8px rgba(37, 51, 81, 0.15);
+  }
+}
+
+/* Menu Closing Animation */
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 }
 
 /* =============================================
@@ -4040,7 +5570,7 @@ h2 {
 @media (max-width: 767px) {
   .navbar {
     padding: 10px 14px;
-    height: 56px;
+    height: 60px;
   }
 
   .logo {
@@ -4107,7 +5637,7 @@ h2 {
 @media (max-width: 599px) {
   .navbar {
     padding: 8px 12px;
-    height: 54px;
+    height: 60px;
   }
 
   .logo {
@@ -4173,7 +5703,7 @@ h2 {
 @media (max-width: 479px) {
   .navbar {
     padding: 8px 10px;
-    height: 52px;
+    height: 60px;
   }
 
   .logo {
@@ -5303,8 +6833,8 @@ h2 {
     }
  
     .btn-submit {
-      background:linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
-      box-shadow: 0 2px 16px 0 rgba(80, 100, 140, 0.1);
+      background-color: #253351 ;
+      box-shadow: 0 4px 12px rgba(37, 51, 81, 0.2);
       color: white;
       font-size: 0.9rem;
       font-weight: 600;
@@ -5313,15 +6843,34 @@ h2 {
       padding: 13px 10px ;
       cursor: pointer;
       letter-spacing: 0.1em;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
  
     .btn-submit:hover {
-      background:linear-gradient(135deg, #1a68c4 0%, #2080d8 70%);
+      background-color: #2d4362;
+      box-shadow: 0 6px 16px rgba(37, 51, 81, 0.3);
+      transform: translateY(-2px);
     }
  
     .btn-submit:active {
-      background:linear-gradient(135deg, #2080d8 0%, #1a68c4 100%);
-      transform: scale(0.98);
+      animation: btnSubmitClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 8px rgba(37, 51, 81, 0.15);
+      transform: translateY(-1px);
+    }
+
+    /* Mobile: Remove hover, keep only click animations */
+    @media (hover: none) and (pointer: coarse) {
+      .btn-submit:hover {
+        background-color: #253351;
+        box-shadow: 0 4px 12px rgba(37, 51, 81, 0.2);
+        transform: none;
+      }
+
+      .btn-submit:active {
+        animation: btnSubmitClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 2px 8px rgba(37, 51, 81, 0.15);
+        transform: translateY(-1px);
+      }
     }
  
     .btn-draft {
@@ -6136,20 +7685,41 @@ h2 {
 
 .cta-button {
   padding: 14px 32px;            /* Large touch-friendly button */
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); /* Blue gradient */
+  background-color: #253351; /* Blue gradient */
   color: white;                  /* White text on blue */
   border: none;                  /* No border */
   border-radius: 12px;           /* Rounded corners */
   font-size: 15px;               /* Prominent font size */
   font-weight: 600;              /* Semi-bold weight */
   cursor: pointer;               /* Pointer cursor */
-  transition: all 0.3s ease;     /* Smooth animation on hover */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);     /* Smooth animation on hover */
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); /* Soft shadow for depth */
 }
 
 .cta-button:hover {
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3); /* Enhanced shadow */
   transform: translateY(-2px);   /* Lift button 2px upward */
+}
+
+.cta-button:active {
+  animation: ctaButtonClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Mobile: Remove hover, keep only click animations */
+@media (hover: none) and (pointer: coarse) {
+  .cta-button:hover {
+    background-color: #253351;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transform: none;
+  }
+
+  .cta-button:active {
+    animation: ctaButtonClick 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+    transform: translateY(-1px);
+  }
 }
 
 /* ════════════════════════════════════════════════════════════════════════════════
