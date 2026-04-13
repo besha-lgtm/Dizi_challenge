@@ -99,10 +99,11 @@ export class RegisterComponent implements OnInit {
       institution: this.user.institution
     });
 
-    // Reset form after successful submission
+    // Reset form and redirect to login after successful submission
     setTimeout(() => {
       form.resetForm();
       this.formSuccess = '';
+      this.router.navigate(['/login']);
     }, 2000);
   }
 }

@@ -10,8 +10,8 @@
             <p>A hybrid innovation marketplace where industries post challenges, student teams build solutions, judges evaluate, and winners earn rewards with real implementation opportunities.</p>
             
             <div class="btn-group">
-                <button class="btn-primary">Explore Challenges</button>
-                <button class="btn-secondary">Post a Challenge</button>
+                <button class="btn-primary" (click)="exploreChallenges()">Explore Challenges</button>
+                <button class="btn-secondary" (click)="postChallenge()">Post a Challenge</button>
             </div>
 
             <div class="stats-grid">
@@ -126,100 +126,34 @@
         </div>
 
         <div class="challenges-grid">
-            <!-- Challenge 1 -->
-            <div class="challenge-card">
+            <!-- Challenge Cards - Dynamic Loop -->
+            <div class="challenge-card" *ngFor="let challenge of featuredChallenges">
                 <div class="challenge-tags">
-                    <span class="tag tag-manufacturing">Manufacturing</span>
-                    <span class="tag tag-iot">IoT</span>
-                    <span class="tag tag-live">● Live</span>
+                    <span class="tag" [ngClass]="getSectorClass(challenge.sectors[0])">{{ challenge.sectors[0] }}</span>
+                    <span class="tag" [ngClass]="getSectorClass(challenge.sectors[1])">{{ challenge.sectors[1] }}</span>
+                    <span class="tag" [ngClass]="getStatusClass(challenge.status)">{{ getStatusTag(challenge.status) }}</span>
                 </div>
-                <h4>Reduce Power Loss in Corrugation Plant</h4>
-                <p class="challenge-company">Visipak Industries • Visakhapatnam</p>
+                <h4>{{ challenge.title }}</h4>
+                <p class="challenge-company">{{ challenge.partner }} • {{ challenge.location }}</p>
                 
                 <div class="progress-info">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 68%;"></div>
+                        <div class="progress-fill" [style.width.%]="challenge.capacity"></div>
                     </div>
                 </div>
                 
                 <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--gray-500); margin-bottom: 1.5rem;">
-                    <span>68% capacity</span>
-                    <span>12 days left</span>
+                    <span>{{ challenge.capacity }}% capacity</span>
+                    <span>{{ challenge.daysLeft }} days left</span>
                 </div>
 
                 <div class="challenge-footer">
                     <div class="prize-pool">
-                        <div class="prize-amount">₹15,000</div>
+                        <div class="prize-amount">₹{{ challenge.prize | number:'1.0-0' }}</div>
                         <div class="prize-label">Total prize pool</div>
                     </div>
                     <div class="teams-count">
-                        <div class="teams-number">12</div>
-                        <div class="teams-label">teams</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Challenge 2 -->
-            <div class="challenge-card">
-                <div class="challenge-tags">
-                    <span class="tag tag-agriculture">Agriculture</span>
-                    <span class="tag tag-ai">AI / Vision</span>
-                    <span class="tag tag-new">New</span>
-                </div>
-                <h4>Brinjal Disease Detection Using Vision AI</h4>
-                <p class="challenge-company">Agri innovation AP • Andhra Pradesh</p>
-                
-                <div class="progress-info">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 38%;"></div>
-                    </div>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--gray-500); margin-bottom: 1.5rem;">
-                    <span>38% capacity</span>
-                    <span>7 days left</span>
-                </div>
-
-                <div class="challenge-footer">
-                    <div class="prize-pool">
-                        <div class="prize-amount">₹10,000</div>
-                        <div class="prize-label">Total prize pool</div>
-                    </div>
-                    <div class="teams-count">
-                        <div class="teams-number">8</div>
-                        <div class="teams-label">teams</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Challenge 3 -->
-            <div class="challenge-card">
-                <div class="challenge-tags">
-                    <span class="tag tag-manufacturing">Manufacturing</span>
-                    <span class="tag tag-rfid">RFID</span>
-                    <span class="tag tag-closing">Closing Soon</span>
-                </div>
-                <h4>Smart Dispatch Visibility for MSME Plant</h4>
-                <p class="challenge-company">Silver Prints • Hyderabad</p>
-                
-                <div class="progress-info">
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 88%;"></div>
-                    </div>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--gray-500); margin-bottom: 1.5rem;">
-                    <span>88% capacity</span>
-                    <span>3 days left</span>
-                </div>
-
-                <div class="challenge-footer">
-                    <div class="prize-pool">
-                        <div class="prize-amount">₹20,000</div>
-                        <div class="prize-label">Total prize pool</div>
-                    </div>
-                    <div class="teams-count">
-                        <div class="teams-number">18</div>
+                        <div class="teams-number">{{ challenge.teams }}</div>
                         <div class="teams-label">teams</div>
                     </div>
                 </div>

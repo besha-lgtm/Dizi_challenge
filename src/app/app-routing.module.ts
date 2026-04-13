@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { SubmissionComponent } from './submission/submission.component';
 import { RewardsComponent } from './rewards/rewards.component';
 import { RegisterComponent } from './register/register.component';
@@ -16,6 +17,7 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'register', component: RegisterComponent },
 
   // LAYOUT 1: Dashboard (With Sidebar)

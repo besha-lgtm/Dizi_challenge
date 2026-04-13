@@ -39,46 +39,15 @@
     <!-- MENU -->
     <nav class="menu">
 
-      <a routerLink="/dashboard" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'Dashboard' : ''">
-        <i class="fa-solid fa-layer-group icon"></i>
-        <span class="label" *ngIf="!isCollapsed">Dashboard</span>
-      </a>
-
-      <a routerLink="/explore" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'Explore Challenges' : ''">
-        <i class="fa-solid fa-compass icon"></i>
-        <span class="label" *ngIf="!isCollapsed">Explore Challenges</span>
-      </a>
-
-      <a routerLink="/teams" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'My Teams' : ''">
-        <i class="fa-solid fa-user-group icon"></i>
-        <span class="label" *ngIf="!isCollapsed">My Teams</span>
-      </a>
-
-      <a routerLink="/submission" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'Submissions' : ''">
-        <i class="fa-solid fa-cloud-arrow-up icon"></i>
-        <span class="label" *ngIf="!isCollapsed">Submissions</span>
-      </a>
-
-      <a routerLink="/leaderboard" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'Leaderboard' : ''">
-        <i class="fa-solid fa-trophy icon"></i>
-        <span class="label" *ngIf="!isCollapsed">Leaderboard</span>
-      </a>
-
-      <a routerLink="/certificates" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'Certificates' : ''">
-        <i class="fa-solid fa-certificate icon"></i>
-        <span class="label" *ngIf="!isCollapsed">Certificates</span>
-      </a>
-
-      <a routerLink="/settings" routerLinkActive="active" class="menu-item"
-         [title]="isCollapsed ? 'Settings' : ''">
-        <i class="fa-solid fa-gear icon"></i>
-        <span class="label" *ngIf="!isCollapsed">Settings</span>
+      <a *ngFor="let item of navItems" 
+         [routerLink]="item.route" 
+         routerLinkActive="active" 
+         [routerLinkActiveOptions]="{ exact: false }"
+         (click)="navigateTo(item.route)"
+         class="menu-item"
+         [title]="isCollapsed ? item.title : ''">
+        <i class="fa-solid" [ngClass]="item.icon + ' icon'"></i>
+        <span class="label" *ngIf="!isCollapsed">{{ item.label }}</span>
       </a>
 
     </nav>

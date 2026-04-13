@@ -16,8 +16,8 @@ interface Challenge {
 @Component({
   selector: 'app-challenges',
   standalone: false,
-  templateUrl: './Challenges.component.html',
-  styleUrl: './Challenges.component.css'
+  templateUrl: './challenges.component.html',
+  styleUrl: './challenges.component.css'
 })
 export class ChallengesComponent {
   activeFilter: 'all' | 'open' | 'closing' | 'new' = 'all';

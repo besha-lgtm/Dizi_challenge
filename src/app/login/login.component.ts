@@ -57,25 +57,38 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/register']);
   }
 
+  // CHANGE: Added goToForgotPassword method for navigation to forgot password page
+  goToForgotPassword(event: Event): void {
+    event.preventDefault();
+    this.router.navigate(['/forgot-password']);
+  }
+
   // CHANGE: Updated onSubmit() method with comprehensive form validation
   onSubmit(): void {
     // Clear previous messages
     this.formError = '';
     this.formSuccess = '';
 
-    // Validate form
-    if (this.loginForm.invalid) {
-      // Check specific validation errors
-      const emailControl = this.loginForm.get('email');
-      const passwordControl = this.loginForm.get('password');
+    // Check if email or password are empty/invalid
+    const emailValue = this.user.email?.trim();
+    const passwordValue = this.user.password?.trim();
 
-      if (emailControl?.hasError('required') || passwordControl?.hasError('required')) {
-        this.formError = 'Please fill all required fields';
-      } else if (emailControl?.hasError('email')) {
-        this.formError = 'Please enter a valid email format';
-      } else if (passwordControl?.hasError('minlength')) {
-        this.formError = 'Password must be at least 8 characters long';
-      }
+    // Validate email is not empty and is valid format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmailValid = emailValue && emailRegex.test(emailValue);
+
+    // Validate password is not empty and has minimum 8 characters
+    const isPasswordValid = passwordValue && passwordValue.length >= 8;
+
+    // Show error if email or password is invalid
+    if (!isEmailValid && !isPasswordValid) {
+      this.formError = 'Please fill all required fields';
+      return;
+    } else if (!isEmailValid) {
+      this.formError = 'Please enter a valid email';
+      return;
+    } else if (!isPasswordValid) {
+      this.formError = 'Password must be at least 8 characters long';
       return;
     }
 
@@ -86,12 +99,11 @@ export class LoginComponent implements OnInit {
       keepSigned: this.user.keepSigned
     });
 
-    // Reset form after successful submission
+    // Navigate to home page after successful login
     setTimeout(() => {
-      this.loginForm.reset();
+      this.router.navigate(['/home']);
+      this.user = { email: '', password: '', keepSigned: false };
       this.formSuccess = '';
-      // CHANGE: Navigate to dashboard after successful login
-      // this.router.navigate(['/rewards']);
-    }, 2000);
+    }, 1500);
   }
 }

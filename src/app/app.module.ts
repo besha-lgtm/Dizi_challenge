@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { RewardsComponent } from './rewards/rewards.component';
 import { SubmissionComponent } from './submission/submission.component';
 import { HeaderComponent } from './header/header.component';
@@ -24,6 +25,7 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
     AppComponent,
     RegisterComponent,
     LoginComponent,
+    ForgotPasswordComponent,
     RewardsComponent,
     SubmissionComponent,
     HeaderComponent,

@@ -289,20 +289,22 @@ body {
     -webkit-backdrop-filter: blur(12px);
     z-index: 1;
     animation: fadeInScale 0.5s ease-out;
-    max-height: 85vh;
+    max-height: 90vh;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .register-header {
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
 }
 
 .register-header h1 {
     font-size: 26px;
     font-weight: 700;
     color: #1E2D4C;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     letter-spacing: -0.5px;
 }
 
@@ -316,7 +318,8 @@ body {
 .register-form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
+    flex: 1;
 }
 
 .form-row {
@@ -328,7 +331,7 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
 }
 
 label {
@@ -509,8 +512,9 @@ label {
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-top: 4px;
+    margin-top: 8px;
     box-shadow: 0 4px 12px rgba(32, 128, 216, 0.25);
+    align-self: stretch;
 }
 
 .register-btn:hover:not(:disabled) {

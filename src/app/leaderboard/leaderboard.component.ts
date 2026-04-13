@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Team {
   rank: number;
@@ -20,6 +21,8 @@ interface Team {
 export class LeaderboardComponent {
   filterLimit: number = 10;
   activeFilter: string = 'top10';
+
+  constructor(private router: Router) {}
 
   allTeams: Team[] = [
     { rank: 1, emoji: '🏆', name: 'Alpha Innovators', members: 'Deepika S., Ravi K., +1', institution: 'ANITS, Vizag', score: 92, change: 3, changeType: 'positive' },
@@ -85,6 +88,10 @@ export class LeaderboardComponent {
   setFilter(limit: number, filter: string): void {
     this.filterLimit = limit;
     this.activeFilter = filter;
+  }
+
+  goToRewards(): void {
+    this.router.navigate(['/rewards']);
   }
 }
 
