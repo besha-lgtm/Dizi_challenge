@@ -52,6 +52,7 @@
             </div>
 
             <!-- GitHub + Demo row -->
+            <!-- GitHub + Demo row -->
             <div class="field-row">
                 <div class="field">
                     <label for="githubRepo">GitHub Repository <span class="req">*</span></label>
@@ -59,12 +60,13 @@
                         type="url"
                         id="githubRepo"
                         name="githubRepo"
+                        class="field-input"
                         [(ngModel)]="submission.githubRepo"
                         placeholder="https://github.com/team-alpha/energy-dashboard"
                         required
                         #githubRepo="ngModel"/>
-                    <span class="error-message" *ngIf="githubRepo.invalid && (githubRepo.dirty || githubRepo.touched)">
-                        <span *ngIf="githubRepo.errors?.['required']">GitHub repository URL is required</span>
+                    <span class="field-error" id="err-githubRepo">
+                         Please enter a valid GitHub repository URL
                     </span>
                 </div>
 
@@ -74,12 +76,10 @@
                         type="url"
                         id="demoLink"
                         name="demoLink"
+                        class="field-input"
                         [(ngModel)]="submission.demoLink"
                         placeholder="YouTube, Google Drive…"
                         #demoLink="ngModel"/>
-                    <span class="error-message" *ngIf="demoLink.invalid && (demoLink.dirty || demoLink.touched)">
-                        <span *ngIf="demoLink.errors?.['required']">Demo link is required</span>
-                    </span>
                 </div>
             </div>
 
@@ -89,15 +89,15 @@
                 <textarea
                     id="solutionSummary"
                     name="solutionSummary"
+                    class="field-textarea"
                     [(ngModel)]="submission.solutionSummary"
                     placeholder="Describe your approach, architecture, and key decisions…"
                     required
                     minlength="20"
                     #solutionSummary="ngModel"
                     rows="6"></textarea>
-                <span class="error-message" *ngIf="solutionSummary.invalid && (solutionSummary.dirty || solutionSummary.touched)">
-                    <span *ngIf="solutionSummary.errors?.['required']">Solution summary is required</span>
-                    <span *ngIf="solutionSummary.errors?.['minlength']">Summary must be at least 20 characters long</span>
+                <span class="field-error" id="err-solutionSummary">
+                     Solution summary must be at least 20 characters long
                 </span>
             </div>
 
@@ -106,7 +106,7 @@
                 <button 
                     type="submit" 
                     class="btn-submit"
-                    [disabled]="submissionForm.invalid || isSubmitting">
+                    [disabled]="isSubmitting">
                     {{ isSubmitting ? 'Submitting...' : 'Submit Final Solution' }}
                 </button>
                 <button 

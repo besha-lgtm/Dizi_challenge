@@ -17,6 +17,8 @@ import { TeamsComponent } from './teams/teams.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { OverviewComponent } from './overview/overview.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';  
+import { CertificatesComponent } from './certificates/certificates.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -46,6 +48,8 @@ const routes: Routes = [
   { path: 'discussion', component: DiscussionComponent },
   { path: 'overview', component: OverviewComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'certificates', component: CertificatesComponent },
+  {path: 'settings', component: SettingsComponent},
   { path: '**', redirectTo: 'login' }
  
 ];

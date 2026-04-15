@@ -1,0 +1,94 @@
+<div class="cert-page-container">
+  <!-- Header Section -->
+  <div class="cert-header-card">
+    <h1 class="cert-page-title">My Certificates</h1>
+    <p class="cert-page-subtitle">Your earned certificates and achievements</p>
+  </div>
+
+  <!-- Search Section -->
+  <div class="cert-search-row">
+    <div class="cert-search-box">
+      <svg class="cert-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        type="text"
+        class="cert-search-input"
+        placeholder="Search by certificate name, challenge, or ID..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange($any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  <!-- Certificates Grid -->
+  <div class="certificates-grid">
+    <ng-container *ngIf="filteredCertificates.length > 0; else emptyCertificates">
+      <div *ngFor="let certificate of filteredCertificates" class="certificate-card" [class]="'rank-' + certificate.rank">
+        <!-- Rank Badge -->
+        <div class="cert-rank-badge" [class]="'badge-' + certificate.rank">
+          {{ getRankBadge(certificate.rank) }}
+        </div>
+
+        <!-- Icon -->
+        <div class="cert-icon-container">
+        </div>
+
+        <!-- Title & Challenge -->
+        <h3 class="cert-challenge-title">{{ certificate.title }}</h3>
+        <p class="cert-challenge-name">{{ certificate.challengeName }}</p>
+
+        <!-- Score Section -->
+        <div class="cert-score-section">
+          <div class="cert-score-bar">
+            <div class="cert-score-fill" [style.width.%]="certificate.score"></div>
+          </div>
+          <p class="cert-score-text">Score: {{ certificate.score }}%</p>
+        </div>
+
+        <!-- Details -->
+        <div class="cert-details">
+          <div class="cert-detail-item">
+            <span class="cert-detail-label">Issuer:</span>
+            <span class="cert-detail-value">{{ certificate.issuer }}</span>
+          </div>
+          <div class="cert-detail-item">
+            <span class="cert-detail-label">Date Earned:</span>
+            <span class="cert-detail-value">{{ formatDate(certificate.dateEarned) }}</span>
+          </div>
+          <div class="cert-detail-item">
+            <span class="cert-detail-label">Certificate ID:</span>
+            <span class="cert-detail-value">{{ certificate.certificateId }}</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="cert-actions">
+          <button class="cert-btn cert-btn-view" (click)="viewCertificate(certificate)">
+            <span class="cert-btn-icon"></span> View
+          </button>
+          <button class="cert-btn cert-btn-download" (click)="downloadCertificate(certificate)">
+            <span class="cert-btn-icon"></span> Download
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Empty State -->
+    <ng-template #emptyCertificates>
+      <div class="cert-empty-state">
+        <div class="cert-empty-icon">📜</div>
+        <h3 class="cert-empty-title">No Certificates Found</h3>
+        <p class="cert-empty-message">
+          <ng-container *ngIf="searchQuery">
+            No certificates match your search for "<strong>{{ searchQuery }}</strong>". Try a different search term.
+          </ng-container>
+          <ng-container *ngIf="!searchQuery">
+            You haven't earned any certificates yet. Complete challenges to earn certificates!
+          </ng-container>
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</div>

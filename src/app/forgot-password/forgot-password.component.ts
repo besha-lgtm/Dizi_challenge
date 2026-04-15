@@ -52,9 +52,9 @@ export class ForgotPasswordComponent {
       this.isLoading = false;
       // Reset form
       this.forgotPasswordData.email = '';
-      // Redirect to login after 3 seconds
+      // Redirect to reset-password page after 2 seconds
       setTimeout(() => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/reset-password']);
       }, 2000);
     }, 1500);
   }

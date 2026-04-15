@@ -127,7 +127,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
 
   private nextStep(from: number): void {
     if (!this.validateStep(from)) {
-      this.shakePanel(from);
       return;
     }
     this.completedSteps.add(from);
@@ -184,15 +183,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     if (fill) fill.style.width = `${((step / this.TOTAL_STEPS) * 100).toFixed(2)}%`;
   }
 
-  private shakePanel(step: number): void {
-    this.getEl(`panel-step-${step}`)?.animate([
-      { transform: "translateX(0)" },
-      { transform: "translateX(-6px)" },
-      { transform: "translateX(6px)" },
-      { transform: "translateX(0)" }
-    ], { duration: 320 });
-  }
-
   // ── Prize Calculation (Rectified) ──────────────────
 
   private initPrizeListeners(): void {
@@ -224,7 +214,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
 
   private publishChallenge(): void {
     if (!this.validateStep(3)) {
-      this.shakePanel(3);
       return;
     }
 
@@ -237,7 +226,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
         err.textContent = "Deadline must be after the start date.";
         err.classList.add("field-error--visible");
       }
-      this.shakePanel(3);
       return;
     }
 

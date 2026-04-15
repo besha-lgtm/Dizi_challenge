@@ -22,6 +22,8 @@ import { TeamsComponent } from './teams/teams.component';
 import { OverviewComponent } from './overview/overview.component';
 import { DiscussionComponent } from './discussion/discussion.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SettingsComponent } from './settings/settings.component';
+import { CertificatesComponent } from './certificates/certificates.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     TeamsComponent,
     OverviewComponent,
     DiscussionComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    SettingsComponent,
+    CertificatesComponent
   ],
   imports: [
     BrowserModule,

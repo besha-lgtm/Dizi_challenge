@@ -1,5 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+
+// ── Types ──────────────────────────────────────────
+
+interface FieldRule {
+  fieldId: string;
+  errorId: string;
+  validate: (value: string) => boolean;
+}
 
 interface SubmissionData {
   githubRepo: string;
@@ -14,7 +22,7 @@ interface SubmissionData {
   templateUrl: './submission.component.html',
   styleUrl: './submission.component.css'
 })
-export class SubmissionComponent implements OnInit {
+export class SubmissionComponent implements OnInit, AfterViewInit {
   submission: SubmissionData = {
     githubRepo: '',
     demoLink: '',
@@ -27,10 +35,109 @@ export class SubmissionComponent implements OnInit {
   formSuccess: string = '';
   isSubmitting: boolean = false;
 
+  // ── Validation Configuration ───────────────────────
+  private readonly FIELD_RULES: FieldRule[] = [
+    { 
+      fieldId: "githubRepo", 
+      errorId: "err-githubRepo", 
+      validate: (v) => /^https:\/\/github\.com\/.+\/.+/i.test(v.trim()) && v.trim().length > 0
+    },
+    { 
+      fieldId: "solutionSummary", 
+      errorId: "err-solutionSummary", 
+      validate: (v) => v.trim().length >= 20
+    },
+  ];
+
   constructor() {}
 
   ngOnInit(): void {
     // Initialize component if needed
+  }
+
+  ngAfterViewInit(): void {
+    this.initFieldListeners();
+  }
+
+  // ── Helpers ────────────────────────────────────────
+
+  private getEl<T extends HTMLElement>(id: string): T | null {
+    return document.getElementById(id) as T | null;
+  }
+
+  // ── Field Validation ───────────────────────────────
+
+  private validateField(fieldId: string): boolean {
+    const rule = this.FIELD_RULES.find(r => r.fieldId === fieldId);
+    if (!rule) return true;
+
+    const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
+    const errorEl = this.getEl(rule.errorId);
+    if (!field) return true;
+
+    const isValid = rule.validate(field.value);
+    this.applyFieldState(field, errorEl, isValid);
+    return isValid;
+  }
+
+  private validateAllFields(): boolean {
+    let allValid = true;
+    for (const rule of this.FIELD_RULES) {
+      const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
+      const errorEl = this.getEl(rule.errorId);
+      if (!field) continue;
+
+      const isValid = rule.validate(field.value);
+      this.applyFieldState(field, errorEl, isValid);
+      if (!isValid) allValid = false;
+    }
+    return allValid;
+  }
+
+  private applyFieldState(
+    field: HTMLInputElement | HTMLTextAreaElement,
+    errorEl: HTMLElement | null,
+    isValid: boolean
+  ): void {
+    if (isValid) {
+      field.classList.remove("field-input--error", "field-textarea--error");
+      field.classList.add("field-input--valid");
+      errorEl?.classList.remove("field-error--visible");
+    } else {
+      field.classList.remove("field-input--valid");
+      const tagName = field.tagName.toLowerCase();
+      if (tagName === "textarea") field.classList.add("field-textarea--error");
+      else field.classList.add("field-input--error");
+      
+      errorEl?.classList.add("field-error--visible");
+    }
+  }
+
+  private clearFieldError(fieldId: string): void {
+    const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(fieldId);
+    if (!field) return;
+    field.classList.remove("field-input--error", "field-textarea--error");
+    this.getEl(`err-${fieldId}`)?.classList.remove("field-error--visible");
+  }
+
+  // ── Field Listeners ────────────────────────────────
+
+  private initFieldListeners(): void {
+    // Listen to input/change events for field validation
+    this.FIELD_RULES.forEach(rule => {
+      const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
+      if (!field) return;
+
+      field.addEventListener('input', () => {
+        if (field.classList.contains('field-input--error') || field.classList.contains('field-textarea--error')) {
+          this.validateField(rule.fieldId);
+        }
+      });
+
+      field.addEventListener('blur', () => {
+        this.validateField(rule.fieldId);
+      });
+    });
   }
 
   onFileSelected(event: Event): void {
@@ -61,16 +168,18 @@ export class SubmissionComponent implements OnInit {
     this.formError = '';
     this.formSuccess = '';
 
-    // Validate form
-    if (form.invalid) {
-      this.formError = 'Please fill all required fields';
-      return;
-    }
+    // Force validation of all fields first
+    this.validateAllFields();
 
-    // Validate GitHub URL format
-    const githubUrlPattern = /^https:\/\/github\.com\/.+\/.+/i;
-    if (this.submission.githubRepo && !githubUrlPattern.test(this.submission.githubRepo)) {
-      this.formError = 'Please enter a valid GitHub repository URL';
+    // Check if validation passed
+    const githubRepo = this.getEl<HTMLInputElement>("githubRepo");
+    const solutionSummary = this.getEl<HTMLTextAreaElement>("solutionSummary");
+    
+    const githubValid = githubRepo && /^https:\/\/github\.com\/.+\/.+/i.test(githubRepo.value.trim());
+    const summaryValid = solutionSummary && solutionSummary.value.trim().length >= 20;
+
+    if (!githubValid || !summaryValid) {
+      this.formError = 'Please fill all required fields correctly';
       return;
     }
 
@@ -82,12 +191,6 @@ export class SubmissionComponent implements OnInit {
         this.formError = 'Please enter a valid demo/video URL';
         return;
       }
-    }
-
-    // Validate summary length
-    if (this.submission.solutionSummary.trim().length < 20) {
-      this.formError = 'Solution summary must be at least 20 characters long';
-      return;
     }
 
     // Show success message
@@ -112,6 +215,17 @@ export class SubmissionComponent implements OnInit {
       };
       this.formSuccess = '';
       this.isSubmitting = false;
+      // Clear all error states
+      this.FIELD_RULES.forEach(rule => {
+        const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
+        if (field) {
+          field.classList.remove("field-input--error", "field-textarea--error", "field-input--valid");
+        }
+        const errorEl = this.getEl(rule.errorId);
+        if (errorEl) {
+          errorEl.classList.remove("field-error--visible");
+        }
+      });
     }, 2000);
   }
 
@@ -121,7 +235,8 @@ export class SubmissionComponent implements OnInit {
     this.formSuccess = '';
 
     // Validate at least GitHub repo
-    if (!this.submission.githubRepo.trim()) {
+    const githubRepo = this.getEl<HTMLInputElement>("githubRepo");
+    if (!githubRepo || !githubRepo.value.trim()) {
       this.formError = 'Please enter GitHub repository URL to save draft';
       return;
     }
