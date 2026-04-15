@@ -24,6 +24,7 @@ import { DiscussionComponent } from './discussion/discussion.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CertificatesComponent } from './certificates/certificates.component';
+import { CreateTeamComponent } from './create-team/create-team.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { CertificatesComponent } from './certificates/certificates.component';
     DiscussionComponent,
     ResetPasswordComponent,
     SettingsComponent,
-    CertificatesComponent
+    CertificatesComponent,
+    CreateTeamComponent
   ],
   imports: [
     BrowserModule,

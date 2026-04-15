@@ -19,7 +19,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';  
 import { CertificatesComponent } from './certificates/certificates.component';
 import { SettingsComponent } from './settings/settings.component';
-
+import { CreateTeamComponent } from './create-team/create-team.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -50,6 +50,7 @@ const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'certificates', component: CertificatesComponent },
   {path: 'settings', component: SettingsComponent},
+  {path: 'create-team', component: CreateTeamComponent},
   { path: '**', redirectTo: 'login' }
  
 ];

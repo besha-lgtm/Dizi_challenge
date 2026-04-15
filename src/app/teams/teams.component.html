@@ -1,1 +1,113 @@
-<p>teams works!</p>
+<app-header></app-header>
+
+<div class="page-wrapper">
+  <div class="layout">
+    <div class="main-col-challenges">
+
+      <!-- HEADER -->
+      <div class="header-card">
+        <h1 class="page-title">My Teams</h1>
+        <p class="page-subtitle">
+          Manage your teams, track progress, and collaborate with members.
+        </p>
+      </div>
+
+      <!-- SEARCH + FILTER -->
+      <div class="search-filter-row">
+
+        <div class="search-box-compact">
+          <span class="icon-inline">🔍</span>
+          <input 
+            type="text"
+            class="search-input-compact"
+            placeholder="Search teams, challenges..."
+            (input)="onSearchChange($any($event.target).value)"
+          >
+        </div>
+
+        <div class="filter-buttons">
+          <button class="filter-btn"
+            [class.active]="activeFilter === 'all'"
+            (click)="setFilter('all')">
+            All ({{ getCount('all') }})
+          </button>
+
+          <button class="filter-btn"
+            [class.active]="activeFilter === 'active'"
+            (click)="setFilter('active')">
+            Active ({{ getCount('active') }})
+          </button>
+
+          <button class="filter-btn"
+            [class.active]="activeFilter === 'completed'"
+            (click)="setFilter('completed')">
+            Completed ({{ getCount('completed') }})
+          </button>
+        </div>
+      </div>
+
+      <!-- TEAMS GRID -->
+      <div class="challenges-grid">
+
+        <div class="challenge-card" *ngFor="let team of filteredTeams">
+
+          <!-- STATUS -->
+          <div class="tag-row">
+  <span class="tag tag-grey">{{ team.domain }}</span>
+  <span class="tag tag-live" *ngIf="team.status === 'active'">Active</span>
+  <span class="tag tag-closing" *ngIf="team.status === 'completed'">Completed</span>
+
+  <!-- ✅ ADD THIS -->
+  <button class="join-btn" (click)="joinTeam(team)">
+    Join team
+  </button>
+</div>
+
+          <!-- TITLE -->
+          <h3 class="challenge-title">{{ team.name }}</h3>
+
+          <!-- CHALLENGE -->
+          <p class="challenge-meta">
+            {{ team.challenge }} · {{ team.role }}
+          </p>
+
+          <!-- MEMBERS -->
+          <div class="members">
+            <span class="member" *ngFor="let m of team.members">
+              {{ m }}
+            </span>
+          </div>
+
+          <!-- PROGRESS -->
+          <div class="capacity-section">
+            <div class="capacity-bar">
+              <div class="capacity-fill" [style.width.%]="team.progress"></div>
+            </div>
+            <p class="capacity-text">{{ team.progress }}% progress</p>
+          </div>
+
+          <!-- FOOTER -->
+          <div class="prize-teams">
+            <div class="prize-info">
+              <span class="label">Submission</span>
+              <span class="value">{{ team.submissions }}</span>
+            </div>
+
+            <button class="btn btn--primary">
+              View →
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div *ngIf="filteredTeams.length === 0" class="no-results">
+        <span>👥</span>
+        <p>No teams found. Join or create a team to get started.</p>
+      </div>
+
+    </div>
+  </div>
+</div>

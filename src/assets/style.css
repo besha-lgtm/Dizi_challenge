@@ -14686,3 +14686,491 @@ body.overlay-active {
     font-size: 1.75rem;
   }
 }
+
+/*teams page design css*/
+/* HEADER CARD */
+.header-card {
+  background: #1e2d4d;
+  padding: 20px;
+  border-radius: 14px;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* SEARCH */
+.search-filter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.search-box-compact {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  flex: 1;
+}
+
+.search-input-compact {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+/* FILTER */
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.filter-btn.active {
+  background: #1e2d4d;
+  color: white;
+}
+
+/* TEAM CARD */
+.challenge-card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #eee;
+  transition: 0.2s;
+}
+
+.challenge-card:hover {
+  transform: translateY(-4px);
+}
+
+/* MEMBERS */
+.members {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.member {
+  background: #eef2ff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+/* PROGRESS */
+.capacity-bar {
+  height: 6px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.capacity-fill {
+  height: 100%;
+  background: #3b82f6;
+}
+
+/* FOOTER */
+.prize-teams {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.view-btn {
+  border: none;
+  background: #1e2d4d;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* EMPTY */
+.no-results {
+  text-align: center;
+  margin-top: 40px;
+  color: #777;
+}
+.join-btn {
+  margin-left: auto;
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 20px;
+  border: 1px solid #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+.join-btn:hover {
+  background: #3b82f6;
+  color: white;
+}
+/* ========================= */
+/* GRID RESPONSIVE */
+/* ========================= */
+
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .challenges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .challenges-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================= */
+/* HEADER RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .header-card {
+    padding: 16px;
+  }
+
+  .page-title {
+    font-size: 18px;
+  }
+
+  .page-subtitle {
+    font-size: 12px;
+  }
+}
+
+/* ========================= */
+/* SEARCH + FILTER */
+/* ========================= */
+
+@media (max-width: 768px) {
+  .search-filter-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filter-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+/* ========================= */
+/* CARD RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 640px) {
+  .challenge-card {
+    padding: 14px;
+  }
+
+  .challenge-title {
+    font-size: 16px;
+  }
+
+  .challenge-meta {
+    font-size: 12px;
+  }
+}
+
+/* ========================= */
+/* MEMBERS */
+/* ========================= */
+
+@media (max-width: 480px) {
+  .member {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+}
+
+/* ========================= */
+/* FOOTER */
+/* ========================= */
+
+@media (max-width: 480px) {
+  .prize-teams {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .view-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ========================= */
+/* JOIN BUTTON */
+/* ========================= */
+
+@media (max-width: 480px) {
+  .join-btn {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+}
+
+/* ========================= */
+/* EMPTY STATE */
+/* ========================= */
+
+@media (max-width: 480px) {
+  .no-results {
+    font-size: 13px;
+  }
+}
+/* ========================= */
+/* EXTRA SMALL DEVICES (320px) */
+/* ========================= */
+
+@media (max-width: 360px) {
+
+  /* HEADER CARD */
+  .header-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .page-title {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .page-subtitle {
+    font-size: 11px;
+    text-align: center;
+  }
+
+  /* SEARCH */
+  .search-box-compact {
+    padding: 8px;
+  }
+
+  .search-input-compact {
+    font-size: 12px;
+  }
+
+  /* FILTER BUTTONS (STACK CLEAN) */
+  .filter-buttons {
+    display: flex;
+    flex-direction: column; /* 🔥 stack */
+    gap: 8px;
+  }
+
+  .filter-btn {
+    width: 100%;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  /* CARDS */
+  .challenge-card {
+    padding: 12px;
+  }
+
+  .challenge-title {
+    font-size: 14px;
+  }
+
+  .challenge-meta {
+    font-size: 11px;
+  }
+
+  /* MEMBERS */
+  .member {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  /* PROGRESS TEXT */
+  .capacity-text {
+    font-size: 11px;
+  }
+
+  /* FOOTER */
+  .prize-teams {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .view-btn {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  /* JOIN BUTTON */
+  .join-btn {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
+/*create team page design css*/
+/* PAGE CENTERING */
+/* ===== PAGE BACKGROUND ===== */
+.team-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  background: linear-gradient(
+    135deg,
+    #eef2ff 0%,
+    #f8fafc 40%,
+    #e0ecff 100%
+  );
+}
+
+/* ===== FORM CARD ===== */
+.team-form-container {
+  width: 100%;
+  max-width: 420px;
+
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+
+  padding: 28px 24px;
+  border-radius: 18px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ===== TITLE ===== */
+.team-form-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+/* ===== FORM LAYOUT ===== */
+.team-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ===== INPUT ===== */
+.team-input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+
+  font-size: 14px;
+  background: #f9fafc;
+
+  transition: all 0.25s ease;
+}
+
+.team-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.team-input::placeholder {
+  color: #94a3b8;
+}
+
+/* ===== BUTTON ===== */
+.team-submit-btn {
+  margin-top: 10px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #1e2d4d, #2f4b7c);
+  color: white;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  box-shadow: 0 6px 15px rgba(30, 45, 77, 0.25);
+}
+
+.team-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(30, 45, 77, 0.35);
+}
+
+.team-submit-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .team-form-container {
+    max-width: 90%;
+    padding: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .team-form-title {
+    font-size: 20px;
+  }
+
+  .team-input {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .team-submit-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
