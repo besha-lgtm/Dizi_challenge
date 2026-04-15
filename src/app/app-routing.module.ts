@@ -14,8 +14,8 @@ import { ChallengesComponent } from './challenges/challenges.component';
 import { PostchallengeComponent } from './postchallenge/postchallenge.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
 import { TeamsComponent } from './teams/teams.component';
-import { DiscussionComponent } from './discussion/discussion.component';
-import { OverviewComponent } from './overview/overview.component';
+import { DiscussionComponent } from './detail/discussion/discussion.component';
+import { OverviewComponent } from './detail/overview/overview.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';  
 import { CertificatesComponent } from './certificates/certificates.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -27,16 +27,22 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
 
   // LAYOUT 1: Dashboard (With Sidebar)
-  {
-    path: 'dashboard',
-    component: SidebarComponent, 
+   {
+    path: 'detail',
+    component: DetailComponent,
     children: [
-      { path: '', component: DashboardComponent } // Loads at /dashboard
+      
+      { path: '',          redirectTo: 'detail', pathMatch: 'full' },
+      { path: 'overview',     component: OverviewComponent   },
+   
+      { path: 'discussion',   component: DiscussionComponent },
+     
     ]
   },
+  // Redirect bare root to detail
+  { path: '', redirectTo: '/detail', pathMatch: 'full' },
 
 
-  { path: 'detail', component: DetailComponent },
   { path: 'submission', component: SubmissionComponent },
   { path: 'rewards', component: RewardsComponent },
   { path: 'home', component: HomeComponent},

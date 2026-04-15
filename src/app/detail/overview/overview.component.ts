@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent {
+  openFaq: number | null = null;
 
+  toggleFaq(index: number): void {
+    this.openFaq = this.openFaq === index ? null : index;
+  }
 }

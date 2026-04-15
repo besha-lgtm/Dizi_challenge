@@ -1,0 +1,123 @@
+<div class="dis-wrapper">
+
+  <div class="dis-card dis-compose-card">
+    <div class="dis-compose-row">
+      <div class="dis-avatar dis-avatar-me">Y</div>
+      <div class="dis-compose-box">
+        <textarea
+          class="dis-textarea"
+          placeholder="Share a question, idea, or observation..."
+          [(ngModel)]="newComment"
+          (input)="autoGrow($event)"
+          rows="2"
+        ></textarea>
+        <div class="dis-compose-actions">
+          <div class="dis-hints">
+            <span class="dis-hint-tag" (click)="insertTag('@mention')">
+              <i class="fas fa-at"></i> Mention
+            </span>
+            <span class="dis-hint-tag" (click)="insertTag('#resource')">
+              <i class="fas fa-hashtag"></i> Tag
+            </span>
+          </div>
+          <button
+            class="dis-btn-primary"
+            [disabled]="!newComment.trim()"
+            (click)="postComment()"
+          >Post Comment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dis-toolbar">
+    <div class="dis-filter-tabs">
+      <button
+        class="dis-tab"
+        *ngFor="let f of filters"
+        [class.dis-tab-active]="activeFilter === f.key"
+        (click)="activeFilter = f.key"
+      >
+        <i class="fas fa-filter" style="font-size: 10px;"></i>
+        {{ f.label }} 
+        <span class="dis-count" *ngIf="f.count">{{ f.count }}</span>
+      </button>
+    </div>
+    <div class="dis-sort-wrapper">
+      <i class="fas fa-sort-amount-down dis-icon-muted"></i>
+      <select class="dis-select" [(ngModel)]="sortBy">
+        <option value="recent">Most Recent</option>
+        <option value="top">Top Voted</option>
+        <option value="unanswered">Unanswered</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="dis-card dis-pinned-card">
+    <div class="dis-pinned-header">
+      <span class="dis-pin-badge">
+        <i class="fas fa-thumbtack"></i> PINNED ANNOUNCEMENT
+      </span>
+      <span class="dis-time">3 days ago</span>
+    </div>
+    <div class="dis-thread-layout">
+      <div class="dis-avatar dis-avatar-org">V</div>
+      <div class="dis-content-area">
+        <div class="dis-meta">
+          <span class="dis-author">Visipak Team</span>
+          <span class="dis-badge dis-badge-org">Organiser</span>
+        </div>
+        <p class="dis-text">
+          Welcome to the challenge discussion board! Feel free to ask technical questions or clarify doubts.
+        </p>
+        <div class="dis-footer">
+          <button class="dis-action-btn" (click)="toggleReaction('pin', 0)">
+            <i class="fas fa-thumbs-up"></i> <span>14</span>
+          </button>
+          <button class="dis-action-btn" (click)="toggleReply('pin')">
+            <i class="fas fa-comment-alt"></i> Reply
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dis-card dis-thread-card" *ngFor="let thread of visibleThreads(); let i = index">
+    <div class="dis-thread-layout">
+      <div class="dis-avatar" [ngClass]="thread.avatarClass">{{ thread.initials }}</div>
+      <div class="dis-content-area">
+        <div class="dis-meta">
+          <span class="dis-author">{{ thread.author }}</span>
+          <span class="dis-badge" [ngClass]="thread.roleClass" *ngIf="thread.role">{{ thread.role }}</span>
+          <span class="dis-time-alt">{{ thread.time }}</span>
+        </div>
+        <p class="dis-text">{{ thread.text }}</p>
+
+        <div class="dis-footer">
+          <button class="dis-action-btn" (click)="thread.upvotes = thread.upvotes + (thread.upvoted ? -1 : 1); thread.upvoted = !thread.upvoted" [class.dis-active]="thread.upvoted">
+            <i class="fas fa-thumbs-up"></i> <span>{{ thread.upvotes }}</span>
+          </button>
+          <button class="dis-action-btn" (click)="thread.showReply = !thread.showReply">
+            <i class="fas fa-comments"></i> {{ thread.replies?.length || 0 }}
+          </button>
+        </div>
+
+        <div class="dis-replies-container" *ngIf="thread.replies?.length">
+          <div class="dis-reply-item" *ngFor="let reply of thread.replies">
+            <div class="dis-reply-line"></div>
+            <div class="dis-thread-layout">
+              <div class="dis-avatar dis-avatar-sm" [ngClass]="reply.avatarClass">{{ reply.initials }}</div>
+              <div class="dis-content-area">
+                <div class="dis-meta">
+                  <span class="dis-author">{{ reply.author }}</span>
+                  <span class="dis-time-alt">{{ reply.time }}</span>
+                </div>
+                <p class="dis-text">{{ reply.text }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <div class="page-wrapper-details">
-  
+
   <div class="layout-deatils">
 
     <!-- ════════════════════════════════════════════════════
@@ -29,139 +29,32 @@
           Visipak Industries · Visakhapatnam · Posted 12 days ago
         </p>
 
-        <!-- Tab bar -->
+        <!-- Tab bar — uses routerLink + routerLinkActive -->
         <div class="tab-bar" id="tabBar">
-          <a routerLink="#">
-            <button class="tab" data-tab>Overview</button>
+
+          <a routerLink="overview" routerLinkActive="tab-link-active">
+            <button class="tab" routerLinkActive="tab-active">Overview</button>
           </a>
-          <a routerLink="#">
-            <button class="tab tab-active" data-tab>Files & Resources</button>
+
+          <a routerLink="#" routerLinkActive="tab-link-active">
+            <button class="tab" routerLinkActive="tab-active">Files & Resources</button>
           </a>
-          <a routerLink="#">
-            <button class="tab" data-tab>Discussion</button>
+
+          <a routerLink="discussion" routerLinkActive="tab-link-active">
+            <button class="tab" routerLinkActive="tab-active">Discussion</button>
           </a>
-          <a routerLink="#">
-            <button class="tab" data-tab>Submissions (12)</button>
+
+          <a routerLink="#" routerLinkActive="tab-link-active">
+            <button class="tab" routerLinkActive="tab-active">Submissions (12)</button>
           </a>
+
         </div>
 
       </div><!-- /header-card -->
 
-      <!-- ── Problem Statement card ───────────────────── -->
-      <div class="info-card" id="cardProblem">
-        <p class="card-heading">PROBLEM STATEMENT</p>
-        <p class="card-text" id="problemText">
-          The industry experiences inconsistent visibility into energy consumption
-          across production lines, resulting in increased operating cost and limited
-          root-cause analysis. Each corrugation line operates independently with no
-          centralized monitoring system.
-        </p>
-      </div>
-
-      <!-- ── Current Situation card ───────────────────── -->
-      <div class="info-card" id="cardSituation">
-        <p class="card-heading">CURRENT SITUATION</p>
-        <p class="card-text" id="situationText">
-          Energy readings are manually reviewed at the end of each shift.
-          Machine-wise analysis is not available, and shift-level exception
-          tracking is entirely absent. The team estimates 15–20%
-          preventable energy waste per month.
-        </p>
-      </div>
-
-      <!-- ── Expected Outcome card ─────────────────────── -->
-      <div class="info-card" id="cardOutcome">
-        <p class="card-heading">EXPECTED OUTCOME</p>
-        <p class="card-text" id="outcomeText">
-          A low-cost monitoring model using sensors, dashboards, or machine-level
-          data capture to identify avoidable energy loss. The solution should be
-          deployable within 3 months with a budget under ₹50,000 and
-          operational by non-technical staff.
-        </p>
-      </div>
-
-      <!-- ── Evaluation Criteria card ──────────────────── -->
-      <div class="info-card" id="cardCriteria">
-        <p class="card-heading">EVALUATION CRITERIA</p>
-        <div class="criteria-grid" id="criteriaGrid">
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">30%</span>
-            <span class="criteria-lbl">Innovation</span>
-          </div>
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">25%</span>
-            <span class="criteria-lbl">Feasibility</span>
-          </div>
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">25%</span>
-            <span class="criteria-lbl">Cost Efficiency</span>
-          </div>
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">20%</span>
-            <span class="criteria-lbl">Scalability</span>
-          </div>
-        </div>
-      </div>
+      <!-- ── Routed tab content renders here ──────────── -->
+      <router-outlet></router-outlet>
 
     </div><!-- /main-col -->
-
-    <!-- ════════════════════════════════════════════════════
-         RIGHT COLUMN — Sidebar
-    ════════════════════════════════════════════════════ -->
-    <aside class="sidebarDetail">
-
-      <!-- ── Prize pool card ──────────────────────────── -->
-      <div class="prize-card">
-        <p class="prize-label">Total Prize Pool</p>
-        <p class="prize-amount" id="prizeTotal">₹15,000</p>
-        <div class="prize-row">
-          <span class="prize-badge prize-gold" id="prize1">🥇 ₹10,000</span>
-          <span class="prize-badge prize-silver" id="prize2">🥈 ₹3,500</span>
-          <span class="prize-badge prize-bronze" id="prize3">🥉 ₹1,500</span>
-        </div>
-      </div>
-
-      <!-- ── Meta info card ───────────────────────────── -->
-      <div class="meta-card">
-
-        <div class="meta-row">
-          <span class="meta-key">Deadline</span>
-          <span class="meta-val meta-red" id="metaDeadline">12 Apr 2026</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Teams Applied</span>
-          <span class="meta-val meta-bold" id="metaTeams">12 teams</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Team Size</span>
-          <span class="meta-val meta-bold" id="metaTeamSize">2–4 members</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Pilot Opportunity</span>
-          <span class="meta-val meta-green" id="metaPilot">Yes ✓</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Internship Offer</span>
-          <span class="meta-val meta-green" id="metaInternship">Yes ✓</span>
-        </div>
-
-        <div class="meta-row meta-row-last">
-          <span class="meta-key">Mode</span>
-          <span class="meta-val meta-bold" id="metaMode">Online + Demo</span>
-        </div>
-
-      </div><!-- /meta-card -->
-
-      <!-- ── CTA buttons ───────────────────────────────── -->
-      <button class="btn-apply" id="btnApply">Apply & Submit Solution</button>
-      <button class="btn-team" id="btnTeam">Form a Team</button>
-      <p class="free-note">Free to participate · No registration fee</p>
-
-    </aside>
-
   </div><!-- /layout -->
 </div><!-- /page-wrapper -->
