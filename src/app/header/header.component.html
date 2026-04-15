@@ -27,10 +27,10 @@
       <button class="btn dark">My Dashboard</button>
     </a> -->
     <div class="profile-container">
-      <div class="profile" (click)="toggleProfileDropdown()" title="Profile">DS</div>
+      <div class="profile" (click)="onProfileClick($event)" title="Profile">DS</div>
       <!-- Profile Dropdown -->
       <div class="profile-dropdown" [class.active]="profileDropdownOpen">
-        <button class="dropdown-item" (click)="signOut()">
+        <button class="dropdown-item" (click)="signOut(); $event.stopPropagation()">
           <i class="fas fa-sign-out-alt"></i>
           <span>Sign Out</span>
         </button>
@@ -83,7 +83,7 @@
 
     <!-- Mobile Sign Out Button -->
     <div class="mobile-signout">
-      <button class="btn-signout" (click)="signOut()">
+      <button class="btn-signout" (click)="signOut(); $event.stopPropagation()">
         <i class="fas fa-sign-out-alt"></i>
         <span>Sign Out</span>
       </button>

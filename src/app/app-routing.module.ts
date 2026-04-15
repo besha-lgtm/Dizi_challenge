@@ -12,7 +12,11 @@ import { HomeComponent } from './home/home.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ChallengesComponent } from './challenges/challenges.component';
 import { PostchallengeComponent } from './postchallenge/postchallenge.component';
-import { EvaluationComponent } from './evaluation/evaluation.component';  
+import { EvaluationComponent } from './evaluation/evaluation.component';
+import { TeamsComponent } from './teams/teams.component';
+import { DiscussionComponent } from './discussion/discussion.component';
+import { OverviewComponent } from './overview/overview.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';  
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -36,8 +40,12 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'challenges', component: ChallengesComponent },
   { path: 'leaderboard', component: LeaderboardComponent },
-  {path:'postchallenge', component: PostchallengeComponent},
+  { path: 'postchallenge', component: PostchallengeComponent },
   { path: 'evaluation', component: EvaluationComponent },
+  { path: 'teams', component: TeamsComponent },
+  { path: 'discussion', component: DiscussionComponent },
+  { path: 'overview', component: OverviewComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', redirectTo: 'login' }
  
 ];

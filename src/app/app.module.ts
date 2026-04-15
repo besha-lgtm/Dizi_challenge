@@ -18,6 +18,10 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { ChallengesComponent } from './challenges/challenges.component';
 import { PostchallengeComponent } from './postchallenge/postchallenge.component';
 import { EvaluationComponent } from './evaluation/evaluation.component';
+import { TeamsComponent } from './teams/teams.component';
+import { OverviewComponent } from './overview/overview.component';
+import { DiscussionComponent } from './discussion/discussion.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -35,7 +39,11 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
     HomeComponent,
     LeaderboardComponent,
     ChallengesComponent,
-    PostchallengeComponent
+    PostchallengeComponent,
+    TeamsComponent,
+    OverviewComponent,
+    DiscussionComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

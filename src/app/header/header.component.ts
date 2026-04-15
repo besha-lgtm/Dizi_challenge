@@ -33,6 +33,11 @@ export class HeaderComponent {
     this.profileDropdownOpen = !this.profileDropdownOpen;
   }
 
+  onProfileClick(event: MouseEvent): void {
+    event.stopPropagation();
+    this.toggleProfileDropdown();
+  }
+
   closeProfileDropdown(): void {
     this.profileDropdownOpen = false;
   }
@@ -50,31 +55,34 @@ export class HeaderComponent {
   }
 
   signOut(): void {
+    // Close menus immediately
+    if (this.menuOpen) {
+      this.menuOpen = false;
+      document.body.classList.remove('overlay-active');
+    }
+    if (this.profileDropdownOpen) {
+      this.profileDropdownOpen = false;
+    }
+
     // Clear any stored user data
     localStorage.removeItem('userToken');
     localStorage.removeItem('userData');
-    
-    // Close menus
-    if (this.menuOpen) {
-      this.toggleMenu();
-    }
-    if (this.profileDropdownOpen) {
-      this.closeProfileDropdown();
-    }
 
-    // Navigate to home
-    this.router.navigate(['/login']);
+    // Navigate to login with a slight delay to ensure UI updates
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 100);
   }
 
   // Close profile dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    const profileElement = document.querySelector('.profile-container');
-    const profileDropdown = document.querySelector('.profile-dropdown');
+    const profileContainer = document.querySelector('.profile-container');
+    const target = event.target as HTMLElement;
     
-    if (profileElement && !profileElement.contains(event.target as Node) && 
-        profileDropdown && !profileDropdown.contains(event.target as Node)) {
-      this.closeProfileDropdown();
+    // If click is outside the profile container, close dropdown
+    if (profileContainer && !profileContainer.contains(target)) {
+      this.profileDropdownOpen = false;
     }
   }
 }
