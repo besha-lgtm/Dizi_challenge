@@ -1,1 +1,173 @@
-<p>resources works!</p>
+<div class="resources-wrapper">
+
+  <div class="res-stats-banner">
+    <div class="res-stat-item">
+      <span class="res-stat-num">{{ totalFiles }}</span>
+      <span class="res-stat-lbl">Total Files</span>
+    </div>
+    <div class="res-stat-divider"></div>
+    <div class="res-stat-item">
+      <span class="res-stat-num">{{ totalDownloads }}</span>
+      <span class="res-stat-lbl">Downloads</span>
+    </div>
+    <div class="res-stat-divider"></div>
+    <div class="res-stat-item">
+      <span class="res-stat-num">{{ totalSize }}</span>
+      <span class="res-stat-lbl">Total Size</span>
+    </div>
+    <div class="res-stat-divider"></div>
+    <div class="res-stat-item">
+      <span class="res-stat-num">{{ updatedLabel }}</span>
+      <span class="res-stat-lbl">Last Updated</span>
+    </div>
+  </div>
+
+  <div class="res-section res-toolbar-card">
+    <div class="res-search-wrap">
+      <span class="res-search-icon">🔍</span>
+      <input type="text" class="res-search-input" placeholder="Search resources..." [(ngModel)]="searchQuery">
+      <button class="res-clear-btn" *ngIf="searchQuery" (click)="searchQuery = ''">✖</button>
+    </div>
+    <div class="res-type-filters">
+      <button 
+        class="res-type-chip" 
+        *ngFor="let type of typeFilters" 
+        [class.res-type-active]="activeType === type.key" 
+        (click)="activeType = type.key">
+        <div class="chip-dot" [ngClass]="'dot-' + type.key"></div>
+        {{ type.label }}
+        <span class="chip-count">{{ countByType(type.key) }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="res-section res-upload-card">
+    <div class="upload-inner" style="padding: 16px 20px;">
+      <div class="upload-icon-wrap">☁️</div>
+      <div class="upload-text">
+        <h4 class="upload-title">Can't find what you need?</h4>
+        <p class="upload-sub">Upload a new resource or suggest a file to be added to the vault.</p>
+      </div>
+      <button class="btn-suggest" (click)="suggestFile()">+ Suggest File</button>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="filteredSections().length === 0">
+    <div class="empty-icon">📂</div>
+    <h4 class="empty-title">No resources found</h4>
+    <p class="empty-sub">Try adjusting your search or filters to find what you're looking for.</p>
+    <button class="btn-reset" (click)="searchQuery = ''; activeType = 'all'">Reset Filters</button>
+  </div>
+
+  <div class="res-section" *ngFor="let section of filteredSections()">
+    
+    <div class="res-section-header" (click)="toggleSection(section.id)">
+      <div class="res-section-left">
+        <span class="res-section-icon">{{ section.icon }}</span>
+        <div>
+          <h4 class="res-section-title">{{ section.title }}</h4>
+          <p class="res-section-sub">{{ section.description }}</p>
+        </div>
+      </div>
+      <div class="res-section-right">
+        <span class="res-section-badge">{{ section.badge }}</span>
+        <span class="res-section-chevron" [class.chevron-open]="!section.collapsed">▼</span>
+      </div>
+    </div>
+
+    <div class="res-file-grid" [class.grid-collapsed]="section.collapsed">
+      <div
+        class="file-tile res-card-upgrade"
+        *ngFor="let file of getPaginatedFiles(section)"
+        [class.file-tile-new]="file.isNew"
+        (mouseenter)="file.hovered = true"
+        (mouseleave)="file.hovered = false"
+      >
+        <div class="file-type-badge" [ngClass]="'type-' + file.type">
+          {{ file.type.toUpperCase() }}
+        </div>
+        
+        <span class="file-new-badge" *ngIf="file.isNew">NEW</span>
+
+        <div class="file-icon-wrap" [ngClass]="'icon-bg-' + file.type">
+          <span class="file-icon">{{ getFileIcon(file.type) }}</span>
+        </div>
+
+        <div class="file-info">
+          <p class="file-name">{{ file.name }}</p>
+          <p class="file-desc" *ngIf="!file.hovered">{{ file.desc }}</p>
+          <p class="file-desc file-desc-hover" *ngIf="file.hovered">{{ file.hoverDesc }}</p>
+        </div>
+
+        <div class="file-meta-row">
+          <span class="file-size">{{ file.size }}</span>
+          <span class="file-downloads">⬇ {{ file.downloads }}</span>
+        </div>
+
+        <div class="file-popularity-track">
+          <div class="file-popularity-fill"
+               [ngClass]="'pop-' + file.type"
+               [style.width.%]="getPopularity(file.downloads)">
+          </div>
+        </div>
+
+        <div class="file-actions">
+          <button
+            class="file-star-btn"
+            [class.starred]="file.starred"
+            (click)="toggleStar($event, file)"
+            title="Star this file"
+          >
+            {{ file.starred ? '★' : '☆' }}
+          </button>
+          
+          <button class="btn-download" (click)="downloadFile(file)">
+            ⬇ Download
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="res-pagination" *ngIf="section.files.length > itemsPerPage && !section.collapsed">
+      <button (click)="prevPage(section)" [disabled]="(section.page || 1) === 1">‹</button>
+      <span>{{ section.page || 1 }} / {{ getTotalPages(section) }}</span>
+      <button (click)="nextPage(section)" [disabled]="(section.page || 1) === getTotalPages(section)">›</button>
+    </div>
+
+  </div>
+
+  <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Suggest / Upload File</h3>
+        <button class="btn-close" (click)="closeModal()">✖</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group file-drop-area">
+          <input type="file" class="file-input" (change)="onFileSelected($event)">
+          <span class="file-msg">{{ selectedFile ? selectedFile.name : 'Drag & drop or click to browse' }}</span>
+        </div>
+        <div class="form-group">
+          <label>File Name</label>
+          <input type="text" class="form-control" [(ngModel)]="uploadForm.name" placeholder="E.g., Q1_Report.pdf">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control" [(ngModel)]="uploadForm.desc" placeholder="Briefly describe this file..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Section</label>
+          <select class="form-control" [(ngModel)]="uploadForm.sectionId">
+            <option *ngFor="let sec of sections" [value]="sec.id">{{ sec.title }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+        <button class="btn-primary" [disabled]="!selectedFile || !uploadForm.name || !uploadForm.desc" (click)="submitUpload()">Upload File</button>
+      </div>
+    </div>
+  </div>
+
+</div>
