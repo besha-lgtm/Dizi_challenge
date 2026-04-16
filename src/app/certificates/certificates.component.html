@@ -1,94 +1,217 @@
-<div class="cert-page-container">
-  <!-- Header Section -->
-  <div class="cert-header-card">
-    <h1 class="cert-page-title">My Certificates</h1>
-    <p class="cert-page-subtitle">Your earned certificates and achievements</p>
-  </div>
+<app-header></app-header>
 
-  <!-- Search Section -->
-  <div class="cert-search-row">
-    <div class="cert-search-box">
-      <svg class="cert-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.35-4.35"></path>
-      </svg>
-      <input
-        type="text"
-        class="cert-search-input"
-        placeholder="Search by certificate name, challenge, or ID..."
-        [(ngModel)]="searchQuery"
-        (input)="onSearchChange($any($event.target).value)"
-      />
-    </div>
-  </div>
+<div class="cert-wrapper">
+  <div class="cert-layout">
+    <div class="cert-main-col">
 
-  <!-- Certificates Grid -->
-  <div class="certificates-grid">
-    <ng-container *ngIf="filteredCertificates.length > 0; else emptyCertificates">
-      <div *ngFor="let certificate of filteredCertificates" class="certificate-card" [class]="'rank-' + certificate.rank">
-        <!-- Rank Badge -->
-        <div class="cert-rank-badge" [class]="'badge-' + certificate.rank">
-          {{ getRankBadge(certificate.rank) }}
-        </div>
-
-        <!-- Icon -->
-        <div class="cert-icon-container">
-        </div>
-
-        <!-- Title & Challenge -->
-        <h3 class="cert-challenge-title">{{ certificate.title }}</h3>
-        <p class="cert-challenge-name">{{ certificate.challengeName }}</p>
-
-        <!-- Score Section -->
-        <div class="cert-score-section">
-          <div class="cert-score-bar">
-            <div class="cert-score-fill" [style.width.%]="certificate.score"></div>
-          </div>
-          <p class="cert-score-text">Score: {{ certificate.score }}%</p>
-        </div>
-
-        <!-- Details -->
-        <div class="cert-details">
-          <div class="cert-detail-item">
-            <span class="cert-detail-label">Issuer:</span>
-            <span class="cert-detail-value">{{ certificate.issuer }}</span>
-          </div>
-          <div class="cert-detail-item">
-            <span class="cert-detail-label">Date Earned:</span>
-            <span class="cert-detail-value">{{ formatDate(certificate.dateEarned) }}</span>
-          </div>
-          <div class="cert-detail-item">
-            <span class="cert-detail-label">Certificate ID:</span>
-            <span class="cert-detail-value">{{ certificate.certificateId }}</span>
-          </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="cert-actions">
-          <button class="cert-btn cert-btn-view" (click)="viewCertificate(certificate)">
-            <span class="cert-btn-icon"></span> View
-          </button>
-          <button class="cert-btn cert-btn-download" (click)="downloadCertificate(certificate)">
-            <span class="cert-btn-icon"></span> Download
-          </button>
-        </div>
-      </div>
-    </ng-container>
-
-    <!-- Empty State -->
-    <ng-template #emptyCertificates>
-      <div class="cert-empty-state">
-        <div class="cert-empty-icon">📜</div>
-        <h3 class="cert-empty-title">No Certificates Found</h3>
-        <p class="cert-empty-message">
-          <ng-container *ngIf="searchQuery">
-            No certificates match your search for "<strong>{{ searchQuery }}</strong>". Try a different search term.
-          </ng-container>
-          <ng-container *ngIf="!searchQuery">
-            You haven't earned any certificates yet. Complete challenges to earn certificates!
-          </ng-container>
+      <!-- HEADER -->
+      <div class="cert-header">
+        <h1 class="cert-title">My Certificates</h1>
+        <p class="cert-subtitle">
+          Your earned certificates and achievements
         </p>
       </div>
-    </ng-template>
+
+      <!-- SEARCH + FILTER -->
+      <div class="cert-search-filter">
+
+        <div class="cert-search-box">
+          <span class="cert-search-icon">🔍</span>
+          <input 
+            type="text"
+            class="cert-search-input"
+            placeholder="Search certificates, challenges..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange($any($event.target).value)"
+          >
+        </div>
+
+        <div class="cert-filter-group">
+          <button class="cert-filter-btn"
+            [class.cert-active]="activeFilter === 'all'"
+            (click)="setFilter('all')">
+            All ({{ filteredCertificates.length }})
+          </button>
+
+          <button class="cert-filter-btn"
+            [class.cert-active]="activeFilter === 'gold'"
+            (click)="setFilter('gold')">
+            Gold
+          </button>
+
+          <button class="cert-filter-btn"
+            [class.cert-active]="activeFilter === 'silver'"
+            (click)="setFilter('silver')">
+            Silver
+          </button>
+
+          <button class="cert-filter-btn"
+            [class.cert-active]="activeFilter === 'bronze'"
+            (click)="setFilter('bronze')">
+            Bronze
+          </button>
+        </div>
+      </div>
+
+      <!-- CERTIFICATES GRID -->
+      <div class="cert-grid">
+
+        <ng-container *ngIf="filteredCertificates.length > 0; else emptyCertificates">
+          <div class="cert-card" *ngFor="let certificate of paginatedCertificates">
+
+            <!-- STATUS & RANK -->
+            <div class="cert-tags">
+              <span class="cert-tag cert-tag-grey">{{ certificate.challengeName }}</span>
+              <span class="cert-tag" [class]="'cert-tag-' + certificate.rank">
+                {{ getRankBadge(certificate.rank) }}
+              </span>
+            </div>
+
+            <!-- TITLE -->
+            <h3 class="cert-card-title">{{ certificate.title }}</h3>
+
+            <!-- CHALLENGE & ISSUER -->
+            <p class="cert-card-meta">
+              {{ certificate.issuer }} · {{ formatDate(certificate.dateEarned) }}
+            </p>
+
+            <!-- SCORE SECTION -->
+            <div class="cert-score-section">
+              <div class="cert-progress-bar">
+                <div class="cert-progress-fill" [style.width.%]="certificate.score"></div>
+              </div>
+              <p class="cert-score-text">Score: {{ certificate.score }}%</p>
+            </div>
+
+            <!-- DETAILS -->
+            <div class="cert-footer">
+              <div class="cert-id-info">
+                <span class="cert-label">Certificate ID</span>
+                <span class="cert-value">{{ certificate.certificateId }}</span>
+              </div>
+
+              <div style="display: flex; gap: 8px;">
+                <button class="cert-btn cert-btn-primary" (click)="viewCertificate(certificate)">
+                  View →
+                </button>
+                <button class="cert-btn cert-btn-secondary" (click)="downloadCertificate(certificate)">
+                  ↓
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </ng-container>
+
+      </div>
+
+      <!-- PAGINATION CONTROLS -->
+      <div class="cert-pagination" *ngIf="isPaginationVisible && filteredCertificates.length > 0">
+        <div class="cert-pagination-info">
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }}-{{ Math.min(currentPage * itemsPerPage, filteredCertificates.length) }} of {{ filteredCertificates.length }}
+        </div>
+
+        <div class="cert-pagination-controls">
+          <button 
+            class="cert-pagination-btn" 
+            [disabled]="currentPage === 1"
+            (click)="previousPage()">
+            ← Previous
+          </button>
+
+          <div class="cert-page-numbers">
+            <button 
+              *ngFor="let page of getPageNumbers()" 
+              class="cert-page-number"
+              [class.cert-page-active]="currentPage === page"
+              (click)="goToPage(page)">
+              {{ page }}
+            </button>
+          </div>
+
+          <button 
+            class="cert-pagination-btn" 
+            [disabled]="currentPage === totalPages"
+            (click)="nextPage()">
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <!-- EMPTY STATE -->
+      <ng-template #emptyCertificates>
+        <div *ngIf="searchQuery || activeFilter !== 'all'" class="cert-empty">
+          <span>📜</span>
+          <p *ngIf="searchQuery">No certificates match "<strong>{{ searchQuery }}</strong>"</p>
+          <p *ngIf="!searchQuery">No certificates found for this filter.</p>
+        </div>
+        <div *ngIf="!searchQuery && activeFilter === 'all'" class="cert-empty">
+          <span>📜</span>
+          <p>You haven't earned any certificates yet. Complete challenges to earn certificates!</p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATE MODAL OVERLAY -->
+<div class="cert-modal-overlay" *ngIf="selectedCertificate" (click)="closeCertificateModal()">
+  <div class="cert-modal-container" (click)="$event.stopPropagation()">
+    
+    <!-- Close button -->
+    <button class="cert-modal-close" (click)="closeCertificateModal()">✕</button>
+    
+    <!-- Certificate Content -->
+    <div class="cert-modal-content">
+      
+      <!-- Certificate Header -->
+      <div class="cert-modal-header">
+        <h2 class="cert-modal-title">{{ selectedCertificate.title }}</h2>
+        <div class="cert-modal-rank" [class]="'cert-rank-' + selectedCertificate.rank">
+          {{ getRankBadge(selectedCertificate.rank) }}
+        </div>
+      </div>
+
+      <!-- Certificate Details -->
+      <div class="cert-modal-details">
+        <div class="cert-modal-detail-row">
+          <span class="cert-modal-label">Challenge</span>
+          <span class="cert-modal-value">{{ selectedCertificate.challengeName }}</span>
+        </div>
+        <div class="cert-modal-detail-row">
+          <span class="cert-modal-label">Issuer</span>
+          <span class="cert-modal-value">{{ selectedCertificate.issuer }}</span>
+        </div>
+        <div class="cert-modal-detail-row">
+          <span class="cert-modal-label">Participant</span>
+          <span class="cert-modal-value">{{ selectedCertificate.participantName }}</span>
+        </div>
+        <div class="cert-modal-detail-row">
+          <span class="cert-modal-label">Date Earned</span>
+          <span class="cert-modal-value">{{ formatDate(selectedCertificate.dateEarned) }}</span>
+        </div>
+        <div class="cert-modal-detail-row">
+          <span class="cert-modal-label">Score</span>
+          <span class="cert-modal-value">{{ selectedCertificate.score }}%</span>
+        </div>
+        <div class="cert-modal-detail-row">
+          <span class="cert-modal-label">Certificate ID</span>
+          <span class="cert-modal-value cert-id">{{ selectedCertificate.certificateId }}</span>
+        </div>
+      </div>
+
+      <!-- Certificate Actions -->
+      <div class="cert-modal-actions">
+        <button class="cert-modal-btn cert-modal-btn-primary" (click)="downloadCertificate(selectedCertificate)">
+          ⬇ Download Certificate
+        </button>
+        <button class="cert-modal-btn cert-modal-btn-secondary" (click)="closeCertificateModal()">
+          Close
+        </button>
+      </div>
+
+    </div>
+
   </div>
 </div>
