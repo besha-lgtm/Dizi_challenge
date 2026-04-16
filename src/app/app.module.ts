@@ -25,6 +25,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SettingsComponent } from './settings/settings.component';
 import { CertificatesComponent } from './certificates/certificates.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
+import { SubmissionsComponent } from './detail/submissions/submissions.component';
+import { ResourcesComponent } from './detail/resources/resources.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { CreateTeamComponent } from './create-team/create-team.component';
     ResetPasswordComponent,
     SettingsComponent,
     CertificatesComponent,
-    CreateTeamComponent
+    CreateTeamComponent,
+    SubmissionsComponent,
+    ResourcesComponent
   ],
   imports: [
     BrowserModule,

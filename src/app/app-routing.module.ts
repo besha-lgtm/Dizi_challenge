@@ -20,13 +20,23 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { CertificatesComponent } from './certificates/certificates.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
+import { ResourcesComponent } from './detail/resources/resources.component';
+import { SubmissionsComponent } from './detail/submissions/submissions.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'register', component: RegisterComponent },
 
-  // LAYOUT 1: Dashboard (With Sidebar)
+// LAYOUT 1: Dashboard (With Sidebar)
+  {
+    path: 'dashboard',
+    component: SidebarComponent, 
+    children: [
+      { path: '', component: DashboardComponent } // Loads at /dashboard
+    ]
+  },
+
    {
     path: 'detail',
     component: DetailComponent,
@@ -36,7 +46,10 @@ const routes: Routes = [
       { path: 'overview',     component: OverviewComponent   },
    
       { path: 'discussion',   component: DiscussionComponent },
-     
+
+      { path: 'submissions',   component: SubmissionsComponent },
+
+      { path: 'resources',     component: ResourcesComponent   }
     ]
   },
   // Redirect bare root to detail

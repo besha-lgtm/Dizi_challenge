@@ -1,169 +1,130 @@
-<app-header></app-header>
+<div class="app-layout-wrapper">
 
-<div class="page-wrapper-details">
-  
-  <div class="layout-deatils">
+  <div class="content-viewport">
 
-    <!-- ════════════════════════════════════════════════════
-         LEFT COLUMN — Main content
-    ════════════════════════════════════════════════════ -->
-    <div class="main-col-detail">
+    <div class="container">
 
-      <!-- ── Header card ─────────────────────────────── -->
-      <div class="header-card-detail">
-
-        <!-- Tags -->
-        <div class="tag-row" id="tagRow">
-          <span class="tag tag-grey" data-tag>Manufacturing</span>
-          <span class="tag tag-grey" data-tag>IoT</span>
-          <span class="tag tag-live" id="statusTag">● Live</span>
-        </div>
-
-        <!-- Challenge title -->
-        <h1 class="challenge-title-detail" id="challengeTitle">
-          Reduce Power Loss in Corrugation Plant
-        </h1>
-
-        <!-- Company · location · posted -->
-        <p class="challenge-meta" id="challengeMeta">
-          Visipak Industries · Visakhapatnam · Posted 12 days ago
-        </p>
-
-        <!-- Tab bar -->
-        <div class="tab-bar" id="tabBar">
-          <a routerLink="#">
-            <button class="tab" data-tab>Overview</button>
-          </a>
-          <a routerLink="#">
-            <button class="tab tab-active" data-tab>Files & Resources</button>
-          </a>
-          <a routerLink="#">
-            <button class="tab" data-tab>Discussion</button>
-          </a>
-          <a routerLink="#">
-            <button class="tab" data-tab>Submissions (12)</button>
-          </a>
-        </div>
-
-      </div><!-- /header-card -->
-
-      <!-- ── Problem Statement card ───────────────────── -->
-      <div class="info-card" id="cardProblem">
-        <p class="card-heading">PROBLEM STATEMENT</p>
-        <p class="card-text" id="problemText">
-          The industry experiences inconsistent visibility into energy consumption
-          across production lines, resulting in increased operating cost and limited
-          root-cause analysis. Each corrugation line operates independently with no
-          centralized monitoring system.
+      <!-- HEADER -->
+      <div class="page-header">
+        <h2>Welcome back, Deepika! 👋</h2>
+        <p class="subtext">
+          You have 1 submission under review and a challenge closing in 3 days.
         </p>
       </div>
 
-      <!-- ── Current Situation card ───────────────────── -->
-      <div class="info-card" id="cardSituation">
-        <p class="card-heading">CURRENT SITUATION</p>
-        <p class="card-text" id="situationText">
-          Energy readings are manually reviewed at the end of each shift.
-          Machine-wise analysis is not available, and shift-level exception
-          tracking is entirely absent. The team estimates 15–20%
-          preventable energy waste per month.
-        </p>
+      <!-- STATS -->
+      <div class="stats">
+        <div class="card1"><h3>3</h3><p>Challenges Applied</p></div>
+        <div class="card1"><h3>2</h3><p>Solutions Submitted</p></div>
+        <div class="card1"><h3>1</h3><p>Shortlisted</p></div>
+        <div class="card1"><h3>#12</h3><p>Current Rank</p></div>
       </div>
 
-      <!-- ── Expected Outcome card ─────────────────────── -->
-      <div class="info-card" id="cardOutcome">
-        <p class="card-heading">EXPECTED OUTCOME</p>
-        <p class="card-text" id="outcomeText">
-          A low-cost monitoring model using sensors, dashboards, or machine-level
-          data capture to identify avoidable energy loss. The solution should be
-          deployable within 3 months with a budget under ₹50,000 and
-          operational by non-technical staff.
-        </p>
+      <!-- MAIN GRID -->
+      <div class="main-grid">
+
+        <!-- LEFT -->
+        <div class="box">
+          <h3>Recommended Challenges</h3>
+
+          <div class="list-item">
+            <div class="left">
+              <div class="icon-box yellow"><i class="fa-solid fa-bolt"></i></div>
+              <div>
+                <strong>Machine Downtime Prediction</strong>
+                <p>Best match for IoT + ECE team</p>
+              </div>
+            </div>
+            <button class="view-btn">View</button>
+          </div>
+
+          <div class="list-item">
+            <div class="left">
+              <div class="icon-box green"><i class="fa-solid fa-leaf"></i></div>
+              <div>
+                <strong>Crop Disease Vision Model</strong>
+                <p>Best match for AI + CSE team</p>
+              </div>
+            </div>
+            <button class="view-btn">View</button>
+          </div>
+
+          <div class="list-item">
+            <div class="left">
+              <div class="icon-box brown"><i class="fa-solid fa-box"></i></div>
+              <div>
+                <strong>Warehouse Asset Tracking</strong>
+                <p>Best match for RFID + Dashboard</p>
+              </div>
+            </div>
+            <button class="view-btn">View</button>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="box">
+          <h3>My Team</h3>
+
+          <p><strong>Team Alpha Innovators</strong></p>
+          <p class="subtext">Challenge: Power Loss Reduction</p>
+
+          <div class="tags">
+            <span>Deepika S.</span>
+            <span>Ravi K.</span>
+            <span>+2 more</span>
+          </div>
+
+          <p class="progress-text">Submission Progress — 65%</p>
+
+          <div class="progress-bar">
+            <div class="progress"></div>
+          </div>
+
+          <button class="full-btn" (click)="continueSubmission()">Continue Submission →</button>
+        </div>
+
       </div>
 
-      <!-- ── Evaluation Criteria card ──────────────────── -->
-      <div class="info-card" id="cardCriteria">
-        <p class="card-heading">EVALUATION CRITERIA</p>
-        <div class="criteria-grid" id="criteriaGrid">
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">30%</span>
-            <span class="criteria-lbl">Innovation</span>
+      <!-- RECENT -->
+      <div class="box recent-box">
+        <h3>Recent Submission Status</h3>
+
+        <div class="list-item">
+          <div class="left">
+            <div class="icon-box yellow"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <strong>Energy Optimization Solution</strong>
+              <p>Under review by judges</p>
+            </div>
           </div>
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">25%</span>
-            <span class="criteria-lbl">Feasibility</span>
-          </div>
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">25%</span>
-            <span class="criteria-lbl">Cost Efficiency</span>
-          </div>
-          <div class="criteria-box" data-criteria>
-            <span class="criteria-pct">20%</span>
-            <span class="criteria-lbl">Scalability</span>
-          </div>
+          <span class="badge yellow">Under Review</span>
         </div>
+
+        <div class="list-item">
+          <div class="left">
+            <div class="icon-box green"><i class="fa-solid fa-leaf"></i></div>
+            <div>
+              <strong>Crop Monitoring Proposal</strong>
+              <p>Feedback requested</p>
+            </div>
+          </div>
+          <span class="badge gray">Revision Needed</span>
+        </div>
+
+        <div class="list-item">
+          <div class="left">
+            <div class="icon-box brown"><i class="fa-solid fa-box"></i></div>
+            <div>
+              <strong>Warehouse Tracking System</strong>
+              <p>Shortlisted</p>
+            </div>
+          </div>
+          <span class="badge green">Shortlisted</span>
+        </div>
+
       </div>
 
-    </div><!-- /main-col -->
+    </div>
 
-    <!-- ════════════════════════════════════════════════════
-         RIGHT COLUMN — Sidebar
-    ════════════════════════════════════════════════════ -->
-    <aside class="sidebarDetail">
-
-      <!-- ── Prize pool card ──────────────────────────── -->
-      <div class="prize-card">
-        <p class="prize-label">Total Prize Pool</p>
-        <p class="prize-amount" id="prizeTotal">₹15,000</p>
-        <div class="prize-row">
-          <span class="prize-badge prize-gold" id="prize1">🥇 ₹10,000</span>
-          <span class="prize-badge prize-silver" id="prize2">🥈 ₹3,500</span>
-          <span class="prize-badge prize-bronze" id="prize3">🥉 ₹1,500</span>
-        </div>
-      </div>
-
-      <!-- ── Meta info card ───────────────────────────── -->
-      <div class="meta-card">
-
-        <div class="meta-row">
-          <span class="meta-key">Deadline</span>
-          <span class="meta-val meta-red" id="metaDeadline">12 Apr 2026</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Teams Applied</span>
-          <span class="meta-val meta-bold" id="metaTeams">12 teams</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Team Size</span>
-          <span class="meta-val meta-bold" id="metaTeamSize">2–4 members</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Pilot Opportunity</span>
-          <span class="meta-val meta-green" id="metaPilot">Yes ✓</span>
-        </div>
-
-        <div class="meta-row">
-          <span class="meta-key">Internship Offer</span>
-          <span class="meta-val meta-green" id="metaInternship">Yes ✓</span>
-        </div>
-
-        <div class="meta-row meta-row-last">
-          <span class="meta-key">Mode</span>
-          <span class="meta-val meta-bold" id="metaMode">Online + Demo</span>
-        </div>
-
-      </div><!-- /meta-card -->
-
-      <!-- ── CTA buttons ───────────────────────────────── -->
-      <button class="btn-apply" id="btnApply">Apply & Submit Solution</button>
-      <button class="btn-team" routerLink="/teams">
-  Form a Team
-</button>
-      <p class="free-note">Free to participate · No registration fee</p>
-
-    </aside>
-
-  </div><!-- /layout -->
-</div><!-- /page-wrapper -->
+  </div>
+</div>
