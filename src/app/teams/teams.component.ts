@@ -11,41 +11,64 @@ export class TeamsComponent {
 
   activeFilter = 'all';
   searchText = '';
+  selectedTeam: any = null;
+
+
 
   constructor(private router: Router) {}
 
   teams: any[] = [
-    {
-      name: 'Team Alpha Innovators',
-      challenge: 'Power Loss Reduction',
-      domain: 'IoT',
-      role: 'Leader',
-      members: ['Deepika', 'Ravi', 'Kiran'],
-      progress: 65,
-      submissions: 2,
-      status: 'active'
-    },
-    {
-      name: 'Beta Explorers',
-      challenge: 'Energy Efficiency Optimization',
-      domain: 'Renewable Energy',
-      role: 'Member',
-      members: ['Priya', 'Suresh'],
-      progress: 40,
-      submissions: 3,
-      status: 'active'
-    },
-    {
-      name: 'Agri Vision AI',
-      challenge: 'Crop Disease Detection',
-      domain: 'AI',
-      role: 'Member',
-      members: ['Karthik', 'Anil'],
-      progress: 100,
-      submissions: 5,
-      status: 'completed'
-    }
-  ];
+  {
+    name: 'Team Alpha Innovators',
+    challenge: 'Power Loss Reduction',
+    domain: 'IoT',
+     college: 'ANITS, Vizag',
+    role: 'Leader',
+    members: ['Deepika', 'Ravi', 'Kiran'],
+    progress: 65,
+    submissions: 2,
+    status: 'active',
+    score: 82,
+    comments: 'Good approach, improve optimization',
+    shortlisted: true
+  },
+  {
+    name: 'Green Vision',
+    challenge: 'Energy Efficiency Optimization',
+    domain: 'Renewable Energy',
+    college: 'KL University, Hyderabad',
+    role: 'Member',
+    members: ['Priya', 'Suresh'],
+    progress: 40,
+    submissions: 3,
+    status: 'active',
+    score: 70,
+    comments: 'Needs more data validation',
+    shortlisted: false
+  },
+  {
+    name: 'Agri Vision AI',
+    challenge: 'Crop Disease Detection',
+    domain: 'AI',
+    role: 'Member',
+    members: ['Karthik', 'Anil'],
+    progress: 100,
+    submissions: 5,
+    status: 'completed',
+    score: 91,
+    comments: 'Excellent model accuracy',
+    shortlisted: true
+  }
+];
+  openTeamModal(team: any) {
+  this.selectedTeam = team;
+  document.body.style.overflow = 'hidden';
+}
+
+closeModal() {
+  this.selectedTeam = null;
+  document.body.style.overflow = 'auto';
+}
 
   filteredTeams: any[] = [...this.teams];
 

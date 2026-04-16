@@ -1,45 +1,60 @@
-<app-header></app-header>
-
 <div class="team-login-wrapper">
+
   <div class="team-login-card">
 
-    <!-- ICON -->
-    <div class="team-icon">
-      👥
-    </div>
+    <div class="team-header">
+      <div class="team-icon">👥</div>
 
-    <!-- TITLE -->
-    <h2 class="team-title">
-      {{ isEditMode ? 'Update Team' : 'Create Team' }}
-    </h2>
-
-    <p class="team-subtitle">
-      Manage your team and collaborate effectively
-    </p>
-
-    <!-- FORM -->
-    <div class="team-form">
-
-      <label>Team Name</label>
-      <input type="text" [(ngModel)]="team.name" placeholder="Enter team name">
-
-      <label>Challenge</label>
-      <input type="text" [(ngModel)]="team.challenge" placeholder="Enter challenge">
-
-      <label>Domain</label>
-      <input type="text" [(ngModel)]="team.domain" placeholder="Enter domain">
-
-      <label>Role</label>
-      <input type="text" [(ngModel)]="team.role" placeholder="Enter role">
-
-      <label>Members</label>
-      <input type="text" [(ngModel)]="membersInput" placeholder="Comma separated names">
-
-      <button (click)="createTeam()">
+      <h2 class="team-title">
         {{ isEditMode ? 'Update Team' : 'Create Team' }}
-      </button>
+      </h2>
+
+      <p class="team-subtitle">
+        Manage your team and collaborate effectively
+      </p>
+    </div>
+
+   <div class="team-form">
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Team Name</label>
+        <input type="text" [(ngModel)]="team.name" placeholder="Enter team name">
+      </div>
+
+      <div class="form-group">
+        <label>Challenge</label>
+        <input type="text" [(ngModel)]="team.challenge" placeholder="Enter challenge">
+      </div>
+
+      <div class="form-group">
+        <label>Domain</label>
+        <input type="text" [(ngModel)]="team.domain" placeholder="Enter domain">
+      </div>
+
+      <div class="form-group">
+        <label>Role</label>
+        <input type="text" [(ngModel)]="team.role" placeholder="Enter role">
+      </div>
+
+      <div class="form-group full">
+        <label>Members</label>
+        <input type="text" [(ngModel)]="membersInput" placeholder="Comma separated names">
+      </div>
 
     </div>
+
+    <button (click)="createTeam()">
+      {{ isEditMode ? 'Update Team' : 'Create Team' }}
+    </button>
+  </div>
+
 
   </div>
+
 </div>
+
+
+
+
+ 

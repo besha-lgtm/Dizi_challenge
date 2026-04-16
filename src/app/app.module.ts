@@ -27,7 +27,7 @@ import { CertificatesComponent } from './certificates/certificates.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { SubmissionsComponent } from './detail/submissions/submissions.component';
 import { ResourcesComponent } from './detail/resources/resources.component';
-
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,8 @@ import { ResourcesComponent } from './detail/resources/resources.component';
     CertificatesComponent,
     CreateTeamComponent,
     SubmissionsComponent,
-    ResourcesComponent
+    ResourcesComponent,
+    EvaluationComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +62,7 @@ import { ResourcesComponent } from './detail/resources/resources.component';
     RouterModule,  
     ReactiveFormsModule,
     FormsModule,
-    EvaluationComponent
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

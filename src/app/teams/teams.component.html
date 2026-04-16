@@ -1,4 +1,3 @@
-<app-header></app-header>
 
 <div class="page-wrapper">
   <div class="layout">
@@ -93,9 +92,9 @@
               <span class="value">{{ team.submissions }}</span>
             </div>
 
-            <button class="btn btn--primary">
-              View →
-            </button>
+            <button class="btn btn--primary" (click)="openTeamModal(team)">
+  View →
+</button>
           </div>
 
         </div>
@@ -110,4 +109,75 @@
 
     </div>
   </div>
+  <!-- 🔥 TEAM DETAILS MODAL -->
+<div class="modal-overlay" *ngIf="selectedTeam">
+
+  <div class="modal-card">
+
+    <!-- HEADER -->
+    <div class="modal-header">
+      <h2>{{ selectedTeam.name }}</h2>
+      <span class="close-btn" (click)="closeModal()">✕</span>
+    </div>
+
+    <!-- STATUS -->
+    <div class="status-badge"
+         [ngClass]="{
+           'shortlisted': selectedTeam.shortlisted,
+           'rejected': !selectedTeam.shortlisted
+         }">
+      {{ selectedTeam.shortlisted ? 'Shortlisted' : 'Not Shortlisted' }}
+    </div>
+
+    <hr>
+
+    <!-- DETAILS -->
+    <div class="modal-body">
+
+      <div class="row">
+        <span>Challenge</span>
+        <strong>{{ selectedTeam.challenge }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Domain</span>
+        <strong>{{ selectedTeam.domain }}</strong>
+      </div>
+
+       <div class="row">
+    <span>College</span>
+    <strong>{{ selectedTeam.college || '—' }}</strong>
+  </div>
+
+      <div class="row">
+        <span>Role</span>
+        <strong>{{ selectedTeam.role }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Score</span>
+        <strong>{{ selectedTeam.score || '—' }}%</strong>
+      </div>
+
+      <div class="row">
+        <span>Comments</span>
+        <strong>{{ selectedTeam.comments || 'No comments yet' }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Submissions</span>
+        <strong>{{ selectedTeam.submissions }}</strong>
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    
+
+    <button class="close-secondary" (click)="closeModal()">
+      Close
+    </button>
+
+  </div>
+</div>
 </div>

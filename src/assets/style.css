@@ -15247,6 +15247,7 @@ body.overlay-active {
 }
 
 /*teams page design css*/
+/*teams page design css*/
 /* HEADER CARD */
 .header-card {
   background: #1e2d4d;
@@ -15605,131 +15606,270 @@ body.overlay-active {
     padding: 3px 6px;
   }
 }
-/*create team page design css*/
-/* PAGE CENTERING */
-/* ===== PAGE BACKGROUND ===== */
-.team-page {
-  min-height: 100vh;
+.join-btn {
+  margin-left: auto;
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 20px;
+  border: 1px solid #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  cursor: pointer;
+}
+
+.join-btn:hover {
+  background: #3b82f6;
+  color: white;
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+
   display: flex;
   justify-content: center;
   align-items: center;
 
+  z-index: 999999; /* 🔥 VERY HIGH */
+}
+.modal-card {
+  width: 420px;
+  background: #fff;
+  border-radius: 16px;
   padding: 20px;
-
-  background: linear-gradient(
-    135deg,
-    #eef2ff 0%,
-    #f8fafc 40%,
-    #e0ecff 100%
-  );
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
 }
 
-/* ===== FORM CARD ===== */
-.team-form-container {
-  width: 100%;
-  max-width: 420px;
-
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-
-  padding: 28px 24px;
-  border-radius: 18px;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* ===== TITLE ===== */
-.team-form-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 18px;
+.close-btn {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.status-badge {
+  margin: 12px auto;
+  padding: 6px 14px;
+  border-radius: 20px;
   text-align: center;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-/* ===== FORM LAYOUT ===== */
-.team-form {
+.shortlisted {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.rejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.modal-body {
+  margin-top: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.download-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #1e3a5f;
+  color: white;
+  border: none;
+}
+
+.close-secondary {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  border: none;
+}
+body.modal-open {
+  overflow: hidden;
+}
+app-header {
+  position: relative;
+  z-index: 1; /* 🔥 lower than modal */
+}
+.hide-header {
+  display: none !important;
+}
+
+/*create team page design css*/
+/* PAGE CENTERING */
+/* ===== PAGE BACKGROUND ===== */
+
+.team-login-wrapper {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  background-color: white;
+  padding: 110px 20px 65px 25px;
+  background: #ffffff !important;
+  position: relative;
+  z-index: 1;
+}
+/* ===== CARD ===== */
+.team-login-card {
+  width: 100%;
+  max-width: 650px;
+  height: 520px; /* 🔥 FIX HEIGHT → required for ratio */
   display: flex;
   flex-direction: column;
-  gap: 14px;
-}
-
-/* ===== INPUT ===== */
-.team-input {
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-
-  font-size: 14px;
-  background: #f9fafc;
-
-  transition: all 0.25s ease;
-}
-
-.team-input:focus {
-  outline: none;
-  border-color: #3b82f6;
+  border-radius: 22px;
+  overflow: hidden;
   background: white;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
 }
 
-.team-input::placeholder {
-  color: #94a3b8;
+/* ===== TOP HEADER (DARK) ===== */
+.team-header {
+  flex: 0 0 20%; /* 🔥 EXACT 20% */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #1e3a5f, #27496d);
+  color: white;
+  text-align: center;
+
+  padding: 10px 15px; /* 🔥 reduced */
 }
 
-/* ===== BUTTON ===== */
-.team-submit-btn {
-  margin-top: 10px;
-  padding: 12px;
+/* ICON */
+.team-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
 
-  border: none;
-  border-radius: 10px;
+  /* 🔥 MATCH YOUR DS BLUE */
+  background: #f1f5f9;
 
-  background: linear-gradient(135deg, #1e2d4d, #2f4b7c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
   color: white;
 
+  /* subtle shadow (not heavy) */
+  box-shadow: 0 6px 15px rgba(25,118,210,0.3);
+}
+/* TITLE */
+.team-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.team-subtitle {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-top: 2px;
+}
+
+/* ===== FORM SECTION (WHITE) ===== */
+.team-form {
+  flex: 1; /* 🔥 takes remaining 80% */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* center content vertically */
+
+  padding: 30px 30px; /* 🔥 balanced */
+  background: #ffffff;
+}
+/* GRID */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px; /* clean spacing */
+}
+/* FULL WIDTH FIELD */
+.form-group.full {
+  grid-column: span 2;
+}
+
+/* LABEL */
+.form-group label {
+  font-size: 12px;
   font-weight: 600;
+  color: #334155;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* INPUT */
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
   font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
 
+/* FOCUS */
+.form-group input:focus {
+  background: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
+}
+
+/* BUTTON */
+.team-form button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+
+  
+ background: linear-gradient(135deg, #1e3a5f, #27496d);
+
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
-  transition: all 0.25s ease;
-
-  box-shadow: 0 6px 15px rgba(30, 45, 77, 0.25);
+  transition: all 0.3s ease;
 }
 
-.team-submit-btn:hover {
+/* HOVER */
+.team-form button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(30, 45, 77, 0.35);
+  box-shadow: 0 12px 30px rgba(91,92,230,0.4);
 }
 
-.team-submit-btn:active {
-  transform: scale(0.97);
-}
-
-/* ===== RESPONSIVE ===== */
-
-/* Tablet */
-@media (max-width: 768px) {
-  .team-form-container {
-    max-width: 90%;
-    padding: 24px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .team-form-title {
-    font-size: 20px;
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 
-  .team-input {
-    font-size: 13px;
-    padding: 10px;
+  .form-group.full {
+    grid-column: span 1;
   }
 
-  .team-submit-btn {
-    padding: 10px;
-    font-size: 13px;
+  .team-login-card {
+    max-width: 95%;
   }
 }
