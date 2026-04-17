@@ -1,54 +1,53 @@
-<div class="team-login-wrapper">
+<div class="create-team-wrapper">
 
-  <div class="team-login-card">
+  <div class="create-team-card">
 
-    <div class="team-header">
-      <div class="team-icon">👥</div>
+    <div class="create-team-header">
+      <div class="create-team-icon">👥</div>
 
-      <h2 class="team-title">
+      <h2 class="create-team-title">
         {{ isEditMode ? 'Update Team' : 'Create Team' }}
       </h2>
 
-      <p class="team-subtitle">
+      <p class="create-team-subtitle">
         Manage your team and collaborate effectively
       </p>
     </div>
 
-   <div class="team-form">
-    <div class="form-grid">
+   <div class="create-team-form">
+    <div class="create-team-grid">
 
-      <div class="form-group">
+      <div class="create-team-form-group">
         <label>Team Name</label>
         <input type="text" [(ngModel)]="team.name" placeholder="Enter team name">
       </div>
 
-      <div class="form-group">
+      <div class="create-team-form-group">
         <label>Challenge</label>
         <input type="text" [(ngModel)]="team.challenge" placeholder="Enter challenge">
       </div>
 
-      <div class="form-group">
+      <div class="create-team-form-group">
         <label>Domain</label>
         <input type="text" [(ngModel)]="team.domain" placeholder="Enter domain">
       </div>
 
-      <div class="form-group">
+      <div class="create-team-form-group">
         <label>Role</label>
         <input type="text" [(ngModel)]="team.role" placeholder="Enter role">
       </div>
 
-      <div class="form-group full">
+      <div class="create-team-form-group create-team-full">
         <label>Members</label>
         <input type="text" [(ngModel)]="membersInput" placeholder="Comma separated names">
       </div>
 
     </div>
 
-    <button (click)="createTeam()">
+    <button (click)="createTeam()" class="create-team-btn">
       {{ isEditMode ? 'Update Team' : 'Create Team' }}
     </button>
   </div>
-
 
   </div>
 

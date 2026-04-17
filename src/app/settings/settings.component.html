@@ -1,1 +1,410 @@
-<p>settings works!</p>
+<app-header></app-header>
+
+<div class="page-wrapper">
+  <div class="layout">
+    <div class="st-main-col">
+
+      <!-- PAGE HEADER -->
+      <div class="st-header">
+        <div class="st-header-top">
+          <div>
+            <h1 class="st-title">Settings</h1>
+            <p class="st-subtitle">Manage your account, notifications, security, and preferences</p>
+          </div>
+          <button class="st-signout-btn" (click)="signOut()">
+            <span class="st-signout-text">Sign Out</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SETTINGS CONTAINER -->
+      <div class="st-container">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="st-sidebar">
+          <nav class="st-nav">
+            <button 
+              class="st-nav-item"
+              [class.st-nav-active]="activeSection === 'account'"
+              (click)="setActiveSection('account')">
+              <span class="st-nav-icon">👤</span>
+              <span class="st-nav-label">Account</span>
+            </button>
+
+            <button 
+              class="st-nav-item"
+              [class.st-nav-active]="activeSection === 'notifications'"
+              (click)="setActiveSection('notifications')">
+              <span class="st-nav-icon">🔔</span>
+              <span class="st-nav-label">Notifications</span>
+            </button>
+
+            <button 
+              class="st-nav-item"
+              [class.st-nav-active]="activeSection === 'security'"
+              (click)="setActiveSection('security')">
+              <span class="st-nav-icon">🔒</span>
+              <span class="st-nav-label">Security</span>
+            </button>
+
+            <button 
+              class="st-nav-item"
+              [class.st-nav-active]="activeSection === 'preferences'"
+              (click)="setActiveSection('preferences')">
+              <span class="st-nav-icon">⚙️</span>
+              <span class="st-nav-label">Preferences</span>
+            </button>
+          </nav>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <main class="st-content">
+
+          <!-- ACCOUNT SECTION -->
+          <div class="st-section" *ngIf="activeSection === 'account'">
+            <div class="section-header">
+              <h2>Account Information</h2>
+              <p>Your profile information from registration</p>
+            </div>
+
+            <div class="st-card">
+              <div class="card-title">Profile Information</div>
+              
+              <div class="st-form-group">
+                <label class="form-label">Full Name</label>
+                <div class="form-input-wrapper">
+                  <input 
+                    type="text" 
+                    class="form-input" 
+                    [(ngModel)]="userName"
+                    [disabled]="!editingName"
+                    placeholder="Enter your full name">
+                  <button 
+                    class="form-input-edit-btn" 
+                    (click)="toggleEditName()"
+                    type="button">
+                    {{ editingName ? '✓' : '✏️' }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="st-form-group">
+                <label class="form-label">Email Address</label>
+                <div class="form-input-wrapper">
+                  <div class="form-input-disabled">{{ userEmail }}</div>
+                </div>
+              </div>
+
+              <div class="st-form-group">
+                <label class="form-label">Member Since</label>
+                <div class="form-input-wrapper">
+                  <div class="form-input-disabled">{{ getFormattedJoinDate() }}</div>
+                </div>
+              </div>
+
+              <div class="info-message">
+                <span class="info-icon"><i class="fa fa-info-circle"></i></span>
+                <span class="info-text">Email address cannot be changed here. Please contact support if you need to update your email.</span>
+              </div>
+
+              <div *ngIf="editingName" class="form-actions">
+                <button class="btn st-btn-primary" (click)="saveNameChange()">Save Name</button>
+                <button class="btn st-btn-secondary" (click)="cancelEditName()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- NOTIFICATIONS SECTION -->
+          <div class="st-section" *ngIf="activeSection === 'notifications'">
+            <div class="section-header">
+              <h2>Notification Preferences</h2>
+              <p>Control how you receive notifications</p>
+            </div>
+
+            <div class="st-card">
+              <div class="card-title">Communication Channels</div>
+              
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Email Notifications</div>
+                    <div class="toggle-description">Receive updates via email</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.emailNotifications"
+                      (change)="toggleNotification('emailNotifications')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Push Notifications</div>
+                    <div class="toggle-description">Receive browser push notifications</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.pushNotifications"
+                      (change)="toggleNotification('pushNotifications')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">SMS Notifications</div>
+                    <div class="toggle-description">Receive text message updates</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.smsNotifications"
+                      (change)="toggleNotification('smsNotifications')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="st-card">
+              <div class="card-title">Challenge & Updates</div>
+              
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">New Challenges</div>
+                    <div class="toggle-description">Notify about new challenges matching your interests</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.newChallenges"
+                      (change)="toggleNotification('newChallenges')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Evaluation Updates</div>
+                    <div class="toggle-description">Get notified when your submissions are evaluated</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.evaluationUpdates"
+                      (change)="toggleNotification('evaluationUpdates')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Newsletter</div>
+                    <div class="toggle-description">Subscribe to our weekly newsletter</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.newsletter"
+                      (change)="toggleNotification('newsletter')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn st-btn-primary" (click)="saveSettings()">Save Preferences</button>
+            </div>
+          </div>
+
+          <!-- SECURITY SECTION -->
+          <div class="st-section" *ngIf="activeSection === 'security'">
+            <div class="section-header">
+              <h2>Security Settings</h2>
+              <p>Manage your password and account security</p>
+            </div>
+
+            <!-- Change Password Card -->
+            <div class="st-card">
+              <div class="card-title">Change Password</div>
+              
+              <div *ngIf="passwordSuccess" class="alert alert-success">
+                ✓ {{ passwordSuccess }}
+              </div>
+
+              <div *ngIf="passwordError" class="alert alert-error">
+                ✗ {{ passwordError }}
+              </div>
+
+              <div class="st-form-group">
+                <label class="form-label">Current Password</label>
+                <div class="form-input-wrapper">
+                  <input 
+                    [type]="showCurrentPassword ? 'text' : 'password'" 
+                    class="form-input" 
+                    [class.form-input-error]="passwordErrors['currentPassword']"
+                    [(ngModel)]="currentPassword"
+                    placeholder="Enter current password">
+                  <button 
+                    class="form-input-toggle" 
+                    (click)="showCurrentPassword = !showCurrentPassword"
+                    type="button">
+                    <i [class]="showCurrentPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                  </button>
+                </div>
+                <span class="field-error" *ngIf="passwordErrors['currentPassword']">
+                  {{ passwordErrors['currentPassword'] }}
+                </span>
+              </div>
+
+              <div class="st-form-group">
+                <label class="form-label">New Password</label>
+                <div class="form-input-wrapper">
+                  <input 
+                    [type]="showNewPassword ? 'text' : 'password'" 
+                    class="form-input" 
+                    [class.form-input-error]="passwordErrors['newPassword']"
+                    [(ngModel)]="newPassword"
+                    placeholder="Enter new password (min. 8 characters)">
+                  <button 
+                    class="form-input-toggle" 
+                    (click)="showNewPassword = !showNewPassword"
+                    type="button">
+                    <i [class]="showNewPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                  </button>
+                </div>
+                <span class="field-error" *ngIf="passwordErrors['newPassword']">
+                  {{ passwordErrors['newPassword'] }}
+                </span>
+                <div class="password-requirements" *ngIf="newPassword">
+                  <p class="requirement-title">Password Requirements:</p>
+                  <ul>
+                    <li [class.requirement-met]="hasMinLength()">
+                      <span class="requirement-icon">{{ hasMinLength() ? '✓' : '✗' }}</span>
+                      At least 8 characters
+                    </li>
+                    <li [class.requirement-met]="hasUppercase()">
+                      <span class="requirement-icon">{{ hasUppercase() ? '✓' : '✗' }}</span>
+                      One uppercase letter
+                    </li>
+                    <li [class.requirement-met]="hasLowercase()">
+                      <span class="requirement-icon">{{ hasLowercase() ? '✓' : '✗' }}</span>
+                      One lowercase letter
+                    </li>
+                    <li [class.requirement-met]="hasNumber()">
+                      <span class="requirement-icon">{{ hasNumber() ? '✓' : '✗' }}</span>
+                      One number
+                    </li>
+                    <li [class.requirement-met]="hasSpecialChar()">
+                      <span class="requirement-icon">{{ hasSpecialChar() ? '✓' : '✗' }}</span>
+                      One special character (!&#64;#$%^&*, etc.)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="st-form-group">
+                <label class="form-label">Confirm Password</label>
+                <div class="form-input-wrapper" [class.input-match]="confirmPassword && doPasswordsMatch()">
+                  <input 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    class="form-input" 
+                    [class.form-input-error]="passwordErrors['confirmPassword']"
+                    [(ngModel)]="confirmPassword"
+                    placeholder="Confirm new password">
+                  <button 
+                    class="form-input-toggle" 
+                    (click)="showConfirmPassword = !showConfirmPassword"
+                    type="button">
+                    <i [class]="showConfirmPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                  </button>
+                </div>
+                <span class="password-match-indicator" *ngIf="confirmPassword">
+                  <i [class]="doPasswordsMatch() ? 'fa fa-check' : 'fa fa-times'"></i>
+                  <span [class.match-success]="doPasswordsMatch()" [class.match-error]="!doPasswordsMatch()">
+                    {{ doPasswordsMatch() ? 'Passwords match' : 'Passwords do not match' }}
+                  </span>
+                </span>
+                <span class="field-error" *ngIf="passwordErrors['confirmPassword']">
+                  {{ passwordErrors['confirmPassword'] }}
+                </span>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn st-btn-primary" (click)="changePassword()">Change Password</button>
+                <button class="btn st-btn-secondary" (click)="clearPasswordForm()">Cancel</button>
+              </div>
+            </div>
+
+            <!-- Two Factor Auth Card -->
+            <div class="st-card">
+              <div class="card-title">Two-Factor Authentication</div>
+              <p class="card-description">Add an extra layer of security to your account</p>
+              
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Enable 2FA</div>
+                    <div class="toggle-description">Require authentication code on login</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input 
+                      type="checkbox" 
+                      [(ngModel)]="settings.twoFactorAuth"
+                      (change)="toggleNotification('twoFactorAuth')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Session Management Card -->
+            <div class="st-card">
+              <div class="card-title">Session Management</div>
+              
+              <div class="session-info">
+                <div class="session-item">
+                  <div class="session-details">
+                    <div class="session-device">💻 Chrome on macOS</div>
+                    <div class="session-time">Last active: Today at 2:30 PM</div>
+                  </div>
+                  <span class="session-badge">Current</span>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button class="btn st-btn-secondary" (click)="logout()">Sign Out All Sessions</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PREFERENCES SECTION -->
+          <div class="st-section" *ngIf="activeSection === 'preferences'">
+            <div class="section-header">
+              <h2>Preferences</h2>
+              <p>Customize your app experience</p>
+            </div>
+
+            <!-- Account Danger Zone -->
+            <div class="st-card st-danger-zone">
+              <div class="card-title card-title-danger">Danger Zone</div>
+              <p class="card-description">Irreversible actions</p>
+              
+              <button class="btn st-btn-danger" (click)="deleteAccount()">Delete Account</button>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn st-btn-primary" (click)="saveSettings()">Save Preferences</button>
+            </div>
+          </div>
+
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
