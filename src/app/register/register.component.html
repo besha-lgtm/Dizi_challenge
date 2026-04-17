@@ -122,7 +122,6 @@
                         email
                         #email="ngModel">
                 </div>
-                <p class="helper-text">Use your institutional email for faster verification.</p>
                 <span class="error-message" *ngIf="email.invalid && (email.dirty || email.touched)">
                     <span *ngIf="email.errors?.['required']">Email is required</span>
                     <span *ngIf="email.errors?.['email']">Invalid email format</span>

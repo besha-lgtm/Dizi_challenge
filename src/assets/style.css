@@ -518,6 +518,7 @@ button{
     max-height: 90vh;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-color: white transparent;
 }
 
 .login-header {
@@ -3298,7 +3299,7 @@ body {
   max-width: 800px;
   margin: 0 auto;
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* ═══════════════════════════════════════════════════

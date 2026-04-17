@@ -9,6 +9,7 @@
       background-color: #f8fafc; /* Subtle background for contrast against cards */
       min-height: 100vh;
       position:absolute;
+      z-index: -1;
     }
 
     .ov-info-card {

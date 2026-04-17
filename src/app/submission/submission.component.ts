@@ -10,6 +10,8 @@ interface FieldRule {
 }
 
 interface SubmissionData {
+  hackathonName: string;
+  college: string;
   githubRepo: string;
   demoLink: string;
   solutionSummary: string;
@@ -24,6 +26,8 @@ interface SubmissionData {
 })
 export class SubmissionComponent implements OnInit, AfterViewInit {
   submission: SubmissionData = {
+    hackathonName: '',
+    college: '',
     githubRepo: '',
     demoLink: '',
     solutionSummary: '',
@@ -38,6 +42,16 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
   // ── Validation Configuration ───────────────────────
   private readonly FIELD_RULES: FieldRule[] = [
     { 
+      fieldId: "hackathonName", 
+      errorId: "err-hackathonName", 
+      validate: (v) => v.trim().length > 0
+    },
+    { 
+      fieldId: "college", 
+      errorId: "err-college", 
+      validate: (v) => v.trim().length > 0
+    },
+    { 
       fieldId: "githubRepo", 
       errorId: "err-githubRepo", 
       validate: (v) => /^https:\/\/github\.com\/.+\/.+/i.test(v.trim()) && v.trim().length > 0
@@ -51,9 +65,7 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    // Initialize component if needed
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.initFieldListeners();
@@ -172,13 +184,17 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     this.validateAllFields();
 
     // Check if validation passed
+    const hackathonName = this.getEl<HTMLInputElement>("hackathonName");
+    const college = this.getEl<HTMLInputElement>("college");
     const githubRepo = this.getEl<HTMLInputElement>("githubRepo");
     const solutionSummary = this.getEl<HTMLTextAreaElement>("solutionSummary");
     
+    const hackathonValid = hackathonName && hackathonName.value.trim().length > 0;
+    const collegeValid = college && college.value.trim().length > 0;
     const githubValid = githubRepo && /^https:\/\/github\.com\/.+\/.+/i.test(githubRepo.value.trim());
     const summaryValid = solutionSummary && solutionSummary.value.trim().length >= 20;
 
-    if (!githubValid || !summaryValid) {
+    if (!hackathonValid || !collegeValid || !githubValid || !summaryValid) {
       this.formError = 'Please fill all required fields correctly';
       return;
     }
@@ -197,6 +213,8 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     this.isSubmitting = true;
     this.formSuccess = 'Solution submitted successfully!';
     console.log('Submission submitted with data:', {
+      hackathonName: this.submission.hackathonName,
+      college: this.submission.college,
       githubRepo: this.submission.githubRepo,
       demoLink: this.submission.demoLink,
       solutionSummary: this.submission.solutionSummary,
@@ -208,6 +226,8 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
       form.resetForm();
       this.uploadedFiles = [];
       this.submission = {
+        hackathonName: '',
+        college: '',
         githubRepo: '',
         demoLink: '',
         solutionSummary: '',
@@ -244,6 +264,8 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     // Show draft saved message
     this.formSuccess = 'Draft saved successfully!';
     console.log('Draft saved with data:', {
+      hackathonName: this.submission.hackathonName,
+      college: this.submission.college,
       githubRepo: this.submission.githubRepo,
       demoLink: this.submission.demoLink,
       solutionSummary: this.submission.solutionSummary,

@@ -1,121 +1,151 @@
-<div class="page-wrapper">   
-    <div class="card">
-        <h2 class="card-title">Submit Your Solution</h2>
-        <p class="card-subtitle">Upload documents, link your demo, and summarize your approach.</p>
-        
-        <!-- Display form-level error messages -->
-        <div *ngIf="formError" class="form-error-message">
-            {{ formError }}
+<div class="page-wrapper">
+  <div class="card">
+    <h2 class="card-title">Submit Your Solution</h2>
+    <p class="card-subtitle">Upload documents, link your demo, and summarize your approach.</p>
+
+    <!-- Form-level messages -->
+    <div *ngIf="formError" class="form-error-message">{{ formError }}</div>
+    <div *ngIf="formSuccess" class="form-success-message">{{ formSuccess }}</div>
+
+    <form #submissionForm="ngForm" (ngSubmit)="onSubmit(submissionForm)" class="submission-form">
+
+      <!-- ── Drop Zone ──────────────────────────────── -->
+      <div class="drop-zone"
+           id="dropZone"
+           (drop)="onDropZone($event)"
+           (dragover)="$event.preventDefault()"
+           (dragleave)="$event.preventDefault()">
+        <svg class="folder-icon" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="10" width="50" height="32" rx="4" fill="#f5c842" opacity="0.18"/>
+          <path d="M2 14C2 11.8 3.8 10 6 10H20L24 6H46C48.2 6 50 7.8 50 10V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V14Z" fill="#f5c842"/>
+          <path d="M2 18H50V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V18Z" fill="#e6a800"/>
+          <rect x="2" y="14" width="48" height="4" rx="2" fill="#f5c842"/>
+        </svg>
+        <span class="drop-zone-label">Drag &amp; Drop files here</span>
+        <span class="drop-zone-hint">PDF · PPT · Images · Videos up to 50MB</span>
+        <button type="button" class="btn-browse" (click)="fileInput.click()">Browse Files</button>
+        <input
+          type="file"
+          #fileInput
+          id="fileInput"
+          multiple
+          accept=".pdf,.ppt,.pptx,image/*,video/*"
+          (change)="onFileSelected($event)"
+          style="display:none"/>
+      </div>
+
+      <!-- Uploaded files list -->
+      <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
+        <h4>Uploaded Files:</h4>
+        <ul class="files-list">
+          <li *ngFor="let file of uploadedFiles; let i = index" class="file-item">
+            <span class="file-name">{{ file.name }}</span>
+            <span class="file-size">({{ (file.size / 1024 / 1024).toFixed(2) }} MB)</span>
+            <button type="button" class="btn-remove" (click)="removeFile(i)" title="Remove file">✕</button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ── Hackathon name + College row ────────────── -->
+      <div class="field-row">
+        <div class="field">
+          <label for="hackathonName">Hackathon Name <span class="req">*</span></label>
+          <input
+            type="text"
+            id="hackathonName"
+            name="hackathonName"
+            class="field-input"
+            [(ngModel)]="submission.hackathonName"
+            placeholder="e.g. Reduce Power Loss in Corrugation Plant"
+            required
+            #hackathonNameRef="ngModel"/>
+          <span class="field-error" id="err-hackathonName">
+            Please enter the hackathon name
+          </span>
         </div>
-        <div *ngIf="formSuccess" class="form-success-message">
-            {{ formSuccess }}
+
+        <div class="field">
+          <label for="college">College / School <span class="req">*</span></label>
+          <input
+            type="text"
+            id="college"
+            name="college"
+            class="field-input"
+            [(ngModel)]="submission.college"
+            placeholder="e.g. IIT Hyderabad"
+            required
+            #collegeRef="ngModel"/>
+          <span class="field-error" id="err-college">
+            Please enter your institution name
+          </span>
+        </div>
+      </div>
+
+      <!-- ── GitHub + Demo row ────────────────────────── -->
+      <div class="field-row">
+        <div class="field">
+          <label for="githubRepo">GitHub Repository <span class="req">*</span></label>
+          <input
+            type="url"
+            id="githubRepo"
+            name="githubRepo"
+            class="field-input"
+            [(ngModel)]="submission.githubRepo"
+            placeholder="https://github.com/team-alpha/energy-dashboard"
+            required
+            #githubRepo="ngModel"/>
+          <span class="field-error" id="err-githubRepo">
+            Please enter a valid GitHub repository URL
+          </span>
         </div>
 
-        <form #submissionForm="ngForm" (ngSubmit)="onSubmit(submissionForm)" class="submission-form">
-            <!-- Drop Zone -->
-            <div class="drop-zone" 
-                 id="dropZone"
-                 (drop)="onDropZone($event)"
-                 (dragover)="$event.preventDefault()"
-                 (dragleave)="$event.preventDefault()">
-                <svg class="folder-icon" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="1" y="10" width="50" height="32" rx="4" fill="#f5c842" opacity="0.18"/>
-                    <path d="M2 14C2 11.8 3.8 10 6 10H20L24 6H46C48.2 6 50 7.8 50 10V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V14Z" fill="#f5c842"/>
-                    <path d="M2 18H50V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V18Z" fill="#e6a800"/>
-                    <rect x="2" y="14" width="48" height="4" rx="2" fill="#f5c842"/>
-                </svg>
-                
-                <span class="drop-zone-label">Drag &amp; Drop files here</span>
-                <span class="drop-zone-hint">PDF · PPT · Images · Videos up to 50MB</span>
-                <button type="button" class="btn-browse" (click)="fileInput.click()">Browse Files</button>
-                
-                <input 
-                    type="file" 
-                    #fileInput 
-                    id="fileInput" 
-                    multiple 
-                    accept=".pdf,.ppt,.pptx,image/*,video/*"
-                    (change)="onFileSelected($event)"
-                    style="display:none"/>
-            </div>
+        <div class="field">
+          <label for="demoLink">Demo / Video Link</label>
+          <input
+            type="url"
+            id="demoLink"
+            name="demoLink"
+            class="field-input"
+            [(ngModel)]="submission.demoLink"
+            placeholder="YouTube, Google Drive…"
+            #demoLink="ngModel"/>
+        </div>
+      </div>
 
-            <!-- Display uploaded files -->
-            <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
-                <h4>Uploaded Files:</h4>
-                <ul class="files-list">
-                    <li *ngFor="let file of uploadedFiles; let i = index" class="file-item">
-                        <span class="file-name">{{ file.name }}</span>
-                        <span class="file-size">({{ (file.size / 1024 / 1024).toFixed(2) }} MB)</span>
-                        <button type="button" class="btn-remove" (click)="removeFile(i)" title="Remove file">✕</button>
-                    </li>
-                </ul>
-            </div>
+      <!-- ── Solution Summary ─────────────────────────── -->
+      <div class="field field-full">
+        <label for="solutionSummary">Solution Summary <span class="req">*</span></label>
+        <textarea
+          id="solutionSummary"
+          name="solutionSummary"
+          class="field-textarea"
+          [(ngModel)]="submission.solutionSummary"
+          placeholder="Describe your approach, architecture, and key decisions…"
+          required
+          minlength="20"
+          #solutionSummary="ngModel"
+          rows="6"></textarea>
+        <span class="field-error" id="err-solutionSummary">
+          Solution summary must be at least 20 characters long
+        </span>
+      </div>
 
-            <!-- GitHub + Demo row -->
-            <!-- GitHub + Demo row -->
-            <div class="field-row">
-                <div class="field">
-                    <label for="githubRepo">GitHub Repository <span class="req">*</span></label>
-                    <input
-                        type="url"
-                        id="githubRepo"
-                        name="githubRepo"
-                        class="field-input"
-                        [(ngModel)]="submission.githubRepo"
-                        placeholder="https://github.com/team-alpha/energy-dashboard"
-                        required
-                        #githubRepo="ngModel"/>
-                    <span class="field-error" id="err-githubRepo">
-                         Please enter a valid GitHub repository URL
-                    </span>
-                </div>
+      <!-- ── Actions ──────────────────────────────────── -->
+      <div class="action-row">
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Submitting…' : 'Submit Final Solution' }}
+        </button>
+        <button
+          type="button"
+          class="btn-draft"
+          (click)="saveDraft(submissionForm)">
+          Save Draft
+        </button>
+      </div>
 
-                <div class="field">
-                    <label for="demoLink">Demo / Video Link</label>
-                    <input
-                        type="url"
-                        id="demoLink"
-                        name="demoLink"
-                        class="field-input"
-                        [(ngModel)]="submission.demoLink"
-                        placeholder="YouTube, Google Drive…"
-                        #demoLink="ngModel"/>
-                </div>
-            </div>
-
-            <!-- Solution Summary -->
-            <div class="field field-full">
-                <label for="solutionSummary">Solution Summary <span class="req">*</span></label>
-                <textarea
-                    id="solutionSummary"
-                    name="solutionSummary"
-                    class="field-textarea"
-                    [(ngModel)]="submission.solutionSummary"
-                    placeholder="Describe your approach, architecture, and key decisions…"
-                    required
-                    minlength="20"
-                    #solutionSummary="ngModel"
-                    rows="6"></textarea>
-                <span class="field-error" id="err-solutionSummary">
-                     Solution summary must be at least 20 characters long
-                </span>
-            </div>
-
-            <!-- Actions -->
-            <div class="action-row">
-                <button 
-                    type="submit" 
-                    class="btn-submit"
-                    [disabled]="isSubmitting">
-                    {{ isSubmitting ? 'Submitting...' : 'Submit Final Solution' }}
-                </button>
-                <button 
-                    type="button" 
-                    class="btn-draft"
-                    (click)="saveDraft(submissionForm)">
-                    Save Draft
-                </button>
-            </div>
-        </form>
-    </div>
+    </form>
+  </div>
 </div>
