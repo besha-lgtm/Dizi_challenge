@@ -16434,7 +16434,6 @@ input:checked + .toggle-slider:before {
 
 /*teams page design css*/
 /*teams page design css*/
-/* HEADER CARD */
 .header-card {
   background: #1e2d4d;
   padding: 20px;
@@ -16656,6 +16655,31 @@ input:checked + .toggle-slider:before {
   .challenge-meta {
     font-size: 12px;
   }
+  .prize-teams {
+    display: flex;
+    flex-direction: row;              /* 🔥 KEEP SIDE BY SIDE */
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .prize-info {
+    min-width: 0;
+  }
+
+  .prize-teams .btn {
+    margin-left: auto;
+
+    width: 110px;
+    max-width: 110px;
+
+    font-size: 12px;
+    padding: 7px 8px;
+
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
 }
 
 /* ========================= */
@@ -16674,10 +16698,10 @@ input:checked + .toggle-slider:before {
 /* ========================= */
 
 @media (max-width: 480px) {
-  .prize-teams {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+  .prize-teams .btn {
+    width: 100px;
+    font-size: 11px;
+    padding: 6px;
   }
 
   .view-btn {
@@ -16776,9 +16800,24 @@ input:checked + .toggle-slider:before {
 
   /* FOOTER */
   .prize-teams {
-    flex-direction: column;
-    align-items: flex-start;
     gap: 6px;
+  }
+
+  .prize-teams .btn {
+    width: auto;          /* 🔥 adaptive */
+    min-width: 80px;
+    max-width: 95px;
+
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+
+  .prize-info .label {
+    font-size: 9px;
+  }
+
+  .prize-info .value {
+    font-size: 14px;
   }
 
   .view-btn {
@@ -16891,12 +16930,8 @@ body.modal-open {
   overflow: hidden;
 }
 app-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 1001;
+  position: relative;
+  z-index: 1; /* 🔥 lower than modal */
 }
 .hide-header {
   display: none !important;
@@ -16915,13 +16950,14 @@ app-header {
   padding: 110px 20px 65px 25px;
   background: #ffffff !important;
   position: relative;
-  z-index: 1;
+  
 }
 /* ===== CARD ===== */
 .create-team-card {
   width: 100%;
   max-width: 650px;
-  height: 520px; /* 🔥 FIX HEIGHT → required for ratio */
+  min-height: 520px;   /* keeps design */
+  height: auto;        /* allows expansion */ /* 🔥 FIX HEIGHT → required for ratio */
   display: flex;
   flex-direction: column;
   border-radius: 22px;
@@ -17047,16 +17083,83 @@ app-header {
 }
 
 /* ===== MOBILE ===== */
+/* MOBILE FIX */
 @media (max-width: 600px) {
-  .create-team-grid {
-    grid-template-columns: 1fr;
-  }
 
-  .create-team-form-group.create-team-full {
-    grid-column: span 1;
+  .create-team-wrapper {
+    padding: 80px 10px;
   }
 
   .create-team-card {
-    max-width: 95%;
+    height: auto; /* 🔥 REMOVE FIXED HEIGHT */
   }
+
+  .create-team-header {
+    flex: none;
+    padding: 20px 10px;
+  }
+
+  .create-team-form {
+    padding: 20px;
+  }
+
+  .create-team-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .create-team-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* 🔴 ERROR MESSAGE BOX */
+.error-box {
+  margin-top: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+
+  background: #fde2e2;
+  color: #dc2626;
+
+  border-left: 4px solid #dc2626;
+  border-radius: 8px;
+}
+/* RED BORDER */
+.is-invalid {
+  border: 2px solid #ef4444 !important;
+}
+
+/* ERROR TEXT */
+.field-error {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #dc2626;
+  background: #fde2e2;
+  padding: 8px 10px;
+  border-left: 4px solid #dc2626;
+  border-radius: 8px;
+}
+/* RED BORDER */
+.input-error {
+  border: 2px solid #ef4444 !important;
+  background: #fff;
+}
+
+/* NORMAL INPUT */
+.create-team-form-group input {
+  transition: all 0.2s ease;
+}
+
+/* HOVER EFFECT */
+.create-team-form-group input:hover {
+  border-color: #cbd5e1;
+}
+
+/* FOCUS EFFECT */
+.create-team-form-group input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
 }

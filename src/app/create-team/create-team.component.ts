@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-create-team',
@@ -10,6 +11,13 @@ import { Router } from '@angular/router';
 export class CreateTeamComponent implements OnInit {
 
   isEditMode = false; 
+  isHovering: any = {
+  name: false,
+  challenge: false,
+  domain: false,
+  role: false,
+  members: false
+};
 
   team: any = {
     name: '',
@@ -57,4 +65,28 @@ export class CreateTeamComponent implements OnInit {
 
     this.router.navigate(['/teams']);
   }
+  onSubmit(form: NgForm) {
+  if (form.invalid) {
+    form.control.markAllAsTouched();
+    return;
+  }
+
+  this.team.members = this.membersInput
+    .split(',')
+    .map(m => m.trim())
+    .filter(m => m !== '');
+
+  let teams = JSON.parse(localStorage.getItem('teams') || '[]');
+
+  const index = teams.findIndex((t: any) => t.name === this.team.name);
+
+  if (index !== -1) {
+    teams[index] = this.team;
+  } else {
+    teams.push(this.team);
+  }
+
+  localStorage.setItem('teams', JSON.stringify(teams));
+  this.router.navigate(['/teams']);
+}
 }
