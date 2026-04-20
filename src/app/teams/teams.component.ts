@@ -62,11 +62,15 @@ export class TeamsComponent {
 ];
   openTeamModal(team: any) {
   this.selectedTeam = team;
+  // Disable body and document scroll using the same method as certificates
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 }
 
 closeModal() {
   this.selectedTeam = null;
+  // Re-enable body and document scroll
+  document.documentElement.style.overflow = 'auto';
   document.body.style.overflow = 'auto';
 }
 

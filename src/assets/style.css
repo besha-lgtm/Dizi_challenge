@@ -6421,6 +6421,57 @@ body.overlay-active {
 }
 
 /* Tablets (768-999px) - Show hamburger, hide nav-links */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 10px 16px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-actions {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .mobile-nav-links a {
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+
+  .mobile-nav-links a.active {
+    padding-left: 13px;
+  }
+
+  .overlay-profile {
+    padding: 18px 16px;
+  }
+
+  .profile-avatar {
+    width: 44px;
+    height: 44px;
+    font-size: 15px;
+  }
+
+  .mobile-actions {
+    padding: 14px 16px;
+  }
+
+  .mobile-actions .btn {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Tablets (768-999px) - Show hamburger, hide nav-links */
 @media (max-width: 999px) {
   .navbar {
     padding: 10px 16px;
