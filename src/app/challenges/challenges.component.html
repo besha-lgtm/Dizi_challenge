@@ -67,7 +67,7 @@
       <!-- Challenges Grid: Responsive grid displaying all challenge cards -->
       <div class="challenges-grid">
         <!-- Challenge Card: Repeats for each challenge in the filtered list -->
-        <div class="challenge-card" *ngFor="let challenge of filteredChallenges">
+        <div class="challenge-card" *ngFor="let challenge of paginatedChallenges">
           <!-- Sector Tags & Status Badge: Shows industry sectors and challenge status -->
           <div class="tag-row">
             <span class="tag tag-grey" *ngFor="let sector of challenge.sectors">
@@ -112,6 +112,33 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-container" *ngIf="isPaginationVisible">
+        <button 
+          class="pagination-btn pagination-prev"
+          (click)="previousPage()"
+          [disabled]="currentPage === 1">
+          ← Previous
+        </button>
+
+        <div class="pagination-numbers">
+          <button 
+            *ngFor="let page of getPageNumbers()"
+            class="pagination-btn"
+            [class.active]="currentPage === page"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        </div>
+
+        <button 
+          class="pagination-btn pagination-next"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages">
+          Next →
+        </button>
       </div>
 
       <!-- No Results Message: Displayed when no challenges match the search/filter criteria -->

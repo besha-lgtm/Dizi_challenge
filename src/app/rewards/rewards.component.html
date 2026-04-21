@@ -6,106 +6,51 @@
 
   <!-- HEADER -->
   <div class="content-header">
-    <div class="icon">🏆</div>
-    <h1>Rewards & Recognition</h1>
-    <p>Celebrating the brightest student minds solving real-world industry problems</p>
+    <div class="icon">{{ headerIcon }}</div>
+    <h1>{{ headerTitle }}</h1>
+    <p>{{ headerSubtitle }}</p>
   </div>
 
   <!-- CARDS -->
   <div class="card-rewards">
 
-    <div class="card blue">
-      <div class="icon">🏅</div>
-      <h3>Grand Winner Prize</h3>
-      <p>Team Alpha Innovators for their practical low-cost energy optimization solution.</p>
-      <h2>₹10,000</h2>
-      <button (click)="viewLeaderboard()">View on Leaderboard</button>
-    </div>
-
-    <div class="card red">
-      <div class="icon">📜</div>
-      <h3>Certificates for All</h3>
-      <p>Digital certificates for all finalists, shortlisted teams, and faculty mentors.</p>
-      <h2>All Participants</h2>
-      <button (click)="previewCertificate()">Preview Certificate</button>
-    </div>
-
-    <div class="card green">
-      <div class="icon">💼</div>
-      <h3>Internship Opportunity</h3>
-      <p>Top participants considered for 3-month internship and pilot implementation.</p>
-      <h2>Top 3 Teams</h2>
-      <button>Offer Internship</button>
+    <div class="card" [ngClass]="card.cardType" *ngFor="let card of rewardCards">
+      <div class="icon">{{ card.icon }}</div>
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+      <h2>{{ card.value }}</h2>
+      <button (click)="handleCardAction(card.buttonAction)">{{ card.buttonText }}</button>
     </div>
 
   </div>
 
-  <!-- ✅ SPECIAL RECOGNITION (FIXED EXACT STYLE) -->
+  <!-- SPECIAL RECOGNITION AWARDS -->
   <div class="awards-wrapper">
 
-    <h2 class="section-title">🏅 Special Recognition Awards</h2>
+    <h2 class="section-title">{{ specialAwardsTitle }}</h2>
 
     <div class="awards">
 
-      <div class="award">
-        <div class="award-icon">⚡</div>
-        <h4>Most Innovative</h4>
-        <p>Boldest, most creative approach</p>
-      </div>
-
-      <div class="award">
-        <div class="award-icon">🌱</div>
-        <h4>Social Impact</h4>
-        <p>Highest societal & community value</p>
-      </div>
-
-      <div class="award">
-        <div class="award-icon">🔧</div>
-        <h4>Best Technical</h4>
-        <p>Superior engineering quality</p>
-      </div>
-
-      <div class="award">
-        <div class="award-icon">🎤</div>
-        <h4>Best Pitch</h4>
-        <p>Most compelling demo & presentation</p>
+      <div class="award" *ngFor="let award of specialAwards">
+        <div class="award-icon">{{ award.icon }}</div>
+        <h4>{{ award.title }}</h4>
+        <p>{{ award.subtitle }}</p>
       </div>
 
     </div>
 
   </div>
 
-  <!-- WINNERS -->
-  <h2 class="section-title">⭐ Hall of Winners</h2>
+  <!-- WINNERS HALL -->
+  <h2 class="section-title">{{ winnersTitle }}</h2>
 
   <div class="winners">
 
-    <div class="winner">
-      <div class="circle blue-bg">AI</div>
-      <h4>Alpha Innovators</h4>
-      <p class="name">ANITS, Visakhapatnam</p>
-      <span class="badge1 gold">🏆 Grand Winner</span>
-    </div>
-
-    <div class="winner">
-      <div class="circle gray-bg">GV</div>
-      <h4>Green Vision</h4>
-      <p class="name">KL University</p>
-      <span class="badge1 silver">🥈 Runner Up</span>
-    </div>
-
-    <div class="winner">
-      <div class="circle orange-bg">TM</div>
-      <h4>Track Masters</h4>
-      <p class="name">GITAM, Hyderabad</p>
-      <span class="badge1 bronze">🥉 Top 3</span>
-    </div>
-
-    <div class="winner">
-      <div class="circle teal-bg">SS</div>
-      <h4>Smart Sensors</h4>
-      <p class="name">JNTU Kakinada</p>
-      <span class="badge1 green">⚡ Most Innovative</span>
+    <div class="winner" *ngFor="let winner of winners">
+      <div class="circle" [ngClass]="winner.avatarBg">{{ winner.initials }}</div>
+      <h4>{{ winner.name }}</h4>
+      <p class="name">{{ winner.college }}</p>
+      <span class="badge1" [ngClass]="winner.badgeType">{{ winner.badge }}</span>
     </div>
 
   </div>

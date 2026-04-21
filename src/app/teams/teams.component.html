@@ -48,7 +48,7 @@
       <!-- TEAMS GRID -->
       <div class="challenges-grid">
 
-        <div class="challenge-card" *ngFor="let team of filteredTeams">
+        <div class="challenge-card" *ngFor="let team of paginatedTeams">
 
           <!-- STATUS -->
           <div class="tag-row">
@@ -99,6 +99,33 @@
 
         </div>
 
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination-container" *ngIf="isPaginationVisible">
+        <button 
+          class="pagination-btn pagination-prev"
+          (click)="previousPage()"
+          [disabled]="currentPage === 1">
+          ← Previous
+        </button>
+
+        <div class="pagination-numbers">
+          <button 
+            *ngFor="let page of getPageNumbers()"
+            class="pagination-btn"
+            [class.active]="currentPage === page"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        </div>
+
+        <button 
+          class="pagination-btn pagination-next"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages">
+          Next →
+        </button>
       </div>
 
       <!-- EMPTY STATE -->

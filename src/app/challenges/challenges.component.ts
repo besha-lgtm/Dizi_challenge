@@ -22,6 +22,10 @@ interface Challenge {
 export class ChallengesComponent {
   activeFilter: 'all' | 'open' | 'closing' | 'new' = 'all';
   searchQuery: string = '';
+  
+  // Pagination properties
+  currentPage: number = 1;
+  itemsPerPage: number = 6;
 
   challenges: Challenge[] = [
     {
@@ -95,19 +99,149 @@ export class ChallengesComponent {
       prize: 9000,
       teams: 10,
       status: 'new'
+    },
+    {
+      id: 7,
+      title: 'Predictive Maintenance for Textile Mills',
+      sectors: ['Manufacturing', 'AI'],
+      partner: 'Texwell Industries',
+      location: 'Tiruppur',
+      capacity: 48,
+      daysLeft: 12,
+      prize: 16000,
+      teams: 8,
+      status: 'open'
+    },
+    {
+      id: 8,
+      title: 'Water Quality Monitoring System',
+      sectors: ['Environment', 'IoT'],
+      partner: 'Clean Water Initiative',
+      location: 'Bangalore',
+      capacity: 60,
+      daysLeft: 7,
+      prize: 14000,
+      teams: 12,
+      status: 'closing'
+    },
+    {
+      id: 9,
+      title: 'Traffic Flow Optimization',
+      sectors: ['Smart City', 'AI'],
+      partner: 'Urban Mobility Solutions',
+      location: 'Chennai',
+      capacity: 45,
+      daysLeft: 22,
+      prize: 22000,
+      teams: 7,
+      status: 'open'
+    },
+    {
+      id: 10,
+      title: 'Soil Health Assessment Platform',
+      sectors: ['Agriculture', 'Sensors'],
+      partner: 'Agri Tech Labs',
+      location: 'Pune',
+      capacity: 55,
+      daysLeft: 35,
+      prize: 11000,
+      teams: 9,
+      status: 'new'
+    },
+    {
+      id: 11,
+      title: 'Industrial Safety Monitoring',
+      sectors: ['Manufacturing', 'IoT'],
+      partner: 'SafeWork Industries',
+      location: 'Delhi',
+      capacity: 38,
+      daysLeft: 8,
+      prize: 19000,
+      teams: 6,
+      status: 'closing'
+    },
+    {
+      id: 12,
+      title: 'Demand Forecasting for Retail',
+      sectors: ['Retail', 'AI'],
+      partner: 'MegaStore Corporation',
+      location: 'Mumbai',
+      capacity: 50,
+      daysLeft: 25,
+      prize: 13000,
+      teams: 11,
+      status: 'open'
     }
   ];
 
   filteredChallenges: Challenge[] = this.challenges;
 
+  // Pagination getter
+  get paginatedChallenges(): Challenge[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredChallenges.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredChallenges.length / this.itemsPerPage);
+  }
+
+  get isPaginationVisible(): boolean {
+    return this.filteredChallenges.length > 6;
+  }
+
   filterByStatus(status: 'all' | 'open' | 'closing' | 'new'): void {
     this.activeFilter = status;
+    this.currentPage = 1;
     this.applyFilter();
   }
 
   onSearchChange(query: string): void {
     this.searchQuery = query;
+    this.currentPage = 1;
     this.applyFilter();
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      // Scroll to top of challenges grid
+      const challengeGrid = document.querySelector('.challenges-grid');
+      if (challengeGrid) {
+        challengeGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
+  }
+
+  getPageNumbers(): number[] {
+    const pages: number[] = [];
+    const maxPages = Math.min(this.totalPages, 5);
+    
+    let startPage = Math.max(1, this.currentPage - 2);
+    let endPage = Math.min(this.totalPages, startPage + maxPages - 1);
+    
+    if (endPage - startPage < maxPages - 1) {
+      startPage = Math.max(1, endPage - maxPages + 1);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    
+    return pages;
   }
 
   private applyFilter(): void {
