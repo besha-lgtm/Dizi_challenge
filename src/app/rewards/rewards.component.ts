@@ -166,6 +166,6 @@ export class RewardsComponent {
 
   offerInternship(): void {
     // Backend can implement internship logic
-    console.log('Internship offer initiated');
+    this.router.navigate(['/leaderboard']);
   }
 }

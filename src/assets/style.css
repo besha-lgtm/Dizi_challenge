@@ -17132,13 +17132,14 @@ input:checked + .toggle-slider:before {
   margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
-  background: #f1f5f9;
+  background: var(--navy);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease ;
+  color: white;
 }
 .close-secondary:hover {
-  background: #e2e8f0;
+  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1) ;
 }
 body.modal-open {
