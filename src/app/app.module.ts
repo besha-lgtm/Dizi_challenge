@@ -29,6 +29,8 @@ import { SubmissionsComponent } from './detail/submissions/submissions.component
 import { ResourcesComponent } from './detail/resources/resources.component';
 import { CommonModule } from '@angular/common';
 
+import { provideHttpClient } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +66,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     CommonModule
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

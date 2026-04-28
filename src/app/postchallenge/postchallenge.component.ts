@@ -1,4 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PostchallengeService, ChallengePayload } from './postchallenge.service';
 
 // ── Types ──────────────────────────────────────────
 
@@ -21,6 +23,11 @@ interface StepConfig {
   styleUrl: './postchallenge.component.css'
 })
 export class PostchallengeComponent implements OnInit, AfterViewInit {
+  
+  constructor(
+    private router: Router,
+    private postchallengeService: PostchallengeService
+  ) {}
 
   // ── State ──────────────────────────────────────────
   private currentStep = 1;
@@ -47,6 +54,8 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       rules: [
         { fieldId: "problem-description", errorId: "err-problem-description", validate: (v) => v.trim().length >= 20 },
         { fieldId: "expected-outcome", errorId: "err-expected-outcome", validate: (v) => v.trim().length >= 10 },
+        { fieldId: "domain-skills", errorId: "err-domain-skills", validate: (v) => v !== "" },
+        { fieldId: "eligibility", errorId: "err-eligibility", validate: (v) => v !== "" },
       ],
     },
     3: {
@@ -235,31 +244,58 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       btn.querySelector("span")!.textContent = "Publishing...";
     }
 
-    setTimeout(() => {
-      this.getEl("success-overlay")?.removeAttribute("hidden");
-      if (btn) {
-        btn.classList.remove("btn--loading");
-        btn.querySelector("span")!.textContent = "Publish Challenge";
+    // Prepare payload
+    const payload: ChallengePayload = {
+      companyInfo: {
+        title: this.getEl<HTMLInputElement>("challenge-title")?.value || "",
+        companyName: this.getEl<HTMLInputElement>("company-name")?.value || "",
+        sector: this.getEl<HTMLSelectElement>("sector")?.value || "",
+        location: this.getEl<HTMLInputElement>("location")?.value || "",
+        contactPerson: this.getEl<HTMLInputElement>("contact-person")?.value || "",
+        email: this.getEl<HTMLInputElement>("work-email")?.value || ""
+      },
+      problemDetails: {
+        description: this.getEl<HTMLTextAreaElement>("problem-description")?.value || "",
+        currentSituation: this.getEl<HTMLTextAreaElement>("current-situation")?.value || "",
+        expectedOutcome: this.getEl<HTMLTextAreaElement>("expected-outcome")?.value || "",
+        domain: this.getEl<HTMLSelectElement>("domain-skills")?.value || "",
+        eligibility: this.getEl<HTMLSelectElement>("eligibility")?.value || ""
+      },
+      rewards: {
+        prizes: [
+          Number(this.getEl<HTMLInputElement>("prize-1")?.value) || 0,
+          Number(this.getEl<HTMLInputElement>("prize-2")?.value) || 0,
+          Number(this.getEl<HTMLInputElement>("prize-3")?.value) || 0
+        ],
+        totalPool: Number(this.getEl("prize-total")?.textContent?.replace(/[^0-9.-]+/g, "")) || 0,
+        perks: Array.from(document.querySelectorAll<HTMLInputElement>('input[name="perks"]:checked')).map(i => i.value)
+      },
+      timeline: {
+        startDate: start?.value || "",
+        deadline: deadline?.value || ""
       }
-    }, 1200);
+    };
+
+    this.postchallengeService.publishChallenge(payload).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.getEl("success-overlay")?.removeAttribute("hidden");
+        }
+        if (btn) {
+          btn.classList.remove("btn--loading");
+          btn.querySelector("span")!.textContent = "Publish Challenge";
+        }
+      },
+      error: (err) => {
+        console.error('Error publishing challenge:', err);
+        if (btn) {
+          btn.classList.remove("btn--loading");
+          btn.querySelector("span")!.textContent = "Publish Challenge";
+        }
+      }
+    });
   }
 
-  private saveDraft(): void {
-    const btn = this.getEl<HTMLButtonElement>("btn-save-draft");
-    if (!btn) return;
-
-    const originalText = btn.textContent || "Save as Draft";
-    btn.textContent = "Saving...";
-    btn.disabled = true;
-
-    setTimeout(() => {
-      btn.textContent = "✓ Saved!";
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.disabled = false;
-      }, 2000);
-    }, 800);
-  }
 
   // ── Initialization ─────────────────────────────────
 
@@ -286,11 +322,11 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       if (action === "next") this.nextStep(from);
       if (action === "prev") this.prevStep(from);
       if (action === "publish") this.publishChallenge();
-      if (action === "save-draft") this.saveDraft();
     });
 
     // Success Overlay Handlers
     this.getEl("btn-post-another")?.addEventListener("click", () => location.reload());
+    this.getEl("btn-view-dashboard")?.addEventListener("click", () => this.router.navigate(['/challenges']));
     this.getEl("success-overlay")?.addEventListener("click", (e) => {
       if (e.target === e.currentTarget) (e.target as HTMLElement).setAttribute("hidden", "");
     });
