@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, delay } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ChallengePayload {
   companyInfo: {
@@ -34,7 +35,7 @@ export interface ChallengePayload {
 })
 export class PostchallengeService {
 
-  private readonly API_URL = 'http://localhost:5000/api/challenges/publish';
+  private readonly API_URL = `${environment.apiUrl}/challenges/publish`;
 
   // Dummy data for metadata
   private readonly SECTORS = [

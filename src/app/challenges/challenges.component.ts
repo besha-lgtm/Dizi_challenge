@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ChallengeService } from '../services/challenge.service';
 
 interface Challenge {
   id: number;
@@ -19,7 +20,7 @@ interface Challenge {
   templateUrl: './challenges.component.html',
   styleUrl: './challenges.component.css'
 })
-export class ChallengesComponent {
+export class ChallengesComponent implements OnInit {
   activeFilter: 'all' | 'open' | 'closing' | 'new' = 'all';
   searchQuery: string = '';
   
@@ -27,154 +28,54 @@ export class ChallengesComponent {
   currentPage: number = 1;
   itemsPerPage: number = 6;
 
-  challenges: Challenge[] = [
-    {
-      id: 1,
-      title: 'Machine Downtime Prediction System',
-      sectors: ['Manufacturing', 'IoT'],
-      partner: 'ANITS Industry Partner',
-      location: 'Vizag',
-      capacity: 55,
-      daysLeft: 9,
-      prize: 18000,
-      teams: 9,
-      status: 'open'
-    },
-    {
-      id: 2,
-      title: 'Tomato Crop Health Monitoring',
-      sectors: ['Agriculture', 'AI'],
-      partner: 'Agri Innovation AP',
-      location: 'Guntur',
-      capacity: 42,
-      daysLeft: 14,
-      prize: 12000,
-      teams: 14,
-      status: 'open'
-    },
-    {
-      id: 3,
-      title: 'Warehouse Asset Tracking System',
-      sectors: ['Manufacturing', 'RFID'],
-      partner: 'Silver Prints',
-      location: 'Hyderabad',
-      capacity: 30,
-      daysLeft: 18,
-      prize: 20000,
-      teams: 6,
-      status: 'open'
-    },
-    {
-      id: 4,
-      title: 'Smart Irrigation Advisory System',
-      sectors: ['Agriculture', 'Sensors'],
-      partner: 'Farm Connect',
-      location: 'Kurnool',
-      capacity: 78,
-      daysLeft: 5,
-      prize: 8000,
-      teams: 11,
-      status: 'closing'
-    },
-    {
-      id: 5,
-      title: 'Energy Consumption Dashboard',
-      sectors: ['Dashboard', 'Manufacturing'],
-      partner: 'Visipak Industries',
-      location: 'Vizag',
-      capacity: 52,
-      daysLeft: 21,
-      prize: 15000,
-      teams: 5,
-      status: 'open'
-    },
-    {
-      id: 6,
-      title: 'Post-Harvest Loss Tracking',
-      sectors: ['Agriculture', 'Storage'],
-      partner: 'Cold Chain AP',
-      location: 'Vijayawada',
-      capacity: 35,
-      daysLeft: 30,
-      prize: 9000,
-      teams: 10,
-      status: 'new'
-    },
-    {
-      id: 7,
-      title: 'Predictive Maintenance for Textile Mills',
-      sectors: ['Manufacturing', 'AI'],
-      partner: 'Texwell Industries',
-      location: 'Tiruppur',
-      capacity: 48,
-      daysLeft: 12,
-      prize: 16000,
-      teams: 8,
-      status: 'open'
-    },
-    {
-      id: 8,
-      title: 'Water Quality Monitoring System',
-      sectors: ['Environment', 'IoT'],
-      partner: 'Clean Water Initiative',
-      location: 'Bangalore',
-      capacity: 60,
-      daysLeft: 7,
-      prize: 14000,
-      teams: 12,
-      status: 'closing'
-    },
-    {
-      id: 9,
-      title: 'Traffic Flow Optimization',
-      sectors: ['Smart City', 'AI'],
-      partner: 'Urban Mobility Solutions',
-      location: 'Chennai',
-      capacity: 45,
-      daysLeft: 22,
-      prize: 22000,
-      teams: 7,
-      status: 'open'
-    },
-    {
-      id: 10,
-      title: 'Soil Health Assessment Platform',
-      sectors: ['Agriculture', 'Sensors'],
-      partner: 'Agri Tech Labs',
-      location: 'Pune',
-      capacity: 55,
-      daysLeft: 35,
-      prize: 11000,
-      teams: 9,
-      status: 'new'
-    },
-    {
-      id: 11,
-      title: 'Industrial Safety Monitoring',
-      sectors: ['Manufacturing', 'IoT'],
-      partner: 'SafeWork Industries',
-      location: 'Delhi',
-      capacity: 38,
-      daysLeft: 8,
-      prize: 19000,
-      teams: 6,
-      status: 'closing'
-    },
-    {
-      id: 12,
-      title: 'Demand Forecasting for Retail',
-      sectors: ['Retail', 'AI'],
-      partner: 'MegaStore Corporation',
-      location: 'Mumbai',
-      capacity: 50,
-      daysLeft: 25,
-      prize: 13000,
-      teams: 11,
-      status: 'open'
-    }
-  ];
+  challenges: Challenge[] = [];
+  filteredChallenges: Challenge[] = [];
 
-  filteredChallenges: Challenge[] = this.challenges;
+  constructor(private challengeService: ChallengeService) {}
+
+  ngOnInit(): void {
+    this.loadChallenges();
+  }
+
+  loadChallenges(): void {
+    this.challengeService.getChallenges().subscribe({
+      next: (data) => {
+        console.log('Fetched challenges:', data);
+        this.challenges = data.map(item => ({
+          id: item.id,
+          title: item.title,
+          sectors: [item.sector, item.domain].filter(Boolean), // Include both sector and domain as tags
+          partner: item.company_name,
+          location: item.location,
+          capacity: 0,
+          daysLeft: this.calculateDaysLeft(item.deadline),
+          prize: Number(item.total_pool),
+          teams: 0,
+          status: this.deriveStatus(item.deadline)
+        }));
+        this.applyFilter();
+      },
+      error: (err) => {
+        console.error('Error loading challenges:', err);
+      }
+    });
+  }
+
+  private calculateDaysLeft(deadline: string): number {
+    const today = new Date();
+    const target = new Date(deadline);
+    const diff = target.getTime() - today.getTime();
+    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+  }
+
+  private deriveStatus(deadline: string): 'open' | 'closing' | 'new' {
+    const days = this.calculateDaysLeft(deadline);
+    if (days <= 0) return 'closing'; // Should probably be 'closed' but interface only has 3
+    if (days <= 7) return 'closing';
+    if (days >= 28) return 'new';
+    return 'open';
+  }
+
 
   // Pagination getter
   get paginatedChallenges(): Challenge[] {
