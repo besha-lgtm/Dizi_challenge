@@ -12,7 +12,7 @@
       <!-- ── Header card ─────────────────────────────── -->
       <div class="header-card-detail" *ngIf="challenge">
 
-        <!-- Tags + Register Action -->
+        <!-- Tags Row (Button removed from here) -->
         <div class="tag-row" id="tagRow">
           <div class="tags-left">
             <span class="tag tag-grey" data-tag>{{ challenge.sector }}</span>
@@ -21,13 +21,6 @@
               {{ getStatusBadge() }}
             </span>
           </div>
-          <button 
-            class="register-btn" 
-            [class.register-btn--disabled]="status === 'upcoming' || status === 'closed'"
-            [disabled]="status === 'upcoming' || status === 'closed'"
-            (click)="openRegistration()">
-            {{ status === 'upcoming' ? 'Registration Opens Soon' : (status === 'closed' ? 'Registration Closed' : 'Register for Challenge') }}
-          </button>
         </div>
 
         <!-- Challenge title -->
@@ -39,6 +32,15 @@
         <p class="challenge-meta" id="challengeMeta">
           {{ challenge.company_name }} · {{ challenge.location }} · {{ getDaysAgo(challenge.created_at) }}
         </p>
+
+        <!-- Registration Button (Moved here) -->
+        <div class="action-row">
+          <button class="register-btn" [class.register-btn--disabled]="status === 'upcoming' || status === 'closed'"
+            [disabled]="status === 'upcoming' || status === 'closed'" (click)="openRegistration()">
+            {{ status === 'upcoming' ? 'Registration Opens Soon' : (status === 'closed' ? 'Registration Closed' :
+            'Register for Challenge') }}
+          </button>
+        </div>
 
         <!-- Tab bar — uses routerLink + routerLinkActive -->
         <div class="tab-bar" id="tabBar">
@@ -66,8 +68,5 @@
 </div><!-- /page-wrapper -->
 
 <!-- ── Registration Modal ────────────────────────── -->
-<app-registration 
-  *ngIf="showRegistration" 
-  [challengeId]="challengeId"
-  (close)="closeRegistration()">
+<app-registration *ngIf="showRegistration" [challengeId]="challengeId" (close)="closeRegistration()">
 </app-registration>

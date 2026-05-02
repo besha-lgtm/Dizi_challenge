@@ -54,10 +54,11 @@
 
 /* TAG STYLING - Adjusted size and removed !important */
 .tag {
-  font-size: 6px;
+  font-size: 10px !important;
   font-weight: 500;
   padding: 2px 6px;
   line-height: 1.5;
+  margin-bottom: 5px;
 }
 
 .tag-upcoming {

@@ -15,10 +15,10 @@ export class OverviewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private challengeService: ChallengeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    const id = this.route.parent?.snapshot.paramMap.get('id');
+    const id = this.challengeService.getSelectedChallengeId();
     if (id) {
       this.loadChallenge(id);
     }

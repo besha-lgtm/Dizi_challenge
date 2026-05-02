@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PostchallengeService, ChallengePayload } from './postchallenge.service';
+import { PostchallengeService, ChallengePayload } from '../services/postchallenge.service';
 
 // ── Types ──────────────────────────────────────────
 
@@ -279,7 +279,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     };
 
     this.postchallengeService.publishChallenge(payload).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         if (res.success) {
           this.getEl("success-overlay")?.removeAttribute("hidden");
         }
@@ -288,7 +288,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
           btn.querySelector("span")!.textContent = "Publish Challenge";
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error publishing challenge:', err);
         if (btn) {
           btn.classList.remove("btn--loading");
