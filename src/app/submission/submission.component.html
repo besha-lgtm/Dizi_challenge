@@ -3,6 +3,77 @@
     <h2 class="card-title">Submit Your Solution</h2>
     <p class="card-subtitle">Upload documents, link your demo, and summarize your approach.</p>
 
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-row">
+        <div class="search-field">
+          <label class="search-label">Select Challenge</label>
+          <div class="search-input-wrapper">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search challenges..."
+              [(ngModel)]="challengeSearch"
+              (input)="onChallengeSearchChange($any($event.target).value)"
+              (focus)="showChallengeDropdown = true"
+              (blur)="onBlurChallenge()"
+            />
+            <div class="dropdown-arrow" (click)="showChallengeDropdown = !showChallengeDropdown">▼</div>
+            <div class="search-dropdown" *ngIf="showChallengeDropdown">
+              <div class="dropdown-scroll">
+                <div
+                  class="search-option"
+                  *ngFor="let challenge of filteredChallenges"
+                  (click)="selectChallenge(challenge)"
+                >
+                  <div class="option-title">{{ challenge.title }}</div>
+                  <div class="option-meta">{{ challenge.partner }} · {{ challenge.location }} · {{ challenge.dateMessage }}</div>
+                </div>
+                <div *ngIf="filteredChallenges.length === 0" class="no-results">
+                  No challenges found
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-field">
+          <label class="search-label">Select Team</label>
+          <div class="search-input-wrapper">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="{{ selectedChallenge ? 'Search for your team...' : 'Select a challenge first' }}"
+              [(ngModel)]="teamSearch"
+              (input)="onTeamSearchChange($any($event.target).value)"
+              (focus)="onTeamSearchChange(teamSearch)"
+              (blur)="onBlurTeam()"
+              [disabled]="!selectedChallenge"
+            />
+            <div class="dropdown-arrow" (click)="showTeamDropdown = !showTeamDropdown">▼</div>
+            <div class="search-dropdown" *ngIf="showTeamDropdown && selectedChallenge">
+              <div class="dropdown-scroll">
+                <div
+                  class="search-option"
+                  *ngFor="let team of filteredTeams"
+                  (click)="selectTeam(team)"
+                >
+                  <div class="option-title">{{ team.name }}</div>
+                  <div class="option-meta">
+                    Leader: {{ team.teamLead || 'Unknown' }}
+                    <span *ngIf="team.college">· {{ team.college }}</span>
+                  </div>
+                </div>
+                <div *ngIf="filteredTeams.length === 0" class="no-results">
+                  No teams found
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Form-level messages -->
     <div *ngIf="formError" class="form-error-message">{{ formError }}</div>
     <div *ngIf="formSuccess" class="form-success-message">{{ formSuccess }}</div>
@@ -14,7 +85,8 @@
            id="dropZone"
            (drop)="onDropZone($event)"
            (dragover)="$event.preventDefault()"
-           (dragleave)="$event.preventDefault()">
+           (dragleave)="$event.preventDefault()"
+           [class.disabled]="!isFormEnabled">
         <svg class="folder-icon" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="1" y="10" width="50" height="32" rx="4" fill="#f5c842" opacity="0.18"/>
           <path d="M2 14C2 11.8 3.8 10 6 10H20L24 6H46C48.2 6 50 7.8 50 10V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V14Z" fill="#f5c842"/>
@@ -23,7 +95,7 @@
         </svg>
         <span class="drop-zone-label">Drag &amp; Drop files here</span>
         <span class="drop-zone-hint">PDF · PPT · Images · Videos up to 50MB</span>
-        <button type="button" class="btn-browse" (click)="fileInput.click()">Browse Files</button>
+        <button type="button" class="btn-browse" (click)="fileInput.click()" [disabled]="!isFormEnabled">Browse Files</button>
         <input
           type="file"
           #fileInput
@@ -31,7 +103,8 @@
           multiple
           accept=".pdf,.ppt,.pptx,image/*,video/*"
           (change)="onFileSelected($event)"
-          style="display:none"/>
+          style="display:none"
+          [disabled]="!isFormEnabled"/>
       </div>
 
       <!-- Uploaded files list -->
@@ -56,11 +129,12 @@
             name="hackathonName"
             class="field-input"
             [(ngModel)]="submission.hackathonName"
-            placeholder="e.g. Reduce Power Loss in Corrugation Plant"
+            placeholder="Select a challenge from dropdown above"
             required
-            #hackathonNameRef="ngModel"/>
+            #hackathonNameRef="ngModel"
+            readonly/>
           <span class="field-error" id="err-hackathonName">
-            Please enter the hackathon name
+            Please select a challenge from the dropdown
           </span>
         </div>
 
@@ -72,11 +146,12 @@
             name="college"
             class="field-input"
             [(ngModel)]="submission.college"
-            placeholder="e.g. IIT Hyderabad"
+            placeholder="Select a team from dropdown above"
             required
-            #collegeRef="ngModel"/>
+            #collegeRef="ngModel"
+            readonly/>
           <span class="field-error" id="err-college">
-            Please enter your institution name
+            Please select a team from the dropdown
           </span>
         </div>
       </div>
@@ -93,7 +168,8 @@
             [(ngModel)]="submission.githubRepo"
             placeholder="https://github.com/team-alpha/energy-dashboard"
             required
-            #githubRepo="ngModel"/>
+            #githubRepo="ngModel"
+            [disabled]="!isFormEnabled"/>
           <span class="field-error" id="err-githubRepo">
             Please enter a valid GitHub repository URL
           </span>
@@ -108,7 +184,8 @@
             class="field-input"
             [(ngModel)]="submission.demoLink"
             placeholder="YouTube, Google Drive…"
-            #demoLink="ngModel"/>
+            #demoLink="ngModel"
+            [disabled]="!isFormEnabled"/>
         </div>
       </div>
 
@@ -124,7 +201,8 @@
           required
           minlength="20"
           #solutionSummary="ngModel"
-          rows="6"></textarea>
+          rows="6"
+          [disabled]="!isFormEnabled"></textarea>
         <span class="field-error" id="err-solutionSummary">
           Solution summary must be at least 20 characters long
         </span>
@@ -135,13 +213,14 @@
         <button
           type="submit"
           class="btn-submit"
-          [disabled]="isSubmitting">
+          [disabled]="isSubmitting || !isFormEnabled">
           {{ isSubmitting ? 'Submitting…' : 'Submit Final Solution' }}
         </button>
         <button
           type="button"
           class="btn-draft"
-          (click)="saveDraft(submissionForm)">
+          (click)="saveDraft(submissionForm)"
+          [disabled]="!isFormEnabled">
           Save Draft
         </button>
       </div>

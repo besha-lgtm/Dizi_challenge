@@ -20,6 +20,10 @@ export class ChallengeService {
     return this.http.get<any>(`${this.API_URL}/${id}`);
   }
 
+  getRegistrations(challengeId: number | string): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}/challengeregistration/${challengeId}`);
+  }
+
   // --- Selected Challenge Management (to hide ID from URL) ---
 
   setSelectedChallengeId(id: string | number): void {

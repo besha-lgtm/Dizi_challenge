@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ChallengeService } from '../services/challenge.service';
 
 // ── Types ──────────────────────────────────────────
 
@@ -16,6 +17,35 @@ interface SubmissionData {
   demoLink: string;
   solutionSummary: string;
   files: File[];
+}
+
+interface Challenge {
+  id: number;
+  title: string;
+  sectors: string[];
+  partner: string;
+  location: string;
+  daysLeft: number;
+  dateMessage: string;
+  prize: number;
+  teams: number;
+  status: 'open' | 'closing' | 'new' | 'upcoming' | 'closed';
+}
+
+interface Team {
+  name: string;
+  challenge: string;
+  domain: string;
+  college: string;
+  role: string;
+  teamLead?: string;
+  members: string[];
+  progress: number;
+  submissions: number;
+  status: string;
+  score: number;
+  comments: string;
+  shortlisted: boolean;
 }
 
 @Component({
@@ -38,6 +68,28 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
   formError: string = '';
   formSuccess: string = '';
   isSubmitting: boolean = false;
+
+  // Search inputs
+  challengeSearch: string = '';
+  teamSearch: string = '';
+  showChallengeDropdown: boolean = false;
+  showTeamDropdown: boolean = false;
+
+  // Selected values
+  selectedChallenge: Challenge | null = null;
+  selectedTeam: Team | null = null;
+
+  // Data
+  challenges: Challenge[] = [];
+  teams: Team[] = [];
+
+  // Filtered data for dropdowns
+  filteredChallenges: Challenge[] = [];
+  filteredTeams: Team[] = [];
+  recentChallenges: Challenge[] = [];
+
+  // Form state
+  isFormEnabled: boolean = false;
 
   // ── Validation Configuration ───────────────────────
   private readonly FIELD_RULES: FieldRule[] = [
@@ -63,9 +115,13 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  constructor() {}
+  constructor(private challengeService: ChallengeService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadChallenges();
+    this.teams = [];
+    this.filteredTeams = [];
+  }
 
   ngAfterViewInit(): void {
     this.initFieldListeners();
@@ -275,5 +331,244 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.formSuccess = '';
     }, 2000);
+  }
+
+  // ── Data Loading ───────────────────────────────────
+
+  private loadChallenges(): void {
+    this.challengeService.getChallenges().subscribe({
+      next: (data) => {
+        this.challenges = data.map(item => ({
+          id: item.id,
+          title: item.title,
+          sectors: [item.sector, item.domain].filter(Boolean),
+          partner: item.partner,
+          location: item.location,
+          daysLeft: this.calculateDaysLeft(item.deadline),
+          dateMessage: this.getDateMessage(item.start_date, item.deadline),
+          prize: item.prize,
+          teams: item.teams_registered || 0,
+          status: this.getChallengeStatus(item.start_date, item.deadline)
+        }));
+        this.filteredChallenges = [...this.challenges];
+      },
+      error: (error) => {
+        console.error('Error loading challenges:', error);
+        // Fallback to sample data if API fails
+        this.challenges = this.getSampleChallenges();
+        this.filteredChallenges = [...this.challenges];
+      }
+    });
+  }
+
+  private loadTeamsForChallenge(challengeId: number): void {
+    this.challengeService.getRegistrations(challengeId).subscribe({
+      next: (data) => {
+        this.teams = data.map(item => ({
+          name: item.team_name || item.name || 'Unnamed Team',
+          challenge: this.selectedChallenge?.title || '',
+          domain: '',
+          college: item.college || '',
+          role: 'Leader',
+          teamLead: item.team_lead || item.teamLead || '',
+          members: item.members || [],
+          progress: 0,
+          submissions: 0,
+          status: 'active',
+          score: 0,
+          comments: '',
+          shortlisted: false
+        }));
+        this.filteredTeams = [...this.teams];
+        this.showTeamDropdown = this.filteredTeams.length > 0;
+      },
+      error: (error) => {
+        console.error('Team registration load failed:', error);
+        this.teams = this.getSampleTeams();
+        this.filteredTeams = [...this.teams];
+        this.showTeamDropdown = this.filteredTeams.length > 0;
+      }
+    });
+  }
+
+  // ── Search Handlers ────────────────────────────────
+
+  onChallengeSearchChange(query: string): void {
+    this.challengeSearch = query;
+    if (query.trim()) {
+      this.filteredChallenges = this.challenges.filter(challenge =>
+        challenge.title.toLowerCase().includes(query.toLowerCase())
+      );
+    } else {
+      this.filteredChallenges = [...this.challenges];
+    }
+    this.showChallengeDropdown = true;
+  }
+
+  onTeamSearchChange(query: string): void {
+    this.teamSearch = query;
+    if (query.trim()) {
+      this.filteredTeams = this.teams.filter(team =>
+        team.name.toLowerCase().includes(query.toLowerCase()) ||
+        (team.teamLead || '').toLowerCase().includes(query.toLowerCase())
+      );
+    } else {
+      this.filteredTeams = [...this.teams];
+    }
+    this.showTeamDropdown = this.selectedChallenge !== null && this.filteredTeams.length > 0;
+  }
+
+  selectChallenge(challenge: Challenge): void {
+    this.selectedChallenge = challenge;
+    this.submission.hackathonName = challenge.title;
+    this.challengeSearch = challenge.title;
+    this.teamSearch = '';
+    this.selectedTeam = null;
+    this.submission.college = '';
+    this.showChallengeDropdown = false;
+    this.loadTeamsForChallenge(challenge.id);
+    this.checkFormEnablement();
+  }
+
+  selectTeam(team: Team): void {
+    this.selectedTeam = team;
+    this.submission.college = team.college;
+    this.teamSearch = team.name;
+    this.showTeamDropdown = false;
+    this.checkFormEnablement();
+  }
+
+  private checkFormEnablement(): void {
+    this.isFormEnabled = this.selectedChallenge !== null && this.selectedTeam !== null;
+  }
+
+  hideDropdowns(): void {
+    this.showChallengeDropdown = false;
+    this.showTeamDropdown = false;
+  }
+
+  onBlurChallenge(): void {
+    setTimeout(() => this.hideDropdowns(), 200);
+  }
+
+  onBlurTeam(): void {
+    setTimeout(() => this.hideDropdowns(), 200);
+  }
+
+  // ── Helper Methods ─────────────────────────────────
+
+  private calculateDaysLeft(deadline: string): number {
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+    const diffTime = deadlineDate.getTime() - now.getTime();
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  private getDateMessage(startDate: string, deadline: string): string {
+    const now = new Date();
+    const start = new Date(startDate);
+    const end = new Date(deadline);
+
+    if (now < start) {
+      return `Starts ${this.formatDate(start)}`;
+    } else if (now <= end) {
+      return `${this.calculateDaysLeft(deadline)} days left`;
+    } else {
+      return 'Closed';
+    }
+  }
+
+  private getChallengeStatus(startDate: string, deadline: string): 'open' | 'closing' | 'new' | 'upcoming' | 'closed' {
+    const now = new Date();
+    const start = new Date(startDate);
+    const end = new Date(deadline);
+
+    if (now < start) return 'upcoming';
+    if (now > end) return 'closed';
+
+    const daysLeft = this.calculateDaysLeft(deadline);
+    if (daysLeft <= 3) return 'closing';
+    if (daysLeft <= 7) return 'new';
+    return 'open';
+  }
+
+  private formatDate(date: Date): string {
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  private getSampleChallenges(): Challenge[] {
+    return [
+      {
+        id: 1,
+        title: 'Reduce Power Loss in Corrugation Plant',
+        sectors: ['Manufacturing', 'Energy'],
+        partner: 'Corrugation Industries Ltd',
+        location: 'Hyderabad',
+        daysLeft: 15,
+        dateMessage: '15 days left',
+        prize: 50000,
+        teams: 12,
+        status: 'open'
+      },
+      {
+        id: 2,
+        title: 'Smart Water Quality Monitoring',
+        sectors: ['Environment', 'IoT'],
+        partner: 'Hyderabad Water Board',
+        location: 'Hyderabad',
+        daysLeft: 8,
+        dateMessage: '8 days left',
+        prize: 30000,
+        teams: 8,
+        status: 'new'
+      }
+    ];
+  }
+
+  private getSampleTeams(): Team[] {
+    return [
+      {
+        name: 'Team Alpha Innovators',
+        challenge: 'Power Loss Reduction',
+        domain: 'IoT',
+        college: 'ANITS, Vizag',
+        role: 'Leader',
+        members: ['Deepika', 'Ravi', 'Kiran'],
+        progress: 65,
+        submissions: 2,
+        status: 'active',
+        score: 82,
+        comments: 'Good approach, improve optimization',
+        shortlisted: true
+      },
+      {
+        name: 'Green Vision',
+        challenge: 'Energy Efficiency Optimization',
+        domain: 'Renewable Energy',
+        college: 'KL University, Hyderabad',
+        role: 'Member',
+        members: ['Priya', 'Suresh'],
+        progress: 40,
+        submissions: 3,
+        status: 'active',
+        score: 70,
+        comments: 'Needs more data validation',
+        shortlisted: false
+      },
+      {
+        name: 'Agri Vision AI',
+        challenge: 'Crop Disease Detection',
+        domain: 'AI',
+        college: 'IIT Hyderabad',
+        role: 'Member',
+        members: ['Karthik', 'Anil'],
+        progress: 100,
+        submissions: 5,
+        status: 'completed',
+        score: 91,
+        comments: 'Excellent model accuracy',
+        shortlisted: true
+      }
+    ];
   }
 }
