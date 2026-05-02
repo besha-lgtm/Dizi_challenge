@@ -29,6 +29,15 @@ export class RegistrationService {
     return this.http.post<any>(`${this.API_URL}/register`, payload);
   }
 
+  checkTeamNameAvailability(challengeId: number | string, teamName: string): Observable<{ available: boolean }> {
+    return this.http.get<{ available: boolean }>(`${this.API_URL}/check-team-name`, {
+      params: {
+        challenge_id: String(challengeId),
+        team_name: teamName
+      }
+    });
+  }
+
   getRegistrationsByChallenge(challengeId: number | string): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/${challengeId}`);
   }

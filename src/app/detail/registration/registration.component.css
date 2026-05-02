@@ -207,3 +207,19 @@ input.ng-invalid.ng-touched {
   border-color: #dc2626;
 }
 
+.field-error,
+.submit-error,
+.field-info {
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.field-error,
+.submit-error {
+  color: #dc2626;
+}
+
+.field-info {
+  color: #6b7280;
+}
+

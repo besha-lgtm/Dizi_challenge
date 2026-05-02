@@ -12,6 +12,9 @@ export class RegistrationComponent {
   @Output() close = new EventEmitter<void>();
 
   members: TeamMember[] = [{ name: '', email: '', phone: '' }];
+  teamName = '';
+  teamNameError: string | null = null;
+  isCheckingTeamName = false;
   isSubmitting = false;
   submitError: string | null = null;
   submitSuccess = false;
@@ -39,6 +42,28 @@ export class RegistrationComponent {
     }
   }
 
+  checkTeamName(): void {
+    this.teamNameError = null;
+
+    const trimmedName = this.teamName?.trim();
+    if (!trimmedName || !this.challengeId) {
+      return;
+    }
+
+    this.isCheckingTeamName = true;
+    this.registrationService.checkTeamNameAvailability(this.challengeId, trimmedName).subscribe({
+      next: (resp: { available: boolean }) => {
+        this.isCheckingTeamName = false;
+        this.teamNameError = resp.available ? null : 'This team name is already taken. Please choose a different name.';
+      },
+      error: (err: any) => {
+        this.isCheckingTeamName = false;
+        console.error('Team name check error:', err);
+        this.teamNameError = 'Unable to verify team name uniqueness right now. Try again later.';
+      }
+    });
+  }
+
   submitRegistration(event: Event): void {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -48,11 +73,21 @@ export class RegistrationComponent {
       return;
     }
 
+    if (this.isCheckingTeamName) {
+      this.submitError = 'Please wait until the team name availability check completes.';
+      return;
+    }
+
+    if (this.teamNameError) {
+      this.submitError = this.teamNameError;
+      return;
+    }
+
     const formData = new FormData(form);
 
     const payload = {
       challenge_id: this.challengeId!,
-      team_name: formData.get('teamName') as string,
+      team_name: (formData.get('teamName') as string).trim(),
       team_lead: formData.get('teamLead') as string,
       members: this.members
     };
