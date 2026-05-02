@@ -20,7 +20,7 @@ export interface RegistrationPayload {
   providedIn: 'root'
 })
 export class RegistrationService {
-  private readonly API_URL = `${environment.apiUrl}/challangregistration`;
+  private readonly API_URL = `${environment.apiUrl}/challengeregistration`;
 
   constructor(private http: HttpClient) {}
 
