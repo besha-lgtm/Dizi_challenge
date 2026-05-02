@@ -27,6 +27,7 @@ import { CertificatesComponent } from './certificates/certificates.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { SubmissionsComponent } from './detail/submissions/submissions.component';
 import { ResourcesComponent } from './detail/resources/resources.component';
+import { RegistrationComponent } from './detail/registration/registration.component';
 import { CommonModule } from '@angular/common';
 
 import { provideHttpClient } from '@angular/common/http';
@@ -56,7 +57,8 @@ import { provideHttpClient } from '@angular/common/http';
     CreateTeamComponent,
     SubmissionsComponent,
     ResourcesComponent,
-    EvaluationComponent
+    EvaluationComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

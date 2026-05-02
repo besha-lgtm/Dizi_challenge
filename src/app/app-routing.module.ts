@@ -38,11 +38,11 @@ const routes: Routes = [
   },
 
    {
-    path: 'detail',
+    path: 'detail/:id',
     component: DetailComponent,
     children: [
       
-      { path: '',          redirectTo: 'resources', pathMatch: 'full' },
+      { path: '',          redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview',     component: OverviewComponent   },
    
       { path: 'discussion',   component: DiscussionComponent },

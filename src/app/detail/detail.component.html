@@ -10,44 +10,46 @@
     <div class="main-col-detail">
 
       <!-- ── Header card ─────────────────────────────── -->
-      <div class="header-card-detail">
+      <div class="header-card-detail" *ngIf="challenge">
 
-        <!-- Tags -->
+        <!-- Tags + Register Action -->
         <div class="tag-row" id="tagRow">
-          <span class="tag tag-grey" data-tag>Manufacturing</span>
-          <span class="tag tag-grey" data-tag>IoT</span>
-          <span class="tag tag-live" id="statusTag">● Live</span>
+          <div class="tags-left">
+            <span class="tag tag-grey" data-tag>{{ challenge.sector }}</span>
+            <span class="tag tag-grey" data-tag>{{ challenge.domain }}</span>
+            <span [class]="isLive ? 'tag tag-live' : 'tag tag-closed'" id="statusTag">
+              {{ isLive ? '● Live' : '● Closed' }}
+            </span>
+          </div>
+          <button class="register-btn" (click)="openRegistration()">
+            Register for Challenge
+          </button>
         </div>
 
         <!-- Challenge title -->
         <h1 class="challenge-title-detail" id="challengeTitle">
-          Reduce Power Loss in Corrugation Plant
+          {{ challenge.title }}
         </h1>
 
         <!-- Company · location · posted -->
         <p class="challenge-meta" id="challengeMeta">
-          Visipak Industries · Visakhapatnam · Posted 12 days ago
+          {{ challenge.company_name }} · {{ challenge.location }} · {{ getDaysAgo(challenge.created_at) }}
         </p>
 
         <!-- Tab bar — uses routerLink + routerLinkActive -->
         <div class="tab-bar" id="tabBar">
-
           <a routerLink="overview" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Overview</button>
           </a>
-
           <a routerLink="resources" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Files & Resources</button>
           </a>
-
           <a routerLink="discussion" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Discussion</button>
           </a>
-
           <a routerLink="submissions" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Submissions (12)</button>
           </a>
-
         </div>
 
       </div><!-- /header-card -->
@@ -58,3 +60,10 @@
     </div><!-- /main-col -->
   </div><!-- /layout -->
 </div><!-- /page-wrapper -->
+
+<!-- ── Registration Modal ────────────────────────── -->
+<app-registration 
+  *ngIf="showRegistration" 
+  [challengeId]="challengeId"
+  (close)="closeRegistration()">
+</app-registration>
