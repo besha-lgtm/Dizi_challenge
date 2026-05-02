@@ -121,8 +121,9 @@
             <p class="ov-looking-title">Total Prize Pool</p>
           </div>
           <div class="custom-tooltip"
-            [appTruncatedTooltip]="'Win from a total prize pool of ₹' + (challenge.total_pool?.toLocaleString())">
-            <p class="ov-looking-desc">Win from a total prize pool of ₹{{ challenge.total_pool?.toLocaleString() }}</p>
+            [appTruncatedTooltip]="'1st: ₹' + (challenge.prize_1?.toLocaleString()) + ', 2nd: ₹' + (challenge.prize_2?.toLocaleString()) + ', 3rd: ₹' + (challenge.prize_3?.toLocaleString())">
+            <p class="ov-looking-desc">1st: ₹{{ challenge.prize_1?.toLocaleString() }}, 2nd: ₹{{
+              challenge.prize_2?.toLocaleString() }}, 3rd: ₹{{ challenge.prize_3?.toLocaleString() }}</p>
           </div>
         </div>
       </div>
