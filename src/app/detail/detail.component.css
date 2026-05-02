@@ -53,12 +53,18 @@
   box-shadow: none;
 }
 
+.tag-row{
+
+}
+
 /* Base Tag Styling - Adjusted size and removed !important */
 .tag {
   font-size: 10px !important;
   font-weight: 500 !important;
   padding: 2px 8px !important;
   line-height: 1.5;
+  gap: 2px;
+  margin-bottom: 5px;
 }
 
 /* Status tag colors for detail page header (dark background) */

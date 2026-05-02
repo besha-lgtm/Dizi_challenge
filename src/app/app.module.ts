@@ -32,6 +32,8 @@ import { CommonModule } from '@angular/common';
 
 import { provideHttpClient } from '@angular/common/http';
 
+import { TruncatedTooltipDirective } from './directives/truncated-tooltip.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +60,8 @@ import { provideHttpClient } from '@angular/common/http';
     SubmissionsComponent,
     ResourcesComponent,
     EvaluationComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    TruncatedTooltipDirective
   ],
   imports: [
     BrowserModule,

@@ -23,11 +23,11 @@ interface StepConfig {
   styleUrl: './postchallenge.component.css'
 })
 export class PostchallengeComponent implements OnInit, AfterViewInit {
-  
+
   constructor(
     private router: Router,
     private postchallengeService: PostchallengeService
-  ) {}
+  ) { }
 
   // ── State ──────────────────────────────────────────
   private currentStep = 1;
@@ -111,7 +111,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       field.classList.remove("field-input--error", "field-select--error", "field-textarea--error");
       field.classList.add("field-input--valid");
       errorEl?.classList.remove("field-error--visible");
-      
+
       const wrap = field.closest(".field-input-wrap");
       wrap?.querySelector(".field-input__icon--valid")?.classList.add("visible");
     } else {
@@ -120,7 +120,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       if (tagName === "select") field.classList.add("field-select--error");
       else if (tagName === "textarea") field.classList.add("field-textarea--error");
       else field.classList.add("field-input--error");
-      
+
       errorEl?.classList.add("field-error--visible");
       const wrap = field.closest(".field-input-wrap");
       wrap?.querySelector(".field-input__icon--valid")?.classList.remove("visible");
@@ -174,7 +174,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       const tab = this.getEl<HTMLButtonElement>(`tab-step-${i}`);
       if (!tab) continue;
       tab.classList.remove("step-tab--active", "step-tab--completed");
-      
+
       if (i === this.currentStep) {
         tab.classList.add("step-tab--active");
         tab.disabled = false;
@@ -248,18 +248,18 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     const payload: ChallengePayload = {
       companyInfo: {
         title: this.getEl<HTMLInputElement>("challenge-title")?.value || "",
-        companyName: this.getEl<HTMLInputElement>("company-name")?.value || "",
+        company_name: this.getEl<HTMLInputElement>("company-name")?.value || "",
         sector: this.getEl<HTMLSelectElement>("sector")?.value || "",
         location: this.getEl<HTMLInputElement>("location")?.value || "",
-        contactPerson: this.getEl<HTMLInputElement>("contact-person")?.value || "",
+        contact_person: this.getEl<HTMLInputElement>("contact-person")?.value || "",
         email: this.getEl<HTMLInputElement>("work-email")?.value || "",
-        website: this.getEl<HTMLInputElement>("company-website")?.value || "",
-        companyDescription: this.getEl<HTMLTextAreaElement>("company-description")?.value || ""
+        company_website: this.getEl<HTMLInputElement>("company-website")?.value || "",
+        company_description: this.getEl<HTMLTextAreaElement>("company-description")?.value || ""
       },
       problemDetails: {
         description: this.getEl<HTMLTextAreaElement>("problem-description")?.value || "",
-        currentSituation: this.getEl<HTMLTextAreaElement>("current-situation")?.value || "",
-        expectedOutcome: this.getEl<HTMLTextAreaElement>("expected-outcome")?.value || "",
+        current_situation: this.getEl<HTMLTextAreaElement>("current-situation")?.value || "",
+        expected_outcome: this.getEl<HTMLTextAreaElement>("expected-outcome")?.value || "",
         domain: this.getEl<HTMLSelectElement>("domain-skills")?.value || "",
         eligibility: this.getEl<HTMLSelectElement>("eligibility")?.value || ""
       },
@@ -269,17 +269,17 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
           Number(this.getEl<HTMLInputElement>("prize-2")?.value) || 0,
           Number(this.getEl<HTMLInputElement>("prize-3")?.value) || 0
         ],
-        totalPool: Number(this.getEl("prize-total")?.textContent?.replace(/[^0-9.-]+/g, "")) || 0,
+        total_pool: Number(this.getEl("prize-total")?.textContent?.replace(/[^0-9.-]+/g, "")) || 0,
         perks: Array.from(document.querySelectorAll<HTMLInputElement>('input[name="perks"]:checked')).map(i => i.value)
       },
       timeline: {
-        startDate: start?.value || "",
+        start_date: start?.value || "",
         deadline: deadline?.value || ""
       }
     };
 
     this.postchallengeService.publishChallenge(payload).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         if (res.success) {
           this.getEl("success-overlay")?.removeAttribute("hidden");
         }
@@ -288,7 +288,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
           btn.querySelector("span")!.textContent = "Publish Challenge";
         }
       },
-      error: (err: any) => {
+      error: (err) => {
         console.error('Error publishing challenge:', err);
         if (btn) {
           btn.classList.remove("btn--loading");
@@ -309,7 +309,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     this.initNavButtons();
     this.initDateValidation();
     this.initPrizeCards();
-    
+
     console.info("[PostChallenge] Full System Rectified & Loaded ✓");
   }
 

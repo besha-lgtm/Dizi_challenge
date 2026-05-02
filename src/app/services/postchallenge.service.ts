@@ -6,28 +6,28 @@ import { environment } from '../../environments/environment';
 export interface ChallengePayload {
   companyInfo: {
     title: string;
-    companyName: string;
+    company_name: string;
     sector: string;
     location: string;
-    contactPerson: string;
+    contact_person: string;
     email: string;
-    website?: string;
-    companyDescription?: string;
+    company_website?: string;
+    company_description?: string;
   };
   problemDetails: {
     description: string;
-    currentSituation: string;
-    expectedOutcome: string;
+    current_situation: string;
+    expected_outcome: string;
     domain: string;
     eligibility: string;
   };
   rewards: {
     prizes: number[];
-    totalPool: number;
+    total_pool: number;
     perks: string[];
   };
   timeline: {
-    startDate: string;
+    start_date: string;
     deadline: string;
   };
 }

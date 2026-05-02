@@ -51,14 +51,29 @@
   <!-- ── About the Company ─────────────────────────── -->
   <div class="ov-info-card" *ngIf="challenge">
     <p class="ov-card-heading">ABOUT THE COMPANY</p>
+
     <div class="ov-company-block">
       <div class="ov-company-logo-box">
-        <span class="ov-company-initials">{{ challenge.company_name.substring(0, 2).toUpperCase() }}</span>
+        <span class="ov-company-initials">{{ challenge.company_name?.substring(0, 2).toUpperCase() }}</span>
       </div>
       <div class="ov-company-info">
         <p class="ov-company-name">{{ challenge.company_name }}</p>
-        <p class="ov-company-sub">{{ challenge.location }}</p>
+        <p class="ov-company-sub">
+          <span class="ov-icon-loc">📍</span> {{ challenge.location }}
+        </p>
+        <!-- Simple Description -->
+        <p class="ov-company-desc" *ngIf="challenge.company_description">
+          <span class="ov-icon-info">🏢</span> {{ challenge.company_description }}
+        </p>
       </div>
+    </div>
+
+
+    <!-- Website Last -->
+    <div class="ov-company-website-wrapper" *ngIf="challenge.company_website">
+      <a [href]="challenge.company_website" target="_blank" class="ov-company-website-link">
+        <span class="ov-web-icon">🌐</span> Visit Website
+      </a>
     </div>
   </div>
 
@@ -69,29 +84,46 @@
       <div class="ov-looking-item">
         <div class="ov-looking-icon">📝</div>
         <div class="ov-looking-text">
-          <p class="ov-looking-title">Problem Statement</p>
-          <p class="ov-looking-desc">{{ challenge.description }}</p>
+          <div class="custom-tooltip" appTruncatedTooltip="Problem Statement">
+            <p class="ov-looking-title">Problem Statement</p>
+          </div>
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.description">
+            <p class="ov-looking-desc">{{ challenge.description }}</p>
+          </div>
         </div>
       </div>
       <div class="ov-looking-item">
         <div class="ov-looking-icon">🚩</div>
         <div class="ov-looking-text">
-          <p class="ov-looking-title">Current Situation</p>
-          <p class="ov-looking-desc">{{ challenge.current_situation }}</p>
+          <div class="custom-tooltip" appTruncatedTooltip="Current Situation">
+            <p class="ov-looking-title">Current Situation</p>
+          </div>
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.current_situation">
+            <p class="ov-looking-desc">{{ challenge.current_situation }}</p>
+          </div>
         </div>
       </div>
       <div class="ov-looking-item">
         <div class="ov-looking-icon">🎯</div>
         <div class="ov-looking-text">
-          <p class="ov-looking-title">Expected Outcome</p>
-          <p class="ov-looking-desc">{{ challenge.expected_outcome }}</p>
+          <div class="custom-tooltip" appTruncatedTooltip="Expected Outcome">
+            <p class="ov-looking-title">Expected Outcome</p>
+          </div>
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.expected_outcome">
+            <p class="ov-looking-desc">{{ challenge.expected_outcome }}</p>
+          </div>
         </div>
       </div>
       <div class="ov-looking-item">
         <div class="ov-looking-icon">💰</div>
         <div class="ov-looking-text">
-          <p class="ov-looking-title">Total Prize Pool</p>
-          <p class="ov-looking-desc">Win from a total prize pool of ₹{{ challenge.total_pool?.toLocaleString() }}</p>
+          <div class="custom-tooltip" appTruncatedTooltip="Total Prize Pool">
+            <p class="ov-looking-title">Total Prize Pool</p>
+          </div>
+          <div class="custom-tooltip"
+            [appTruncatedTooltip]="'Win from a total prize pool of ₹' + (challenge.total_pool?.toLocaleString())">
+            <p class="ov-looking-desc">Win from a total prize pool of ₹{{ challenge.total_pool?.toLocaleString() }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -105,28 +137,32 @@
         <span class="ov-submit-num">01</span>
         <div class="ov-submit-body">
           <p class="ov-submit-title">Solution Document</p>
-          <p class="ov-submit-desc">A detailed document (max 10 pages) covering your approach, methodology, and proposed implementation.</p>
+          <p class="ov-submit-desc">A detailed document (max 10 pages) covering your approach, methodology, and proposed
+            implementation.</p>
         </div>
       </div>
       <div class="ov-submit-item">
         <span class="ov-submit-num">02</span>
         <div class="ov-submit-body">
           <p class="ov-submit-title">Prototype / Demo</p>
-          <p class="ov-submit-desc">A working prototype, video demonstration, or high-fidelity mockup showcasing the core functionality.</p>
+          <p class="ov-submit-desc">A working prototype, video demonstration, or high-fidelity mockup showcasing the
+            core functionality.</p>
         </div>
       </div>
       <div class="ov-submit-item">
         <span class="ov-submit-num">03</span>
         <div class="ov-submit-body">
           <p class="ov-submit-title">Presentation Deck</p>
-          <p class="ov-submit-desc">A concise slide deck (max 10 slides) summarizing your solution, its impact, and the proposed rollout strategy.</p>
+          <p class="ov-submit-desc">A concise slide deck (max 10 slides) summarizing your solution, its impact, and the
+            proposed rollout strategy.</p>
         </div>
       </div>
       <div class="ov-submit-item">
         <span class="ov-submit-num">04</span>
         <div class="ov-submit-body">
           <p class="ov-submit-title">Team Introduction</p>
-          <p class="ov-submit-desc">Brief profiles of all team members highlighting relevant skills, experience, and roles within the project.</p>
+          <p class="ov-submit-desc">Brief profiles of all team members highlighting relevant skills, experience, and
+            roles within the project.</p>
         </div>
       </div>
     </div>
@@ -142,7 +178,9 @@
           <span class="ov-faq-arrow">{{ openFaq === 0 ? '−' : '+' }}</span>
         </div>
         <div class="ov-faq-a">
-          <p class="ov-faq-a-text">Most challenges on our platform require teams of 2–4 members to encourage cross-functional collaboration. However, please check the specific eligibility rules for each individual challenge.</p>
+          <p class="ov-faq-a-text">Most challenges on our platform require teams of 2–4 members to encourage
+            cross-functional collaboration. However, please check the specific eligibility rules for each individual
+            challenge.</p>
         </div>
       </div>
       <div class="ov-faq-item" (click)="toggleFaq(1)" [class.ov-faq-open]="openFaq === 1">
@@ -151,7 +189,9 @@
           <span class="ov-faq-arrow">{{ openFaq === 1 ? '−' : '+' }}</span>
         </div>
         <div class="ov-faq-a">
-          <p class="ov-faq-a-text">Not necessarily. For the initial submission, a high-fidelity mockup, simulation, or video demonstration of your solution is usually sufficient. Physical prototypes are often only required during the final pilot or testing phase.</p>
+          <p class="ov-faq-a-text">Not necessarily. For the initial submission, a high-fidelity mockup, simulation, or
+            video demonstration of your solution is usually sufficient. Physical prototypes are often only required
+            during the final pilot or testing phase.</p>
         </div>
       </div>
       <div class="ov-faq-item" (click)="toggleFaq(2)" [class.ov-faq-open]="openFaq === 2">
@@ -160,7 +200,9 @@
           <span class="ov-faq-arrow">{{ openFaq === 2 ? '−' : '+' }}</span>
         </div>
         <div class="ov-faq-a">
-          <p class="ov-faq-a-text">Shortlisted teams often receive access to facility data, mentorship, or guided visits to better refine their solutions. Specific support details are provided once the shortlisting process is complete.</p>
+          <p class="ov-faq-a-text">Shortlisted teams often receive access to facility data, mentorship, or guided visits
+            to better refine their solutions. Specific support details are provided once the shortlisting process is
+            complete.</p>
         </div>
       </div>
       <div class="ov-faq-item" (click)="toggleFaq(3)" [class.ov-faq-open]="openFaq === 3">
@@ -169,7 +211,9 @@
           <span class="ov-faq-arrow">{{ openFaq === 3 ? '−' : '+' }}</span>
         </div>
         <div class="ov-faq-a">
-          <p class="ov-faq-a-text">Beyond the prize money, winning teams may be offered pilot opportunities, internships, or long-term contracts to co-develop and scale their solution with the partner organization.</p>
+          <p class="ov-faq-a-text">Beyond the prize money, winning teams may be offered pilot opportunities,
+            internships, or long-term contracts to co-develop and scale their solution with the partner organization.
+          </p>
         </div>
       </div>
     </div>

@@ -70,21 +70,27 @@
         <div class="challenge-card" *ngFor="let challenge of paginatedChallenges" (click)="goToDetail(challenge.id)" style="cursor: pointer;">
           <!-- Sector Tags & Status Badge: Shows industry sectors and challenge status -->
           <div class="tag-row">
+            <div class="tags-left">
             <span class="tag tag-grey" *ngFor="let sector of challenge.sectors">
               {{ sector }}
             </span>
             <span [class]="'tag tag-' + challenge.status">
               {{ getStatusBadge(challenge.status) }}
             </span>
+            </div>
           </div>
 
           <!-- Challenge Title: Main heading of the challenge -->
-          <h3 class="challenge-title">{{ challenge.title }}</h3>
-
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.title">
+            <h3 class="challenge-title">{{ challenge.title }}</h3>
+          </div>
+          
           <!-- Partner & Location Info: Shows company/partner and location -->
-          <p class="challenge-meta">
-            {{ challenge.partner }} · {{ challenge.location }}
-          </p>
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.partner + ' · ' + challenge.location">
+            <p class="challenge-meta">
+              {{ challenge.partner }} · {{ challenge.location }}
+            </p>
+          </div>
 
           <!-- Date Status (Moved back down, above prize) -->
           <p class="days-left">
