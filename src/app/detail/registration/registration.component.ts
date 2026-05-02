@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { RegistrationService, TeamMember } from '../../services/registration.service';
 
 @Component({
   selector: 'app-registration',
@@ -10,16 +11,23 @@ export class RegistrationComponent {
   @Input() challengeId: string | null = null;
   @Output() close = new EventEmitter<void>();
 
-  members: { name: string, email: string }[] = [{ name: '', email: '' }];
+  members: TeamMember[] = [{ name: '', email: '', phone: '' }];
+  isSubmitting = false;
+  submitError: string | null = null;
+  submitSuccess = false;
+
+  constructor(private registrationService: RegistrationService) {}
 
   closeRegistration(): void {
     this.close.emit();
-    this.members = [{ name: '', email: '' }];
+    this.members = [{ name: '', email: '', phone: '' }];
+    this.submitError = null;
+    this.submitSuccess = false;
   }
 
   addMember(): void {
     if (this.members.length < 4) {
-      this.members.push({ name: '', email: '' });
+      this.members.push({ name: '', email: '', phone: '' });
     } else {
       alert('Maximum 4 members allowed');
     }
@@ -33,16 +41,37 @@ export class RegistrationComponent {
 
   submitRegistration(event: Event): void {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const data = {
-      challengeId: this.challengeId,
-      teamName: formData.get('teamName'),
-      teamLead: formData.get('teamLead'),
+    const form = event.target as HTMLFormElement;
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    const payload = {
+      challenge_id: this.challengeId!,
+      team_name: formData.get('teamName') as string,
+      team_lead: formData.get('teamLead') as string,
       members: this.members
     };
-    
-    console.log('Registration Data (Static):', data);
-    alert('Registration Successful! (Static simulation)');
-    this.closeRegistration();
+
+    this.isSubmitting = true;
+    this.submitError = null;
+
+    this.registrationService.registerTeam(payload).subscribe({
+      next: (_res: any) => {
+        this.isSubmitting = false;
+        this.submitSuccess = true;
+        setTimeout(() => this.closeRegistration(), 2000);
+      },
+      error: (err: any) => {
+        this.isSubmitting = false;
+        this.submitError = err?.error?.message || 'Registration failed. Please try again.';
+        console.error('Registration error:', err);
+      }
+    });
   }
 }
+

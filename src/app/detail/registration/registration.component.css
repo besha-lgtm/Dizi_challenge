@@ -99,9 +99,11 @@
 
 .member-row input {
   flex: 1;
-  padding: 8px;
+  padding: 8px 6px;
   border: 1px solid #ddd;
   border-radius: 6px;
+  font-size: 0.85rem;
+  min-width: 0; /* Ensures flex-grow works correctly in all browsers */
 }
 
 .remove-member {
@@ -142,4 +144,66 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
 }
+
+.submit-btn:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.submit-error {
+  width: 100%;
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.submit-success {
+  margin: 16px 0;
+  padding: 14px 18px;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  color: #166534;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.success-icon {
+  width: 24px;
+  height: 24px;
+  background: #16a34a;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Validation Styles */
+input:focus:invalid {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+input:focus:valid {
+  border-color: #059669;
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
+
