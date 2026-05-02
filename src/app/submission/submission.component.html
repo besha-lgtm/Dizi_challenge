@@ -3,6 +3,15 @@
     <h2 class="card-title">Submit Your Solution</h2>
     <p class="card-subtitle">Upload documents, link your demo, and summarize your approach.</p>
 
+    <!-- ── Success Toast ──────────────────────────────────── -->
+    <div class="submission-toast" *ngIf="showSuccessToast">
+      <div class="toast-icon">✅</div>
+      <div class="toast-body">
+        <div class="toast-title">Submitted!</div>
+        <div class="toast-msg">Your solution has been received.</div>
+      </div>
+    </div>
+
     <!-- Search Section -->
     <div class="search-section">
       <div class="search-row">
@@ -80,83 +89,149 @@
 
     <form #submissionForm="ngForm" (ngSubmit)="onSubmit(submissionForm)" class="submission-form">
 
-      <!-- ── Drop Zone ──────────────────────────────── -->
-      <div class="drop-zone"
-           id="dropZone"
-           (drop)="onDropZone($event)"
-           (dragover)="$event.preventDefault()"
-           (dragleave)="$event.preventDefault()"
-           [class.disabled]="!isFormEnabled">
-        <svg class="folder-icon" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="10" width="50" height="32" rx="4" fill="#f5c842" opacity="0.18"/>
-          <path d="M2 14C2 11.8 3.8 10 6 10H20L24 6H46C48.2 6 50 7.8 50 10V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V14Z" fill="#f5c842"/>
-          <path d="M2 18H50V38C50 40.2 48.2 42 46 42H6C3.8 42 2 40.2 2 38V18Z" fill="#e6a800"/>
-          <rect x="2" y="14" width="48" height="4" rx="2" fill="#f5c842"/>
-        </svg>
-        <span class="drop-zone-label">Drag &amp; Drop files here</span>
-        <span class="drop-zone-hint">PDF · PPT · Images · Videos up to 50MB</span>
-        <button type="button" class="btn-browse" (click)="fileInput.click()" [disabled]="!isFormEnabled">Browse Files</button>
-        <input
-          type="file"
-          #fileInput
-          id="fileInput"
-          multiple
-          accept=".pdf,.ppt,.pptx,image/*,video/*"
-          (change)="onFileSelected($event)"
-          style="display:none"
-          [disabled]="!isFormEnabled"/>
-      </div>
-
-      <!-- Uploaded files list -->
-      <div class="uploaded-files" *ngIf="uploadedFiles.length > 0">
-        <h4>Uploaded Files:</h4>
-        <ul class="files-list">
-          <li *ngFor="let file of uploadedFiles; let i = index" class="file-item">
-            <span class="file-name">{{ file.name }}</span>
-            <span class="file-size">({{ (file.size / 1024 / 1024).toFixed(2) }} MB)</span>
-            <button type="button" class="btn-remove" (click)="removeFile(i)" title="Remove file">✕</button>
-          </li>
-        </ul>
-      </div>
-
-      <!-- ── Hackathon name + College row ────────────── -->
-      <div class="field-row">
-        <div class="field">
-          <label for="hackathonName">Hackathon Name <span class="req">*</span></label>
+      <!-- ── Solution File ───────────────────────────── -->
+      <div class="field field-full">
+        <label for="solutionFile">Solution Document <span class="req">*</span></label>
+        <div class="file-upload-area" [class.has-file]="solutionFile">
           <input
-            type="text"
-            id="hackathonName"
-            name="hackathonName"
-            class="field-input"
-            [(ngModel)]="submission.hackathonName"
-            placeholder="Select a challenge from dropdown above"
-            required
-            #hackathonNameRef="ngModel"
-            readonly/>
-          <span class="field-error" id="err-hackathonName">
-            Please select a challenge from the dropdown
-          </span>
+            type="file"
+            #solutionFileInput
+            id="solutionFile"
+            name="solutionFile"
+            accept=".pdf,.doc,.docx,.txt"
+            (change)="onSolutionFileSelected($event)"
+            style="display:none"
+            [disabled]="!isFormEnabled"/>
+          <div class="file-upload-content">
+            <div class="file-icon">📄</div>
+            <div class="file-info">
+              <div class="file-label">{{ solutionFile ? solutionFile.name : 'Upload Solution Document' }}</div>
+              <div class="file-hint">PDF, DOC, DOCX, TXT up to 20480KB</div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-upload" *ngIf="!solutionFile" [disabled]="!isFormEnabled" (click)="$event.stopPropagation(); openSolutionFileDialog()">Choose File</button>
+              <button type="button" class="btn-remove" *ngIf="solutionFile" (click)="$event.stopPropagation(); removeSolutionFile()">✕</button>
+            </div>
+          </div>
         </div>
-
-        <div class="field">
-          <label for="college">College / School <span class="req">*</span></label>
-          <input
-            type="text"
-            id="college"
-            name="college"
-            class="field-input"
-            [(ngModel)]="submission.college"
-            placeholder="Select a team from dropdown above"
-            required
-            #collegeRef="ngModel"
-            readonly/>
-          <span class="field-error" id="err-college">
-            Please select a team from the dropdown
-          </span>
-        </div>
+        <span class="field-error" id="err-solutionFile">
+          Please upload a solution document
+        </span>
       </div>
 
-      <!-- ── GitHub + Demo row ────────────────────────── -->
+      <!-- ── Demo Files ───────────────────────────────── -->
+      <div class="field field-full">
+        <label for="demoFiles">Demo Files <span class="req">*</span></label>
+        <div class="file-upload-area" [class.has-file]="demoFiles.length > 0">
+          <input
+            type="file"
+            #demoFilesInput
+            id="demoFiles"
+            name="demoFiles"
+            accept="image/*,video/*"
+            multiple
+            (change)="onDemoFilesSelected($event)"
+            style="display:none"
+            [disabled]="!isFormEnabled"/>
+          <div class="file-upload-content">
+            <div class="file-icon">🎥</div>
+            <div class="file-info">
+              <div class="file-label">{{ demoFiles.length > 0 ? demoFiles.length + ' file(s) selected' : 'Upload Demo Files' }}</div>
+              <div class="file-hint">Images (JPG, PNG, GIF) or Videos (MP4, AVI, MOV) up to 20MB each</div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-upload" *ngIf="demoFiles.length === 0" [disabled]="!isFormEnabled" (click)="$event.stopPropagation(); openDemoFilesDialog()">Choose Files</button>
+              <button type="button" class="btn-add-more" *ngIf="demoFiles.length > 0" [disabled]="!isFormEnabled" (click)="$event.stopPropagation(); openDemoFilesDialog()">+ Add More</button>
+              <button type="button" class="btn-clear" *ngIf="demoFiles.length > 0" (click)="$event.stopPropagation(); clearDemoFiles()">Clear All</button>
+            </div>
+          </div>
+        </div>
+        <div class="uploaded-files" *ngIf="demoFiles.length > 0">
+          <ul class="files-list">
+            <li *ngFor="let file of demoFiles; let i = index" class="file-item">
+              <span class="file-name">{{ file.name }}</span>
+              <span class="file-size">({{ (file.size / 1024 / 1024).toFixed(2) }} MB)</span>
+              <button type="button" class="btn-remove" (click)="removeDemoFile(i)" title="Remove file">✕</button>
+            </li>
+          </ul>
+        </div>
+        <span class="field-error" id="err-demoFiles">
+          Please upload at least one demo file
+        </span>
+      </div>
+
+      <!-- ── PPT File ─────────────────────────────────── -->
+      <div class="field field-full">
+        <label for="pptFile">Presentation (PPT) <span class="req">*</span></label>
+        <div class="file-upload-area" [class.has-file]="pptFile">
+          <input
+            type="file"
+            #pptFileInput
+            id="pptFile"
+            name="pptFile"
+            accept=".ppt,.pptx"
+            (change)="onPptFileSelected($event)"
+            style="display:none"
+            [disabled]="!isFormEnabled"/>
+          <div class="file-upload-content">
+            <div class="file-icon">📊</div>
+            <div class="file-info">
+              <div class="file-label">{{ pptFile ? pptFile.name : 'Upload Presentation' }}</div>
+              <div class="file-hint">PPT, PPTX up to 10240KB</div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-upload" *ngIf="!pptFile" [disabled]="!isFormEnabled" (click)="$event.stopPropagation(); openPptFileDialog()">Choose File</button>
+              <button type="button" class="btn-remove" *ngIf="pptFile" (click)="$event.stopPropagation(); removePptFile()">✕</button>
+            </div>
+          </div>
+        </div>
+        <span class="field-error" id="err-pptFile">
+          Please upload a presentation file
+        </span>
+      </div>
+
+      <!-- ── Documentation Files ──────────────────────── -->
+      <div class="field field-full">
+        <label for="documentationFiles">Complete Documentation <span class="req">*</span></label>
+        <div class="file-upload-area" [class.has-file]="documentationFiles.length > 0">
+          <input
+            type="file"
+            #documentationFilesInput
+            id="documentationFiles"
+            name="documentationFiles"
+            accept=".pdf,.doc,.docx,.txt,.zip,.rar"
+            multiple
+            (change)="onDocumentationFilesSelected($event)"
+            style="display:none"
+            [disabled]="!isFormEnabled"/>
+          <div class="file-upload-content">
+            <div class="file-icon">📚</div>
+            <div class="file-info">
+              <div class="file-label">{{ documentationFiles.length > 0 ? documentationFiles.length + ' file(s) selected' : 'Upload Documentation' }}</div>
+              <div class="file-hint">PDF, DOC, DOCX, TXT, ZIP, RAR up to 20480KB each</div>
+            </div>
+            <div class="file-actions">
+              <button type="button" class="btn-upload" *ngIf="documentationFiles.length === 0" [disabled]="!isFormEnabled" (click)="$event.stopPropagation(); openDocumentationFilesDialog()">Choose Files</button>
+              <button type="button" class="btn-add-more" *ngIf="documentationFiles.length > 0" [disabled]="!isFormEnabled" (click)="$event.stopPropagation(); openDocumentationFilesDialog()">+ Add More</button>
+              <button type="button" class="btn-clear" *ngIf="documentationFiles.length > 0" (click)="$event.stopPropagation(); clearDocumentationFiles()">Clear All</button>
+            </div>
+          </div>
+        </div>
+        <div class="uploaded-files" *ngIf="documentationFiles.length > 0">
+          <ul class="files-list">
+            <li *ngFor="let file of documentationFiles; let i = index" class="file-item">
+              <span class="file-name">{{ file.name }}</span>
+              <span class="file-size">({{ (file.size / 1024 / 1024).toFixed(2) }} MB)</span>
+              <button type="button" class="btn-remove" (click)="removeDocumentationFile(i)" title="Remove file">✕</button>
+            </li>
+          </ul>
+        </div>
+        <span class="field-error" id="err-documentationFiles">
+          Please upload at least one documentation file
+        </span>
+      </div>
+
+      <!-- ── GitHub + Live Link row ───────────────────── -->
       <div class="field-row">
         <div class="field">
           <label for="githubRepo">GitHub Repository <span class="req">*</span></label>
@@ -176,36 +251,17 @@
         </div>
 
         <div class="field">
-          <label for="demoLink">Demo / Video Link</label>
+          <label for="liveLink">Live Demo Link</label>
           <input
             type="url"
-            id="demoLink"
-            name="demoLink"
+            id="liveLink"
+            name="liveLink"
             class="field-input"
-            [(ngModel)]="submission.demoLink"
-            placeholder="YouTube, Google Drive…"
-            #demoLink="ngModel"
+            [(ngModel)]="submission.liveLink"
+            placeholder="https://your-demo-site.com"
+            #liveLink="ngModel"
             [disabled]="!isFormEnabled"/>
         </div>
-      </div>
-
-      <!-- ── Solution Summary ─────────────────────────── -->
-      <div class="field field-full">
-        <label for="solutionSummary">Solution Summary <span class="req">*</span></label>
-        <textarea
-          id="solutionSummary"
-          name="solutionSummary"
-          class="field-textarea"
-          [(ngModel)]="submission.solutionSummary"
-          placeholder="Describe your approach, architecture, and key decisions…"
-          required
-          minlength="20"
-          #solutionSummary="ngModel"
-          rows="6"
-          [disabled]="!isFormEnabled"></textarea>
-        <span class="field-error" id="err-solutionSummary">
-          Solution summary must be at least 20 characters long
-        </span>
       </div>
 
       <!-- ── Actions ──────────────────────────────────── -->
@@ -213,9 +269,11 @@
         <button
           type="submit"
           class="btn-submit"
-          [disabled]="isSubmitting || !isFormEnabled">
+          [disabled]="isSubmitting || !isReadyToSubmit">
           {{ isSubmitting ? 'Submitting…' : 'Submit Final Solution' }}
         </button>
+        <!-- Save Draft temporarily disabled -->
+        <!--
         <button
           type="button"
           class="btn-draft"
@@ -223,8 +281,65 @@
           [disabled]="!isFormEnabled">
           Save Draft
         </button>
+        -->
       </div>
 
     </form>
+
+    <!-- ── File Format & Size Guidelines ─────────────── -->
+    <div class="guidelines-section">
+      <h3 class="guidelines-title">📋 File Format & Size Guidelines</h3>
+      <div class="guidelines-table">
+        <table class="format-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Accepted Formats</th>
+              <th>Size Limit</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Solution Document</td>
+              <td>PDF, DOC, DOCX, TXT</td>
+              <td>20480 KB</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Demo Files</td>
+              <td>JPG, PNG, GIF, MP4, AVI, MOV</td>
+              <td>20480 KB per file</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Presentation (PPT)</td>
+              <td>PPT, PPTX</td>
+              <td>10240 KB</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Complete Documentation</td>
+              <td>PDF, DOC, DOCX, TXT, ZIP, RAR</td>
+              <td>20480 KB per file</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>GitHub Repository</td>
+              <td>Valid GitHub URL</td>
+              <td>N/A</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Live Demo Link</td>
+              <td>Valid URL</td>
+              <td>N/A</td>
+              <td>No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </div>

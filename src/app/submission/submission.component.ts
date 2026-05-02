@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ChallengeService } from '../services/challenge.service';
+import { SubmissionService } from '../services/submission.service';
 
 // ── Types ──────────────────────────────────────────
 
@@ -11,12 +12,12 @@ interface FieldRule {
 }
 
 interface SubmissionData {
-  hackathonName: string;
-  college: string;
+  solutionFile: File | null;
+  demoFiles: File[];
+  pptFile: File | null;
+  documentationFiles: File[];
   githubRepo: string;
-  demoLink: string;
-  solutionSummary: string;
-  files: File[];
+  liveLink: string;
 }
 
 interface Challenge {
@@ -56,15 +57,18 @@ interface Team {
 })
 export class SubmissionComponent implements OnInit, AfterViewInit {
   submission: SubmissionData = {
-    hackathonName: '',
-    college: '',
+    solutionFile: null,
+    demoFiles: [],
+    pptFile: null,
+    documentationFiles: [],
     githubRepo: '',
-    demoLink: '',
-    solutionSummary: '',
-    files: []
+    liveLink: ''
   };
 
-  uploadedFiles: File[] = [];
+  solutionFile: File | null = null;
+  demoFiles: File[] = [];
+  pptFile: File | null = null;
+  documentationFiles: File[] = [];
   formError: string = '';
   formSuccess: string = '';
   isSubmitting: boolean = false;
@@ -86,36 +90,60 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
   // Filtered data for dropdowns
   filteredChallenges: Challenge[] = [];
   filteredTeams: Team[] = [];
-  recentChallenges: Challenge[] = [];
 
   // Form state
   isFormEnabled: boolean = false;
+  showSuccessToast: boolean = false;
+
+  // File input references
+  @ViewChild('solutionFileInput') solutionFileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('demoFilesInput') demoFilesInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('pptFileInput') pptFileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('documentationFilesInput') documentationFilesInput!: ElementRef<HTMLInputElement>;
+
+  // ── Computed: all required fields filled ─────────────────
+  get isReadyToSubmit(): boolean {
+    return this.isFormEnabled &&
+           this.solutionFile !== null &&
+           this.demoFiles.length > 0 &&
+           this.pptFile !== null &&
+           this.documentationFiles.length > 0 &&
+           /^https:\/\/github\.com\/.+\/.+/i.test((this.submission.githubRepo || '').trim());
+  }
 
   // ── Validation Configuration ───────────────────────
   private readonly FIELD_RULES: FieldRule[] = [
-    { 
-      fieldId: "hackathonName", 
-      errorId: "err-hackathonName", 
-      validate: (v) => v.trim().length > 0
+    {
+      fieldId: "solutionFile",
+      errorId: "err-solutionFile",
+      validate: (v) => this.solutionFile !== null
     },
-    { 
-      fieldId: "college", 
-      errorId: "err-college", 
-      validate: (v) => v.trim().length > 0
+    {
+      fieldId: "demoFiles",
+      errorId: "err-demoFiles",
+      validate: (v) => this.demoFiles.length > 0
     },
-    { 
-      fieldId: "githubRepo", 
-      errorId: "err-githubRepo", 
+    {
+      fieldId: "pptFile",
+      errorId: "err-pptFile",
+      validate: (v) => this.pptFile !== null
+    },
+    {
+      fieldId: "documentationFiles",
+      errorId: "err-documentationFiles",
+      validate: (v) => this.documentationFiles.length > 0
+    },
+    {
+      fieldId: "githubRepo",
+      errorId: "err-githubRepo",
       validate: (v) => /^https:\/\/github\.com\/.+\/.+/i.test(v.trim()) && v.trim().length > 0
-    },
-    { 
-      fieldId: "solutionSummary", 
-      errorId: "err-solutionSummary", 
-      validate: (v) => v.trim().length >= 20
-    },
+    }
   ];
 
-  constructor(private challengeService: ChallengeService) {}
+  constructor(
+    private challengeService: ChallengeService,
+    private submissionService: SubmissionService
+  ) {}
 
   ngOnInit(): void {
     this.loadChallenges();
@@ -208,27 +236,145 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onFileSelected(event: Event): void {
+  // ── File Input Click Handlers ──────────────────────
+
+  openSolutionFileDialog(): void {
+    this.solutionFileInput.nativeElement.click();
+  }
+
+  openDemoFilesDialog(): void {
+    this.demoFilesInput.nativeElement.click();
+  }
+
+  openPptFileDialog(): void {
+    this.pptFileInput.nativeElement.click();
+  }
+
+  openDocumentationFilesDialog(): void {
+    this.documentationFilesInput.nativeElement.click();
+  }
+
+  onSolutionFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (this.validateFile(file, 'solution')) {
+        this.solutionFile = file;
+        this.submission.solutionFile = file;
+      }
+    }
+  }
+
+  onDemoFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      this.uploadedFiles = Array.from(input.files);
-      this.submission.files = this.uploadedFiles;
+      const newFiles = Array.from(input.files);
+      const validFiles = newFiles.filter(file => this.validateFile(file, 'demo'));
+      // Append new files, skipping duplicates (same name + same size)
+      validFiles.forEach(newFile => {
+        const isDuplicate = this.demoFiles.some(
+          existing => existing.name === newFile.name && existing.size === newFile.size
+        );
+        if (!isDuplicate) {
+          this.demoFiles.push(newFile);
+        }
+      });
+      this.submission.demoFiles = this.demoFiles;
+      // Reset input value so the same file can be re-selected after removal
+      input.value = '';
     }
   }
 
-  onDropZone(event: DragEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.dataTransfer?.files) {
-      this.uploadedFiles = Array.from(event.dataTransfer.files);
-      this.submission.files = this.uploadedFiles;
+  onPptFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      if (this.validateFile(file, 'ppt')) {
+        this.pptFile = file;
+        this.submission.pptFile = file;
+      }
     }
   }
 
-  removeFile(index: number): void {
-    this.uploadedFiles.splice(index, 1);
-    this.submission.files = this.uploadedFiles;
+  onDocumentationFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      const newFiles = Array.from(input.files);
+      const validFiles = newFiles.filter(file => this.validateFile(file, 'documentation'));
+      // Append new files, skipping duplicates (same name + same size)
+      validFiles.forEach(newFile => {
+        const isDuplicate = this.documentationFiles.some(
+          existing => existing.name === newFile.name && existing.size === newFile.size
+        );
+        if (!isDuplicate) {
+          this.documentationFiles.push(newFile);
+        }
+      });
+      this.submission.documentationFiles = this.documentationFiles;
+      // Reset input value so the same file can be re-selected after removal
+      input.value = '';
+    }
+  }
+
+  removeSolutionFile(): void {
+    this.solutionFile = null;
+    this.submission.solutionFile = null;
+  }
+
+  removeDemoFile(index: number): void {
+    this.demoFiles.splice(index, 1);
+    this.submission.demoFiles = [...this.demoFiles];
+  }
+
+  removePptFile(): void {
+    this.pptFile = null;
+    this.submission.pptFile = null;
+    this.pptFileInput.nativeElement.value = '';
+  }
+
+  removeDocumentationFile(index: number): void {
+    this.documentationFiles.splice(index, 1);
+    this.submission.documentationFiles = [...this.documentationFiles];
+  }
+
+  clearDemoFiles(): void {
+    this.demoFiles = [];
+    this.submission.demoFiles = [];
+    this.demoFilesInput.nativeElement.value = '';
+  }
+
+  clearDocumentationFiles(): void {
+    this.documentationFiles = [];
+    this.submission.documentationFiles = [];
+    this.documentationFilesInput.nativeElement.value = '';
+  }
+
+  private validateFile(file: File, type: string): boolean {
+    const maxSizes = {
+      solution: 20 * 1024 * 1024, // 20MB
+      demo: 20 * 1024 * 1024, // 20MB per file
+      ppt: 10 * 1024 * 1024, // 10MB
+      documentation: 20 * 1024 * 1024 // 20MB per file
+    };
+
+    const allowedTypes = {
+      solution: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'],
+      demo: ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/avi', 'video/quicktime'],
+      ppt: ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'],
+      documentation: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'application/zip', 'application/x-rar-compressed']
+    };
+
+    if (file.size > maxSizes[type as keyof typeof maxSizes]) {
+      this.formError = `File size exceeds limit for ${type} files`;
+      return false;
+    }
+
+    if (!allowedTypes[type as keyof typeof allowedTypes].includes(file.type)) {
+      this.formError = `Invalid file type for ${type} files`;
+      return false;
+    }
+
+    return true;
   }
 
   onSubmit(form: NgForm): void {
@@ -239,70 +385,96 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     // Force validation of all fields first
     this.validateAllFields();
 
-    // Check if validation passed
-    const hackathonName = this.getEl<HTMLInputElement>("hackathonName");
-    const college = this.getEl<HTMLInputElement>("college");
-    const githubRepo = this.getEl<HTMLInputElement>("githubRepo");
-    const solutionSummary = this.getEl<HTMLTextAreaElement>("solutionSummary");
-    
-    const hackathonValid = hackathonName && hackathonName.value.trim().length > 0;
-    const collegeValid = college && college.value.trim().length > 0;
-    const githubValid = githubRepo && /^https:\/\/github\.com\/.+\/.+/i.test(githubRepo.value.trim());
-    const summaryValid = solutionSummary && solutionSummary.value.trim().length >= 20;
+    // Check required fields
+    const isValid = this.solutionFile !== null &&
+                   this.demoFiles.length > 0 &&
+                   this.pptFile !== null &&
+                   this.documentationFiles.length > 0 &&
+                   /^https:\/\/github\.com\/.+\/.+/i.test(this.submission.githubRepo.trim());
 
-    if (!hackathonValid || !collegeValid || !githubValid || !summaryValid) {
+    if (!isValid) {
       this.formError = 'Please fill all required fields correctly';
       return;
     }
 
-    // Validate demo URL if provided
-    if (this.submission.demoLink) {
+    // Validate live link if provided
+    if (this.submission.liveLink) {
       try {
-        new URL(this.submission.demoLink);
+        new URL(this.submission.liveLink);
       } catch {
-        this.formError = 'Please enter a valid demo/video URL';
+        this.formError = 'Please enter a valid live demo URL';
         return;
       }
     }
 
-    // Show success message
+    // Show submitting state
     this.isSubmitting = true;
-    this.formSuccess = 'Solution submitted successfully!';
-    console.log('Submission submitted with data:', {
-      hackathonName: this.submission.hackathonName,
-      college: this.submission.college,
-      githubRepo: this.submission.githubRepo,
-      demoLink: this.submission.demoLink,
-      solutionSummary: this.submission.solutionSummary,
-      filesCount: this.uploadedFiles.length
-    });
 
-    // Reset form after successful submission
-    setTimeout(() => {
-      form.resetForm();
-      this.uploadedFiles = [];
-      this.submission = {
-        hackathonName: '',
-        college: '',
-        githubRepo: '',
-        demoLink: '',
-        solutionSummary: '',
-        files: []
-      };
-      this.formSuccess = '';
-      this.isSubmitting = false;
-      // Clear all error states
-      this.FIELD_RULES.forEach(rule => {
-        const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
-        if (field) {
-          field.classList.remove("field-input--error", "field-textarea--error", "field-input--valid");
-        }
-        const errorEl = this.getEl(rule.errorId);
-        if (errorEl) {
-          errorEl.classList.remove("field-error--visible");
-        }
-      });
-    }, 2000);
+    const payload = {
+      challenge_id: this.selectedChallenge!.id,
+      team_name: this.selectedTeam!.name,
+      github_repo: this.submission.githubRepo,
+      live_link: this.submission.liveLink || undefined,
+      solution_file: this.solutionFile!,
+      ppt_file: this.pptFile!,
+      demo_files: this.demoFiles,
+      documentation_files: this.documentationFiles
+    };
+
+    this.submissionService.submitSolution(payload).subscribe({
+      next: (response) => {
+        // Show toast
+        this.showSuccessToast = true;
+        this.isSubmitting = false;
+
+        // Full reset after 2.5 seconds
+        setTimeout(() => {
+          this.showSuccessToast = false;
+
+          // Reset form fields
+          form.resetForm();
+          this.solutionFile = null;
+          this.demoFiles = [];
+          this.pptFile = null;
+          this.documentationFiles = [];
+          this.solutionFileInput.nativeElement.value = '';
+          this.demoFilesInput.nativeElement.value = '';
+          this.pptFileInput.nativeElement.value = '';
+          this.documentationFilesInput.nativeElement.value = '';
+          this.submission = {
+            solutionFile: null,
+            demoFiles: [],
+            pptFile: null,
+            documentationFiles: [],
+            githubRepo: '',
+            liveLink: ''
+          };
+
+          // Reset search dropdowns
+          this.challengeSearch = '';
+          this.teamSearch = '';
+          this.selectedChallenge = null;
+          this.selectedTeam = null;
+          this.isFormEnabled = false;
+          this.showChallengeDropdown = false;
+          this.showTeamDropdown = false;
+          this.filteredTeams = [];
+
+          // Clear validation states
+          this.FIELD_RULES.forEach(rule => {
+            const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
+            if (field) field.classList.remove('field-input--error', 'field-textarea--error', 'field-input--valid');
+            this.getEl(rule.errorId)?.classList.remove('field-error--visible');
+          });
+        }, 2500);
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        const msg = error?.error?.message || 'Submission failed. Please try again.';
+        this.formError = msg;
+        console.error('Submission error:', error);
+      }
+    });
   }
 
   saveDraft(form: NgForm): void {
@@ -311,8 +483,7 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     this.formSuccess = '';
 
     // Validate at least GitHub repo
-    const githubRepo = this.getEl<HTMLInputElement>("githubRepo");
-    if (!githubRepo || !githubRepo.value.trim()) {
+    if (!this.submission.githubRepo.trim()) {
       this.formError = 'Please enter GitHub repository URL to save draft';
       return;
     }
@@ -320,12 +491,14 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     // Show draft saved message
     this.formSuccess = 'Draft saved successfully!';
     console.log('Draft saved with data:', {
-      hackathonName: this.submission.hackathonName,
-      college: this.submission.college,
+      challenge: this.selectedChallenge?.title,
+      team: this.selectedTeam?.name,
+      solutionFile: this.solutionFile?.name,
+      demoFilesCount: this.demoFiles.length,
+      pptFile: this.pptFile?.name,
+      documentationFilesCount: this.documentationFiles.length,
       githubRepo: this.submission.githubRepo,
-      demoLink: this.submission.demoLink,
-      solutionSummary: this.submission.solutionSummary,
-      filesCount: this.uploadedFiles.length
+      liveLink: this.submission.liveLink
     });
 
     setTimeout(() => {
@@ -420,11 +593,9 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
 
   selectChallenge(challenge: Challenge): void {
     this.selectedChallenge = challenge;
-    this.submission.hackathonName = challenge.title;
     this.challengeSearch = challenge.title;
     this.teamSearch = '';
     this.selectedTeam = null;
-    this.submission.college = '';
     this.showChallengeDropdown = false;
     this.loadTeamsForChallenge(challenge.id);
     this.checkFormEnablement();
@@ -432,7 +603,6 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
 
   selectTeam(team: Team): void {
     this.selectedTeam = team;
-    this.submission.college = team.college;
     this.teamSearch = team.name;
     this.showTeamDropdown = false;
     this.checkFormEnablement();
