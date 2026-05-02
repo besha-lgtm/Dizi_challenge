@@ -7,11 +7,11 @@ interface Challenge {
   sectors: string[];
   partner: string;
   location: string;
-  capacity: number;
   daysLeft: number;
+  dateMessage: string;
   prize: number;
   teams: number;
-  status: 'open' | 'closing' | 'new';
+  status: 'open' | 'closing' | 'new' | 'upcoming' | 'closed';
 }
 
 @Component({
@@ -41,18 +41,39 @@ export class ChallengesComponent implements OnInit {
     this.challengeService.getChallenges().subscribe({
       next: (data) => {
         console.log('Fetched challenges:', data);
-        this.challenges = data.map(item => ({
-          id: item.id,
-          title: item.title,
-          sectors: [item.sector, item.domain].filter(Boolean), // Include both sector and domain as tags
-          partner: item.company_name,
-          location: item.location,
-          capacity: 0,
-          daysLeft: this.calculateDaysLeft(item.deadline),
-          prize: Number(item.total_pool),
-          teams: 0,
-          status: this.deriveStatus(item.deadline)
-        }));
+        this.challenges = data.map(item => {
+          const daysToStart = this.calculateDaysBetween(new Date(), new Date(item.start_date));
+          const daysToDeadline = this.calculateDaysBetween(new Date(), new Date(item.deadline));
+          
+          let status: any = 'open';
+          let dateMessage = '';
+
+          if (daysToStart > 0) {
+            status = 'upcoming';
+            dateMessage = `Starts in ${daysToStart} days`;
+          } else if (daysToDeadline < 0) {
+            status = 'closed';
+            dateMessage = 'Challenge Closed';
+          } else {
+            dateMessage = `${daysToDeadline} days left`;
+            if (daysToDeadline <= 7) status = 'closing';
+            else if (daysToDeadline >= 28) status = 'new';
+            else status = 'open';
+          }
+
+          return {
+            id: item.id,
+            title: item.title,
+            sectors: [item.sector, item.domain].filter(Boolean),
+            partner: item.company_name,
+            location: item.location,
+            daysLeft: Math.max(0, daysToDeadline),
+            dateMessage: dateMessage,
+            prize: Number(item.total_pool),
+            teams: 0,
+            status: status
+          };
+        });
         this.applyFilter();
       },
       error: (err) => {
@@ -61,19 +82,11 @@ export class ChallengesComponent implements OnInit {
     });
   }
 
-  private calculateDaysLeft(deadline: string): number {
-    const today = new Date();
-    const target = new Date(deadline);
-    const diff = target.getTime() - today.getTime();
-    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
-  }
-
-  private deriveStatus(deadline: string): 'open' | 'closing' | 'new' {
-    const days = this.calculateDaysLeft(deadline);
-    if (days <= 0) return 'closing'; // Should probably be 'closed' but interface only has 3
-    if (days <= 7) return 'closing';
-    if (days >= 28) return 'new';
-    return 'open';
+  private calculateDaysBetween(start: Date, end: Date): number {
+    const s = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    const diff = e.getTime() - s.getTime();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
   }
 
 
@@ -173,6 +186,8 @@ export class ChallengesComponent implements OnInit {
     if (status === 'open') return '● Open';
     if (status === 'closing') return '● Closing';
     if (status === 'new') return '● New';
+    if (status === 'upcoming') return '● Upcoming';
+    if (status === 'closed') return '● Closed';
     return '';
   }
 }

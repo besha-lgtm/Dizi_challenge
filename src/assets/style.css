@@ -9903,17 +9903,7 @@ body.overlay-active {
 }
 
 /* Challenge Title */
-/* Challenge title - main heading */
-.challenge-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0f1724;
-  line-height: 1.4;
-  margin-bottom: 12px;
-  min-height: 32px;
-}
 
-/* Challenge Meta */
 /* Partner and location meta information */
 .challenge-meta {
   font-size: 12px;

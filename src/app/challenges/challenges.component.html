@@ -86,18 +86,10 @@
             {{ challenge.partner }} · {{ challenge.location }}
           </p>
 
-          <!-- Capacity Progress Bar: Visual representation of team capacity used -->
-          <div class="capacity-section">
-            <div class="capacity-bar">
-              <div class="capacity-fill" [style.width.%]="challenge.capacity"></div>
-            </div>
-            <p class="capacity-text">{{ challenge.capacity }}% capacity</p>
-          </div>
-
-          <!-- Days Remaining: Shows how many days are left for the challenge deadline -->
+          <!-- Date Status (Moved back down, above prize) -->
           <p class="days-left">
             <span class="icon-inline">📅</span>
-            {{ challenge.daysLeft }} days left
+            {{ challenge.dateMessage }}
           </p>
 
           <!-- Prize & Teams Section: Bottom section showing prize money and number of teams -->
@@ -149,4 +141,3 @@
     </div>
   </div>
 </div>
-
