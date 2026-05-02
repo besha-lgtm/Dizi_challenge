@@ -11,6 +11,8 @@ export interface ChallengePayload {
     location: string;
     contactPerson: string;
     email: string;
+    website?: string;
+    companyDescription?: string;
   };
   problemDetails: {
     description: string;

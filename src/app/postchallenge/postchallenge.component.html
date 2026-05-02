@@ -224,27 +224,31 @@
             address.</span>
         </div>
 
-        <!-- <div class="field-group" data-field="contact-number">
-            <label class="field-label" for="contact-number">
-              Contact Number <span class="field-label__required" aria-hidden="true">*</span>
-            </label>
-            <div class="field-input-wrap">
-              <input
-                class="field-input"
-                type="text"
-                id="contact-number"
-                name="contactNumber"
-                placeholder="e.g. 9876543210"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                aria-required="true"
-              />
-              <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-            </div>
-            <span class="field-error" id="err-contact-number" role="alert" aria-live="polite">Please enter a valid 10-digit phone number.</span>
-          </div> -->
+        <div class="field-group" data-field="company-description" style="grid-column: span 2;">
+          <label class="field-label" for="company-description">
+            Company Description <span class="field-label__optional" style="color: #64748b; font-weight: normal; font-size: 0.85em; margin-left: 4px;">(Optional)</span>
+          </label>
+          <div class="field-input-wrap">
+            <textarea class="field-textarea" id="company-description" name="companyDescription" rows="3"
+              placeholder="Tell us a bit about your company, its mission, and its values."></textarea>
+          </div>
+        </div>
+
+        <div class="field-group" data-field="company-website">
+          <label class="field-label" for="company-website">
+            Company Website <span class="field-label__optional" style="color: #64748b; font-weight: normal; font-size: 0.85em; margin-left: 4px;">(Optional)</span>
+          </label>
+          <div class="field-input-wrap">
+            <input class="field-input" type="url" id="company-website" name="companyWebsite" placeholder="e.g. https://www.company.com"
+              autocomplete="url" />
+            <span class="field-input__icon field-input__icon--valid" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none">
+                <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+          </div>
+        </div>
 
       </div><!-- /form-grid -->
 

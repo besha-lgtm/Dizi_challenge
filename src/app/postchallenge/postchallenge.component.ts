@@ -252,7 +252,9 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
         sector: this.getEl<HTMLSelectElement>("sector")?.value || "",
         location: this.getEl<HTMLInputElement>("location")?.value || "",
         contactPerson: this.getEl<HTMLInputElement>("contact-person")?.value || "",
-        email: this.getEl<HTMLInputElement>("work-email")?.value || ""
+        email: this.getEl<HTMLInputElement>("work-email")?.value || "",
+        website: this.getEl<HTMLInputElement>("company-website")?.value || "",
+        companyDescription: this.getEl<HTMLTextAreaElement>("company-description")?.value || ""
       },
       problemDetails: {
         description: this.getEl<HTMLTextAreaElement>("problem-description")?.value || "",
