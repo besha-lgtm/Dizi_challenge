@@ -12,7 +12,7 @@ export class DetailComponent implements OnInit {
   challengeId: string | null = null;
   challenge: any = null;
   daysLeft: number = 0;
-  isLive: boolean = false;
+  status: 'open' | 'closing' | 'new' | 'upcoming' | 'closed' = 'open';
 
   // Registration State
   showRegistration: boolean = false;
@@ -23,7 +23,7 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.challengeId = this.route.snapshot.paramMap.get('id');
+    this.challengeId = this.challengeService.getSelectedChallengeId();
     if (this.challengeId) {
       this.loadChallengeDetails(this.challengeId);
     }
@@ -43,6 +43,7 @@ export class DetailComponent implements OnInit {
 
   // Registration Toggle
   openRegistration(): void {
+    if (this.status === 'upcoming' || this.status === 'closed') return;
     this.showRegistration = true;
   }
 
@@ -57,12 +58,39 @@ export class DetailComponent implements OnInit {
     const startDate = new Date(this.challenge.start_date);
     const deadline = new Date(this.challenge.deadline);
 
-    // Live if today is between start and deadline
-    this.isLive = today >= startDate && today <= deadline;
+    // Reset today to midnight for day comparison
+    const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const sDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+    const dDate = new Date(deadline.getFullYear(), deadline.getMonth(), deadline.getDate());
 
-    // Days left to close
-    const diff = deadline.getTime() - today.getTime();
-    this.daysLeft = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+    const diffToStart = sDate.getTime() - now.getTime();
+    const diffToDeadline = dDate.getTime() - now.getTime();
+
+    const daysToStart = Math.ceil(diffToStart / (1000 * 60 * 60 * 24));
+    const daysToDeadline = Math.ceil(diffToDeadline / (1000 * 60 * 60 * 24));
+
+    if (daysToStart > 0) {
+      this.status = 'upcoming';
+      this.daysLeft = daysToStart;
+    } else if (daysToDeadline < 0) {
+      this.status = 'closed';
+      this.daysLeft = 0;
+    } else {
+      this.daysLeft = daysToDeadline;
+      if (daysToDeadline <= 7) this.status = 'closing';
+      else if (daysToDeadline >= 28) this.status = 'new';
+      else this.status = 'open';
+    }
+  }
+
+  getStatusBadge(): string {
+    switch (this.status) {
+      case 'upcoming': return '● Upcoming';
+      case 'closed': return '● Closed';
+      case 'closing': return '● Closing Soon';
+      case 'new': return '● New';
+      default: return '● Open';
+    }
   }
 
   getDaysAgo(dateStr: string): string {

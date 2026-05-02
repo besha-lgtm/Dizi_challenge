@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class ChallengeService {
   private readonly API_URL = `${environment.apiUrl}/challenges`;
+  private readonly STORAGE_KEY = 'selectedChallengeId';
 
   constructor(private http: HttpClient) { }
 
@@ -17,5 +18,15 @@ export class ChallengeService {
 
   getChallengeById(id: number | string): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/${id}`);
+  }
+
+  // --- Selected Challenge Management (to hide ID from URL) ---
+
+  setSelectedChallengeId(id: string | number): void {
+    sessionStorage.setItem(this.STORAGE_KEY, id.toString());
+  }
+
+  getSelectedChallengeId(): string | null {
+    return sessionStorage.getItem(this.STORAGE_KEY);
   }
 }

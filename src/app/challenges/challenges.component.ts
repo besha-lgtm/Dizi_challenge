@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChallengeService } from '../services/challenge.service';
 
 interface Challenge {
@@ -31,7 +32,10 @@ export class ChallengesComponent implements OnInit {
   challenges: Challenge[] = [];
   filteredChallenges: Challenge[] = [];
 
-  constructor(private challengeService: ChallengeService) {}
+  constructor(
+    private challengeService: ChallengeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadChallenges();
@@ -87,6 +91,11 @@ export class ChallengesComponent implements OnInit {
     const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
     const diff = e.getTime() - s.getTime();
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
+  }
+
+  goToDetail(id: number): void {
+    this.challengeService.setSelectedChallengeId(id);
+    this.router.navigate(['/challenges/detail/overview']);
   }
 
 

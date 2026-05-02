@@ -67,7 +67,7 @@
       <!-- Challenges Grid: Responsive grid displaying all challenge cards -->
       <div class="challenges-grid">
         <!-- Challenge Card: Repeats for each challenge in the filtered list -->
-        <div class="challenge-card" *ngFor="let challenge of paginatedChallenges" [routerLink]="['/detail', challenge.id]" style="cursor: pointer;">
+        <div class="challenge-card" *ngFor="let challenge of paginatedChallenges" (click)="goToDetail(challenge.id)" style="cursor: pointer;">
           <!-- Sector Tags & Status Badge: Shows industry sectors and challenge status -->
           <div class="tag-row">
             <span class="tag tag-grey" *ngFor="let sector of challenge.sectors">

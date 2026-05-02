@@ -17,12 +17,16 @@
           <div class="tags-left">
             <span class="tag tag-grey" data-tag>{{ challenge.sector }}</span>
             <span class="tag tag-grey" data-tag>{{ challenge.domain }}</span>
-            <span [class]="isLive ? 'tag tag-live' : 'tag tag-closed'" id="statusTag">
-              {{ isLive ? '● Live' : '● Closed' }}
+            <span [class]="'tag tag-' + status" id="statusTag">
+              {{ getStatusBadge() }}
             </span>
           </div>
-          <button class="register-btn" (click)="openRegistration()">
-            Register for Challenge
+          <button 
+            class="register-btn" 
+            [class.register-btn--disabled]="status === 'upcoming' || status === 'closed'"
+            [disabled]="status === 'upcoming' || status === 'closed'"
+            (click)="openRegistration()">
+            {{ status === 'upcoming' ? 'Registration Opens Soon' : (status === 'closed' ? 'Registration Closed' : 'Register for Challenge') }}
           </button>
         </div>
 

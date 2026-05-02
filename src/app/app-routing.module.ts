@@ -22,13 +22,14 @@ import { SettingsComponent } from './settings/settings.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { ResourcesComponent } from './detail/resources/resources.component';
 import { SubmissionsComponent } from './detail/submissions/submissions.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'register', component: RegisterComponent },
 
-// LAYOUT 1: Dashboard (With Sidebar)
+  // LAYOUT 1: Dashboard (With Sidebar)
   {
     path: 'dashboard',
     component: SidebarComponent, 
@@ -37,24 +38,18 @@ const routes: Routes = [
     ]
   },
 
-   {
-    path: 'detail/:id',
+  // Challenge Details (Nested under challenges)
+  {
+    path: 'challenges/detail',
     component: DetailComponent,
     children: [
-      
-      { path: '',          redirectTo: 'overview', pathMatch: 'full' },
-      { path: 'overview',     component: OverviewComponent   },
-   
-      { path: 'discussion',   component: DiscussionComponent },
-
-      { path: 'submissions',   component: SubmissionsComponent },
-
-      { path: 'resources',     component: ResourcesComponent   }
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: 'overview', component: OverviewComponent },
+      { path: 'discussion', component: DiscussionComponent },
+      { path: 'submissions', component: SubmissionsComponent },
+      { path: 'resources', component: ResourcesComponent }
     ]
   },
-  // Redirect bare root to detail
-  { path: '', redirectTo: '/detail', pathMatch: 'full' },
-
 
   { path: 'submission', component: SubmissionComponent },
   { path: 'rewards', component: RewardsComponent },
@@ -68,10 +63,9 @@ const routes: Routes = [
   { path: 'overview', component: OverviewComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'certificates', component: CertificatesComponent },
-  {path: 'settings', component: SettingsComponent},
-  {path: 'create-team', component: CreateTeamComponent},
+  { path: 'settings', component: SettingsComponent },
+  { path: 'create-team', component: CreateTeamComponent },
   { path: '**', redirectTo: 'login' }
- 
 ];
 
 @NgModule({
