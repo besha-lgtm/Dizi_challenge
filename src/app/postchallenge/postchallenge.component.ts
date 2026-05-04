@@ -27,6 +27,8 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   private completedSteps = new Set<number>();
   private readonly TOTAL_STEPS = 3;
 
+  constructor() {}
+
   // ── Configuration ──────────────────────────────────
   private readonly STEP_CONFIGS: Record<number, StepConfig> = {
     1: {
@@ -210,38 +212,158 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     totalEl.textContent = `₹${total.toLocaleString("en-IN")}`;
   }
 
+  // ── Rewards Validation ─────────────────────────────
+
+  /**
+   * Validate rewards section (Step 3)
+   * Returns true if valid, false otherwise
+   */
+  private validateRewards(): boolean {
+    let isValid = true;
+
+    // Get all prize inputs
+    const prize1 = this.getEl<HTMLInputElement>("prize-1");
+    const prize2 = this.getEl<HTMLInputElement>("prize-2");
+    const prize3 = this.getEl<HTMLInputElement>("prize-3");
+
+    // Convert to numbers
+    const p1 = Number(prize1?.value) || 0;
+    const p2 = Number(prize2?.value) || 0;
+    const p3 = Number(prize3?.value) || 0;
+    const totalPrize = p1 + p2 + p3;
+
+    // Clear previous errors
+    this.clearRewardErrors();
+
+    // Validation 1: At least one prize must be set
+    if (totalPrize === 0) {
+      this.showRewardError("At least one prize amount must be set.");
+      isValid = false;
+    }
+
+    // Validation 2: Prize amounts must be positive
+    if (p1 < 0 || p2 < 0 || p3 < 0) {
+      this.showRewardError("Prize amounts cannot be negative.");
+      isValid = false;
+    }
+
+    // Validation 3: Prizes should follow hierarchy (1st >= 2nd >= 3rd)
+    if ((p1 > 0 && p2 > 0 && p1 < p2) || (p2 > 0 && p3 > 0 && p2 < p3)) {
+      this.showRewardError("Prize hierarchy should follow: 1st Place ≥ 2nd Place ≥ 3rd Place.");
+      isValid = false;
+    }
+
+    // Validation 4: Maximum prize limit (e.g., 10 lakhs total)
+    const MAX_TOTAL_PRIZE = 1000000;
+    if (totalPrize > MAX_TOTAL_PRIZE) {
+      this.showRewardError(`Total prize pool cannot exceed ₹${MAX_TOTAL_PRIZE.toLocaleString("en-IN")}.`);
+      isValid = false;
+    }
+
+    // Validation 5: Minimum prize requirement when set
+    const MIN_PRIZE = 1000;
+    if ((p1 > 0 && p1 < MIN_PRIZE) || (p2 > 0 && p2 < MIN_PRIZE) || (p3 > 0 && p3 < MIN_PRIZE)) {
+      this.showRewardError(`Each prize (if set) must be at least ₹${MIN_PRIZE.toLocaleString("en-IN")}.`);
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  /**
+   * Show reward validation error
+   */
+  private showRewardError(message: string): void {
+    // Create/update error container if it doesn't exist
+    let errorContainer = this.getEl("reward-error-container");
+    if (!errorContainer) {
+      const prizeGrid = this.getEl("prizes-grid") || this.getEl("panel-step-3");
+      if (prizeGrid) {
+        errorContainer = document.createElement("div");
+        errorContainer.id = "reward-error-container";
+        errorContainer.className = "reward-error-box";
+        prizeGrid.parentElement?.insertBefore(errorContainer, prizeGrid);
+      }
+    }
+
+    if (errorContainer) {
+      errorContainer.innerHTML = `
+        <div class="reward-error-content">
+          <span class="reward-error-icon" aria-hidden="true">⚠️</span>
+          <span class="reward-error-text">${message}</span>
+        </div>
+      `;
+      errorContainer.classList.add("reward-error-box--visible");
+    }
+  }
+
+  /**
+   * Clear reward validation errors
+   */
+  private clearRewardErrors(): void {
+    const errorContainer = this.getEl("reward-error-container");
+    if (errorContainer) {
+      errorContainer.classList.remove("reward-error-box--visible");
+      errorContainer.innerHTML = "";
+    }
+  }
+
   // ── Actions (Publish & Save Draft) ─────────────────
 
   private publishChallenge(): void {
-    if (!this.validateStep(3)) {
-      return;
-    }
-
-    const start = this.getEl<HTMLInputElement>("start-date");
-    const deadline = this.getEl<HTMLInputElement>("submission-deadline");
-    if (start && deadline && new Date(deadline.value) <= new Date(start.value)) {
-      deadline.classList.add("field-input--error");
-      const err = this.getEl("err-submission-deadline");
-      if (err) {
-        err.textContent = "Deadline must be after the start date.";
-        err.classList.add("field-error--visible");
+    try {
+      // Step 1: Validate all required fields in Step 3
+      if (!this.validateStep(3)) {
+        return;
       }
-      return;
-    }
 
-    const btn = this.getEl<HTMLButtonElement>("btn-publish");
-    if (btn) {
-      btn.classList.add("btn--loading");
-      btn.querySelector("span")!.textContent = "Publishing...";
-    }
+      // Step 2: Validate dates
+      const start = this.getEl<HTMLInputElement>("start-date");
+      const deadline = this.getEl<HTMLInputElement>("submission-deadline");
+      if (start && deadline && new Date(deadline.value) <= new Date(start.value)) {
+        deadline.classList.add("field-input--error");
+        const err = this.getEl("err-submission-deadline");
+        if (err) {
+          err.textContent = "Deadline must be after the start date.";
+          err.classList.add("field-error--visible");
+        }
+        return;
+      }
 
-    setTimeout(() => {
-      this.getEl("success-overlay")?.removeAttribute("hidden");
+      // Step 3: Validate rewards specifically
+      if (!this.validateRewards()) {
+        console.warn("[PostChallenge] Rewards validation failed");
+        return;
+      }
+
+      // Step 4: Show loading state
+      const btn = this.getEl<HTMLButtonElement>("btn-publish");
       if (btn) {
-        btn.classList.remove("btn--loading");
-        btn.querySelector("span")!.textContent = "Publish Challenge";
+        btn.classList.add("btn--loading");
+        btn.querySelector("span")!.textContent = "Publishing...";
       }
-    }, 1200);
+
+      // Step 5: Simulate publishing
+      setTimeout(() => {
+        try {
+          // Clear errors on success
+          this.clearRewardErrors();
+
+          // Show success message
+          this.getEl("success-overlay")?.removeAttribute("hidden");
+          if (btn) {
+            btn.classList.remove("btn--loading");
+            btn.querySelector("span")!.textContent = "Publish Challenge";
+          }
+        } catch (error) {
+          console.error("[PostChallenge] Error during post-publish:", error);
+          this.showRewardError("Failed to complete publishing. Please try again.");
+        }
+      }, 1200);
+    } catch (error) {
+      console.error("[PostChallenge] Critical error in publishChallenge:", error);
+      this.showRewardError("An unexpected error occurred. Please try again.");
+    }
   }
 
   private saveDraft(): void {
@@ -276,6 +398,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   }
 
   private initNavButtons(): void {
+    // Handle navigation buttons (next/prev) via data-action attributes
     document.addEventListener("click", (e) => {
       const target = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
       if (!target) return;
@@ -289,6 +412,16 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       if (action === "save-draft") this.saveDraft();
     });
 
+    // Handle Publish button directly by ID
+    this.getEl<HTMLButtonElement>("btn-publish")?.addEventListener("click", () => {
+      this.publishChallenge();
+    });
+
+    // Handle Save Draft button directly by ID
+    this.getEl<HTMLButtonElement>("btn-save-draft")?.addEventListener("click", () => {
+      this.saveDraft();
+    });
+
     // Success Overlay Handlers
     this.getEl("btn-post-another")?.addEventListener("click", () => location.reload());
     this.getEl("success-overlay")?.addEventListener("click", (e) => {
@@ -299,7 +432,15 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   private initFieldListeners(): void {
     document.addEventListener("input", (e) => {
       const target = e.target as HTMLInputElement;
-      if (target.classList.contains("field-input")) {
+      if (target.classList.contains("field-input") || target.classList.contains("field-textarea") || target.classList.contains("field-select")) {
+        this.clearFieldError(target);
+      }
+    });
+
+    // Also listen for checkbox changes (perks)
+    document.addEventListener("change", (e) => {
+      const target = e.target as HTMLInputElement;
+      if (target.classList.contains("perk-check__input") || target.classList.contains("field-select")) {
         this.clearFieldError(target);
       }
     });

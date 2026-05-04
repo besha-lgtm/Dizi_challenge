@@ -1,137 +1,110 @@
 <div class="ov-wrapper">
-
-      <!-- ── Timeline / Key Dates ──────────────────────── -->
-      <div class="ov-info-card">
-        <p class="ov-card-heading">CHALLENGE TIMELINE</p>
-        <div class="ov-timeline">
-          <div class="ov-timeline-item ov-timeline-done">
-            <div class="ov-timeline-dot"></div>
-            <div class="ov-timeline-content">
-              <span class="ov-timeline-label">Challenge Launched</span>
-              <span class="ov-timeline-date">01 Mar 2026</span>
-            </div>
-            <div class="ov-timeline-line"></div>
-          </div>
-          <div class="ov-timeline-item ov-timeline-done">
-            <div class="ov-timeline-dot"></div>
-            <div class="ov-timeline-content">
-              <span class="ov-timeline-label">Registration Closed</span>
-              <span class="ov-timeline-date">25 Mar 2026</span>
-            </div>
-            <div class="ov-timeline-line"></div>
-          </div>
-          <div class="ov-timeline-item ov-timeline-active">
-            <div class="ov-timeline-dot"></div>
-            <div class="ov-timeline-content">
-              <span class="ov-timeline-label">Submission Window</span>
-              <span class="ov-timeline-date">26 Mar – 12 Apr 2026</span>
-            </div>
-            <div class="ov-timeline-line"></div>
-          </div>
-          <div class="ov-timeline-item ov-timeline-upcoming">
-            <div class="ov-timeline-dot"></div>
-            <div class="ov-timeline-content">
-              <span class="ov-timeline-label">Evaluation & Shortlisting</span>
-              <span class="ov-timeline-date">15 – 20 Apr 2026</span>
-            </div>
-            <div class="ov-timeline-line"></div>
-          </div>
-          <div class="ov-timeline-item ov-timeline-upcoming ov-timeline-last">
-            <div class="ov-timeline-dot"></div>
-            <div class="ov-timeline-content">
-              <span class="ov-timeline-label">Winners Announced</span>
-              <span class="ov-timeline-date">25 Apr 2026</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- ── About the Company ─────────────────────────── -->
-      <div class="ov-info-card">
-        <p class="ov-card-heading">ABOUT THE COMPANY</p>
+      <div class="ov-info-card" *ngIf="hasCompanyInfo()">
+        <p class="ov-card-heading">COMPANY INFORMATION</p>
         <div class="ov-company-block">
           <div class="ov-company-logo-box">
-            <span class="ov-company-initials">VI</span>
+            <span class="ov-company-initials">{{ challengeData.companyName.substring(0, 2).toUpperCase() || 'N/A' }}</span>
           </div>
           <div class="ov-company-info">
-            <p class="ov-company-name">Visipak Industries</p>
-            <p class="ov-company-sub">Corrugated Packaging Manufacturer · Est. 1998</p>
+            <p class="ov-company-name">{{ challengeData.companyName || 'Company name not provided' }}</p>
+            <p class="ov-company-sub">{{ getSectorName(challengeData.sector || '') }} · {{ challengeData.location || 'Location not provided' }}</p>
             <p class="ov-company-desc">
-              Visipak Industries is a mid-scale corrugated packaging manufacturer based in
-              Visakhapatnam, Andhra Pradesh. Operating 6 production lines across two facilities,
-              they serve FMCG, pharma, and e-commerce clients across South India.
-              The company is actively investing in Industry 4.0 initiatives to reduce operational
-              waste and improve line efficiency.
+              Contact: {{ challengeData.contactPerson || 'Not provided' }} | Email: {{ challengeData.workEmail || 'Not provided' }}
             </p>
           </div>
         </div>
       </div>
 
-      <!-- ── What We're Looking For ────────────────────── -->
-      <div class="ov-info-card">
-        <p class="ov-card-heading">WHAT WE'RE LOOKING FOR</p>
-        <div class="ov-looking-grid">
-          <div class="ov-looking-item">
-            <div class="ov-looking-icon">⚡</div>
-            <div class="ov-looking-text">
-              <p class="ov-looking-title">Real-Time Monitoring</p>
-              <p class="ov-looking-desc">Sensor-based or IoT solutions that capture live energy data at machine level.</p>
+      <!-- ── Challenge Title & Overview ────────────────── -->
+      <div class="ov-info-card" *ngIf="hasChallengeOverview()">
+        <p class="ov-card-heading">CHALLENGE OVERVIEW</p>
+        <div class="ov-challenge-section">
+          <h3 class="ov-challenge-title">{{ challengeData.challengeTitle || 'Challenge title not provided' }}</h3>
+          
+          <div class="ov-challenge-content">
+            <div class="ov-challenge-part">
+              <p class="ov-challenge-label">Problem Description</p>
+              <p class="ov-challenge-text">{{ challengeData.problemDescription || 'Problem description not provided' }}</p>
             </div>
-          </div>
-          <div class="ov-looking-item">
-            <div class="ov-looking-icon">📊</div>
-            <div class="ov-looking-text">
-              <p class="ov-looking-title">Actionable Dashboards</p>
-              <p class="ov-looking-desc">Visual interfaces that non-technical staff can interpret and act upon daily.</p>
+            
+            <div class="ov-challenge-part">
+              <p class="ov-challenge-label">Current Situation</p>
+              <p class="ov-challenge-text">{{ challengeData.currentSituation || 'Current situation not provided' }}</p>
             </div>
-          </div>
-          <div class="ov-looking-item">
-            <div class="ov-looking-icon">💰</div>
-            <div class="ov-looking-text">
-              <p class="ov-looking-title">Budget-Conscious Design</p>
-              <p class="ov-looking-desc">End-to-end deployable solution within ₹50,000 including hardware and setup.</p>
-            </div>
-          </div>
-          <div class="ov-looking-item">
-            <div class="ov-looking-icon">🔁</div>
-            <div class="ov-looking-text">
-              <p class="ov-looking-title">Scalable Architecture</p>
-              <p class="ov-looking-desc">A model that can expand to additional lines and facilities with minimal effort.</p>
+            
+            <div class="ov-challenge-part">
+              <p class="ov-challenge-label">Expected Outcome</p>
+              <p class="ov-challenge-text">{{ challengeData.expectedOutcome || 'Expected outcome not provided' }}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Submission Requirements ───────────────────── -->
-      <div class="ov-info-card">
-        <p class="ov-card-heading">SUBMISSION REQUIREMENTS</p>
-        <div class="ov-submit-list">
-          <div class="ov-submit-item">
-            <span class="ov-submit-num">01</span>
-            <div class="ov-submit-body">
-              <p class="ov-submit-title">Solution Document</p>
-              <p class="ov-submit-desc">PDF or Word document (max 10 pages) covering approach, architecture, and cost breakdown.</p>
+      <!-- ── What We're Looking For ────────────────────── -->
+      <div class="ov-info-card" *ngIf="challengeData.domainSkills || challengeData.eligibility">
+        <p class="ov-card-heading">REQUIREMENTS</p>
+        <div class="ov-requirements-block">
+          <div class="ov-requirement-item" *ngIf="challengeData.domainSkills">
+            <p class="ov-requirement-label">Required Skills</p>
+            <p class="ov-requirement-text">{{ getDomainName(challengeData.domainSkills) }}</p>
+          </div>
+          <div class="ov-requirement-item" *ngIf="challengeData.eligibility">
+            <p class="ov-requirement-label">Eligibility</p>
+            <p class="ov-requirement-text">{{ getEligibilityName(challengeData.eligibility) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Rewards & Timeline ───────────────────────── -->
+      <div class="ov-info-card" *ngIf="getTotalPrizePool() > 0">
+        <p class="ov-card-heading">REWARDS</p>
+        <div class="ov-rewards-grid">
+          <div class="ov-reward-item" *ngIf="challengeData.prize1">
+            <div class="ov-reward-medal">🥇</div>
+            <div class="ov-reward-info">
+              <p class="ov-reward-place">1st Place</p>
+              <p class="ov-reward-amount">{{ formatCurrency(challengeData.prize1 || 0) }}</p>
             </div>
           </div>
-          <div class="ov-submit-item">
-            <span class="ov-submit-num">02</span>
-            <div class="ov-submit-body">
-              <p class="ov-submit-title">Prototype / Demo</p>
-              <p class="ov-submit-desc">Working prototype, video demo, or clickable mockup demonstrating the solution.</p>
+          <div class="ov-reward-item" *ngIf="challengeData.prize2">
+            <div class="ov-reward-medal">🥈</div>
+            <div class="ov-reward-info">
+              <p class="ov-reward-place">2nd Place</p>
+              <p class="ov-reward-amount">{{ formatCurrency(challengeData.prize2 || 0) }}</p>
             </div>
           </div>
-          <div class="ov-submit-item">
-            <span class="ov-submit-num">03</span>
-            <div class="ov-submit-body">
-              <p class="ov-submit-title">Implementation Plan</p>
-              <p class="ov-submit-desc">A 3-month rollout plan with milestones, resource needs, and risk mitigation.</p>
+          <div class="ov-reward-item" *ngIf="challengeData.prize3">
+            <div class="ov-reward-medal">🥉</div>
+            <div class="ov-reward-info">
+              <p class="ov-reward-place">3rd Place</p>
+              <p class="ov-reward-amount">{{ formatCurrency(challengeData.prize3 || 0) }}</p>
             </div>
           </div>
-          <div class="ov-submit-item">
-            <span class="ov-submit-num">04</span>
-            <div class="ov-submit-body">
-              <p class="ov-submit-title">Team Introduction</p>
-              <p class="ov-submit-desc">Brief profiles of team members and relevant skills or experience.</p>
+        </div>
+        <div class="ov-prize-total">
+          <span class="ov-prize-total__label">Total Prize Pool</span>
+          <span class="ov-prize-total__amount">{{ formatCurrency(getTotalPrizePool()) }}</span>
+        </div>
+      </div>
+
+      <!-- ── Timeline / Key Dates ──────────────────────── -->
+      <div class="ov-info-card" *ngIf="hasTimeline()">
+        <p class="ov-card-heading">CHALLENGE TIMELINE</p>
+        <div class="ov-timeline">
+          <div class="ov-timeline-item ov-timeline-active" *ngIf="challengeData.startDate">
+            <div class="ov-timeline-dot"></div>
+            <div class="ov-timeline-content">
+              <span class="ov-timeline-label">Challenge Launches</span>
+              <span class="ov-timeline-date">{{ formatDate(challengeData.startDate || '') }}</span>
+            </div>
+            <div class="ov-timeline-line"></div>
+          </div>
+          <div class="ov-timeline-item ov-timeline-upcoming ov-timeline-last" *ngIf="challengeData.submissionDeadline">
+            <div class="ov-timeline-dot"></div>
+            <div class="ov-timeline-content">
+              <span class="ov-timeline-label">Submission Deadline</span>
+              <span class="ov-timeline-date">{{ formatDate(challengeData.submissionDeadline || '') }}</span>
             </div>
           </div>
         </div>
@@ -161,11 +134,11 @@
           </div>
           <div class="ov-faq-item" (click)="toggleFaq(2)" [class.ov-faq-open]="openFaq === 2">
             <div class="ov-faq-q">
-              <span class="ov-faq-q-text">Will Visipak provide facility access for testing?</span>
+              <span class="ov-faq-q-text">Will the company provide facility access for testing?</span>
               <span class="ov-faq-arrow">{{ openFaq === 2 ? '−' : '+' }}</span>
             </div>
             <div class="ov-faq-a">
-              <p class="ov-faq-a-text">Shortlisted teams (top 3) will be invited for a guided facility visit in Visakhapatnam. Travel allowance up to ₹3,000 per team will be reimbursed.</p>
+              <p class="ov-faq-a-text">Shortlisted teams (top 3) will be invited for a guided facility visit. Travel allowance up to ₹3,000 per team will be reimbursed.</p>
             </div>
           </div>
           <div class="ov-faq-item" (click)="toggleFaq(3)" [class.ov-faq-open]="openFaq === 3">
@@ -174,7 +147,7 @@
               <span class="ov-faq-arrow">{{ openFaq === 3 ? '−' : '+' }}</span>
             </div>
             <div class="ov-faq-a">
-              <p class="ov-faq-a-text">If selected for pilot, the winning team co-develops the solution with the Visipak engineering team over 3 months. Successful pilots may result in a paid contract or internship offer.</p>
+              <p class="ov-faq-a-text">If selected for pilot, the winning team co-develops the solution with the company engineering team over 3 months. Successful pilots may result in a paid contract or internship offer.</p>
             </div>
           </div>
         </div>

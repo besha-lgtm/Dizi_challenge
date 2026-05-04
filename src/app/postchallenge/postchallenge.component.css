@@ -1,0 +1,59 @@
+/* ── Reward Error Box Styling ──────────────────────── */
+
+.reward-error-box {
+  display: none;
+  margin-bottom: 20px;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: slideInDown 0.3s ease-out;
+}
+
+.reward-error-box--visible {
+  display: block;
+}
+
+.reward-error-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-left: 4px solid #ef4444;
+  color: #b91c1c;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
+}
+
+.reward-error-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.reward-error-text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .reward-error-content {
+    font-size: 13px;
+    padding: 12px 14px;
+  }
+
+  .reward-error-icon {
+    font-size: 16px;
+  }
+}

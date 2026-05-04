@@ -14,19 +14,19 @@
 
         <!-- Tags -->
         <div class="tag-row" id="tagRow">
-          <span class="tag tag-grey" data-tag>Manufacturing</span>
-          <span class="tag tag-grey" data-tag>IoT</span>
+          <span class="tag tag-grey" *ngIf="challengeData?.sector">{{ getSectorName(challengeData?.sector) }}</span>
+          <span class="tag tag-grey" *ngIf="challengeData?.domainSkills">{{ getDomainName(challengeData?.domainSkills) }}</span>
           <span class="tag tag-live" id="statusTag">● Live</span>
         </div>
 
         <!-- Challenge title -->
         <h1 class="challenge-title-detail" id="challengeTitle">
-          Reduce Power Loss in Corrugation Plant
+          {{ challengeData?.challengeTitle || 'Challenge Title Not Provided' }}
         </h1>
 
         <!-- Company · location · posted -->
         <p class="challenge-meta" id="challengeMeta">
-          Visipak Industries · Visakhapatnam · Posted 12 days ago
+          {{ challengeData?.companyName || 'Company' }} · {{ challengeData?.location || 'Location' }} · Posted just now
         </p>
 
         <!-- Tab bar — uses routerLink + routerLinkActive -->
@@ -36,7 +36,7 @@
             <button class="tab" routerLinkActive="tab-active">Overview</button>
           </a>
 
-          <a routerLink="resources" routerLinkActive="tab-link-active">
+          <!-- <a routerLink="resources" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Files & Resources</button>
           </a>
 
@@ -46,11 +46,16 @@
 
           <a routerLink="submissions" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Submissions (12)</button>
-          </a>
+          </a> -->
 
         </div>
 
       </div><!-- /header-card -->
+
+      <!-- ── Empty state when no data ──────────────────── -->
+      <!-- <div class="header-card-empty" *ngIf="!hasData()">
+        <p class="empty-message">No challenge data available. Please fill out the Post Challenge form first.</p>
+      </div> -->
 
       <!-- ── Routed tab content renders here ──────────── -->
       <router-outlet></router-outlet>

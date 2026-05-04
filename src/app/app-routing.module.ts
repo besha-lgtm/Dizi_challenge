@@ -42,7 +42,7 @@ const routes: Routes = [
     component: DetailComponent,
     children: [
       
-      { path: '',          redirectTo: 'resources', pathMatch: 'full' },
+      { path: '',          redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview',     component: OverviewComponent   },
    
       { path: 'discussion',   component: DiscussionComponent },
