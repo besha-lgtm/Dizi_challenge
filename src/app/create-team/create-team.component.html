@@ -6,11 +6,9 @@
     <!-- HEADER -->
     <div class="create-team-header">
       <div class="create-team-icon">👥</div>
-
       <h2 class="create-team-title">
         {{ isEditMode ? 'Update Team' : 'Create Team' }}
       </h2>
-
       <p class="create-team-subtitle">
         Manage your team and collaborate effectively
       </p>
@@ -23,28 +21,10 @@
         <!-- TEAM NAME -->
         <div class="create-team-form-group">
           <label>Team Name</label>
-
-          <input
-  type="text"
-  name="name"
-  [(ngModel)]="team.name"
-  #name="ngModel"
-  required
-  minlength="3"
-  placeholder="Enter team name"
-
-  [class.input-error]="
-    name.invalid &&
-    (name.touched || teamForm.submitted || isHovering.name)
-  "
-
-  (mouseenter)="isHovering.name = true"
-  (mouseleave)="isHovering.name = false"
-  (focus)="isHovering.name = true"
-  (blur)="isHovering.name = false"
->
-          <div class="error-box"
-               *ngIf="name.invalid && (name.touched || teamForm.submitted)">
+          <input type="text" name="name" [(ngModel)]="team.name" #name="ngModel"
+            required minlength="3" placeholder="Enter team name"
+            [class.input-error]="name.invalid && (name.touched || teamForm.submitted)">
+          <div class="error-box" *ngIf="name.invalid && (name.touched || teamForm.submitted)">
             • Minimum 3 characters required
           </div>
         </div>
@@ -52,19 +32,10 @@
         <!-- CHALLENGE -->
         <div class="create-team-form-group">
           <label>Challenge</label>
-
-          <input
-            type="text"
-            name="challenge"
-            [(ngModel)]="team.challenge"
-            #challenge="ngModel"
-            required
-            placeholder="Enter challenge"
-            [class.input-error]="challenge.invalid && (challenge.touched || teamForm.submitted)"
-          >
-
-          <div class="error-box"
-               *ngIf="challenge.invalid && (challenge.touched || teamForm.submitted)">
+          <input type="text" name="challenge" [(ngModel)]="team.challenge"
+            #challenge="ngModel" required placeholder="Enter challenge"
+            [class.input-error]="challenge.invalid && (challenge.touched || teamForm.submitted)">
+          <div class="error-box" *ngIf="challenge.invalid && (challenge.touched || teamForm.submitted)">
             • Required field
           </div>
         </div>
@@ -72,19 +43,10 @@
         <!-- DOMAIN -->
         <div class="create-team-form-group">
           <label>Domain</label>
-
-          <input
-            type="text"
-            name="domain"
-            [(ngModel)]="team.domain"
-            #domain="ngModel"
-            required
-            placeholder="Enter domain"
-            [class.input-error]="domain.invalid && (domain.touched || teamForm.submitted)"
-          >
-
-          <div class="error-box"
-               *ngIf="domain.invalid && (domain.touched || teamForm.submitted)">
+          <input type="text" name="domain" [(ngModel)]="team.domain"
+            #domain="ngModel" required placeholder="Enter domain"
+            [class.input-error]="domain.invalid && (domain.touched || teamForm.submitted)">
+          <div class="error-box" *ngIf="domain.invalid && (domain.touched || teamForm.submitted)">
             • Required field
           </div>
         </div>
@@ -92,50 +54,98 @@
         <!-- ROLE -->
         <div class="create-team-form-group">
           <label>Role</label>
-
-          <input
-            type="text"
-            name="role"
-            [(ngModel)]="team.role"
-            #role="ngModel"
-            required
-            placeholder="Enter role"
-            [class.input-error]="role.invalid && (role.touched || teamForm.submitted)"
-          >
-
-          <div class="error-box"
-               *ngIf="role.invalid && (role.touched || teamForm.submitted)">
+          <input type="text" name="role" [(ngModel)]="team.role"
+            #role="ngModel" required placeholder="Enter role"
+            [class.input-error]="role.invalid && (role.touched || teamForm.submitted)">
+          <div class="error-box" *ngIf="role.invalid && (role.touched || teamForm.submitted)">
             • Required field
-          </div>
-        </div>
-
-        <!-- MEMBERS -->
-        <div class="create-team-form-group create-team-full">
-          <label>Members</label>
-
-          <input
-            type="text"
-            name="members"
-            [(ngModel)]="membersInput"
-            #members="ngModel"
-            required
-            placeholder="Comma separated names"
-            [class.input-error]="members.invalid && (members.touched || teamForm.submitted)"
-          >
-
-          <div class="error-box"
-               *ngIf="members.invalid && (members.touched || teamForm.submitted)">
-            • Enter at least one member
           </div>
         </div>
 
       </div>
 
-      <!-- BUTTON -->
-      <button
-        type="submit"
-        class="create-team-btn"
-      >
+      <!-- MEMBERS SECTION -->
+      <!-- MEMBERS SECTION -->
+<div class="members-section">
+  <div class="members-header">
+    <h3>Team Members</h3>
+
+    <button type="button" class="add-btn" (click)="addMember()">
+      ➕ Add Member
+    </button>
+  </div>
+
+  <!-- MEMBER LIST -->
+  <div *ngFor="let member of team.members; let i = index" class="member-card">
+
+    <!-- ROW 1 -->
+    <div class="member-row">
+      
+      <!-- NAME -->
+      <div class="create-team-form-group">
+        <label>Member Name</label>
+        <input type="text"
+          name="memberName{{i}}"
+          [(ngModel)]="member.name"
+          required
+          #memberName="ngModel"
+          placeholder="Enter name"
+          [class.input-error]="memberName.invalid && teamForm.submitted">
+
+        <div class="error-box" *ngIf="memberName.invalid && teamForm.submitted">
+          • Required
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="create-team-form-group">
+        <label>Email</label>
+        <input type="email"
+          name="memberEmail{{i}}"
+          [(ngModel)]="member.email"
+          required
+          email
+          #memberEmail="ngModel"
+          placeholder="Enter email"
+          [class.input-error]="memberEmail.invalid && teamForm.submitted">
+
+        <div class="error-box" *ngIf="memberEmail.invalid && teamForm.submitted">
+          • Valid email required
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="member-row-full">
+
+      <div class="create-team-form-group">
+        <label>College Name</label>
+        <input type="text"
+          name="memberCollege{{i}}"
+          [(ngModel)]="member.college"
+          required
+          #memberCollege="ngModel"
+          placeholder="Enter college name"
+          [class.input-error]="memberCollege.invalid && teamForm.submitted">
+
+        <div class="error-box" *ngIf="memberCollege.invalid && teamForm.submitted">
+          • Required
+        </div>
+      </div>
+
+      <!-- REMOVE BUTTON -->
+      <button type="button" class="remove-btn" (click)="removeMember(i)">
+        ❌
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+      <!-- SUBMIT -->
+      <button type="submit" class="create-team-btn">
         {{ isEditMode ? 'Update Team' : 'Create Team' }}
       </button>
 

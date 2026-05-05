@@ -153,4 +153,377 @@
         </div>
       </div>
 
+      <!-- ── Register Button (Bottom) ──────────────────── -->
+      <div class="ov-register-button-container">
+        <button class="ov-register-button" (click)="openRegistration()">
+          Register for Challenge
+        </button>
+      </div>
+
     </div>
+
+    <!-- ════════════════════════════════════════════════════
+         REGISTRATION MODAL OVERLAY
+    ════════════════════════════════════════════════════ -->
+    <div class="registration-modal-overlay" *ngIf="showRegistrationModal" (click)="closeRegistrationModal()">
+      <div class="registration-modal" (click)="$event.stopPropagation()">
+        
+        <!-- Modal Header -->
+        <div class="registration-modal-header">
+          <h2 class="registration-modal-title">Register for Challenge</h2>
+          <button class="registration-modal-close" (click)="closeRegistrationModal()">
+            <span>×</span>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="registration-modal-body">
+          <form [formGroup]="registrationForm" (ngSubmit)="submitRegistration()">
+            
+            <!-- Full Name Field -->
+            <div class="form-group">
+              <label for="participantName" class="form-label">
+                Full Name <span class="form-required">*</span>
+              </label>
+              <input
+                type="text"
+                id="participantName"
+                class="form-input"
+                formControlName="participantName"
+                placeholder="Enter your full name"
+                [class.form-input-error]="registrationForm.get('participantName')?.invalid && registrationForm.get('participantName')?.touched"
+              />
+              <span class="form-error" *ngIf="registrationForm.get('participantName')?.invalid && registrationForm.get('participantName')?.touched">
+                Name is required and must be at least 2 characters
+              </span>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+              <label for="participantEmail" class="form-label">
+                Email Address <span class="form-required">*</span>
+              </label>
+              <input
+                type="email"
+                id="participantEmail"
+                class="form-input"
+                formControlName="participantEmail"
+                placeholder="your.email@example.com"
+                [class.form-input-error]="registrationForm.get('participantEmail')?.invalid && registrationForm.get('participantEmail')?.touched"
+              />
+              <span class="form-error" *ngIf="registrationForm.get('participantEmail')?.invalid && registrationForm.get('participantEmail')?.touched">
+                Please enter a valid email address
+              </span>
+            </div>
+
+            <!-- Registration Type Selection -->
+            <div class="form-group">
+              <label class="form-label">
+                Registration Type <span class="form-required">*</span>
+              </label>
+              <div class="registration-type-selector">
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input
+                      type="radio"
+                      value="individual"
+                      formControlName="registrationType"
+                      class="radio-input"
+                    />
+                    <span class="radio-text">
+                      <span class="radio-title">Individual Participation</span>
+                      <span class="radio-description">Register as an individual participant</span>
+                    </span>
+                  </label>
+                </div>
+                <div class="radio-group">
+                  <label class="radio-label">
+                    <input
+                      type="radio"
+                      value="team"
+                      formControlName="registrationType"
+                      class="radio-input"
+                    />
+                    <span class="radio-text">
+                      <span class="radio-title">Team Participation</span>
+                      <span class="radio-description">Register with an existing team</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Team Selection Dropdown (conditional) -->
+            <div class="form-group" *ngIf="registrationForm.get('registrationType')?.value === 'team'">
+              <label for="selectedTeamId" class="form-label">
+                Select Team <span class="form-required">*</span>
+              </label>
+              
+              <!-- Custom Dropdown with Team List and Create Button -->
+              <div class="team-dropdown-container">
+                <select
+                  id="selectedTeamId"
+                  class="form-input form-select"
+                  formControlName="selectedTeamId"
+                  [class.form-input-error]="registrationForm.get('selectedTeamId')?.invalid && registrationForm.get('selectedTeamId')?.touched"
+                >
+                  <option value="">-- Choose a team to join --</option>
+                  <option *ngFor="let team of availableTeams" [value]="team.id">
+                    {{ team.name }} (Lead: {{ team.leadName }}, Members: {{ team.memberCount }})
+                  </option>
+                  <option value="__create_new__" disabled>─── Create New Team ───</option>
+                </select>
+                <button 
+                  type="button" 
+                  class="team-dropdown-create-btn"
+                  (click)="openCreateTeamModal()"
+                  title="Create a new team"
+                >
+                  + Add New Team
+                </button>
+              </div>
+              
+              <span class="form-error" *ngIf="registrationForm.get('selectedTeamId')?.invalid && registrationForm.get('selectedTeamId')?.touched">
+                Please select a team
+              </span>
+              
+              <!-- Team Details Card (when team is selected) -->
+              <div class="team-details-card" *ngIf="registrationForm.get('selectedTeamId')?.value && registrationForm.get('selectedTeamId')?.value !== '__create_new__'">
+                <div class="team-details-header">
+                  <h4 class="team-details-title">{{ getTeamName(registrationForm.get('selectedTeamId')?.value) }}</h4>
+                </div>
+                <div class="team-details-body">
+                  <p class="team-detail-item">
+                    <span class="team-detail-label">Lead:</span>
+                    <span class="team-detail-value">{{ getTeamLeadName(registrationForm.get('selectedTeamId')?.value) }}</span>
+                  </p>
+                  <p class="team-detail-item">
+                    <span class="team-detail-label">Current Members:</span>
+                    <span class="team-detail-value">{{ getTeamMemberCount(registrationForm.get('selectedTeamId')?.value) }}</span>
+                  </p>
+                  <p class="team-detail-item">
+                    <span class="team-detail-label">Description:</span>
+                    <span class="team-detail-value">{{ getTeamDescription(registrationForm.get('selectedTeamId')?.value) }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message/Additional Info Field -->
+            <div class="form-group">
+              <label for="message" class="form-label">
+                <ng-container *ngIf="registrationForm.get('registrationType')?.value === 'individual'">
+                  Why do you want to participate? <span class="form-required">*</span>
+                </ng-container>
+                <ng-container *ngIf="registrationForm.get('registrationType')?.value === 'team'">
+                  Why do you want to join this team? <span class="form-required">*</span>
+                </ng-container>
+              </label>
+              <textarea
+                id="message"
+                class="form-textarea"
+                formControlName="message"
+                [placeholder]="registrationForm.get('registrationType')?.value === 'team' 
+                  ? 'Tell the team lead about your skills and why you want to join...'
+                  : 'Tell us about your interest and experience...'"
+                rows="5"
+                [class.form-input-error]="registrationForm.get('message')?.invalid && registrationForm.get('message')?.touched"
+              ></textarea>
+              <span class="form-error" *ngIf="registrationForm.get('message')?.invalid && registrationForm.get('message')?.touched">
+                Please provide a message with at least 10 characters
+              </span>
+            </div>
+
+            <!-- Team Join Info Alert (conditional) -->
+            <div class="team-join-info-alert" *ngIf="registrationForm.get('registrationType')?.value === 'team' && registrationForm.get('selectedTeamId')?.value">
+              <div class="alert-icon">ℹ️</div>
+              <div class="alert-content">
+                <p class="alert-title">Join Request</p>
+                <p class="alert-message">
+                  Your join request will be sent to <strong>{{ getTeamLeadName(registrationForm.get('selectedTeamId')?.value) }}</strong> 
+                  (Team Lead of {{ getTeamName(registrationForm.get('selectedTeamId')?.value) }}). 
+                  They will review your profile and notify you about their decision.
+                </p>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" (click)="closeRegistrationModal()">
+                Cancel
+              </button>
+              <button type="submit" class="btn-primary" [disabled]="registrationForm.invalid">
+                <ng-container *ngIf="registrationForm.get('registrationType')?.value === 'individual'">
+                  Send Registration Request
+                </ng-container>
+                <ng-container *ngIf="registrationForm.get('registrationType')?.value === 'team'">
+                  Send Join Request
+                </ng-container>
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         CREATE TEAM MODAL (Nested inside Registration Modal)
+    ════════════════════════════════════════════════════ -->
+    <div class="create-team-modal-overlay" *ngIf="showCreateTeamModal" (click)="closeCreateTeamModal()">
+      <div class="create-team-modal" (click)="$event.stopPropagation()">
+        
+        <!-- Modal Header -->
+        <div class="create-team-modal-header">
+          <h2 class="create-team-modal-title">Create New Team</h2>
+          <button type="button" class="create-team-modal-close" (click)="closeCreateTeamModal()">
+            ×
+          </button>
+        </div>
+
+        <!-- Modal Body - Inline Create Team Form -->
+        <div class="create-team-modal-body">
+          <form #teamFormRef="ngForm" (ngSubmit)="submitCreateTeam(teamFormRef)" novalidate>
+            
+            <div class="create-team-form">
+              <div class="create-team-grid">
+                
+                <!-- TEAM NAME -->
+                <div class="create-team-form-group">
+                  <label>Team Name <span class="form-required">*</span></label>
+                  <input type="text" name="name" [(ngModel)]="createTeamForm.name"
+                    #teamName="ngModel" required minlength="3" 
+                    placeholder="Enter team name"
+                    [class.input-error]="teamName.invalid && (teamName.touched || teamFormRef.submitted)">
+                  <div class="error-box" *ngIf="teamName.invalid && (teamName.touched || teamFormRef.submitted)">
+                    • Minimum 3 characters required
+                  </div>
+                </div>
+
+                <!-- CHALLENGE -->
+                <div class="create-team-form-group">
+                  <label>Challenge <span class="form-required">*</span></label>
+                  <input type="text" name="challenge" [(ngModel)]="createTeamForm.challenge"
+                    #challenge="ngModel" required placeholder="Enter challenge"
+                    [class.input-error]="challenge.invalid && (challenge.touched || teamFormRef.submitted)">
+                  <div class="error-box" *ngIf="challenge.invalid && (challenge.touched || teamFormRef.submitted)">
+                    • Required field
+                  </div>
+                </div>
+
+                <!-- DOMAIN -->
+                <div class="create-team-form-group">
+                  <label>Domain <span class="form-required">*</span></label>
+                  <input type="text" name="domain" [(ngModel)]="createTeamForm.domain"
+                    #domain="ngModel" required placeholder="Enter domain"
+                    [class.input-error]="domain.invalid && (domain.touched || teamFormRef.submitted)">
+                  <div class="error-box" *ngIf="domain.invalid && (domain.touched || teamFormRef.submitted)">
+                    • Required field
+                  </div>
+                </div>
+
+                <!-- COLLEGE -->
+                <div class="create-team-form-group">
+                  <label>College Name <span class="form-required">*</span></label>
+                  <input type="text" name="college" [(ngModel)]="createTeamForm.college"
+                    #college="ngModel" required placeholder="Enter college name"
+                    [class.input-error]="college.invalid && (college.touched || teamFormRef.submitted)">
+                  <div class="error-box" *ngIf="college.invalid && (college.touched || teamFormRef.submitted)">
+                    • Required field
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- MEMBERS SECTION -->
+              <div class="members-section">
+                <div class="members-header">
+                  <h3>Team Members</h3>
+                  <button type="button" class="add-btn" (click)="addMember()">
+                    ➕ Add Member
+                  </button>
+                </div>
+
+                <!-- MEMBER LIST -->
+                <div *ngFor="let member of createTeamForm.members; let i = index" class="member-card">
+                  <!-- ROW 1 -->
+                  <div class="member-row">
+                    <!-- NAME -->
+                    <div class="create-team-form-group">
+                      <label>Member Name <span class="form-required">*</span></label>
+                      <input type="text" name="memberName{{i}}" [(ngModel)]="member.name"
+                        #memberName="ngModel" required
+                        placeholder="Enter name"
+                        [class.input-error]="memberName.invalid && teamFormRef.submitted">
+                      <div class="error-box" *ngIf="memberName.invalid && teamFormRef.submitted">
+                        • Required
+                      </div>
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="create-team-form-group">
+                      <label>Email <span class="form-required">*</span></label>
+                      <input type="email" name="memberEmail{{i}}" [(ngModel)]="member.email"
+                        #memberEmail="ngModel" required email
+                        placeholder="Enter email"
+                        [class.input-error]="memberEmail.invalid && teamFormRef.submitted">
+                      <div class="error-box" *ngIf="memberEmail.invalid && teamFormRef.submitted">
+                        • Valid email required
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ROW 2 -->
+                  <div class="member-row-full">
+                    <div class="create-team-form-group">
+                      <label>College Name <span class="form-required">*</span></label>
+                      <input type="text" name="memberCollege{{i}}" [(ngModel)]="member.college"
+                        #memberCollege="ngModel" required
+                        placeholder="Enter college name"
+                        [class.input-error]="memberCollege.invalid && teamFormRef.submitted">
+                      <div class="error-box" *ngIf="memberCollege.invalid && teamFormRef.submitted">
+                        • Required
+                      </div>
+                    </div>
+
+                    <!-- REMOVE BUTTON -->
+                    <button type="button" class="remove-btn" (click)="removeMember(i)">
+                      ❌
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- FORM ACTIONS -->
+              <div class="form-actions">
+                <button type="button" class="btn-secondary" (click)="closeCreateTeamModal()">
+                  Cancel
+                </button>
+                <button type="submit" class="btn-primary">
+                  Create Team
+                </button>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════
+         TOAST NOTIFICATION
+    ════════════════════════════════════════════════════ -->
+    <div class="toast-container" *ngIf="showToast" [class.toast-success]="toastType === 'success'" [class.toast-error]="toastType === 'error'" [class.toast-info]="toastType === 'info'">
+      <div class="toast-content">
+        <span class="toast-icon">
+          <span *ngIf="toastType === 'success'">✓</span>
+          <span *ngIf="toastType === 'error'">✕</span>
+          <span *ngIf="toastType === 'info'">ℹ</span>
+        </span>
+        <span class="toast-message">{{ toastMessage }}</span>
+      </div>
+      <button type="button" class="toast-close" (click)="closeToast()">×</button>
+    </div>
+

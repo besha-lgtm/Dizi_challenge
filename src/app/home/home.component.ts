@@ -71,6 +71,10 @@ export class HomeComponent {
     this.router.navigate(['/postchallenge']);
   }
 
+  viewChallengeDetails(challengeId: number): void {
+    this.router.navigate(['/detail/overview']);
+  }
+
   // Helper method to get tag display text
   getStatusTag(status: string): string {
     if (status === 'open') return '● Live';

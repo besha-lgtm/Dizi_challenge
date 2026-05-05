@@ -127,7 +127,7 @@
 
         <div class="challenges-grid">
             <!-- Challenge Cards - Dynamic Loop -->
-            <div class="challenge-card" *ngFor="let challenge of featuredChallenges">
+            <div class="challenge-card" *ngFor="let challenge of featuredChallenges" (click)="viewChallengeDetails(challenge.id)" style="cursor: pointer;">
                 <div class="challenge-tags">
                     <span class="tag" [ngClass]="getSectorClass(challenge.sectors[0])">{{ challenge.sectors[0] }}</span>
                     <span class="tag" [ngClass]="getSectorClass(challenge.sectors[1])">{{ challenge.sectors[1] }}</span>

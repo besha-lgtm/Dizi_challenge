@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-teams',
   standalone: false,
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.css']
 })
-export class TeamsComponent {
+export class TeamsComponent implements OnInit {
 
   activeFilter = 'all';
   searchText = '';
@@ -18,15 +17,34 @@ export class TeamsComponent {
   itemsPerPage: number = 6;
 
   constructor(private router: Router) {}
+  ngOnInit() {
+    const saved = localStorage.getItem('teams');
+
+    if (saved) {
+      try {
+        const teams = JSON.parse(saved);
+        this.teams = Array.isArray(teams) ? teams : [];
+      } catch {
+        this.teams = this.teams.filter(team => this.hasTeamDetails(team));
+      }
+    }
+
+    this.teams = this.teams.filter(team => this.hasTeamDetails(team));
+    this.applyFilters();
+  }
 
   teams: any[] = [
   {
     name: 'Team Alpha Innovators',
     challenge: 'Power Loss Reduction',
     domain: 'IoT',
-     college: 'ANITS, Vizag',
+    college: 'ANITS, Vizag',
     role: 'Leader',
-    members: ['Deepika', 'Ravi', 'Kiran'],
+    members: [
+      { name: 'Deepika', email: 'deepika@gmail.com', college: 'ANITS' },
+      { name: 'Ravi', email: 'ravi@gmail.com', college: 'JNTU' },
+      { name: 'Kiran', email: 'kiran@gmail.com', college: 'VIT' }
+    ],
     progress: 65,
     submissions: 2,
     status: 'active',
@@ -40,7 +58,10 @@ export class TeamsComponent {
     domain: 'Renewable Energy',
     college: 'KL University, Hyderabad',
     role: 'Member',
-    members: ['Priya', 'Suresh'],
+    members: [
+      { name: 'Priya', email: 'priya@gmail.com', college: 'KL University' },
+      { name: 'Suresh', email: 'suresh@gmail.com', college: 'KL University' }
+    ],
     progress: 40,
     submissions: 3,
     status: 'active',
@@ -53,7 +74,10 @@ export class TeamsComponent {
     challenge: 'Crop Disease Detection',
     domain: 'AI',
     role: 'Member',
-    members: ['Karthik', 'Anil'],
+    members: [
+      { name: 'Karthik', email: 'karthik@gmail.com', college: 'IIIT' },
+      { name: 'Anil', email: 'anil@gmail.com', college: 'IIIT' }
+    ],
     progress: 100,
     submissions: 5,
     status: 'completed',
@@ -67,7 +91,12 @@ export class TeamsComponent {
     domain: 'Manufacturing',
     college: 'NIT Rourkela, Odisha',
     role: 'Leader',
-    members: ['Vikas', 'Shreya', 'Arjun', 'Neha'],
+    members: [
+      { name: 'Vikas', email: 'vikas@gmail.com', college: 'NIT Rourkela' },
+      { name: 'Shreya', email: 'shreya@gmail.com', college: 'NIT Rourkela' },
+      { name: 'Arjun', email: 'arjun@gmail.com', college: 'NIT Rourkela' },
+      { name: 'Neha', email: 'neha@gmail.com', college: 'NIT Rourkela' }
+    ],
     progress: 75,
     submissions: 4,
     status: 'active',
@@ -81,7 +110,11 @@ export class TeamsComponent {
     domain: 'Environment',
     college: 'IIT Bombay, Mumbai',
     role: 'Member',
-    members: ['Amit', 'Priya', 'Raj'],
+    members: [
+      { name: 'Amit', email: 'amit@gmail.com', college: 'IIT Bombay' },
+      { name: 'Priya', email: 'priya@gmail.com', college: 'IIT Bombay' },
+      { name: 'Raj', email: 'raj@gmail.com', college: 'IIT Bombay' }
+    ],
     progress: 55,
     submissions: 2,
     status: 'active',
@@ -95,7 +128,11 @@ export class TeamsComponent {
     domain: 'Smart City',
     college: 'BITS Pilani, Goa',
     role: 'Leader',
-    members: ['Rahul', 'Megha', 'Sanjay'],
+    members: [
+      { name: 'Rahul', email: 'rahul@gmail.com', college: 'BITS Pilani' },
+      { name: 'Megha', email: 'megha@gmail.com', college: 'BITS Pilani' },
+      { name: 'Sanjay', email: 'sanjay@gmail.com', college: 'BITS Pilani' }
+    ],
     progress: 80,
     submissions: 6,
     status: 'active',
@@ -109,7 +146,10 @@ export class TeamsComponent {
     domain: 'Retail',
     college: 'VIT Vellore, Tamil Nadu',
     role: 'Member',
-    members: ['Divya', 'Akshay'],
+    members: [
+      { name: 'Divya', email: 'divya@gmail.com', college: 'VIT' },
+      { name: 'Akshay', email: 'akshay@gmail.com', college: 'VIT' }
+    ],
     progress: 45,
     submissions: 1,
     status: 'active',
@@ -123,7 +163,12 @@ export class TeamsComponent {
     domain: 'Agriculture',
     college: 'IIIT Hyderabad, Telangana',
     role: 'Leader',
-    members: ['Sanjana', 'Vikram', 'Ritu', 'Aman'],
+    members: [
+      { name: 'Sanjana', email: 'sanjana@gmail.com', college: 'IIIT Hyderabad' },
+      { name: 'Vikram', email: 'vikram@gmail.com', college: 'IIIT Hyderabad' },
+      { name: 'Ritu', email: 'ritu@gmail.com', college: 'IIIT Hyderabad' },
+      { name: 'Aman', email: 'aman@gmail.com', college: 'IIIT Hyderabad' }
+    ],
     progress: 70,
     submissions: 3,
     status: 'active',
@@ -137,7 +182,11 @@ export class TeamsComponent {
     domain: 'Manufacturing',
     college: 'DTU Delhi, Delhi',
     role: 'Member',
-    members: ['Nitin', 'Pooja', 'Harsh'],
+    members: [
+      { name: 'Nitin', email: 'nitin@gmail.com', college: 'DTU' },
+      { name: 'Pooja', email: 'pooja@gmail.com', college: 'DTU' },
+      { name: 'Harsh', email: 'harsh@gmail.com', college: 'DTU' }
+    ],
     progress: 90,
     submissions: 7,
     status: 'completed',
@@ -151,7 +200,12 @@ export class TeamsComponent {
     domain: 'IoT',
     college: 'PSG College, Coimbatore',
     role: 'Leader',
-    members: ['Aravind', 'Lakshmi', 'Suresh', 'Anjali'],
+    members: [
+      { name: 'Aravind', email: 'aravind@gmail.com', college: 'PSG' },
+      { name: 'Lakshmi', email: 'lakshmi@gmail.com', college: 'PSG' },
+      { name: 'Suresh', email: 'suresh@gmail.com', college: 'PSG' },
+      { name: 'Anjali', email: 'anjali@gmail.com', college: 'PSG' }
+    ],
     progress: 60,
     submissions: 2,
     status: 'active',
@@ -165,7 +219,10 @@ export class TeamsComponent {
     domain: 'Cloud',
     college: 'Amrita University, Kerala',
     role: 'Member',
-    members: ['Aarya', 'Bhaskar'],
+    members: [
+      { name: 'Aarya', email: 'aarya@gmail.com', college: 'Amrita' },
+      { name: 'Bhaskar', email: 'bhaskar@gmail.com', college: 'Amrita' }
+    ],
     progress: 35,
     submissions: 1,
     status: 'active',
@@ -200,7 +257,7 @@ closeModal() {
   }
 }
 
-  filteredTeams: any[] = [...this.teams];
+  filteredTeams: any[] = [];
 
   // Pagination getters
   get paginatedTeams(): any[] {
@@ -234,14 +291,20 @@ closeModal() {
   // 🔍 APPLY FILTER + SEARCH
   applyFilters() {
     this.filteredTeams = this.teams.filter(team => {
+      if (!this.hasTeamDetails(team)) {
+        return false;
+      }
 
       const matchesFilter =
         this.activeFilter === 'all' ||
         team.status === this.activeFilter;
 
+      const teamName = this.getTextValue(team.name).toLowerCase();
+      const challengeName = this.getTextValue(team.challenge).toLowerCase();
+
       const matchesSearch =
-        team.name.toLowerCase().includes(this.searchText) ||
-        team.challenge.toLowerCase().includes(this.searchText);
+        teamName.includes(this.searchText) ||
+        challengeName.includes(this.searchText);
 
       return matchesFilter && matchesSearch;
     });
@@ -291,8 +354,45 @@ closeModal() {
 
   // 🔢 COUNT
   getCount(type: string) {
-    if (type === 'all') return this.teams.length;
-    return this.teams.filter(t => t.status === type).length;
+    const visibleTeams = this.teams.filter(team => this.hasTeamDetails(team));
+    if (type === 'all') return visibleTeams.length;
+    return visibleTeams.filter(t => t.status === type).length;
+  }
+
+  getMemberName(member: any): string {
+    return typeof member === 'string' ? member : member?.name || '';
+  }
+
+  private hasTeamDetails(team: any): boolean {
+    if (!team || typeof team !== 'object') {
+      return false;
+    }
+
+    const hasBasicDetails = [
+      team.name,
+      team.challenge,
+      team.domain,
+      team.college,
+      team.role
+    ].some(value => this.hasText(value));
+
+    const hasMemberDetails = Array.isArray(team.members) && team.members.some((member: any) => {
+      if (typeof member === 'string') {
+        return this.hasText(member);
+      }
+
+      return this.hasText(member?.name) || this.hasText(member?.email) || this.hasText(member?.college);
+    });
+
+    return hasBasicDetails || hasMemberDetails;
+  }
+
+  private hasText(value: any): boolean {
+    return typeof value === 'string' && value.trim().length > 0;
+  }
+
+  private getTextValue(value: any): string {
+    return typeof value === 'string' ? value : '';
   }
 
   // 🔥 JOIN BUTTON FUNCTION

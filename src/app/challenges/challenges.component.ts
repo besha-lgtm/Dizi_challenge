@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Challenge {
   id: number;
@@ -26,6 +27,8 @@ export class ChallengesComponent {
   // Pagination properties
   currentPage: number = 1;
   itemsPerPage: number = 6;
+
+  constructor(private router: Router) {}
 
   challenges: Challenge[] = [
     {
@@ -273,5 +276,12 @@ export class ChallengesComponent {
     if (status === 'closing') return '● Closing';
     if (status === 'new') return '● New';
     return '';
+  }
+
+  /**
+   * Navigate to challenge detail page
+   */
+  viewChallengeDetails(challengeId: number): void {
+    this.router.navigate(['/detail/overview']);
   }
 }
