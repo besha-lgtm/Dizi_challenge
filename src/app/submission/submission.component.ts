@@ -511,7 +511,7 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
   private loadChallenges(): void {
     this.challengeService.getChallenges().subscribe({
       next: (data) => {
-        this.challenges = data.map(item => ({
+        const allChallenges: Challenge[] = data.map(item => ({
           id: item.id,
           title: item.title,
           sectors: [item.sector, item.domain].filter(Boolean),
@@ -520,15 +520,22 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
           daysLeft: this.calculateDaysLeft(item.deadline),
           dateMessage: this.getDateMessage(item.start_date, item.deadline),
           prize: item.prize,
-          teams: item.teams_registered || 0,
+          teams: item.registered_teams || 0,
           status: this.getChallengeStatus(item.start_date, item.deadline)
         }));
+        
+        // Only show challenges that are currently active/open for submissions
+        this.challenges = allChallenges.filter(c => 
+          c.status === 'open' || c.status === 'new' || c.status === 'closing'
+        );
         this.filteredChallenges = [...this.challenges];
       },
       error: (error) => {
         console.error('Error loading challenges:', error);
-        // Fallback to sample data if API fails
-        this.challenges = this.getSampleChallenges();
+        // Fallback to sample data if API fails, filtered for open status
+        this.challenges = this.getSampleChallenges().filter(c => 
+          c.status === 'open' || c.status === 'new' || c.status === 'closing'
+        );
         this.filteredChallenges = [...this.challenges];
       }
     });

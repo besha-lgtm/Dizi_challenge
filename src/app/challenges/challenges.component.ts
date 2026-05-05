@@ -44,7 +44,6 @@ export class ChallengesComponent implements OnInit {
   loadChallenges(): void {
     this.challengeService.getChallenges().subscribe({
       next: (data) => {
-        console.log('Fetched challenges:', data);
         this.challenges = data.map(item => {
           const daysToStart = this.calculateDaysBetween(new Date(), new Date(item.start_date));
           const daysToDeadline = this.calculateDaysBetween(new Date(), new Date(item.deadline));
@@ -74,7 +73,7 @@ export class ChallengesComponent implements OnInit {
             daysLeft: Math.max(0, daysToDeadline),
             dateMessage: dateMessage,
             prize: Number(item.total_pool),
-            teams: 0,
+            teams: Number(item.registered_teams) || 0,
             status: status
           };
         });

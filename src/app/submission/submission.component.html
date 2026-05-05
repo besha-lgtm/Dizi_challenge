@@ -33,7 +33,7 @@
                 <div
                   class="search-option"
                   *ngFor="let challenge of filteredChallenges"
-                  (click)="selectChallenge(challenge)"
+                  (mousedown)="selectChallenge(challenge)"
                 >
                   <div class="option-title">{{ challenge.title }}</div>
                   <div class="option-meta">{{ challenge.partner }} · {{ challenge.location }} · {{ challenge.dateMessage }}</div>
@@ -65,7 +65,7 @@
                 <div
                   class="search-option"
                   *ngFor="let team of filteredTeams"
-                  (click)="selectTeam(team)"
+                  (mousedown)="selectTeam(team)"
                 >
                   <div class="option-title">{{ team.name }}</div>
                   <div class="option-meta">
