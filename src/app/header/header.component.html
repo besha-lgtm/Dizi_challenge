@@ -2,14 +2,14 @@
 
   <!-- LEFT LOGO -->
   <div class="logo">
-    <img src="assets/images/Logo-bg.png" alt="DIZI Edutech Logo" class="main-logo" (click)="goToHome()" style="cursor: pointer;">
+    <img src="assets/images/Logo-bg.png" alt="DIZI Edutech Logo" class="main-logo" (click)="goToHome()"
+      style="cursor: pointer;">
   </div>
 
   <!-- NAV LINKS (Desktop) -->
   <nav class="nav-links">
     <a routerLink="/home" routerLinkActive="active">Home</a>
     <a routerLink="/challenges" routerLinkActive="active">Challenges</a>
-    <a routerLink="/detail" routerLinkActive="active">Detail</a>
     <a routerLink="/teams" routerLinkActive="active">Teams</a>
     <a routerLink="/postchallenge" routerLinkActive="active">Post Challenge</a>
     <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
@@ -64,7 +64,6 @@
     <nav class="mobile-nav-links">
       <a routerLink="/home" routerLinkActive="active" (click)="toggleMenu()">Home</a>
       <a routerLink="/challenges" routerLinkActive="active" (click)="toggleMenu()">Challenges</a>
-      <a routerLink="/detail" routerLinkActive="active" (click)="toggleMenu()">Detail</a>
       <a routerLink="/teams" routerLinkActive="active" (click)="toggleMenu()">Teams</a>
       <a routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">Post Challenge</a>
       <a routerLink="/dashboard" routerLinkActive="active" (click)="toggleMenu()">Dashboard</a>

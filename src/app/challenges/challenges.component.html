@@ -67,37 +67,35 @@
       <!-- Challenges Grid: Responsive grid displaying all challenge cards -->
       <div class="challenges-grid">
         <!-- Challenge Card: Repeats for each challenge in the filtered list -->
-        <div class="challenge-card" *ngFor="let challenge of paginatedChallenges">
+        <div class="challenge-card" *ngFor="let challenge of paginatedChallenges" (click)="goToDetail(challenge.id)" style="cursor: pointer;">
           <!-- Sector Tags & Status Badge: Shows industry sectors and challenge status -->
           <div class="tag-row">
+            <div class="tags-left">
             <span class="tag tag-grey" *ngFor="let sector of challenge.sectors">
               {{ sector }}
             </span>
             <span [class]="'tag tag-' + challenge.status">
               {{ getStatusBadge(challenge.status) }}
             </span>
+            </div>
           </div>
 
           <!-- Challenge Title: Main heading of the challenge -->
-          <h3 class="challenge-title">{{ challenge.title }}</h3>
-
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.title">
+            <h3 class="challenge-title">{{ challenge.title }}</h3>
+          </div>
+          
           <!-- Partner & Location Info: Shows company/partner and location -->
-          <p class="challenge-meta">
-            {{ challenge.partner }} · {{ challenge.location }}
-          </p>
-
-          <!-- Capacity Progress Bar: Visual representation of team capacity used -->
-          <div class="capacity-section">
-            <div class="capacity-bar">
-              <div class="capacity-fill" [style.width.%]="challenge.capacity"></div>
-            </div>
-            <p class="capacity-text">{{ challenge.capacity }}% capacity</p>
+          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.partner + ' · ' + challenge.location">
+            <p class="challenge-meta">
+              {{ challenge.partner }} · {{ challenge.location }}
+            </p>
           </div>
 
-          <!-- Days Remaining: Shows how many days are left for the challenge deadline -->
+          <!-- Date Status (Moved back down, above prize) -->
           <p class="days-left">
             <span class="icon-inline">📅</span>
-            {{ challenge.daysLeft }} days left
+            {{ challenge.dateMessage }}
           </p>
 
           <!-- Prize & Teams Section: Bottom section showing prize money and number of teams -->
@@ -149,4 +147,3 @@
     </div>
   </div>
 </div>
-

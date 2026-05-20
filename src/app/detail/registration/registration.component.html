@@ -1,0 +1,50 @@
+<div class="modal-overlay" (click)="closeRegistration()">
+  <div class="registration-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Register for Challenge</h2>
+      <button class="close-modal" (click)="closeRegistration()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form (submit)="submitRegistration($event)">
+        <div class="form-group">
+          <label>Team Name</label>
+          <input type="text" placeholder="Enter your team name" required name="teamName" [(ngModel)]="teamName" (input)="teamNameError = null" (blur)="checkTeamName()">
+          <div class="field-info" *ngIf="isCheckingTeamName">Checking team name availability...</div>
+        </div>
+
+        <div class="form-group">
+          <label>Team Lead Name</label>
+          <input type="text" placeholder="Full Name" required name="teamLead" pattern="[a-zA-Z\s]+" title="Name should only contain letters and spaces">
+        </div>
+
+
+        <div class="members-section">
+          <div class="section-header">
+            <label>Team Members</label>
+            <button type="button" class="add-member-btn" (click)="addMember()">+ Add Member</button>
+          </div>
+          
+          <div class="member-row" *ngFor="let member of members; let i = index">
+            <input type="text" [placeholder]="'Member ' + (i + 1) + ' Name'" [(ngModel)]="members[i].name" [name]="'memberName' + i" required pattern="[a-zA-Z\s]+" title="Name should only contain letters and spaces">
+            <input type="email" [placeholder]="'Member ' + (i + 1) + ' Email'" [(ngModel)]="members[i].email" [name]="'memberEmail' + i" required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" title="Enter a valid email like example@gmail.com">
+            <input type="tel" [placeholder]="'Member ' + (i + 1) + ' Phone'" [(ngModel)]="members[i].phone" [name]="'memberPhone' + i" required pattern="[0-9]{10}" maxlength="10" title="Please enter a 10-digit phone number">
+            <button type="button" class="remove-member" (click)="removeMember(i)" *ngIf="members.length > 1">&times;</button>
+          </div>
+        </div>
+
+        <div class="submit-success" *ngIf="submitSuccess">
+          <span class="success-icon">✓</span> Registration Successful! Your team has been registered.
+        </div>
+
+        <div class="modal-footer" *ngIf="!submitSuccess">
+          <div class="submit-error" *ngIf="submitError">{{ submitError }}</div>
+          <div class="submit-error" *ngIf="!submitError && teamNameError">{{ teamNameError }}</div>
+          <button type="button" class="cancel-btn" (click)="closeRegistration()">Cancel</button>
+          <button type="submit" class="submit-btn" [disabled]="isSubmitting || isCheckingTeamName || !!teamNameError">
+            {{ isSubmitting ? 'Registering...' : 'Complete Registration' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

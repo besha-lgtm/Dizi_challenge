@@ -1,4 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PostchallengeService, ChallengePayload } from '../services/postchallenge.service';
 
 // ── Types ──────────────────────────────────────────
 
@@ -21,6 +23,11 @@ interface StepConfig {
   styleUrl: './postchallenge.component.css'
 })
 export class PostchallengeComponent implements OnInit, AfterViewInit {
+
+  constructor(
+    private router: Router,
+    private postchallengeService: PostchallengeService
+  ) { }
 
   // ── State ──────────────────────────────────────────
   private currentStep = 1;
@@ -49,6 +56,8 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       rules: [
         { fieldId: "problem-description", errorId: "err-problem-description", validate: (v) => v.trim().length >= 20 },
         { fieldId: "expected-outcome", errorId: "err-expected-outcome", validate: (v) => v.trim().length >= 10 },
+        { fieldId: "domain-skills", errorId: "err-domain-skills", validate: (v) => v !== "" },
+        { fieldId: "eligibility", errorId: "err-eligibility", validate: (v) => v !== "" },
       ],
     },
     3: {
@@ -104,7 +113,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       field.classList.remove("field-input--error", "field-select--error", "field-textarea--error");
       field.classList.add("field-input--valid");
       errorEl?.classList.remove("field-error--visible");
-      
+
       const wrap = field.closest(".field-input-wrap");
       wrap?.querySelector(".field-input__icon--valid")?.classList.add("visible");
     } else {
@@ -113,7 +122,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       if (tagName === "select") field.classList.add("field-select--error");
       else if (tagName === "textarea") field.classList.add("field-textarea--error");
       else field.classList.add("field-input--error");
-      
+
       errorEl?.classList.add("field-error--visible");
       const wrap = field.closest(".field-input-wrap");
       wrap?.querySelector(".field-input__icon--valid")?.classList.remove("visible");
@@ -167,7 +176,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       const tab = this.getEl<HTMLButtonElement>(`tab-step-${i}`);
       if (!tab) continue;
       tab.classList.remove("step-tab--active", "step-tab--completed");
-      
+
       if (i === this.currentStep) {
         tab.classList.add("step-tab--active");
         tab.disabled = false;
@@ -343,27 +352,13 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
         btn.querySelector("span")!.textContent = "Publishing...";
       }
 
-      // Step 5: Simulate publishing
-      setTimeout(() => {
-        try {
-          // Clear errors on success
-          this.clearRewardErrors();
-
-          // Show success message
-          this.getEl("success-overlay")?.removeAttribute("hidden");
-          if (btn) {
-            btn.classList.remove("btn--loading");
-            btn.querySelector("span")!.textContent = "Publish Challenge";
-          }
-        } catch (error) {
-          console.error("[PostChallenge] Error during post-publish:", error);
-          this.showRewardError("Failed to complete publishing. Please try again.");
-        }
-      }, 1200);
-    } catch (error) {
-      console.error("[PostChallenge] Critical error in publishChallenge:", error);
-      this.showRewardError("An unexpected error occurred. Please try again.");
-    }
+    setTimeout(() => {
+      this.getEl("success-overlay")?.removeAttribute("hidden");
+      if (btn) {
+        btn.classList.remove("btn--loading");
+        btn.querySelector("span")!.textContent = "Publish Challenge";
+      }
+    }, 1200);
   }
 
   private saveDraft(): void {
@@ -383,6 +378,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     }, 800);
   }
 
+
   // ── Initialization ─────────────────────────────────
 
   private init(): void {
@@ -393,7 +389,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     this.initNavButtons();
     this.initDateValidation();
     this.initPrizeCards();
-    
+
     console.info("[PostChallenge] Full System Rectified & Loaded ✓");
   }
 
@@ -409,7 +405,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       if (action === "next") this.nextStep(from);
       if (action === "prev") this.prevStep(from);
       if (action === "publish") this.publishChallenge();
-      if (action === "save-draft") this.saveDraft();
     });
 
     // Handle Publish button directly by ID
@@ -424,6 +419,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
 
     // Success Overlay Handlers
     this.getEl("btn-post-another")?.addEventListener("click", () => location.reload());
+    this.getEl("btn-view-dashboard")?.addEventListener("click", () => this.router.navigate(['/challenges']));
     this.getEl("success-overlay")?.addEventListener("click", (e) => {
       if (e.target === e.currentTarget) (e.target as HTMLElement).setAttribute("hidden", "");
     });

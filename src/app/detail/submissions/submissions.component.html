@@ -1,267 +1,77 @@
-<div class="sub-page-wrapper">
+<div class="subs-container">
 
-  <!-- ══════════════════════════════════════════════════
-       HEADER BAR
-  ══════════════════════════════════════════════════ -->
-  <div class="sub-header-bar">
-    <div class="sub-header-left">
-      <div class="sub-search-wrap">
-        <span class="sub-search-icon">
-          <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.75" stroke="#9ca3af" stroke-width="1.7"/><path d="M13.5 13.5L17 17" stroke="#9ca3af" stroke-width="1.7" stroke-linecap="round"/></svg>
-        </span>
-        <input
-          class="sub-search-input"
-          type="text"
-          placeholder="Find Submissions…"
-          [(ngModel)]="searchQuery"
-        />
-      </div>
-      <button class="sub-filter-btn" (click)="showFilterDropdown = !showFilterDropdown" [class.filter-btn-active]="activeStatus !== 'all'">
-        <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M6 10h8M9 15h2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-      </button>
-      <div class="sub-filter-dropdown" *ngIf="showFilterDropdown">
-        <p class="dropdown-label">Filter by Status</p>
-        <button class="dropdown-opt" *ngFor="let s of statusOptions" [class.dropdown-opt-active]="activeStatus === s.key" (click)="activeStatus = s.key; showFilterDropdown = false">
-          <span class="status-dot" [ngClass]="'sdot-' + s.key"></span>{{ s.label }}
-        </button>
-        <hr class="dropdown-divider"/>
-        <p class="dropdown-label">Filter by Files</p>
-        <button class="dropdown-opt" [class.dropdown-opt-active]="fileFilter === 'with'" (click)="fileFilter = 'with'; showFilterDropdown = false">With Submission Files</button>
-        <button class="dropdown-opt" [class.dropdown-opt-active]="fileFilter === 'without'" (click)="fileFilter = 'without'; showFilterDropdown = false">Without Submission Files</button>
-        <button class="dropdown-opt" [class.dropdown-opt-active]="fileFilter === 'all'" (click)="fileFilter = 'all'; showFilterDropdown = false">All</button>
-        <hr class="dropdown-divider"/>
-        <button class="dropdown-clear" (click)="clearFilters(); showFilterDropdown = false">Clear Filters</button>
-      </div>
+  <div class="subs-header">
+    <div class="title-section">
+      <h2 class="subs-title">Submissions Explorer</h2>
+      <p class="subs-subtitle">View and manage all team solutions for this challenge.</p>
     </div>
-
-    <div class="sub-header-right">
-      <div class="sub-status-toggle">
-        <button
-          class="status-toggle-btn"
-          *ngFor="let s of statusOptions"
-          [class.stoggle-active]="activeStatus === s.key"
-          (click)="activeStatus = s.key"
-        >{{ s.label }} <span class="stoggle-count">{{ countByStatus(s.key) }}</span></button>
-      </div>
-      <div class="sub-pagination-info">
-        <button class="pag-arrow" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">&#8249;</button>
-        <span class="pag-label">{{ paginationLabel() }}</span>
-        <button class="pag-arrow" [disabled]="currentPage >= totalPages()" (click)="currentPage = currentPage + 1">&#8250;</button>
+    <div class="action-section">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search by team, lead, or phone..." [(ngModel)]="searchQuery"
+          (input)="currentPage = 1">
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════
-       TABLE
-  ══════════════════════════════════════════════════ -->
-  <div class="sub-table-wrap">
-    <table class="sub-table">
+  <div class="table-card">
+    <div class="loading-overlay" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading submissions...</p>
+    </div>
+
+    <table class="subs-table">
       <thead>
         <tr>
-          <th class="col-status">STATUS</th>
-          <th class="col-form">FORM</th>
-          <th class="col-by">SUBMITTED BY</th>
-          <th class="col-hackathon">HACKATHON</th>
-          <th class="col-college">COLLEGE / SCHOOL</th>
-          <th class="col-git">GIT REPO</th>
-          <th class="col-demo">DEMO VIDEO</th>
-          <th class="col-files">FILES</th>
-          <th class="col-created">CREATED</th>
-          <th class="col-updated">UPDATED</th>
+          <th>Status</th>
+          <th>Team Name</th>
+          <th>Team Lead</th>
+          <th>Phone Number</th>
+          <th>Review</th>
+          <th>Submitted Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          class="sub-row"
-          *ngFor="let row of pagedRows()"
-          (click)="openDetail(row)"
-        >
-          <!-- Status -->
-          <td class="col-status">
-            <span class="sub-status-badge" [ngClass]="'sbadge-' + row.status">
-              <span class="sbadge-icon">{{ statusIcon(row.status) }}</span>
-              {{ statusLabel(row.status) }}
+        <tr *ngFor="let row of pagedRows()">
+          <td>
+            <span class="status-pill" [ngClass]="row.status.toLowerCase()">
+              <span class="pill-icon">{{ row.status === 'Submitted' ? '📨' : '⏳' }}</span>
+              {{ row.status }}
             </span>
           </td>
-
-          <!-- Form name -->
-          <td class="col-form">
-            <p class="row-form-name">{{ row.formName }}</p>
-            <p class="row-form-ver">{{ row.formVersion }}</p>
+          <td class="team-cell">
+            <div class="team-avatar">{{ initials(row.teamName) }}</div>
+            <span class="team-name">{{ row.teamName }}</span>
           </td>
-
-          <!-- Submitted by -->
-          <td class="col-by">
-            <div class="row-by-wrap">
-              <div class="row-avatar">{{ initials(row.submittedBy) }}</div>
-              <div>
-                <p class="row-by-name">{{ row.submittedBy }}</p>
-                <p class="row-by-email">{{ row.email }}</p>
-              </div>
-            </div>
-          </td>
-
-          <!-- Hackathon -->
-          <td class="col-hackathon">
-            <p class="row-hackathon">{{ row.hackathonName }}</p>
-          </td>
-
-          <!-- College -->
-          <td class="col-college">{{ row.college }}</td>
-
-          <!-- Git repo -->
-          <td class="col-git">
-            <a *ngIf="row.githubRepo" [href]="row.githubRepo" class="row-link row-link-git" target="_blank" (click)="$event.stopPropagation()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-              <span>{{ shortRepo(row.githubRepo) }}</span>
-            </a>
-            <span *ngIf="!row.githubRepo" class="row-empty">—</span>
-          </td>
-
-          <!-- Demo -->
-          <td class="col-demo">
-            <a *ngIf="row.demoLink" [href]="row.demoLink" class="row-link row-link-demo" target="_blank" (click)="$event.stopPropagation()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
-              <span>View Demo</span>
-            </a>
-            <span *ngIf="!row.demoLink" class="row-empty">—</span>
-          </td>
-
-          <!-- Files -->
-          <td class="col-files">
-            <span class="row-files-badge" *ngIf="row.filesCount > 0">
-              📎 {{ row.filesCount }} file{{ row.filesCount !== 1 ? 's' : '' }}
-            </span>
-            <span *ngIf="row.filesCount === 0" class="row-empty">—</span>
-          </td>
-
-          <!-- Created -->
-          <td class="col-created">{{ row.createdAt }}</td>
-
-          <!-- Updated -->
-          <td class="col-updated">{{ row.updatedAt }}</td>
+          <td class="lead-name">{{ row.leadName }}</td>
+          <td class="phone-number">{{ row.phone }}</td>
+          <td class="review-cell">{{ row.review }}</td>
+          <td class="date-cell">{{ row.submittedAt }}</td>
         </tr>
 
-        <!-- Empty state -->
-        <tr *ngIf="pagedRows().length === 0">
-          <td colspan="10" class="sub-empty-row">
-            <div class="sub-empty-inner">
-              <div class="sub-empty-icon">📋</div>
-              <p class="sub-empty-title">No submissions found</p>
-              <p class="sub-empty-sub">Try adjusting your filters or search query.</p>
+        <!-- Empty State -->
+        <tr *ngIf="!isLoading && filteredRows().length === 0">
+          <td colspan="5" class="empty-cell">
+            <div class="empty-content">
+              <span class="empty-icon">📂</span>
+              <p>No submissions found for this challenge.</p>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
 
-  <!-- ══════════════════════════════════════════════════
-       BOTTOM PAGINATION
-  ══════════════════════════════════════════════════ -->
-  <div class="sub-footer-bar" *ngIf="filteredRows().length > 0">
-    <p class="footer-total">{{ filteredRows().length }} submission{{ filteredRows().length !== 1 ? 's' : '' }} total</p>
-    <div class="sub-pag-controls">
-      <button class="pag-btn" [disabled]="currentPage === 1" (click)="currentPage = 1">«</button>
-      <button class="pag-btn" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">‹</button>
-      <button
-        class="pag-btn pag-num"
-        *ngFor="let p of pageNumbers()"
-        [class.pag-active]="p === currentPage"
-        (click)="currentPage = p"
-      >{{ p }}</button>
-      <button class="pag-btn" [disabled]="currentPage >= totalPages()" (click)="currentPage = currentPage + 1">›</button>
-      <button class="pag-btn" [disabled]="currentPage >= totalPages()" (click)="currentPage = totalPages()">»</button>
-    </div>
-    <div class="pag-per-page">
-      <span>Rows per page:</span>
-      <select [(ngModel)]="rowsPerPage" (change)="currentPage = 1">
-        <option [value]="5">5</option>
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-      </select>
+    <!-- Pagination -->
+    <div class="table-footer">
+      <div class="pagination-info">
+        Showing <strong>{{ paginationLabel() }}</strong> results
+      </div>
+      <div class="pagination-controls">
+        <button class="page-btn" [disabled]="currentPage === 1"
+          (click)="currentPage = currentPage - 1">Previous</button>
+        <button class="page-btn" [disabled]="currentPage >= totalPages()"
+          (click)="currentPage = currentPage + 1">Next</button>
+      </div>
     </div>
   </div>
-
 </div>
-
-<!-- ══════════════════════════════════════════════════
-     DETAIL MODAL
-══════════════════════════════════════════════════ -->
-<div class="sub-modal-overlay" *ngIf="selectedRow" (click)="closeDetail()">
-  <div class="sub-modal" (click)="$event.stopPropagation()">
-
-    <div class="modal-header">
-      <div class="modal-header-left">
-        <span class="modal-badge" [ngClass]="'sbadge-' + selectedRow.status">
-          {{ statusIcon(selectedRow.status) }} {{ statusLabel(selectedRow.status) }}
-        </span>
-        <h2 class="modal-title">{{ selectedRow.formName }}</h2>
-        <p class="modal-sub">{{ selectedRow.formVersion }} · Submitted by <strong>{{ selectedRow.submittedBy }}</strong></p>
-      </div>
-      <button class="modal-close" (click)="closeDetail()">✕</button>
-    </div>
-
-    <div class="modal-body">
-
-      <!-- Two-col meta grid -->
-      <div class="modal-meta-grid">
-        <div class="modal-meta-item">
-          <span class="mmi-label">Email</span>
-          <span class="mmi-val">{{ selectedRow.email }}</span>
-        </div>
-        <div class="modal-meta-item">
-          <span class="mmi-label">Hackathon</span>
-          <span class="mmi-val mmi-bold">{{ selectedRow.hackathonName }}</span>
-        </div>
-        <div class="modal-meta-item">
-          <span class="mmi-label">College / School</span>
-          <span class="mmi-val">{{ selectedRow.college }}</span>
-        </div>
-        <div class="modal-meta-item">
-          <span class="mmi-label">Team Size</span>
-          <span class="mmi-val">{{ selectedRow.teamSize }} members</span>
-        </div>
-        <div class="modal-meta-item">
-          <span class="mmi-label">Submitted</span>
-          <span class="mmi-val">{{ selectedRow.createdAt }}</span>
-        </div>
-        <div class="modal-meta-item">
-          <span class="mmi-label">Last Updated</span>
-          <span class="mmi-val">{{ selectedRow.updatedAt }}</span>
-        </div>
-      </div>
-
-      <!-- Links row -->
-      <div class="modal-links-row">
-        <a *ngIf="selectedRow.githubRepo" [href]="selectedRow.githubRepo" target="_blank" class="modal-link-btn modal-link-git">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          GitHub Repository
-        </a>
-        <a *ngIf="selectedRow.demoLink" [href]="selectedRow.demoLink" target="_blank" class="modal-link-btn modal-link-demo">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5,3 19,12 5,21"/></svg>
-          Demo / Video
-        </a>
-        <span *ngIf="!selectedRow.githubRepo && !selectedRow.demoLink" class="mmi-val" style="color:#9ca3af">No links provided</span>
-      </div>
-
-      <!-- Solution Summary -->
-      <div class="modal-section">
-        <p class="modal-section-heading">SOLUTION SUMMARY</p>
-        <p class="modal-section-text">{{ selectedRow.solutionSummary }}</p>
-      </div>
-
-      <!-- Uploaded files -->
-      <div class="modal-section" *ngIf="selectedRow.fileNames && selectedRow.fileNames.length > 0">
-        <p class="modal-section-heading">SUBMITTED FILES ({{ selectedRow.fileNames.length }})</p>
-        <div class="modal-files-list">
-          <div class="modal-file-item" *ngFor="let fname of selectedRow.fileNames">
-            <span class="modal-file-icon">{{ fileTypeIcon(fname) }}</span>
-            <span class="modal-file-name">{{ fname }}</span>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /modal-body -->
-  </div><!-- /modal -->
-</div><!-- /overlay -->
