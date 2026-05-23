@@ -1,96 +1,135 @@
 <div class="evaluation">
 
-  <!-- HEADER -->
   <div class="header">
     <h1>Evaluation Panel</h1>
     <p>
-      {{ selectedTeamData?.challenge }} · 
-      {{ teams.length }} submissions · 
-      {{ getShortlistedCount() }} shortlisted for scoring
+      Review team submissions across all challenges ·
+      <strong>{{ rows.length }}</strong> submission{{ rows.length === 1 ? '' : 's' }}
     </p>
   </div>
 
-  <!-- TOP CARDS -->
-  <div class="top-cards">
-    <div class="score-card" *ngFor="let s of scores">
-      <div class="score">{{ s.value }}</div>
-      <div class="label">{{ s.label }}</div>
-      <div class="bar">
-        <div class="fill"
-             [style.width.%]="s.value * 10"
-             [style.background]="s.color">
-        </div>
-      </div>
+  <div class="eval-toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search by team, challenge, or lead..."
+        [(ngModel)]="searchQuery"
+        (input)="currentPage = 1"
+      />
     </div>
+    <button type="button" class="refresh-btn" (click)="loadAllSubmissions()" [disabled]="isLoading">
+      ↻ Refresh
+    </button>
   </div>
 
-  <!-- MAIN -->
+  <p class="load-error" *ngIf="loadError">{{ loadError }}</p>
+
   <div class="main">
 
-    <!-- LEFT TABLE -->
+    <!-- Submissions table -->
     <div class="table-card">
-      <table>
+      <div class="table-loading" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Loading submissions...</p>
+      </div>
+
+      <table class="eval-table">
         <thead>
           <tr>
-            <th>TEAM</th>
-            <th>COLLEGE</th>
-            <th>CHALLENGE</th>
-            <th>STATUS</th>
+            <th>Team</th>
+            <th>Challenge</th>
+            <th>Lead</th>
+            <th>Submitted</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let team of teams"
-              [class.active]="team.name === selectedTeam"
-              (click)="selectTeam(team)">
+          <tr
+            *ngFor="let row of pagedRows()"
+            [class.active]="isSelected(row)"
+            (click)="selectRow(row)">
 
-            <td><strong>{{ team.name }}</strong></td>
-            <td>{{ team.college }}</td>
-            <td>{{ team.challenge }}</td>
-            <td>
-              <span class="badge" [ngClass]="team.statusClass">
-                {{ team.status }}
-              </span>
+            <td class="team-cell">
+              <div class="team-avatar">{{ initials(row.teamName) }}</div>
+              <strong>{{ row.teamName }}</strong>
             </td>
 
+            <td class="challenge-cell">{{ row.challengeName }}</td>
+
+            <td>{{ row.leadName }}</td>
+            <td class="date-cell">{{ row.submittedAt }}</td>
+
+            <td>
+              <span class="badge" [ngClass]="row.statusClass">{{ row.evalStatus }}</span>
+            </td>
+          </tr>
+
+          <tr *ngIf="!isLoading && filteredRows().length === 0">
+            <td colspan="5" class="empty-row">
+              <div class="empty-state">
+                <span class="empty-icon">📂</span>
+                <p>No submissions yet. Teams must submit solutions before you can evaluate.</p>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
+
+      <div class="table-footer" *ngIf="filteredRows().length > 0">
+        <span class="pagination-info">Showing <strong>{{ paginationLabel() }}</strong></span>
+        <div class="pagination-controls">
+          <button class="page-btn" [disabled]="currentPage === 1" (click)="currentPage = currentPage - 1">
+            Previous
+          </button>
+          <button class="page-btn" [disabled]="currentPage >= totalPages()" (click)="currentPage = currentPage + 1">
+            Next
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- RIGHT PANEL -->
-    <div class="side-card" *ngIf="selectedTeamData">
-      <h3>Score — {{ selectedTeamData.name }}</h3>
+    <!-- Scoreboard (UI only — no scoring API yet) -->
+    <div class="side-card" *ngIf="selectedRow; else pickSubmission">
+      <h3>Score — {{ selectedRow.teamName }}</h3>
+      <p class="score-meta">{{ selectedRow.challengeName }} · {{ selectedRow.leadName }}</p>
+
+      <div class="selected-solutions" *ngIf="selectedRow.solutionLinks.length">
+        <span class="sol-label">Open solutions</span>
+        <div class="solution-links compact">
+          <a
+            *ngFor="let link of selectedRow.solutionLinks"
+            class="solution-chip"
+            [href]="link.url"
+            target="_blank"
+            rel="noopener noreferrer">
+            <span>{{ link.icon }}</span> {{ link.label }}
+          </a>
+        </div>
+      </div>
 
       <div class="score-row" *ngFor="let item of currentScoresArray">
-  <span>{{ item.key }}</span>
-  <input type="number" [(ngModel)]="item.value" />
-</div>
+        <span>{{ item.key }}</span>
+        <input type="number" min="0" max="10" step="0.5" [(ngModel)]="item.value" />
+      </div>
 
-      <!-- TOTAL -->
       <div class="score-row total">
         <span>Total</span>
         <strong>{{ getTotalScore() }}</strong>
       </div>
 
-      <!-- COMMENTS -->
-      <div class="comments">
-        <label>EVALUATOR COMMENTS</label>
-        <textarea [(ngModel)]="currentComments"></textarea>
-      </div>
-
-      <!-- ACTIONS -->
       <div class="actions">
-        <button class="btn green" (click)="updateStatus('Shortlisted')">
-          Shortlist
-        </button>
-        <button class="btn orange" (click)="updateStatus('Winner')">
-          Mark Winner
-        </button>
-        <button class="btn red" (click)="updateStatus('Rejected')">
-          Reject
-        </button>
+        <button type="button" class="btn green" (click)="saveScore()">Save Score</button>
       </div>
     </div>
+
+    <ng-template #pickSubmission>
+      <div class="side-card side-card--empty">
+        <span class="pick-icon">📋</span>
+        <h3>Select a submission</h3>
+        <p>Click a row in the table to open the scoreboard and rate that team's solution.</p>
+      </div>
+    </ng-template>
 
   </div>
 </div>
