@@ -4,7 +4,7 @@
   <div class="ov-info-card" *ngIf="challenge">
     <p class="ov-card-heading">CHALLENGE TIMELINE</p>
     <div class="ov-timeline">
-      <div class="ov-timeline-item ov-timeline-done">
+      <div class="ov-timeline-item" [ngClass]="getTimelineState('launched')">
         <div class="ov-timeline-dot"></div>
         <div class="ov-timeline-content">
           <span class="ov-timeline-label">Challenge Launched</span>
@@ -12,30 +12,30 @@
         </div>
         <div class="ov-timeline-line"></div>
       </div>
-      <div class="ov-timeline-item ov-timeline-active">
+      <div class="ov-timeline-item" [ngClass]="getTimelineState('submission')">
         <div class="ov-timeline-dot"></div>
         <div class="ov-timeline-content">
-          <span class="ov-timeline-label">Submission Date</span>
+          <span class="ov-timeline-label">Submission Period</span>
           <span class="ov-timeline-date">
             {{ challenge.start_date | date:'dd MMM' }} – {{ challenge.deadline | date:'dd MMM yyyy' }}
           </span>
         </div>
         <div class="ov-timeline-line"></div>
       </div>
-      <div class="ov-timeline-item ov-timeline-upcoming">
+      <div class="ov-timeline-item" [ngClass]="getTimelineState('deadline')">
         <div class="ov-timeline-dot"></div>
         <div class="ov-timeline-content">
-          <span class="ov-timeline-label">Deadline Date</span>
+          <span class="ov-timeline-label">Submission Deadline</span>
           <span class="ov-timeline-date">{{ challenge.deadline | date:'dd MMM yyyy' }}</span>
         </div>
         <div class="ov-timeline-line"></div>
       </div>
-      <div class="ov-timeline-item ov-timeline-upcoming ov-timeline-last">
+      <div class="ov-timeline-item ov-timeline-last" [ngClass]="getTimelineState('winners')">
         <div class="ov-timeline-dot"></div>
         <div class="ov-timeline-content">
           <span class="ov-timeline-label">Winners Announced</span>
           <span class="ov-timeline-date">
-            {{ announcementDate ? (announcementDate | date:'dd MMM yyyy') : 'soon will announce' }}
+            {{ getWinnersDate() | date:'dd MMM yyyy' }}
           </span>
         </div>
       </div>
@@ -55,74 +55,72 @@
         <p class="ov-company-sub">
           <span class="ov-icon-loc">📍</span> {{ challenge.location }}
         </p>
-        <!-- Simple Description -->
         <p class="ov-company-desc" *ngIf="challenge.company_description">
-          <span class="ov-icon-info">🏢</span> {{ challenge.company_description }}
+          {{ challenge.company_description }}
         </p>
       </div>
     </div>
 
-
-    <!-- Website Last -->
     <div class="ov-company-website-wrapper" *ngIf="challenge.company_website">
-      <a [href]="challenge.company_website" target="_blank" class="ov-company-website-link">
+      <a [href]="challenge.company_website" target="_blank" rel="noopener noreferrer" class="ov-company-website-link">
         <span class="ov-web-icon">🌐</span> Visit Website
       </a>
     </div>
   </div>
 
   <!-- ── What We're Looking For ────────────────────── -->
-  <div class="ov-info-card" *ngIf="challenge">
+  <div class="ov-info-card ov-looking-section" *ngIf="challenge">
     <p class="ov-card-heading">WHAT WE'RE LOOKING FOR</p>
-    <div class="ov-looking-grid">
-      <div class="ov-looking-item">
-        <div class="ov-looking-icon">📝</div>
-        <div class="ov-looking-text">
-          <div class="custom-tooltip" appTruncatedTooltip="Problem Statement">
-            <p class="ov-looking-title">Problem Statement</p>
-          </div>
-          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.description">
-            <p class="ov-looking-desc">{{ challenge.description }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="ov-looking-item">
-        <div class="ov-looking-icon">🚩</div>
-        <div class="ov-looking-text">
-          <div class="custom-tooltip" appTruncatedTooltip="Current Situation">
-            <p class="ov-looking-title">Current Situation</p>
-          </div>
-          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.current_situation">
-            <p class="ov-looking-desc">{{ challenge.current_situation }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="ov-looking-item">
-        <div class="ov-looking-icon">🎯</div>
-        <div class="ov-looking-text">
-          <div class="custom-tooltip" appTruncatedTooltip="Expected Outcome">
-            <p class="ov-looking-title">Expected Outcome</p>
-          </div>
-          <div class="custom-tooltip" [appTruncatedTooltip]="challenge.expected_outcome">
-            <p class="ov-looking-desc">{{ challenge.expected_outcome }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="ov-looking-item">
-        <div class="ov-looking-icon">💰</div>
-        <div class="ov-looking-text">
-          <div class="custom-tooltip" appTruncatedTooltip="Total Prize Pool">
-            <p class="ov-looking-title">Total Prize Pool</p>
-          </div>
-          <div class="custom-tooltip"
-            [appTruncatedTooltip]="'1st: ₹' + (challenge.prize_1?.toLocaleString()) + ', 2nd: ₹' + (challenge.prize_2?.toLocaleString()) + ', 3rd: ₹' + (challenge.prize_3?.toLocaleString())">
-            <p class="ov-looking-desc">1st: ₹{{ challenge.prize_1?.toLocaleString() }}, 2nd: ₹{{
-              challenge.prize_2?.toLocaleString() }}, 3rd: ₹{{ challenge.prize_3?.toLocaleString() }}</p>
 
-          </div>
+    <div class="ov-insight-grid">
+      <article class="ov-insight-card ov-card-problem ov-span-full">
+        <div class="ov-card-top">
+          <span class="ov-card-icon problem">📝</span>
+          <h4 class="ov-insight-label">Problem Statement</h4>
+        </div>
+        <p class="ov-insight-text">{{ challenge.description }}</p>
+        <div class="ov-meta-tags" *ngIf="challenge.domain || challenge.eligibility">
+          <span class="ov-tag" *ngIf="challenge.domain">{{ challenge.domain }}</span>
+          <span class="ov-tag" *ngIf="challenge.eligibility">{{ challenge.eligibility }}</span>
+        </div>
+      </article>
+      <article class="ov-insight-card ov-card-situation">
+        <div class="ov-card-top">
+          <span class="ov-card-icon situation">📊</span>
+          <h4 class="ov-insight-label">Current Situation</h4>
+        </div>
+        <p class="ov-insight-text">{{ challenge.current_situation }}</p>
+      </article>
+      <article class="ov-insight-card ov-card-outcome">
+        <div class="ov-card-top">
+          <span class="ov-card-icon outcome">🎯</span>
+          <h4 class="ov-insight-label">Expected Outcome</h4>
+        </div>
+        <p class="ov-insight-text">{{ challenge.expected_outcome }}</p>
+      </article>
+    </div>
+
+    <!-- Prize pool -->
+    <article class="ov-prize-card">
+      <div class="ov-prize-header">
+        <span class="ov-prize-label">Total prize pool</span>
+        <span class="ov-prize-total">₹{{ challenge.total_pool?.toLocaleString() || '—' }}</span>
+      </div>
+      <div class="ov-prize-ranks">
+        <div class="ov-prize-rank gold">
+          <span class="rank">1st</span>
+          <span class="amount">₹{{ challenge.prize_1?.toLocaleString() }}</span>
+        </div>
+        <div class="ov-prize-rank silver">
+          <span class="rank">2nd</span>
+          <span class="amount">₹{{ challenge.prize_2?.toLocaleString() }}</span>
+        </div>
+        <div class="ov-prize-rank bronze">
+          <span class="rank">3rd</span>
+          <span class="amount">₹{{ challenge.prize_3?.toLocaleString() }}</span>
         </div>
       </div>
-    </div>
+    </article>
   </div>
 
   <!-- ── Submission Requirements ───────────────────── -->
