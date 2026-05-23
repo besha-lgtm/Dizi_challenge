@@ -27,7 +27,7 @@
 
   <div class="main">
 
-    <!-- Submissions table -->
+    <!-- ── Submissions table ──────────────────────────────── -->
     <div class="table-card">
       <div class="table-loading" *ngIf="isLoading">
         <div class="spinner"></div>
@@ -56,7 +56,6 @@
             </td>
 
             <td class="challenge-cell">{{ row.challengeName }}</td>
-
             <td>{{ row.leadName }}</td>
             <td class="date-cell">{{ row.submittedAt }}</td>
 
@@ -89,11 +88,22 @@
       </div>
     </div>
 
-    <!-- Scoreboard (UI only — no scoring API yet) -->
+    <!-- ── Score Panel ─────────────────────────────────────── -->
     <div class="side-card" *ngIf="selectedRow; else pickSubmission">
-      <h3>Score — {{ selectedRow.teamName }}</h3>
-      <p class="score-meta">{{ selectedRow.challengeName }} · {{ selectedRow.leadName }}</p>
 
+      <!-- Header -->
+      <div class="side-card-header">
+        <div>
+          <h3>Score — {{ selectedRow.teamName }}</h3>
+          <p class="score-meta">{{ selectedRow.challengeName }} · {{ selectedRow.leadName }}</p>
+        </div>
+        <!-- Lock badge shown when already scored -->
+        <div class="lock-badge" *ngIf="selectedRow.isScored">
+          🔒 Score Locked
+        </div>
+      </div>
+
+      <!-- Solution links -->
       <div class="selected-solutions" *ngIf="selectedRow.solutionLinks.length">
         <span class="sol-label">Open solutions</span>
         <div class="solution-links compact">
@@ -108,18 +118,74 @@
         </div>
       </div>
 
-      <div class="score-row" *ngFor="let item of currentScoresArray">
-        <span>{{ item.key }}</span>
-        <input type="number" min="0" max="10" step="0.5" [(ngModel)]="item.value" />
+      <!-- Scoring criteria -->
+      <div class="criteria-label">Scores <span class="range-hint">(each 1 – 10, whole numbers only)</span></div>
+
+      <div
+        class="score-row"
+        *ngFor="let item of currentScoresArray"
+        [class.locked]="selectedRow.isScored">
+
+        <span class="criterion-name">{{ item.key }}</span>
+
+        <!-- Editable input (not yet scored) -->
+        <input
+          *ngIf="!selectedRow.isScored"
+          type="number"
+          min="1"
+          max="10"
+          step="1"
+          [(ngModel)]="item.value"
+          (input)="scoreError = ''"
+          class="score-input"
+          [placeholder]="'1–10'"
+        />
+
+        <!-- Read-only display (scored & locked) -->
+        <span *ngIf="selectedRow.isScored" class="score-locked-value">{{ item.value }}</span>
       </div>
 
-      <div class="score-row total">
+      <!-- Total row -->
+      <div class="score-row total" [class.locked]="selectedRow.isScored">
         <span>Total</span>
-        <strong>{{ getTotalScore() }}</strong>
+        <strong>
+          {{ selectedRow.isScored ? selectedRow.totalScore : getTotalScore() }}
+          <span class="out-of">/ 50</span>
+        </strong>
       </div>
 
+      <!-- Error message -->
+      <div class="score-error" *ngIf="scoreError">
+        ⚠️ {{ scoreError }}
+      </div>
+
+      <!-- Success message -->
+      <div class="score-success" *ngIf="scoreSaved">
+        ✅ Score saved successfully and locked.
+      </div>
+
+      <!-- Actions -->
       <div class="actions">
-        <button type="button" class="btn green" (click)="saveScore()">Save Score</button>
+
+        <!-- Save button — active only when not yet scored -->
+        <button
+          *ngIf="!selectedRow.isScored"
+          type="button"
+          class="btn green"
+          (click)="saveScore()"
+          [disabled]="isSaving">
+          {{ isSaving ? 'Saving...' : 'Save Score' }}
+        </button>
+
+        <!-- Locked button — shown when already scored -->
+        <button
+          *ngIf="selectedRow.isScored"
+          type="button"
+          class="btn locked-btn"
+          disabled>
+          🔒 Score Locked — Cannot Edit
+        </button>
+
       </div>
     </div>
 

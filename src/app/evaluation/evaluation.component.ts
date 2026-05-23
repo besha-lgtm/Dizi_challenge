@@ -3,6 +3,7 @@ import { forkJoin, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ChallengeService } from '../services/challenge.service';
 import { SubmissionService } from '../services/submission.service';
+import { EvaluationService } from '../services/evaluation.service';
 
 export interface SolutionLink {
   label: string;
@@ -24,22 +25,16 @@ export interface EvaluationRow {
   evalStatus: string;
   statusClass: string;
   scores: Record<string, number>;
+  isScored: boolean;       // true once score is saved in DB
+  totalScore: number;      // persisted total (shown when locked)
 }
 
-const DEFAULT_CRITERIA = [
-  'Innovation',
-  'Feasibility',
-  'Impact',
-  'Cost Efficiency',
-  'Scalability'
-];
+const CRITERIA = ['Innovation', 'Feasibility', 'Impact', 'Cost Efficiency', 'Scalability'];
 
-const DEFAULT_SCORES: Record<string, number> = {
-  Innovation: 0,
-  Feasibility: 0,
-  Impact: 0,
-  'Cost Efficiency': 0,
-  Scalability: 0
+const defaultScores = (): Record<string, number> => {
+  const s: Record<string, number> = {};
+  CRITERIA.forEach(c => (s[c] = 0));
+  return s;
 };
 
 @Component({
@@ -61,16 +56,25 @@ export class EvaluationComponent implements OnInit {
   rows: EvaluationRow[] = [];
   selectedRow: EvaluationRow | null = null;
 
-  currentScoresArray: { key: string; value: number }[] = [];
+  // Working copy of scores for the currently selected row
+  currentScoresArray: { key: string; value: number | string }[] = [];
+
+  // Save state
+  isSaving = false;
+  scoreError = '';
+  scoreSaved = false;
 
   constructor(
     private challengeService: ChallengeService,
-    private submissionService: SubmissionService
+    private submissionService: SubmissionService,
+    private evaluationService: EvaluationService
   ) {}
 
   ngOnInit(): void {
     this.loadAllSubmissions();
   }
+
+  // ── Data Loading ───────────────────────────────────────────
 
   loadAllSubmissions(): void {
     this.isLoading = true;
@@ -92,7 +96,9 @@ export class EvaluationComponent implements OnInit {
         const requests = challenges.map((c: any) =>
           this.submissionService.getSubmissionsByChallenge(c.id).pipe(
             map((subs: any[]) =>
-              (subs || []).map((sub) => this.mapSubmissionToRow(sub, challengeMap.get(String(c.id)) || 'Unknown Challenge', c.id))
+              (subs || []).map(sub =>
+                this.mapSubmissionToRow(sub, challengeMap.get(String(c.id)) || 'Unknown Challenge', c.id)
+              )
             ),
             catchError(() => of([] as EvaluationRow[]))
           )
@@ -100,17 +106,49 @@ export class EvaluationComponent implements OnInit {
 
         forkJoin(requests).subscribe({
           next: (results) => {
-            this.rows = results
+            const flatRows: EvaluationRow[] = (results as EvaluationRow[][])
               .flat()
               .sort((a, b) => {
                 const da = a.submittedAtRaw ? new Date(a.submittedAtRaw).getTime() : 0;
                 const db = b.submittedAtRaw ? new Date(b.submittedAtRaw).getTime() : 0;
                 return db - da;
               });
-            this.isLoading = false;
-            if (this.rows.length > 0 && !this.selectedRow) {
-              this.selectRow(this.rows[0]);
+
+            // Fetch existing scores for all submissions in parallel
+            if (flatRows.length === 0) {
+              this.rows = [];
+              this.isLoading = false;
+              return;
             }
+
+            const scoreRequests = flatRows.map(row =>
+              this.evaluationService.getScore(row.id).pipe(
+                catchError(() => of({ scored: false, evaluation: null }))
+              )
+            );
+
+            forkJoin(scoreRequests).subscribe({
+              next: (scoreResults) => {
+                scoreResults.forEach((res: any, i: number) => {
+                  if (res.scored && res.evaluation) {
+                    flatRows[i].isScored = true;
+                    flatRows[i].scores = res.evaluation.scores;
+                    flatRows[i].totalScore = res.evaluation.total_score;
+                    flatRows[i].evalStatus = 'Scored';
+                    flatRows[i].statusClass = 'scored';
+                  }
+                });
+                this.rows = flatRows;
+                this.isLoading = false;
+                if (this.rows.length > 0 && !this.selectedRow) {
+                  this.selectRow(this.rows[0]);
+                }
+              },
+              error: () => {
+                this.rows = flatRows;
+                this.isLoading = false;
+              }
+            });
           },
           error: (err) => {
             console.error('Error loading evaluations:', err);
@@ -146,60 +184,129 @@ export class EvaluationComponent implements OnInit {
       solutionLinks: this.buildSolutionLinks(sub),
       evalStatus: 'To Review',
       statusClass: 'toreview',
-      scores: { ...DEFAULT_SCORES }
+      scores: defaultScores(),
+      isScored: false,
+      totalScore: 0
     };
   }
 
   private buildSolutionLinks(sub: any): SolutionLink[] {
     const links: SolutionLink[] = [];
+    if (sub.github_repo)   links.push({ label: 'GitHub',       url: sub.github_repo,                         icon: '🔗' });
+    if (sub.live_link)     links.push({ label: 'Live Demo',     url: sub.live_link,                           icon: '🌐' });
+    if (sub.solution_file) links.push({ label: 'Solution',      url: `${this.uploadBase}/${sub.solution_file}`, icon: '📄' });
+    if (sub.ppt_file)      links.push({ label: 'Presentation',  url: `${this.uploadBase}/${sub.ppt_file}`,     icon: '📑' });
 
-    if (sub.github_repo) {
-      links.push({ label: 'GitHub', url: sub.github_repo, icon: '🔗' });
-    }
-    if (sub.live_link) {
-      links.push({ label: 'Live Demo', url: sub.live_link, icon: '🌐' });
-    }
-    if (sub.solution_file) {
-      links.push({
-        label: 'Solution',
-        url: `${this.uploadBase}/${sub.solution_file}`,
-        icon: '📄'
-      });
-    }
-    if (sub.ppt_file) {
-      links.push({
-        label: 'Presentation',
-        url: `${this.uploadBase}/${sub.ppt_file}`,
-        icon: '📑'
-      });
-    }
     const demos: string[] = Array.isArray(sub.demo_files) ? sub.demo_files : [];
-    demos.slice(0, 2).forEach((file: string, i: number) => {
-      links.push({
-        label: demos.length > 1 ? `Demo ${i + 1}` : 'Demo',
-        url: `${this.uploadBase}/${file}`,
-        icon: '🎬'
-      });
-    });
+    demos.slice(0, 2).forEach((file: string, i: number) =>
+      links.push({ label: demos.length > 1 ? `Demo ${i + 1}` : 'Demo', url: `${this.uploadBase}/${file}`, icon: '🎬' })
+    );
+
     const docs: string[] = Array.isArray(sub.documentation_files) ? sub.documentation_files : [];
-    if (docs[0]) {
-      links.push({
-        label: 'Documentation',
-        url: `${this.uploadBase}/${docs[0]}`,
-        icon: '📎'
-      });
-    }
+    if (docs[0]) links.push({ label: 'Documentation', url: `${this.uploadBase}/${docs[0]}`, icon: '📎' });
 
     return links;
   }
 
+  // ── Row Selection ─────────────────────────────────────────
+
   selectRow(row: EvaluationRow): void {
     this.selectedRow = row;
+    this.scoreError = '';
+    this.scoreSaved = false;
     this.currentScoresArray = Object.keys(row.scores).map(key => ({
       key,
       value: row.scores[key]
     }));
   }
+
+  // ── Validation ────────────────────────────────────────────
+
+  private validateScores(): string[] {
+    const errors: string[] = [];
+    for (const item of this.currentScoresArray) {
+      const raw = item.value;
+      const num = Number(raw);
+
+      if (raw === '' || raw === null || raw === undefined || isNaN(num)) {
+        errors.push(`"${item.key}" requires a number.`);
+        continue;
+      }
+      if (!Number.isInteger(num)) {
+        errors.push(`"${item.key}" must be a whole number (no decimals). Got: ${raw}`);
+        continue;
+      }
+      if (num < 1 || num > 10) {
+        errors.push(`"${item.key}" must be between 1 and 10. Got: ${num}`);
+      }
+    }
+    return errors;
+  }
+
+  // ── Save Score ────────────────────────────────────────────
+
+  saveScore(): void {
+    if (!this.selectedRow || this.selectedRow.isScored || this.isSaving) return;
+
+    // Reset state
+    this.scoreError = '';
+    this.scoreSaved = false;
+
+    // Client-side validation first
+    const errors = this.validateScores();
+    if (errors.length > 0) {
+      this.scoreError = errors.join(' ');
+      return;
+    }
+
+    // Build scores record
+    const scores: Record<string, number> = {};
+    this.currentScoresArray.forEach(item => {
+      scores[item.key] = Number(item.value);
+    });
+
+    const payload = {
+      submission_id: this.selectedRow.id,
+      challenge_id: this.selectedRow.challengeId,
+      team_name: this.selectedRow.teamName,
+      scores
+    };
+
+    this.isSaving = true;
+
+    this.evaluationService.submitScore(payload).subscribe({
+      next: (response) => {
+        this.isSaving = false;
+        this.scoreSaved = true;
+
+        // Lock the row
+        this.selectedRow!.isScored = true;
+        this.selectedRow!.scores = scores;
+        this.selectedRow!.totalScore = response.total_score;
+        this.selectedRow!.evalStatus = 'Scored';
+        this.selectedRow!.statusClass = 'scored';
+
+        // Sync displayed array to saved values
+        this.currentScoresArray = this.currentScoresArray.map(item => ({
+          key: item.key,
+          value: scores[item.key]
+        }));
+      },
+      error: (err) => {
+        this.isSaving = false;
+        const msg = err?.error?.message || 'Failed to save score. Please try again.';
+        this.scoreError = msg;
+      }
+    });
+  }
+
+  // ── Computed ──────────────────────────────────────────────
+
+  getTotalScore(): number {
+    return this.currentScoresArray.reduce((sum, item) => sum + (Number(item.value) || 0), 0);
+  }
+
+  // ── Filtering & Pagination ────────────────────────────────
 
   filteredRows(): EvaluationRow[] {
     const q = this.searchQuery.toLowerCase().trim();
@@ -233,25 +340,5 @@ export class EvaluationComponent implements OnInit {
 
   initials(name: string): string {
     return name.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2);
-  }
-
-  getTotalScore(): number {
-    return this.currentScoresArray.reduce((sum, item) => sum + Number(item.value || 0), 0);
-  }
-
-  saveScore(): void {
-    if (!this.selectedRow) return;
-
-    const updatedScores: Record<string, number> = {};
-    this.currentScoresArray.forEach(item => {
-      updatedScores[item.key] = item.value;
-    });
-
-    this.selectedRow.scores = updatedScores;
-    this.selectedRow.evalStatus = 'Reviewed';
-    this.selectedRow.statusClass = 'reviewed';
-
-    const total = this.getTotalScore();
-    alert(`Score saved for ${this.selectedRow.teamName}.\nTotal: ${total}`);
   }
 }
