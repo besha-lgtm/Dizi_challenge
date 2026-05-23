@@ -10,6 +10,7 @@ import { ChallengeService } from '../../services/challenge.service';
 })
 export class OverviewComponent implements OnInit {
   challenge: any = null;
+  announcementDate: Date | null = null;
   openFaq: number | null = null;
 
   constructor(
@@ -28,6 +29,11 @@ export class OverviewComponent implements OnInit {
     this.challengeService.getChallengeById(id).subscribe({
       next: (data) => {
         this.challenge = data;
+        if (data && data.deadline) {
+          const deadlineDate = new Date(data.deadline);
+          deadlineDate.setDate(deadlineDate.getDate() + 7);
+          this.announcementDate = deadlineDate;
+        }
       },
       error: (err) => console.error('Error loading challenge in overview:', err)
     });

@@ -45,4 +45,9 @@ export class EvaluationService {
   getScoresByChallenge(challengeId: string | number): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/challenge/${challengeId}`);
   }
+
+  /** Get challenge winners (top score for each challenge). */
+  getWinners(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/winners`);
+  }
 }

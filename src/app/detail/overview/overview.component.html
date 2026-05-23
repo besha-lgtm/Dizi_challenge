@@ -30,19 +30,13 @@
         </div>
         <div class="ov-timeline-line"></div>
       </div>
-      <div class="ov-timeline-item ov-timeline-upcoming">
-        <div class="ov-timeline-dot"></div>
-        <div class="ov-timeline-content">
-          <span class="ov-timeline-label">Evaluation & Shortlisting</span>
-          <span class="ov-timeline-date">soon will announce</span>
-        </div>
-        <div class="ov-timeline-line"></div>
-      </div>
       <div class="ov-timeline-item ov-timeline-upcoming ov-timeline-last">
         <div class="ov-timeline-dot"></div>
         <div class="ov-timeline-content">
           <span class="ov-timeline-label">Winners Announced</span>
-          <span class="ov-timeline-date">soon will announce</span>
+          <span class="ov-timeline-date">
+            {{ announcementDate ? (announcementDate | date:'dd MMM yyyy') : 'soon will announce' }}
+          </span>
         </div>
       </div>
     </div>
@@ -124,6 +118,7 @@
             [appTruncatedTooltip]="'1st: ₹' + (challenge.prize_1?.toLocaleString()) + ', 2nd: ₹' + (challenge.prize_2?.toLocaleString()) + ', 3rd: ₹' + (challenge.prize_3?.toLocaleString())">
             <p class="ov-looking-desc">1st: ₹{{ challenge.prize_1?.toLocaleString() }}, 2nd: ₹{{
               challenge.prize_2?.toLocaleString() }}, 3rd: ₹{{ challenge.prize_3?.toLocaleString() }}</p>
+
           </div>
         </div>
       </div>

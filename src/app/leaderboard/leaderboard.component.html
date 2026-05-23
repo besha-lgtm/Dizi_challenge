@@ -6,104 +6,134 @@
     <div class="main-col">
       <!-- Header Card -->
       <div class="header-card">
-        <h1 class="page-title">🏆 Leaderboard</h1>
-        <p class="page-subtitle">Top performing teams across all challenges. Be one of them and show your skills!</p>
+        <h1 class="page-title">🏆 Challenge Winners</h1>
+        <p class="page-subtitle">Celebrating the top-scoring teams and innovators who conquered the Dizi Challenges.</p>
       </div>
 
-      <!-- Top 3 Teams Section -->
-      <div class="top-teams-section">
-        
-        <div class="top-teams-grid">
-          <!-- Rank 2 (Left) -->
-          <div class="top-team-card rank-2">
-            <div class="rank-badge">🥈 2nd</div>
-            <div class="team-avatar">GV</div>
-            <h3 class="team-name">Green Vision</h3>
-            <p class="team-subtitle">KL University</p>
-            <p class="score-display">88 pts</p>
-          </div>
-
-          <!-- Rank 1 (Center) -->
-          <div class="top-team-card rank-1">
-            <div class="rank-badge">🏆 1st</div>
-            <div class="team-avatar">AI</div>
-            <h3 class="team-name">Alpha Innovators</h3>
-            <p class="team-subtitle">ANITS, Vizag</p>
-            <p class="score-display">92 pts</p>
-          </div>
-
-          <!-- Rank 3 (Right) -->
-          <div class="top-team-card rank-3">
-            <div class="rank-badge">🥉 3rd</div>
-            <div class="team-avatar">TM</div>
-            <h3 class="team-name">Track Masters</h3>
-            <p class="team-subtitle">GITAM, Hyderabad</p>
-            <p class="score-display">84 pts</p>
-          </div>
+      <!-- Search Bar Section -->
+      <div class="search-container">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            placeholder="Search by challenge name..." 
+            class="search-input"
+          />
+          <span class="clear-icon" *ngIf="searchTerm" (click)="searchTerm = ''">✕</span>
         </div>
       </div>
 
-      <!-- Leaderboard Table -->
-      <div class="leaderboard-section">
-        <div class="section-header-leaderboard">
-          <h2 class="section-label">Full Rankings</h2>
-          <div class="filter-buttons">
-            <button 
-              class="filter-btn" 
-              [class.active]="activeFilter === 'top5'"
-              (click)="setFilter(5, 'top5')">
-              Top 5
-            </button>
-            <button 
-              class="filter-btn" 
-              [class.active]="activeFilter === 'top10'"
-              (click)="setFilter(10, 'top10')">
-              Top 10
-            </button>
-            <button 
-              class="filter-btn" 
-              [class.active]="activeFilter === 'top50'"
-              (click)="setFilter(50, 'top50')">
-              Top 50
-            </button>
-          </div>
-        </div>
-        <div class="table-wrapper">
-          <div class="table-header">
-            <div class="header-row">
-              <span class="col-rank">RANK</span>
-              <span class="col-team">TEAM</span>
-              <span class="col-institution">INSTITUTION</span>
-              <span class="col-score">SCORE</span>
-              <span class="col-change">CHANGE</span>
-            </div>
-          </div>
+      <!-- Loading State -->
+      <div class="loading-state" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Fetching latest leaderboard results...</p>
+      </div>
 
-          <div class="table-body">
-            <div class="table-row" *ngFor="let team of filteredTeams">
-              <div class="col-rank">
-                <span class="rank-num">{{ team.emoji }} {{ team.rank }}</span>
+      <!-- Error State -->
+      <div class="error-state" *ngIf="errorMsg">
+        <div class="error-icon">⚠️</div>
+        <p class="error-text">{{ errorMsg }}</p>
+        <button class="retry-btn" (click)="loadWinners()">Retry Load</button>
+      </div>
+
+      <!-- Winners Grid -->
+      <div class="winners-grid" *ngIf="!isLoading && !errorMsg && filteredWinners.length > 0">
+        <div 
+          class="challenge-card" 
+          *ngFor="let item of filteredWinners"
+          [class.has-winner]="item.winner !== null && item.is_deadline_passed && item.all_evaluated"
+          [class.pending-winner]="item.winner !== null && (!item.is_deadline_passed || !item.all_evaluated)"
+          [class.no-winner]="item.winner === null"
+        >
+          <div class="challenge-header">
+            <span class="challenge-tag" 
+              [class.winner-tag]="item.winner !== null && item.is_deadline_passed && item.all_evaluated"
+              [class.pending-tag]="item.winner !== null && (!item.is_deadline_passed || !item.all_evaluated)"
+              [class.no-winner-tag]="item.winner === null"
+            >
+              <ng-container *ngIf="item.winner !== null && item.is_deadline_passed && item.all_evaluated">Completed</ng-container>
+              <ng-container *ngIf="item.winner !== null && !item.is_deadline_passed">Submissions Open</ng-container>
+              <ng-container *ngIf="item.winner !== null && item.is_deadline_passed && !item.all_evaluated">Reviewing</ng-container>
+              <ng-container *ngIf="item.winner === null">Active</ng-container>
+            </span>
+            <h3 class="challenge-title-text">{{ item.challenge_title }}</h3>
+          </div>
+          
+          <!-- Winner Details -->
+          <div class="winner-body" *ngIf="item.winner">
+            <div class="winner-badge-wrapper">
+              <div class="winner-trophy-badge" *ngIf="item.is_deadline_passed && item.all_evaluated">
+                <span class="trophy-emoji">🏆</span>
+                <span class="badge-text">CHAMPION</span>
               </div>
-              <div class="col-team">
-                <div class="team-info">
-                  <span class="team-name">{{ team.name }}</span>
-                  <span class="members-count">{{ team.members }}</span>
-                </div>
+              <div class="leader-badge" *ngIf="!item.is_deadline_passed">
+                <span class="trophy-emoji">⚡</span>
+                <span class="badge-text">CURRENT LEADER</span>
               </div>
-              <div class="col-institution">{{ team.institution }}</div>
-              <div class="col-score">
-                <span class="score-badge">{{ team.score }}</span>
-              </div>
-              <div class="col-change" [class]="team.changeType">
-                <span class="change-icon">{{ team.changeType === 'positive' ? '↑' : team.changeType === 'negative' ? '↓' : '−' }}</span>
-                <span class="change-value" *ngIf="team.change > 0">{{ team.change }}</span>
+              <div class="review-badge" *ngIf="item.is_deadline_passed && !item.all_evaluated">
+                <span class="trophy-emoji">⏳</span>
+                <span class="badge-text">LEADING (REVIEW IN PROGRESS)</span>
               </div>
             </div>
+            
+            <h2 class="winner-team-name">{{ item.winner.team_name }}</h2>
+            
+            <div class="winner-details">
+              <div class="detail-row">
+                <span class="detail-label">Team Members</span>
+                <span class="detail-value">{{ getMemberNames(item.winner.members) }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Evaluation Score</span>
+                <span class="score-pill">
+                  <span class="score-val">{{ item.winner.total_score }}</span>
+                  <span class="score-max">/ 50 pts</span>
+                </span>
+              </div>
+            </div>
+            
+            <!-- Conditional messages based on deadline and evaluations status -->
+            <div class="congratulations-msg" *ngIf="item.is_deadline_passed && item.all_evaluated">
+              <span class="party-popper">🎉</span>
+              <span class="msg-text">Congratulations! This team has conquered the challenge with the top score.</span>
+            </div>
+
+            <div class="not-declared-msg open-state" *ngIf="!item.is_deadline_passed">
+              <span class="clock-emoji">⏳</span>
+              <span class="msg-text">Winner not declared yet. Submissions are open until {{ item.deadline | date:'dd MMM yyyy' }}. New solutions may come!</span>
+            </div>
+
+            <div class="not-declared-msg review-state" *ngIf="item.is_deadline_passed && !item.all_evaluated">
+              <span class="clock-emoji">⏳</span>
+              <span class="msg-text">Winner not declared yet. Some submissions are still under review.</span>
+            </div>
+          </div>
+          
+          <!-- Under Evaluation Details -->
+          <div class="no-winner-body" *ngIf="!item.winner">
+            <div class="pending-badge">
+              <span class="pending-emoji">⏳</span>
+              <span class="badge-text">UNDER EVALUATION</span>
+            </div>
+            <p class="pending-text">Submissions are currently being graded by the evaluation committee.</p>
+            <div class="pending-pulse">
+              <div class="pulse-dot"></div>
+              <span class="pulse-label">Winner to be announced soon</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- CTA Section -->
+      <!-- No Search Results Fallback -->
+      <div class="no-results-state" *ngIf="!isLoading && !errorMsg && filteredWinners.length === 0">
+        <div class="empty-icon">🔎</div>
+        <h3>No challenges found</h3>
+        <p>We couldn't find any challenges matching "{{ searchTerm }}". Try checking the name or clearing the filter.</p>
+        <button class="clear-search-btn" (click)="searchTerm = ''">Clear Search</button>
+      </div>
+
+      <!-- CTA Footer -->
       <div class="cta-section">
         <button class="cta-button" (click)="goToRewards()">View Rewards & Recognition →</button>
       </div>
