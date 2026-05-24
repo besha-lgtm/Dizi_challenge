@@ -14,6 +14,9 @@ export interface RegistrationPayload {
   team_name: string;
   team_lead: string;
   members: TeamMember[];
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
 }
 
 @Injectable({
@@ -25,8 +28,12 @@ export class RegistrationService {
   constructor(private http: HttpClient) {}
 
   registerTeam(payload: RegistrationPayload): Observable<any> {
-    console.log('Registering team:', payload);
+    console.log('Registering team with payment verification:', payload);
     return this.http.post<any>(`${this.API_URL}/register`, payload);
+  }
+
+  createPaymentOrder(challengeId: number | string): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/payment/create-order`, { challengeId });
   }
 
   checkTeamNameAvailability(challengeId: number | string, teamName: string): Observable<{ available: boolean }> {

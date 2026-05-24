@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { RegistrationService, TeamMember } from '../../services/registration.service';
+
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-registration',
@@ -19,7 +21,10 @@ export class RegistrationComponent {
   submitError: string | null = null;
   submitSuccess = false;
 
-  constructor(private registrationService: RegistrationService) {}
+  constructor(
+    private registrationService: RegistrationService,
+    private ngZone: NgZone
+  ) {}
 
   closeRegistration(): void {
     this.close.emit();
@@ -84,27 +89,85 @@ export class RegistrationComponent {
     }
 
     const formData = new FormData(form);
-
-    const payload = {
-      challenge_id: this.challengeId!,
-      team_name: (formData.get('teamName') as string).trim(),
-      team_lead: formData.get('teamLead') as string,
-      members: this.members
-    };
+    const team_name = (formData.get('teamName') as string).trim();
+    const team_lead = formData.get('teamLead') as string;
 
     this.isSubmitting = true;
     this.submitError = null;
 
+    // Step 1: Create a payment order on the backend
+    this.registrationService.createPaymentOrder(this.challengeId!).subscribe({
+      next: (orderData: any) => {
+        // Step 2: Open Razorpay checkout interface
+        try {
+          const options = {
+            key: orderData.key_id,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: 'Dizi Challenge Registration',
+            description: `Challenge Registration: ${team_name}`,
+            order_id: orderData.order_id,
+            handler: (paymentResponse: any) => {
+              this.ngZone.run(() => {
+                // Step 3: Complete registration on payment success
+                const payload = {
+                  challenge_id: this.challengeId!,
+                  team_name: team_name,
+                  team_lead: team_lead,
+                  members: this.members,
+                  razorpay_order_id: paymentResponse.razorpay_order_id,
+                  razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                  razorpay_signature: paymentResponse.razorpay_signature
+                };
+
+                this.completeRegistration(payload);
+              });
+            },
+            prefill: {
+              name: team_lead,
+              email: this.members[0]?.email || '',
+              contact: this.members[0]?.phone || ''
+            },
+            theme: {
+              color: '#3b82f6' // Primary theme blue
+            },
+            modal: {
+              ondismiss: () => {
+                this.ngZone.run(() => {
+                  this.isSubmitting = false;
+                  this.submitError = 'Payment was cancelled. Your registration has not been completed.';
+                });
+              }
+            }
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.open();
+        } catch (err) {
+          this.isSubmitting = false;
+          this.submitError = 'Failed to load Razorpay checkout overlay.';
+          console.error('Razorpay overlay error:', err);
+        }
+      },
+      error: (err: any) => {
+        this.isSubmitting = false;
+        this.submitError = err?.error?.message || 'Failed to initiate payment. Please try again.';
+        console.error('Create order error:', err);
+      }
+    });
+  }
+
+  completeRegistration(payload: any): void {
     this.registrationService.registerTeam(payload).subscribe({
       next: (_res: any) => {
         this.isSubmitting = false;
         this.submitSuccess = true;
-        setTimeout(() => this.closeRegistration(), 2000);
+        setTimeout(() => this.closeRegistration(), 2500);
       },
       error: (err: any) => {
         this.isSubmitting = false;
-        this.submitError = err?.error?.message || 'Registration failed. Please try again.';
-        console.error('Registration error:', err);
+        this.submitError = err?.error?.message || 'Payment verified, but registration failed. Please contact support with payment ID: ' + payload.razorpay_payment_id;
+        console.error('Registration completion error:', err);
       }
     });
   }
