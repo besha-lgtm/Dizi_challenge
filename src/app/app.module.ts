@@ -30,9 +30,10 @@ import { ResourcesComponent } from './detail/resources/resources.component';
 import { RegistrationComponent } from './detail/registration/registration.component';
 import { CommonModule } from '@angular/common';
 
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { TruncatedTooltipDirective } from './directives/truncated-tooltip.directive';
+import { authInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { TruncatedTooltipDirective } from './directives/truncated-tooltip.direct
     FormsModule,
     CommonModule
   ],
-  providers: [provideHttpClient()],
+  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

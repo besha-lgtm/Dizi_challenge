@@ -16,32 +16,31 @@ import { EvaluationComponent } from './evaluation/evaluation.component';
 import { TeamsComponent } from './teams/teams.component';
 import { DiscussionComponent } from './detail/discussion/discussion.component';
 import { OverviewComponent } from './detail/overview/overview.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';  
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CertificatesComponent } from './certificates/certificates.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateTeamComponent } from './create-team/create-team.component';
 import { ResourcesComponent } from './detail/resources/resources.component';
 import { SubmissionsComponent } from './detail/submissions/submissions.component';
+import { authGuard, adminGuard, guestGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [guestGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
 
-  // LAYOUT 1: Dashboard (With Sidebar)
   {
     path: 'dashboard',
-    component: SidebarComponent, 
-    children: [
-      { path: '', component: DashboardComponent } // Loads at /dashboard
-    ]
+    component: SidebarComponent,
+    canActivate: [authGuard, adminGuard],
+    children: [{ path: '', component: DashboardComponent }]
   },
 
-  // Challenge Details (Nested under challenges)
   {
     path: 'challenges/detail',
     component: DetailComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: OverviewComponent },
@@ -51,20 +50,20 @@ const routes: Routes = [
     ]
   },
 
-  { path: 'submission', component: SubmissionComponent },
-  { path: 'rewards', component: RewardsComponent },
-  { path: 'home', component: HomeComponent},
-  { path: 'challenges', component: ChallengesComponent },
-  { path: 'leaderboard', component: LeaderboardComponent },
-  { path: 'postchallenge', component: PostchallengeComponent },
-  { path: 'evaluation', component: EvaluationComponent },
-  { path: 'teams', component: TeamsComponent },
-  { path: 'discussion', component: DiscussionComponent },
-  { path: 'overview', component: OverviewComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'certificates', component: CertificatesComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'create-team', component: CreateTeamComponent },
+  { path: 'submission', component: SubmissionComponent, canActivate: [authGuard] },
+  { path: 'rewards', component: RewardsComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'challenges', component: ChallengesComponent, canActivate: [authGuard] },
+  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [authGuard] },
+  { path: 'postchallenge', component: PostchallengeComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'evaluation', component: EvaluationComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'teams', component: TeamsComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'discussion', component: DiscussionComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'overview', component: OverviewComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [guestGuard] },
+  { path: 'certificates', component: CertificatesComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [authGuard] },
+  { path: 'create-team', component: CreateTeamComponent, canActivate: [authGuard, adminGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 
@@ -72,4 +71,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

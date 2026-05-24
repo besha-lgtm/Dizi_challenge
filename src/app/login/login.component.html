@@ -105,20 +105,12 @@
                     </div>
                     <span class="error-message" *ngIf="password.invalid && (password.dirty || password.touched)">
                         <span *ngIf="password.errors?.['required']">Password is required</span>
-                        <span *ngIf="password.errors?.['minlength']">Password </span>
+                        <span *ngIf="password.errors?.['minlength']">Password must be at least 8 characters</span>
                     </span>
                 </div>
 
-                <!-- Form Footer: Remember Me + Forgot Password -->
+                <!-- Form Footer: Forgot Password only -->
                 <div class="form-footer">
-                    <div class="remember-checkbox">
-                        <input 
-                            type="checkbox" 
-                            id="keepSigned" 
-                            name="keepSigned" 
-                            [(ngModel)]="user.keepSigned">
-                        <label for="keepSigned">Keep me signed in</label>
-                    </div>
                     <a href="#forgot" class="forgot-link" (click)="goToForgotPassword($event)">Forgot password?</a>
                 </div>
 
@@ -126,24 +118,10 @@
                 <button 
                     type="submit" 
                     class="submit-btn"
-                    [disabled]="loginForm.invalid">Sign In →</button>
-
-                <!-- Social Login Divider -->
-                <div class="social-divider">
-                    <span>Or continue with</span>
-                </div>
-
-                <!-- Social Login Buttons Inside Form Card -->
-                <div class="social-login-inline">
-                    <button class="social-btn-inline google-btn-inline" type="button" title="Sign in with Google">
-                        <img src="assets/images/google.png" alt="Google" class="social-icon-img">
-                        continue with Google
-                    </button>
-                    <button class="social-btn-inline linkedin-btn-inline" type="button" title="Sign in with LinkedIn">
-                        <img src="assets/images/linkedin.png" alt="LinkedIn" class="social-icon-img">
-                        continue with LinkedIn
-                    </button>
-                </div>
+                    [disabled]="loginForm.invalid || isLoading">
+                    <span *ngIf="!isLoading">Sign In →</span>
+                    <span *ngIf="isLoading">Signing in...</span>
+                </button>
             </form>
         </div>
 

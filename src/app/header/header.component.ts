@@ -1,7 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { SidebarComponent } from '../sidebar/sidebar.component';
-import { DetailComponent } from '../detail/detail.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,15 +12,16 @@ export class HeaderComponent {
   menuOpen = false;
   profileDropdownOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
-    // Close profile dropdown when menu opens
     if (this.menuOpen) {
       this.profileDropdownOpen = false;
     }
-    // Prevent body scroll when overlay is open
     if (this.menuOpen) {
       document.body.classList.add('overlay-active');
     } else {
@@ -43,19 +43,29 @@ export class HeaderComponent {
   }
 
   goToHome(): void {
-    this.router.navigate(['/home']);
-    // Close menu if open
+    const redirectUrl = this.authService.isAdmin() ? '/home' : '/challenges';
+    this.router.navigate([redirectUrl]);
     if (this.menuOpen) {
       this.toggleMenu();
     }
-    // Close profile dropdown if open
     if (this.profileDropdownOpen) {
       this.closeProfileDropdown();
     }
   }
 
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  getInitials(): string {
+    return this.authService.getInitials();
+  }
+
   signOut(): void {
-    // Close menus immediately
     if (this.menuOpen) {
       this.menuOpen = false;
       document.body.classList.remove('overlay-active');
@@ -64,23 +74,18 @@ export class HeaderComponent {
       this.profileDropdownOpen = false;
     }
 
-    // Clear any stored user data
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userData');
+    this.authService.logout();
 
-    // Navigate to login with a slight delay to ensure UI updates
     setTimeout(() => {
       this.router.navigate(['/login']);
     }, 100);
   }
 
-  // Close profile dropdown when clicking outside
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const profileContainer = document.querySelector('.profile-container');
     const target = event.target as HTMLElement;
     
-    // If click is outside the profile container, close dropdown
     if (profileContainer && !profileContainer.contains(target)) {
       this.profileDropdownOpen = false;
     }

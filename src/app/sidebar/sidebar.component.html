@@ -17,11 +17,11 @@
 
     <!-- USER PROFILE -->
     <div class="user-profile" *ngIf="!isCollapsed">
-      <div class="avatar">DS</div>
+      <div class="avatar">{{ getUserInitials() }}</div>
 
       <div class="user-info">
-        <div class="user-name">Deepika Sharma</div>
-        <div class="user-sub">Student · ANITS, Visakhapatnam</div>
+        <div class="user-name">{{ getUserFullName() }}</div>
+        <div class="user-sub">{{ getUserSub() }}</div>
         <div class="user-rank">
           <i class="fas fa-medal"></i> Rank #12
         </div>
@@ -30,7 +30,7 @@
 
     <!-- COLLAPSED AVATAR -->
     <div class="avatar-only" *ngIf="isCollapsed">
-      <div class="avatar">DS</div>
+      <div class="avatar">{{ getUserInitials() }}</div>
     </div>
 
     <!-- DIVIDER -->

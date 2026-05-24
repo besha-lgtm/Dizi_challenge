@@ -215,8 +215,9 @@
             <button 
                 type="submit" 
                 class="register-btn"
-                [disabled]="registerForm.invalid">
-                Create Account →
+                [disabled]="registerForm.invalid || isLoading">
+                <span *ngIf="!isLoading">Create Account →</span>
+                <span *ngIf="isLoading">Creating Account...</span>
             </button>
             </form>
         </div>

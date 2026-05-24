@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 interface User {
   firstName: string;
@@ -31,79 +32,87 @@ export class RegisterComponent implements OnInit {
 
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+  isLoading: boolean = false;
   formError: string = '';
   formSuccess: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    // Initialize component if needed
   }
 
- 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-
 
   toggleConfirmPasswordVisibility(): void {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-
   goBack(): void {
-    this.router.navigate(['/dashboard']); 
+    this.router.navigate(['/login']); 
   }
-
 
   goToSignIn(event: Event): void {
     event.preventDefault();
     this.router.navigate(['/login']); 
   }
 
-
   doPasswordsMatch(): boolean {
     return this.user.password === this.user.confirmPassword;
   }
 
-
   onSubmit(form: NgForm): void {
-    // Clear previous messages
     this.formError = '';
     this.formSuccess = '';
 
-    // Validate form
     if (form.invalid) {
       this.formError = 'Please fill all required fields correctly';
       return;
     }
 
-    // Validate passwords match
     if (!this.doPasswordsMatch()) {
       this.formError = 'Passwords do not match';
       return;
     }
 
-    // Validate terms
     if (!this.user.terms) {
       this.formError = 'You must agree to the terms and conditions';
       return;
     }
 
-    // Show success message
-    this.formSuccess = 'Account created successfully!';
-    console.log('Form submitted with data:', {
+    this.isLoading = true;
+
+    const payload = {
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
-      institution: this.user.institution
-    });
+      institution: this.user.institution,
+      password: this.user.password
+    };
 
-    // Reset form and redirect to login after successful submission
-    setTimeout(() => {
-      form.resetForm();
-      this.formSuccess = '';
-      this.router.navigate(['/login']);
-    }, 2000);
+    this.authService.register(payload).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        if (res.success) {
+          this.formSuccess = 'Account created successfully! Please sign in.';
+          setTimeout(() => {
+            form.resetForm();
+            this.formSuccess = '';
+            this.router.navigate(['/login']);
+          }, 2000);
+        } else {
+          this.formError = res.message || 'Registration failed.';
+        }
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Registration error:', err);
+        this.formError = err.error?.message || 'An error occurred during registration. Please try again.';
+      }
+    });
   }
 }

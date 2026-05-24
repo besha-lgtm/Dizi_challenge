@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
 
 interface NavItem {
   label: string;
@@ -29,10 +30,12 @@ export class SidebarComponent implements OnInit {
     { label: 'Settings', icon: 'fa-gear', route: '/settings', title: 'Settings' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    // Track current route for active styling
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
@@ -50,5 +53,21 @@ export class SidebarComponent implements OnInit {
 
   isActiveRoute(route: string): boolean {
     return this.currentRoute.includes(route);
+  }
+
+  getUserInitials(): string {
+    return this.authService.getInitials();
+  }
+
+  getUserFullName(): string {
+    const user = this.authService.getUser();
+    if (!user) return 'User';
+    return `${user.firstName} ${user.lastName}`;
+  }
+
+  getUserSub(): string {
+    const user = this.authService.getUser();
+    if (!user) return '';
+    return `${user.role === 'admin' ? 'Admin' : 'User'} · ${user.institution || ''}`;
   }
 }

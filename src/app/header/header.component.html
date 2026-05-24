@@ -1,4 +1,4 @@
-<header class="navbar">
+<header class="navbar" *ngIf="isAuthenticated()">
 
   <!-- LEFT LOGO -->
   <div class="logo">
@@ -8,28 +8,18 @@
 
   <!-- NAV LINKS (Desktop) -->
   <nav class="nav-links">
-    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <a *ngIf="isAdmin()" routerLink="/home" routerLinkActive="active">Home</a>
     <a routerLink="/challenges" routerLinkActive="active">Challenges</a>
-    <!-- <a routerLink="/teams" routerLinkActive="active">Teams</a> -->
-    <a routerLink="/postchallenge" routerLinkActive="active">Post Challenge</a>
-    <!-- <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a> -->
+    <a *ngIf="isAdmin()" routerLink="/postchallenge" routerLinkActive="active">Post Challenge</a>
     <a routerLink="/submission" routerLinkActive="active">Submission</a>
-    <a routerLink="/evaluation" routerLinkActive="active">Evaluation</a>
+    <a *ngIf="isAdmin()" routerLink="/evaluation" routerLinkActive="active">Evaluation</a>
     <a routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
-    <!-- <a routerLink="/rewards" routerLinkActive="active">Rewards</a>
-    <a routerLink="/create-team" routerLinkActive="active">Create Team</a> -->
   </nav>
 
   <!-- RIGHT SIDE (Desktop) -->
   <div class="nav-actions">
-    <!-- <a routerLink="/postchallenge" routerLinkActive="active">
-      <button class="btn light">Post Challenge</button>
-    </a>
-    <a routerLink="/dashboard" routerLinkActive="active">
-      <button class="btn dark">My Dashboard</button>
-    </a> -->
     <div class="profile-container">
-      <div class="profile" (click)="onProfileClick($event)" title="Profile">DS</div>
+      <div class="profile" (click)="onProfileClick($event)" title="Profile">{{ getInitials() }}</div>
       <!-- Profile Dropdown -->
       <div class="profile-dropdown" [class.active]="profileDropdownOpen">
         <button class="dropdown-item" (click)="signOut(); $event.stopPropagation()">
@@ -56,33 +46,19 @@
 
     <!-- Profile Avatar at Top -->
     <div class="overlay-profile">
-      <div class="profile-avatar">DS</div>
+      <div class="profile-avatar">{{ getInitials() }}</div>
       <span class="profile-label">Profile</span>
     </div>
 
     <!-- Mobile Nav Links -->
     <nav class="mobile-nav-links">
-      <a routerLink="/home" routerLinkActive="active" (click)="toggleMenu()">Home</a>
+      <a *ngIf="isAdmin()" routerLink="/home" routerLinkActive="active" (click)="toggleMenu()">Home</a>
       <a routerLink="/challenges" routerLinkActive="active" (click)="toggleMenu()">Challenges</a>
-      <a routerLink="/teams" routerLinkActive="active" (click)="toggleMenu()">Teams</a>
-      <a routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">Post Challenge</a>
-      <a routerLink="/dashboard" routerLinkActive="active" (click)="toggleMenu()">Dashboard</a>
+      <a *ngIf="isAdmin()" routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">Post Challenge</a>
       <a routerLink="/submission" routerLinkActive="active" (click)="toggleMenu()">Submission</a>
-      <a routerLink="/evaluation" routerLinkActive="active" (click)="toggleMenu()">Evaluation</a>
+      <a *ngIf="isAdmin()" routerLink="/evaluation" routerLinkActive="active" (click)="toggleMenu()">Evaluation</a>
       <a routerLink="/leaderboard" routerLinkActive="active" (click)="toggleMenu()">Leaderboard</a>
-      <a routerLink="/rewards" routerLinkActive="active" (click)="toggleMenu()">Rewards</a>
-      <a routerLink="/create-team" routerLinkActive="active" (click)="toggleMenu()">Create Team</a>
     </nav>
-
-    <!-- Mobile Action Buttons -->
-    <!-- <div class="mobile-actions">
-      <a routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">
-        <button class="btn light">Post Challenge</button>
-      </a>
-      <a routerLink="/dashboard" routerLinkActive="active" (click)="toggleMenu()">
-        <button class="btn dark">My Dashboard</button>
-      </a>
-    </div> -->
 
     <!-- Mobile Sign Out Button -->
     <div class="mobile-signout">
