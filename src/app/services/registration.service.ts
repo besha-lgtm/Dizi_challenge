@@ -19,6 +19,13 @@ export interface RegistrationPayload {
   razorpay_signature: string;
 }
 
+export interface PaidRegistrationPayload {
+  challenge_id: number | string;
+  team_name: string;
+  team_lead: string;
+  members: TeamMember[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -30,6 +37,11 @@ export class RegistrationService {
   registerTeam(payload: RegistrationPayload): Observable<any> {
     console.log('Registering team with payment verification:', payload);
     return this.http.post<any>(`${this.API_URL}/register`, payload);
+  }
+
+  registerPaidTeam(payload: PaidRegistrationPayload): Observable<any> {
+    console.log('Registering team as already paid:', payload);
+    return this.http.post<any>(`${this.API_URL}/register-paid`, payload);
   }
 
   createPaymentOrder(challengeId: number | string): Observable<any> {

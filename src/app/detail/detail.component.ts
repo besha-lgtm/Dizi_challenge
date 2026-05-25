@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChallengeService } from '../services/challenge.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-detail',
@@ -19,7 +20,9 @@ export class DetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private challengeService: ChallengeService
+    private router: Router,
+    private challengeService: ChallengeService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +44,10 @@ export class DetailComponent implements OnInit {
     });
   }
 
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   // Registration Toggle
   openRegistration(): void {
     if (this.status === 'upcoming' || this.status === 'closed') return;
@@ -49,6 +56,10 @@ export class DetailComponent implements OnInit {
 
   closeRegistration(): void {
     this.showRegistration = false;
+  }
+
+  goToSubmission(): void {
+    this.router.navigate(['/submission']);
   }
 
   calculateStatusAndDays(): void {

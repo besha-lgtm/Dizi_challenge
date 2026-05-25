@@ -33,15 +33,19 @@
         </div>
 
         <div class="submit-success" *ngIf="submitSuccess">
-          <span class="success-icon">✓</span> Registration Successful! Your team has been registered.
+          <span class="success-icon">✓</span> {{ submitSuccessMessage }}
         </div>
 
         <div class="modal-footer" *ngIf="!submitSuccess">
           <div class="submit-error" *ngIf="submitError">{{ submitError }}</div>
           <div class="submit-error" *ngIf="!submitError && teamNameError">{{ teamNameError }}</div>
           <button type="button" class="cancel-btn" (click)="closeRegistration()">Cancel</button>
-          <button type="submit" class="submit-btn" [disabled]="isSubmitting || isCheckingTeamName || !!teamNameError">
-            {{ isSubmitting ? 'Registering...' : 'Complete Registration' }}
+          <button type="button" class="paid-btn" (click)="markAsPaid($event)"
+            [disabled]="isMarkingPaid || isSubmitting || isCheckingTeamName || !!teamNameError">
+            {{ isMarkingPaid ? 'Saving...' : 'Already Paid' }}
+          </button>
+          <button type="submit" class="submit-btn" [disabled]="isSubmitting || isMarkingPaid || isCheckingTeamName || !!teamNameError">
+            {{ isSubmitting ? 'Registering...' : 'Pay & Register' }}
           </button>
         </div>
       </form>

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, NgZone } from '@angular/core';
-import { RegistrationService, TeamMember } from '../../services/registration.service';
+import { RegistrationService, TeamMember, PaidRegistrationPayload } from '../../services/registration.service';
 
 declare var Razorpay: any;
 
@@ -18,8 +18,10 @@ export class RegistrationComponent {
   teamNameError: string | null = null;
   isCheckingTeamName = false;
   isSubmitting = false;
+  isMarkingPaid = false;
   submitError: string | null = null;
   submitSuccess = false;
+  submitSuccessMessage = 'Registration Successful! Your team has been registered.';
 
   constructor(
     private registrationService: RegistrationService,
@@ -161,6 +163,7 @@ export class RegistrationComponent {
     this.registrationService.registerTeam(payload).subscribe({
       next: (_res: any) => {
         this.isSubmitting = false;
+        this.submitSuccessMessage = 'Registration Successful! Your team has been registered.';
         this.submitSuccess = true;
         setTimeout(() => this.closeRegistration(), 2500);
       },
@@ -168,6 +171,59 @@ export class RegistrationComponent {
         this.isSubmitting = false;
         this.submitError = err?.error?.message || 'Payment verified, but registration failed. Please contact support with payment ID: ' + payload.razorpay_payment_id;
         console.error('Registration completion error:', err);
+      }
+    });
+  }
+
+  markAsPaid(event: Event): void {
+    event.preventDefault();
+    const form = (event.target as HTMLElement).closest('form') as HTMLFormElement;
+
+    if (!form || !form.checkValidity()) {
+      form?.reportValidity();
+      return;
+    }
+
+    if (this.isCheckingTeamName) {
+      this.submitError = 'Please wait until the team name availability check completes.';
+      return;
+    }
+
+    if (this.teamNameError) {
+      this.submitError = this.teamNameError;
+      return;
+    }
+
+    const formData = new FormData(form);
+    const team_name = (formData.get('teamName') as string)?.trim();
+    const team_lead = formData.get('teamLead') as string;
+
+    if (!team_name || !team_lead) {
+      this.submitError = 'Team name and team lead are required.';
+      return;
+    }
+
+    const payload: PaidRegistrationPayload = {
+      challenge_id: this.challengeId!,
+      team_name,
+      team_lead,
+      members: this.members
+    };
+
+    this.isMarkingPaid = true;
+    this.submitError = null;
+
+    this.registrationService.registerPaidTeam(payload).subscribe({
+      next: (_res: any) => {
+        this.isMarkingPaid = false;
+        this.submitSuccessMessage = 'Team registered as Already Paid successfully!';
+        this.submitSuccess = true;
+        setTimeout(() => this.closeRegistration(), 2500);
+      },
+      error: (err: any) => {
+        this.isMarkingPaid = false;
+        this.submitError = err?.error?.message || 'Failed to register team as paid. Please try again.';
+        console.error('Mark-as-paid error:', err);
       }
     });
   }

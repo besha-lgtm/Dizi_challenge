@@ -33,12 +33,24 @@
           {{ challenge.company_name }} · {{ challenge.location }} · {{ getDaysAgo(challenge.created_at) }}
         </p>
 
-        <!-- Registration Button (Moved here) -->
+        <!-- Action Buttons: Admin sees Register, User sees Submit -->
         <div class="action-row">
-          <button class="register-btn" [class.register-btn--disabled]="status === 'upcoming' || status === 'closed'"
-            [disabled]="status === 'upcoming' || status === 'closed'" (click)="openRegistration()">
-            {{ status === 'upcoming' ? 'Registration Opens Soon' : (status === 'closed' ? 'Registration Closed' :
-            'Register for Challenge') }}
+          <!-- ADMIN ONLY: Register for Challenge -->
+          <button *ngIf="isAdmin"
+            class="register-btn"
+            [class.register-btn--disabled]="status === 'upcoming' || status === 'closed'"
+            [disabled]="status === 'upcoming' || status === 'closed'"
+            (click)="openRegistration()">
+            {{ status === 'upcoming' ? 'Registration Opens Soon' : (status === 'closed' ? 'Registration Closed' : 'Register for Challenge') }}
+          </button>
+
+          <!-- USER ONLY: Submit to Challenge -->
+          <button *ngIf="!isAdmin"
+            class="register-btn"
+            [class.register-btn--disabled]="status === 'upcoming' || status === 'closed'"
+            [disabled]="status === 'upcoming' || status === 'closed'"
+            (click)="goToSubmission()">
+            {{ status === 'upcoming' ? 'Opens Soon' : (status === 'closed' ? 'Challenge Closed' : 'Submit Solution') }}
           </button>
         </div>
 
