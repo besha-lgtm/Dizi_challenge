@@ -368,6 +368,28 @@
             eligibility.</span>
         </div>
 
+        <!-- Demo / Reference Documents (Optional) -->
+        <div class="field-group" style="grid-column: span 2; margin-top: 20px;">
+          <label class="field-label" for="demo-files">
+            Demo / Reference Documents <span class="field-label__optional" style="color: #64748b; font-weight: normal; font-size: 0.85em; margin-left: 4px;">(Optional)</span>
+          </label>
+          <p class="field-hint" style="color: #64748b; font-size: 0.85em; margin-top: 4px; margin-bottom: 8px; line-height: 1.4;">
+            Upload reference materials, templates, datasets, mockups, or case files.
+            <br>
+            <strong style="color: #475569;">Limits:</strong> Max 5 files, up to 20MB per file.
+            <br>
+            <strong style="color: #475569;">Supported formats:</strong> PDF, Word, PowerPoint, Excel, ZIP, JPEG, PNG, TXT.
+          </p>
+          <div class="field-input-wrap" style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;">
+            <input type="file" id="demo-files" multiple style="display: none;" />
+            <button type="button" class="btn btn--outline" id="btn-select-demos" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1.5px dashed #cbd5e1; background: #f8fafc; cursor: pointer; border-radius: 8px; font-weight: 600; color: #334155; transition: all 0.2s;">
+              📁 Select Reference Files
+            </button>
+            <div id="demo-files-list" style="width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 4px;"></div>
+            <span class="field-error" id="err-demo-files" role="alert" aria-live="polite"></span>
+          </div>
+        </div>
+
       </div>
 
       <div class="form-nav">

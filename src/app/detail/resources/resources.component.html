@@ -4,7 +4,7 @@
   <div class="res-section res-toolbar-card">
     <div class="res-search-wrap">
       <span class="res-search-icon">🔍</span>
-      <input type="text" class="res-search-input" placeholder="Search team files..." [(ngModel)]="searchQuery">
+      <input type="text" class="res-search-input" placeholder="Search resources..." [(ngModel)]="searchQuery">
       <button class="res-clear-btn" *ngIf="searchQuery" (click)="searchQuery = ''">✖</button>
     </div>
   </div>
@@ -12,13 +12,13 @@
   <!-- Loading State -->
   <div class="res-loading-state" *ngIf="isLoading">
     <div class="res-spinner"></div>
-    <p>Fetching team submissions...</p>
+    <p>Fetching resources...</p>
   </div>
 
   <div class="empty-state" *ngIf="!isLoading && filteredSections().length === 0">
     <div class="empty-icon">📂</div>
-    <h4 class="empty-title">No submissions found</h4>
-    <p class="empty-sub">This challenge doesn't have any team uploads yet.</p>
+    <h4 class="empty-title">No resources found</h4>
+    <p class="empty-sub">This challenge doesn't have any reference documents or team submissions yet.</p>
   </div>
 
   <div class="res-section" *ngFor="let section of filteredSections()">

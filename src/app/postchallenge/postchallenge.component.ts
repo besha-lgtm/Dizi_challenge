@@ -33,6 +33,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   private currentStep = 1;
   private completedSteps = new Set<number>();
   private readonly TOTAL_STEPS = 3;
+  private selectedDemoFiles: File[] = [];
 
   // ── Configuration ──────────────────────────────────
   private readonly STEP_CONFIGS: Record<number, StepConfig> = {
@@ -281,11 +282,42 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     this.postchallengeService.publishChallenge(payload).subscribe({
       next: (res) => {
         if (res.success) {
-          this.getEl("success-overlay")?.removeAttribute("hidden");
-        }
-        if (btn) {
-          btn.classList.remove("btn--loading");
-          btn.querySelector("span")!.textContent = "Publish Challenge";
+          const challengeId = res.id;
+          if (this.selectedDemoFiles.length > 0 && challengeId) {
+            if (btn) {
+              btn.querySelector("span")!.textContent = "Uploading Demos...";
+            }
+            this.postchallengeService.uploadDemoFiles(challengeId, this.selectedDemoFiles).subscribe({
+              next: (uploadRes) => {
+                if (btn) {
+                  btn.classList.remove("btn--loading");
+                  btn.querySelector("span")!.textContent = "Publish Challenge";
+                }
+                this.getEl("success-overlay")?.removeAttribute("hidden");
+              },
+              error: (uploadErr) => {
+                console.error('Error uploading demo files:', uploadErr);
+                alert(`Challenge published but demo files upload failed: ${uploadErr.message}`);
+                if (btn) {
+                  btn.classList.remove("btn--loading");
+                  btn.querySelector("span")!.textContent = "Publish Challenge";
+                }
+                this.getEl("success-overlay")?.removeAttribute("hidden");
+              }
+            });
+          } else {
+            if (btn) {
+              btn.classList.remove("btn--loading");
+              btn.querySelector("span")!.textContent = "Publish Challenge";
+            }
+            this.getEl("success-overlay")?.removeAttribute("hidden");
+          }
+        } else {
+          if (btn) {
+            btn.classList.remove("btn--loading");
+            btn.querySelector("span")!.textContent = "Publish Challenge";
+          }
+          alert(res.message || 'Error publishing challenge');
         }
       },
       error: (err) => {
@@ -299,8 +331,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   }
 
 
-  // ── Initialization ─────────────────────────────────
-
   private init(): void {
     this.updateUI();
     this.updatePrizeTotal();
@@ -309,6 +339,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     this.initNavButtons();
     this.initDateValidation();
     this.initPrizeCards();
+    this.initDemoFilesListener();
 
     console.info("[PostChallenge] Full System Rectified & Loaded ✓");
   }
@@ -361,6 +392,131 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
         document.querySelectorAll(".prize-card").forEach(c => c.classList.remove("prize-card--selected"));
         card.classList.add("prize-card--selected");
       });
+    });
+  }
+
+  private initDemoFilesListener(): void {
+    const btnSelect = this.getEl<HTMLButtonElement>("btn-select-demos");
+    const fileInput = this.getEl<HTMLInputElement>("demo-files");
+
+    btnSelect?.addEventListener("click", () => fileInput?.click());
+    fileInput?.addEventListener("change", (e) => this.handleDemoFilesChange(e));
+  }
+
+  private handleDemoFilesChange(e: Event): void {
+    const input = e.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const files = Array.from(input.files);
+    const errEl = this.getEl("err-demo-files");
+    if (errEl) {
+      errEl.textContent = "";
+      errEl.classList.remove("field-error--visible");
+    }
+
+    const allowedExtensions = ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx', '.zip', '.jpg', '.jpeg', '.png', '.txt'];
+    const maxSizeBytes = 20 * 1024 * 1024; // 20MB
+    const maxFiles = 5;
+
+    let errors: string[] = [];
+    let validToAdd: File[] = [];
+
+    for (const file of files) {
+      const ext = '.' + file.name.split('.').pop()?.toLowerCase();
+      if (!allowedExtensions.includes(ext)) {
+        errors.push(`"${file.name}" is not a supported format.`);
+        continue;
+      }
+      if (file.size > maxSizeBytes) {
+        errors.push(`"${file.name}" exceeds 20MB.`);
+        continue;
+      }
+      validToAdd.push(file);
+    }
+
+    if (errors.length > 0) {
+      if (errEl) {
+        errEl.textContent = errors.join(" ");
+        errEl.classList.add("field-error--visible");
+      }
+    }
+
+    const existingNames = new Set(this.selectedDemoFiles.map(f => f.name));
+    for (const file of validToAdd) {
+      if (!existingNames.has(file.name)) {
+        if (this.selectedDemoFiles.length < maxFiles) {
+          this.selectedDemoFiles.push(file);
+        } else {
+          if (errEl) {
+            errEl.textContent = `Maximum of ${maxFiles} files allowed. Some files were ignored.`;
+            errEl.classList.add("field-error--visible");
+          }
+          break;
+        }
+      }
+    }
+
+    input.value = "";
+    this.renderDemoFilesList();
+  }
+
+  private renderDemoFilesList(): void {
+    const listEl = this.getEl("demo-files-list");
+    if (!listEl) return;
+
+    listEl.innerHTML = "";
+
+    this.selectedDemoFiles.forEach((file, index) => {
+      const fileRow = document.createElement("div");
+      fileRow.style.display = "flex";
+      fileRow.style.alignItems = "center";
+      fileRow.style.justifyContent = "space-between";
+      fileRow.style.padding = "8px 12px";
+      fileRow.style.background = "#f1f5f9";
+      fileRow.style.border = "1px solid #e2e8f0";
+      fileRow.style.borderRadius = "6px";
+      fileRow.style.fontSize = "13px";
+      fileRow.style.color = "#334155";
+
+      const infoSpan = document.createElement("span");
+      infoSpan.style.display = "flex";
+      infoSpan.style.alignItems = "center";
+      infoSpan.style.gap = "8px";
+      
+      const sizeKB = (file.size / 1024).toFixed(1);
+      const sizeStr = file.size > 1024 * 1024 
+        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB` 
+        : `${sizeKB} KB`;
+
+      infoSpan.innerHTML = `📄 <strong style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</strong> <span style="color: #64748b; font-size: 11px;">(${sizeStr})</span>`;
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.textContent = "❌ Remove";
+      removeBtn.style.background = "none";
+      removeBtn.style.border = "none";
+      removeBtn.style.color = "#ef4444";
+      removeBtn.style.cursor = "pointer";
+      removeBtn.style.fontSize = "12px";
+      removeBtn.style.fontWeight = "600";
+      removeBtn.style.padding = "2px 6px";
+      removeBtn.style.borderRadius = "4px";
+
+      removeBtn.addEventListener("mouseover", () => {
+        removeBtn.style.backgroundColor = "#fee2e2";
+      });
+      removeBtn.addEventListener("mouseout", () => {
+        removeBtn.style.backgroundColor = "transparent";
+      });
+
+      removeBtn.addEventListener("click", () => {
+        this.selectedDemoFiles.splice(index, 1);
+        this.renderDemoFilesList();
+      });
+
+      fileRow.appendChild(infoSpan);
+      fileRow.appendChild(removeBtn);
+      listEl.appendChild(fileRow);
     });
   }
 }

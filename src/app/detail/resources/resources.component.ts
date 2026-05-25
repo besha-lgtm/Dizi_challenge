@@ -6,7 +6,7 @@ interface ResourceFile {
   id: number;
   name: string;
   desc: string;
-  type: 'pdf' | 'csv' | 'zip' | 'xlsx' | 'mp4' | 'pptx' | 'json';
+  type: 'pdf' | 'csv' | 'zip' | 'xlsx' | 'mp4' | 'pptx' | 'json' | 'image' | 'text';
   url?: string;
 }
 
@@ -37,12 +37,69 @@ export class ResourcesComponent implements OnInit {
   ngOnInit(): void {
     const challengeId = this.challengeService.getSelectedChallengeId();
     if (challengeId) {
-      this.fetchSubmissions(challengeId);
+      this.fetchChallengeAndSubmissions(challengeId);
     }
   }
 
-  fetchSubmissions(challengeId: string): void {
+  fetchChallengeAndSubmissions(challengeId: string): void {
     this.isLoading = true;
+    
+    this.challengeService.getChallengeById(challengeId).subscribe({
+      next: (challenge) => {
+        let referenceSection: ResourceSection | null = null;
+        if (challenge && challenge.demo_files) {
+          try {
+            const filenames: string[] = JSON.parse(challenge.demo_files || '[]');
+            if (filenames.length > 0) {
+              const uploadUrl = 'http://localhost:5000/uploads';
+              const files: ResourceFile[] = filenames.map((name, index) => {
+                const ext = name.split('.').pop()?.toLowerCase() || '';
+                return {
+                  id: index,
+                  name: name,
+                  desc: 'Official reference material provided by the challenge creator.',
+                  type: this.mapExtensionToType(ext),
+                  url: `${uploadUrl}/${name}`
+                };
+              });
+              referenceSection = {
+                id: 'challenge-reference-docs',
+                title: '📌 Reference & Demo Documents',
+                files: files
+              };
+            }
+          } catch (e) {
+            console.error('Error parsing challenge demo files:', e);
+          }
+        }
+
+        this.submissionService.getSubmissionsByChallenge(challengeId).subscribe({
+          next: (submissions) => {
+            const submissionSections = submissions.map(sub => ({
+              id: sub.id?.toString() || sub.team_name,
+              title: sub.team_name,
+              githubUrl: sub.github_repo,
+              files: this.mapSubmissionToFiles(sub)
+            }));
+
+            this.sections = referenceSection ? [referenceSection, ...submissionSections] : submissionSections;
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error('Error fetching submissions:', err);
+            this.sections = referenceSection ? [referenceSection] : [];
+            this.isLoading = false;
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error fetching challenge details:', err);
+        this.fetchSubmissionsOnly(challengeId);
+      }
+    });
+  }
+
+  private fetchSubmissionsOnly(challengeId: string): void {
     this.submissionService.getSubmissionsByChallenge(challengeId).subscribe({
       next: (data) => {
         this.sections = data.map(sub => ({
@@ -58,6 +115,30 @@ export class ResourcesComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  private mapExtensionToType(ext: string): 'pdf' | 'csv' | 'zip' | 'xlsx' | 'mp4' | 'pptx' | 'json' | 'image' | 'text' {
+    const map: Record<string, 'pdf' | 'csv' | 'zip' | 'xlsx' | 'mp4' | 'pptx' | 'json' | 'image' | 'text'> = {
+      pdf: 'pdf',
+      csv: 'csv',
+      xlsx: 'xlsx',
+      xls: 'xlsx',
+      zip: 'zip',
+      rar: 'zip',
+      mp4: 'mp4',
+      mkv: 'mp4',
+      avi: 'mp4',
+      ppt: 'pptx',
+      pptx: 'pptx',
+      json: 'json',
+      jpg: 'image',
+      jpeg: 'image',
+      png: 'image',
+      gif: 'image',
+      txt: 'text',
+      log: 'text'
+    };
+    return map[ext] || 'pdf';
   }
 
   private mapSubmissionToFiles(sub: any): ResourceFile[] {
@@ -114,13 +195,15 @@ export class ResourcesComponent implements OnInit {
 
   getFileIcon(type: string): string {
     const map: Record<string, string> = {
-      pdf:  '📄',
-      csv:  '📊',
-      xlsx: '📗',
-      zip:  '🗜️',
-      mp4:  '🎬',
-      pptx: '📑',
-      json: '{ }',
+      pdf:   '📄',
+      csv:   '📊',
+      xlsx:  '📗',
+      zip:   '🗜️',
+      mp4:   '🎬',
+      pptx:  '📑',
+      json:  '{ }',
+      image: '🖼️',
+      text:  '📝'
     };
     return map[type] || '📎';
   }

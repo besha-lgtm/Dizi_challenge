@@ -91,4 +91,12 @@ export class PostchallengeService {
     console.log('Publishing Challenge to Backend:', payload);
     return this.http.post<any>(this.API_URL, payload);
   }
+
+  uploadDemoFiles(challengeId: string | number, files: File[]): Observable<any> {
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('demo_files', file);
+    });
+    return this.http.post<any>(`${environment.apiUrl}/challenges/${challengeId}/upload-demos`, formData);
+  }
 }
