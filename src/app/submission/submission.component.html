@@ -3,15 +3,6 @@
     <h2 class="card-title">Submit Your Solution</h2>
     <p class="card-subtitle">Upload documents, link your demo, and summarize your approach.</p>
 
-    <!-- ── Success Toast ──────────────────────────────────── -->
-    <div class="submission-toast" *ngIf="showSuccessToast">
-      <div class="toast-icon">✅</div>
-      <div class="toast-body">
-        <div class="toast-title">Submitted!</div>
-        <div class="toast-msg">Your solution has been received.</div>
-      </div>
-    </div>
-
     <!-- Search Section -->
     <div class="search-section">
       <div class="search-row">
@@ -341,5 +332,32 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- Success dialog -->
+<div
+  class="success-overlay"
+  *ngIf="showSuccessDialog"
+  role="alertdialog"
+  aria-labelledby="submission-success-title"
+  aria-describedby="submission-success-body"
+  aria-live="assertive">
+  <div class="success-card" (click)="$event.stopPropagation()">
+    <div class="success-card__burst" aria-hidden="true">✅</div>
+    <div class="success-card__icon-ring" aria-hidden="true">
+      <svg viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="18" stroke="#16a34a" stroke-width="2.5" opacity="0.2" />
+        <path d="M12 20l5.5 5.5L28 14" stroke="#16a34a" stroke-width="2.8" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </div>
+    <h2 class="success-card__title" id="submission-success-title">Successfully Submitted!</h2>
+    <p class="success-card__body" id="submission-success-body">
+      Your solution has been received. You can submit again for another challenge when needed.
+    </p>
+    <div class="success-card__actions">
+      <button type="button" class="btn btn--primary" (click)="closeSuccessDialog()">OK</button>
+    </div>
   </div>
 </div>

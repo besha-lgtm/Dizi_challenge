@@ -93,7 +93,8 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
 
   // Form state
   isFormEnabled: boolean = false;
-  showSuccessToast: boolean = false;
+  showSuccessDialog: boolean = false;
+  private lastSubmittedForm: NgForm | null = null;
 
   // File input references
   @ViewChild('solutionFileInput') solutionFileInput!: ElementRef<HTMLInputElement>;
@@ -422,51 +423,10 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
     };
 
     this.submissionService.submitSolution(payload).subscribe({
-      next: (response) => {
-        // Show toast
-        this.showSuccessToast = true;
+      next: () => {
+        this.lastSubmittedForm = form;
+        this.showSuccessDialog = true;
         this.isSubmitting = false;
-
-        // Full reset after 2.5 seconds
-        setTimeout(() => {
-          this.showSuccessToast = false;
-
-          // Reset form fields
-          form.resetForm();
-          this.solutionFile = null;
-          this.demoFiles = [];
-          this.pptFile = null;
-          this.documentationFiles = [];
-          this.solutionFileInput.nativeElement.value = '';
-          this.demoFilesInput.nativeElement.value = '';
-          this.pptFileInput.nativeElement.value = '';
-          this.documentationFilesInput.nativeElement.value = '';
-          this.submission = {
-            solutionFile: null,
-            demoFiles: [],
-            pptFile: null,
-            documentationFiles: [],
-            githubRepo: '',
-            liveLink: ''
-          };
-
-          // Reset search dropdowns
-          this.challengeSearch = '';
-          this.teamSearch = '';
-          this.selectedChallenge = null;
-          this.selectedTeam = null;
-          this.isFormEnabled = false;
-          this.showChallengeDropdown = false;
-          this.showTeamDropdown = false;
-          this.filteredTeams = [];
-
-          // Clear validation states
-          this.FIELD_RULES.forEach(rule => {
-            const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
-            if (field) field.classList.remove('field-input--error', 'field-textarea--error', 'field-input--valid');
-            this.getEl(rule.errorId)?.classList.remove('field-error--visible');
-          });
-        }, 2500);
       },
       error: (error) => {
         this.isSubmitting = false;
@@ -474,6 +434,47 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
         this.formError = msg;
         console.error('Submission error:', error);
       }
+    });
+  }
+
+  closeSuccessDialog(): void {
+    this.showSuccessDialog = false;
+    this.resetSubmissionForm(this.lastSubmittedForm);
+    this.lastSubmittedForm = null;
+  }
+
+  private resetSubmissionForm(form: NgForm | null): void {
+    form?.resetForm();
+    this.solutionFile = null;
+    this.demoFiles = [];
+    this.pptFile = null;
+    this.documentationFiles = [];
+    if (this.solutionFileInput) this.solutionFileInput.nativeElement.value = '';
+    if (this.demoFilesInput) this.demoFilesInput.nativeElement.value = '';
+    if (this.pptFileInput) this.pptFileInput.nativeElement.value = '';
+    if (this.documentationFilesInput) this.documentationFilesInput.nativeElement.value = '';
+    this.submission = {
+      solutionFile: null,
+      demoFiles: [],
+      pptFile: null,
+      documentationFiles: [],
+      githubRepo: '',
+      liveLink: ''
+    };
+
+    this.challengeSearch = '';
+    this.teamSearch = '';
+    this.selectedChallenge = null;
+    this.selectedTeam = null;
+    this.isFormEnabled = false;
+    this.showChallengeDropdown = false;
+    this.showTeamDropdown = false;
+    this.filteredTeams = [];
+
+    this.FIELD_RULES.forEach(rule => {
+      const field = this.getEl<HTMLInputElement | HTMLTextAreaElement>(rule.fieldId);
+      if (field) field.classList.remove('field-input--error', 'field-textarea--error', 'field-input--valid');
+      this.getEl(rule.errorId)?.classList.remove('field-error--visible');
     });
   }
 

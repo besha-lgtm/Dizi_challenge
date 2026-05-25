@@ -62,10 +62,10 @@
           <a routerLink="resources" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Resources</button>
           </a>
-          <!-- <a routerLink="discussion" routerLinkActive="tab-link-active">
+          <!-- <a *ngIf="isAdmin" routerLink="discussion" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Discussion</button>
           </a>
-          <a routerLink="submissions" routerLinkActive="tab-link-active">
+          <a *ngIf="isAdmin" routerLink="submissions" routerLinkActive="tab-link-active">
             <button class="tab" routerLinkActive="tab-active">Registered Teams</button>
           </a> -->
           <!-- <a routerLink="resources" routerLinkActive="tab-link-active">

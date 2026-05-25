@@ -44,8 +44,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: OverviewComponent },
-      { path: 'discussion', component: DiscussionComponent },
-      { path: 'submissions', component: SubmissionsComponent },
+      { path: 'discussion', component: DiscussionComponent, canActivate: [adminGuard] },
+      { path: 'submissions', component: SubmissionsComponent, canActivate: [adminGuard] },
       { path: 'resources', component: ResourcesComponent }
     ]
   },
@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: 'rewards', component: RewardsComponent, canActivate: [authGuard, adminGuard] },
   { path: 'home', component: HomeComponent, canActivate: [authGuard, adminGuard] },
   { path: 'challenges', component: ChallengesComponent, canActivate: [authGuard] },
-  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [authGuard] },
+  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [authGuard, adminGuard] },
   { path: 'postchallenge', component: PostchallengeComponent, canActivate: [authGuard, adminGuard] },
   { path: 'evaluation', component: EvaluationComponent, canActivate: [authGuard, adminGuard] },
   { path: 'teams', component: TeamsComponent, canActivate: [authGuard, adminGuard] },
@@ -62,7 +62,7 @@ const routes: Routes = [
   { path: 'overview', component: OverviewComponent, canActivate: [authGuard, adminGuard] },
   { path: 'reset-password', component: ResetPasswordComponent, canActivate: [guestGuard] },
   { path: 'certificates', component: CertificatesComponent, canActivate: [authGuard, adminGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [authGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [authGuard, adminGuard] },
   { path: 'create-team', component: CreateTeamComponent, canActivate: [authGuard, adminGuard] },
   { path: '**', redirectTo: 'login' }
 ];
