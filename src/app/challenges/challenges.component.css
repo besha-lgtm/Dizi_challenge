@@ -52,52 +52,121 @@
   margin-top: 0;
 }
 
-/* TAG STYLING - Adjusted size and removed !important */
-.tag {
-  font-size: 10px !important;
-  font-weight: 500;
-  padding: 2px 6px;
-  line-height: 1.5;
-  margin-bottom: 5px;
+/* ── Challenge card tags (single row + horizontal scroll) ─ */
+.main-col-challenges .tag-row {
+  margin-bottom: 12px;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
-.tag-upcoming {
-  color: #d97706;
-  /* Amber */
-  border: 1px solid rgba(217, 119, 6, 0.3);
-  background-color: rgba(217, 119, 6, 0.05);
+.main-col-challenges .tags-left {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
-.tag-closed {
-  color: #dc2626;
-  /* Red */
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  background-color: rgba(220, 38, 38, 0.05);
+.main-col-challenges .tags-left::-webkit-scrollbar {
+  height: 5px;
 }
 
-.tag-open {
-  color: #16a34a;
-  /* Green */
-  border: 1px solid rgba(22, 163, 74, 0.3);
-  background-color: rgba(22, 163, 74, 0.05);
+.main-col-challenges .tags-left::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
 }
 
-.tag-new {
-  color: #2563eb;
-  /* Blue */
-  border: 1px solid rgba(37, 99, 235, 0.3);
-  background-color: rgba(37, 99, 235, 0.05);
+.main-col-challenges .tags-left::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
 }
 
-.tag-closing {
-  color: #ea580c;
-  /* Orange */
-  border: 1px solid rgba(234, 88, 12, 0.3);
-  background-color: rgba(234, 88, 12, 0.05);
+.main-col-challenges .tags-left::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-.tag-grey {
-  color: #4b5563;
-  border: 1px solid rgba(75, 85, 99, 0.2);
-  background-color: rgba(75, 85, 99, 0.05);
+.main-col-challenges .tag {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+/* Sector / domain tags — distinct colors */
+.main-col-challenges .tag-sector-1 {
+  color: #1d4ed8;
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.main-col-challenges .tag-sector-2 {
+  color: #7c3aed;
+  background-color: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+.main-col-challenges .tag-sector-3 {
+  color: #0f766e;
+  background-color: #f0fdfa;
+  border-color: #99f6e4;
+}
+
+.main-col-challenges .tag-sector-4 {
+  color: #b45309;
+  background-color: #fffbeb;
+  border-color: #fde68a;
+}
+
+.main-col-challenges .tag-sector-5 {
+  color: #be185d;
+  background-color: #fdf2f8;
+  border-color: #fbcfe8;
+}
+
+/* Status tags */
+.main-col-challenges .tag-open {
+  color: #15803d;
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.main-col-challenges .tag-closing {
+  color: #c2410c;
+  background-color: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.main-col-challenges .tag-new {
+  color: #1d4ed8;
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+}
+
+.main-col-challenges .tag-upcoming {
+  color: #b45309;
+  background-color: #fffbeb;
+  border-color: #fde68a;
+}
+
+.main-col-challenges .tag-closed {
+  color: #b91c1c;
+  background-color: #fef2f2;
+  border-color: #fecaca;
 }

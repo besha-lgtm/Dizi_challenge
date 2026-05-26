@@ -71,12 +71,16 @@
           <!-- Sector Tags & Status Badge: Shows industry sectors and challenge status -->
           <div class="tag-row">
             <div class="tags-left">
-            <span class="tag tag-grey" *ngFor="let sector of challenge.sectors">
-              {{ sector }}
-            </span>
-            <span [class]="'tag tag-' + challenge.status">
-              {{ getStatusBadge(challenge.status) }}
-            </span>
+              <span
+                class="tag"
+                [ngClass]="getSectorTagClass(i)"
+                *ngFor="let sector of challenge.sectors; let i = index"
+              >
+                {{ sector }}
+              </span>
+              <span class="tag" [ngClass]="'tag-' + challenge.status">
+                {{ getStatusBadge(challenge.status) }}
+              </span>
             </div>
           </div>
 

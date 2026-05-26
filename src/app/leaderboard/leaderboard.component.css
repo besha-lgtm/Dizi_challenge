@@ -29,14 +29,14 @@
   color: #0f1e3d;
   letter-spacing: -1px;
   margin-bottom: 8px;
-  background: linear-gradient(135deg, #0f1e3d 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #0e8d78 0%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .page-subtitle {
   font-size: 16px;
-  color: #64748b;
+  color: #bbd1f0;
   max-width: 600px;
   margin: 0 auto;
 }

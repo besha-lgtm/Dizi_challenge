@@ -42,11 +42,11 @@
           <button type="button" class="cancel-btn" (click)="closeRegistration()">Cancel</button>
           <button type="button" class="paid-btn" (click)="markAsPaid($event)"
             [disabled]="isMarkingPaid || isSubmitting || isCheckingTeamName || !!teamNameError">
-            {{ isMarkingPaid ? 'Saving...' : 'Already Paid' }}
+            {{ isMarkingPaid ? 'Saving...' : 'Register' }}
           </button>
-          <button type="submit" class="submit-btn" [disabled]="isSubmitting || isMarkingPaid || isCheckingTeamName || !!teamNameError">
+          <!-- <button type="submit" class="submit-btn" [disabled]="isSubmitting || isMarkingPaid || isCheckingTeamName || !!teamNameError">
             {{ isSubmitting ? 'Registering...' : 'Pay & Register' }}
-          </button>
+          </button> -->
         </div>
       </form>
     </div>

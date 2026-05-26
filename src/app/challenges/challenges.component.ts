@@ -191,11 +191,17 @@ export class ChallengesComponent implements OnInit {
   }
 
   getStatusBadge(status: string): string {
-    if (status === 'open') return '● Open';
-    if (status === 'closing') return '● Closing';
-    if (status === 'new') return '● New';
-    if (status === 'upcoming') return '● Upcoming';
-    if (status === 'closed') return '● Closed';
+    if (status === 'open') return 'Open';
+    if (status === 'closing') return 'Closing';
+    if (status === 'new') return 'New';
+    if (status === 'upcoming') return 'Upcoming';
+    if (status === 'closed') return 'Closed';
     return '';
+  }
+
+  /** Rotating palette so each sector/domain tag has its own color. */
+  getSectorTagClass(index: number): string {
+    const palette = ['tag-sector-1', 'tag-sector-2', 'tag-sector-3', 'tag-sector-4', 'tag-sector-5'];
+    return palette[index % palette.length];
   }
 }

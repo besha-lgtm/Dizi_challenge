@@ -129,7 +129,8 @@
 }
 
 .cancel-btn {
-  background: #f3f4f6;
+  background: #d40c0c;
+  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
@@ -153,7 +154,7 @@
 }
 
 .paid-btn {
-  background: #059669;
+  background: #037953;
   color: white;
   border: none;
   padding: 10px 20px;
