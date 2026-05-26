@@ -42,19 +42,19 @@
         <div 
           class="challenge-card" 
           *ngFor="let item of filteredWinners"
-          [class.has-winner]="item.winner !== null && item.is_deadline_passed && item.all_evaluated"
-          [class.pending-winner]="item.winner !== null && (!item.is_deadline_passed || !item.all_evaluated)"
+          [class.has-winner]="isWinnerDeclared(item)"
+          [class.pending-winner]="isProvisionalLeader(item)"
           [class.no-winner]="item.winner === null"
         >
           <div class="challenge-header">
             <span class="challenge-tag" 
-              [class.winner-tag]="item.winner !== null && item.is_deadline_passed && item.all_evaluated"
-              [class.pending-tag]="item.winner !== null && (!item.is_deadline_passed || !item.all_evaluated)"
+              [class.winner-tag]="isWinnerDeclared(item)"
+              [class.pending-tag]="isProvisionalLeader(item)"
               [class.no-winner-tag]="item.winner === null"
             >
-              <ng-container *ngIf="item.winner !== null && item.is_deadline_passed && item.all_evaluated">Completed</ng-container>
-              <ng-container *ngIf="item.winner !== null && !item.is_deadline_passed">Submissions Open</ng-container>
-              <ng-container *ngIf="item.winner !== null && item.is_deadline_passed && !item.all_evaluated">Reviewing</ng-container>
+              <ng-container *ngIf="isWinnerDeclared(item)">Winner Declared</ng-container>
+              <ng-container *ngIf="isProvisionalLeader(item) && !item.is_deadline_passed">Submissions Open</ng-container>
+              <ng-container *ngIf="isProvisionalLeader(item) && item.is_deadline_passed && !item.all_evaluated">Reviewing</ng-container>
               <ng-container *ngIf="item.winner === null">Active</ng-container>
             </span>
             <h3 class="challenge-title-text">{{ item.challenge_title }}</h3>
@@ -63,17 +63,17 @@
           <!-- Winner Details -->
           <div class="winner-body" *ngIf="item.winner">
             <div class="winner-badge-wrapper">
-              <div class="winner-trophy-badge" *ngIf="item.is_deadline_passed && item.all_evaluated">
+              <div class="winner-trophy-badge" *ngIf="isWinnerDeclared(item)">
                 <span class="trophy-emoji">🏆</span>
-                <span class="badge-text">CHAMPION</span>
+                <span class="badge-text">WINNER</span>
               </div>
-              <div class="leader-badge" *ngIf="!item.is_deadline_passed">
+              <div class="leader-badge" *ngIf="isProvisionalLeader(item) && !item.is_deadline_passed">
                 <span class="trophy-emoji">⚡</span>
                 <span class="badge-text">CURRENT LEADER</span>
               </div>
-              <div class="review-badge" *ngIf="item.is_deadline_passed && !item.all_evaluated">
+              <div class="review-badge" *ngIf="isProvisionalLeader(item) && item.is_deadline_passed && !item.all_evaluated">
                 <span class="trophy-emoji">⏳</span>
-                <span class="badge-text">LEADING (REVIEW IN PROGRESS)</span>
+                <span class="badge-text">TOP — REVIEW IN PROGRESS</span>
               </div>
             </div>
             
@@ -93,20 +93,20 @@
               </div>
             </div>
             
-            <!-- Conditional messages based on deadline and evaluations status -->
-            <div class="congratulations-msg" *ngIf="item.is_deadline_passed && item.all_evaluated">
+            <!-- Winner only after deadline closed AND all teams reviewed -->
+            <div class="congratulations-msg" *ngIf="isWinnerDeclared(item)">
               <span class="party-popper">🎉</span>
-              <span class="msg-text">Congratulations! This team has conquered the challenge with the top score.</span>
+              <span class="msg-text"><strong>You are the winner!</strong> The submission deadline has closed and all teams have been reviewed. Congratulations on achieving the top score.</span>
             </div>
 
-            <div class="not-declared-msg open-state" *ngIf="!item.is_deadline_passed">
+            <div class="not-declared-msg open-state" *ngIf="isProvisionalLeader(item) && !item.is_deadline_passed">
               <span class="clock-emoji">⏳</span>
-              <span class="msg-text">Winner not declared yet. Submissions are open until {{ item.deadline | date:'dd MMM yyyy' }}. New solutions may come!</span>
+              <span class="msg-text"><strong>You are in the top as of now.</strong> We will let you know soon once submissions close on {{ item.deadline | date:'dd MMM yyyy' }} and all entries are reviewed.</span>
             </div>
 
-            <div class="not-declared-msg review-state" *ngIf="item.is_deadline_passed && !item.all_evaluated">
+            <div class="not-declared-msg review-state" *ngIf="isProvisionalLeader(item) && item.is_deadline_passed && !item.all_evaluated">
               <span class="clock-emoji">⏳</span>
-              <span class="msg-text">Winner not declared yet. Some submissions are still under review.</span>
+              <span class="msg-text"><strong>You are in the top as of now.</strong> We will let you know soon — {{ item.evaluated_submissions }} of {{ item.total_submissions }} submissions reviewed so far.</span>
             </div>
           </div>
           

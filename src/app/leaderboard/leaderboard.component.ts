@@ -11,6 +11,7 @@ export interface ChallengeWinner {
   evaluated_submissions: number;
   is_deadline_passed: boolean;
   all_evaluated: boolean;
+  winner_declared?: boolean;
   winner: {
     evaluation_id: number;
     submission_id: number;
@@ -73,6 +74,20 @@ export class LeaderboardComponent implements OnInit {
       return 'No members listed';
     }
     return members.map(m => m.name).join(', ');
+  }
+
+  /** Official winner: submission deadline closed AND every submission reviewed. */
+  isWinnerDeclared(item: ChallengeWinner): boolean {
+    return (
+      item.winner !== null &&
+      (item.winner_declared === true ||
+        (item.is_deadline_passed && item.all_evaluated))
+    );
+  }
+
+  /** Top team shown early — deadline open and/or reviews still in progress. */
+  isProvisionalLeader(item: ChallengeWinner): boolean {
+    return item.winner !== null && !this.isWinnerDeclared(item);
   }
 
   goToRewards(): void {
