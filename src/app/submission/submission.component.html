@@ -15,10 +15,10 @@
               placeholder="Search challenges..."
               [(ngModel)]="challengeSearch"
               (input)="onChallengeSearchChange($any($event.target).value)"
-              (focus)="showChallengeDropdown = true"
+              (focus)="openChallengeDropdown()"
               (blur)="onBlurChallenge()"
             />
-            <div class="dropdown-arrow" (click)="showChallengeDropdown = !showChallengeDropdown">▼</div>
+            <div class="dropdown-arrow" (click)="toggleChallengeDropdown()">▼</div>
             <div class="search-dropdown" *ngIf="showChallengeDropdown">
               <div class="dropdown-scroll">
                 <div

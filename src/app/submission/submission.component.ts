@@ -512,34 +512,86 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
   private loadChallenges(): void {
     this.challengeService.getChallenges().subscribe({
       next: (data) => {
-        const allChallenges: Challenge[] = data.map(item => ({
-          id: item.id,
-          title: item.title,
-          sectors: [item.sector, item.domain].filter(Boolean),
-          partner: item.partner,
-          location: item.location,
-          daysLeft: this.calculateDaysLeft(item.deadline),
-          dateMessage: this.getDateMessage(item.start_date, item.deadline),
-          prize: item.prize,
-          teams: item.registered_teams || 0,
-          status: this.getChallengeStatus(item.start_date, item.deadline)
-        }));
-        
-        // Only show challenges that are currently active/open for submissions
-        this.challenges = allChallenges.filter(c => 
-          c.status === 'open' || c.status === 'new' || c.status === 'closing'
+        const allChallenges = data.map((item) => this.mapChallengeFromApi(item));
+
+        this.challenges = allChallenges.filter(
+          (c) => c.status === 'open' || c.status === 'new' || c.status === 'closing'
         );
-        this.filteredChallenges = [...this.challenges];
+        this.refreshChallengeFilter();
       },
       error: (error) => {
         console.error('Error loading challenges:', error);
-        // Fallback to sample data if API fails, filtered for open status
-        this.challenges = this.getSampleChallenges().filter(c => 
-          c.status === 'open' || c.status === 'new' || c.status === 'closing'
+        this.challenges = this.getSampleChallenges().filter(
+          (c) => c.status === 'open' || c.status === 'new' || c.status === 'closing'
         );
-        this.filteredChallenges = [...this.challenges];
+        this.refreshChallengeFilter();
       }
     });
+  }
+
+  openChallengeDropdown(): void {
+    this.refreshChallengeFilter();
+    this.showChallengeDropdown = true;
+  }
+
+  toggleChallengeDropdown(): void {
+    if (!this.showChallengeDropdown) {
+      this.refreshChallengeFilter();
+    }
+    this.showChallengeDropdown = !this.showChallengeDropdown;
+  }
+
+  private refreshChallengeFilter(): void {
+    const query = this.challengeSearch.trim();
+    if (query) {
+      this.filteredChallenges = this.challenges.filter((challenge) =>
+        challenge.title.toLowerCase().includes(query.toLowerCase())
+      );
+    } else {
+      this.filteredChallenges = [...this.challenges];
+    }
+  }
+
+  /** Same date-only logic as challenges list — avoids false "closed" from timezone. */
+  private mapChallengeFromApi(item: any): Challenge {
+    const daysToStart = this.calculateDaysBetween(new Date(), new Date(item.start_date));
+    const daysToDeadline = this.calculateDaysBetween(new Date(), new Date(item.deadline));
+
+    let status: Challenge['status'] = 'open';
+    let dateMessage = '';
+
+    if (daysToStart > 0) {
+      status = 'upcoming';
+      dateMessage = `Starts in ${daysToStart} days`;
+    } else if (daysToDeadline < 0) {
+      status = 'closed';
+      dateMessage = 'Challenge Closed';
+    } else {
+      dateMessage = `${daysToDeadline} days left`;
+      if (daysToDeadline <= 7) status = 'closing';
+      else if (daysToDeadline >= 28) status = 'new';
+      else status = 'open';
+    }
+
+    return {
+      id: item.id,
+      title: item.title,
+      sectors: [item.sector, item.domain].filter(Boolean),
+      partner: item.company_name || '',
+      location: item.location || '',
+      daysLeft: Math.max(0, daysToDeadline),
+      dateMessage,
+      prize: Number(item.total_pool) || 0,
+      teams: Number(item.registered_teams) || 0,
+      status
+    };
+  }
+
+  private calculateDaysBetween(start: Date, end: Date): number {
+    const s = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const e = new Date(end.getFullYear(), end.getMonth(), end.getDate());
+    const diff = e.getTime() - s.getTime();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
   }
 
   private loadTeamsForChallenge(challengeId: number): void {
@@ -576,13 +628,7 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
 
   onChallengeSearchChange(query: string): void {
     this.challengeSearch = query;
-    if (query.trim()) {
-      this.filteredChallenges = this.challenges.filter(challenge =>
-        challenge.title.toLowerCase().includes(query.toLowerCase())
-      );
-    } else {
-      this.filteredChallenges = [...this.challenges];
-    }
+    this.refreshChallengeFilter();
     this.showChallengeDropdown = true;
   }
 
@@ -631,47 +677,6 @@ export class SubmissionComponent implements OnInit, AfterViewInit {
 
   onBlurTeam(): void {
     setTimeout(() => this.hideDropdowns(), 200);
-  }
-
-  // ── Helper Methods ─────────────────────────────────
-
-  private calculateDaysLeft(deadline: string): number {
-    const now = new Date();
-    const deadlineDate = new Date(deadline);
-    const diffTime = deadlineDate.getTime() - now.getTime();
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  }
-
-  private getDateMessage(startDate: string, deadline: string): string {
-    const now = new Date();
-    const start = new Date(startDate);
-    const end = new Date(deadline);
-
-    if (now < start) {
-      return `Starts ${this.formatDate(start)}`;
-    } else if (now <= end) {
-      return `${this.calculateDaysLeft(deadline)} days left`;
-    } else {
-      return 'Closed';
-    }
-  }
-
-  private getChallengeStatus(startDate: string, deadline: string): 'open' | 'closing' | 'new' | 'upcoming' | 'closed' {
-    const now = new Date();
-    const start = new Date(startDate);
-    const end = new Date(deadline);
-
-    if (now < start) return 'upcoming';
-    if (now > end) return 'closed';
-
-    const daysLeft = this.calculateDaysLeft(deadline);
-    if (daysLeft <= 3) return 'closing';
-    if (daysLeft <= 7) return 'new';
-    return 'open';
-  }
-
-  private formatDate(date: Date): string {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
 
   private getSampleChallenges(): Challenge[] {
