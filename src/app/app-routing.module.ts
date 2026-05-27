@@ -54,7 +54,7 @@ const routes: Routes = [
   { path: 'rewards', component: RewardsComponent, canActivate: [authGuard, adminGuard] },
   { path: 'home', component: HomeComponent, canActivate: [authGuard, adminGuard] },
   { path: 'challenges', component: ChallengesComponent, canActivate: [authGuard] },
-  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [authGuard, adminGuard] },
+  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [authGuard] },
   { path: 'postchallenge', component: PostchallengeComponent, canActivate: [authGuard, adminGuard] },
   { path: 'evaluation', component: EvaluationComponent, canActivate: [authGuard, adminGuard] },
   { path: 'teams', component: TeamsComponent, canActivate: [authGuard, adminGuard] },

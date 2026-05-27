@@ -13,7 +13,7 @@
     <a *ngIf="isAdmin()" routerLink="/postchallenge" routerLinkActive="active">Post Challenge</a>
     <a routerLink="/submission" routerLinkActive="active">Submission</a>
     <a *ngIf="isAdmin()" routerLink="/evaluation" routerLinkActive="active">Evaluation</a>
-    <a *ngIf="isAdmin()" routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
+    <a routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
   </nav>
 
   <!-- RIGHT SIDE (Desktop) -->
@@ -57,7 +57,7 @@
       <a *ngIf="isAdmin()" routerLink="/postchallenge" routerLinkActive="active" (click)="toggleMenu()">Post Challenge</a>
       <a routerLink="/submission" routerLinkActive="active" (click)="toggleMenu()">Submission</a>
       <a *ngIf="isAdmin()" routerLink="/evaluation" routerLinkActive="active" (click)="toggleMenu()">Evaluation</a>
-      <a *ngIf="isAdmin()" routerLink="/leaderboard" routerLinkActive="active" (click)="toggleMenu()">Leaderboard</a>
+      <a routerLink="/leaderboard" routerLinkActive="active" (click)="toggleMenu()">Leaderboard</a>
     </nav>
 
     <!-- Mobile Sign Out Button -->
