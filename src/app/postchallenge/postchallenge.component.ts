@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostchallengeService, ChallengePayload } from '../services/postchallenge.service';
 
@@ -34,6 +34,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   private completedSteps = new Set<number>();
   private readonly TOTAL_STEPS = 3;
   private selectedDemoFiles: File[] = [];
+  private isSubmitting = false;
 
   // ── Configuration ──────────────────────────────────
   private readonly STEP_CONFIGS: Record<number, StepConfig> = {
@@ -193,16 +194,46 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
     if (fill) fill.style.width = `${((step / this.TOTAL_STEPS) * 100).toFixed(2)}%`;
   }
 
-  // ── Prize Calculation (Rectified) ──────────────────
+  // ── Event Handlers & Prize Calculation ──────────────
 
-  private initPrizeListeners(): void {
-    // Event delegation ensures listeners don't "die" when steps change
-    document.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target && target.id && target.id.startsWith('prize-')) {
-        this.updatePrizeTotal();
-      }
-    });
+  @HostListener('click', ['$event'])
+  onClick(e: Event): void {
+    const target = e.target as HTMLElement;
+
+    // 1. Navigation Actions (Next, Prev, Publish)
+    const actionTarget = target.closest<HTMLElement>("[data-action]");
+    if (actionTarget) {
+      const action = actionTarget.dataset["action"];
+      const from = parseInt(actionTarget.dataset["from"] ?? "0", 10);
+
+      if (action === "next") this.nextStep(from);
+      if (action === "prev") this.prevStep(from);
+      if (action === "publish") this.publishChallenge();
+      return;
+    }
+
+    // 2. Prize Card Selection
+    const prizeCard = target.closest<HTMLElement>(".prize-card");
+    if (prizeCard) {
+      if (target.tagName === "INPUT") return;
+      document.querySelectorAll(".prize-card").forEach(c => c.classList.remove("prize-card--selected"));
+      prizeCard.classList.add("prize-card--selected");
+    }
+  }
+
+  @HostListener('input', ['$event'])
+  onInput(e: Event): void {
+    const target = e.target as HTMLElement;
+
+    // 1. Prize amount input change
+    if (target.id && target.id.startsWith('prize-')) {
+      this.updatePrizeTotal();
+    }
+
+    // 2. Clear field validation error on input
+    if (target.classList.contains("field-input")) {
+      this.clearFieldError(target as HTMLInputElement);
+    }
   }
 
   private updatePrizeTotal(): void {
@@ -223,6 +254,8 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   // ── Actions (Publish & Save Draft) ─────────────────
 
   private publishChallenge(): void {
+    if (this.isSubmitting) return;
+
     if (!this.validateStep(3)) {
       return;
     }
@@ -238,6 +271,8 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
       }
       return;
     }
+
+    this.isSubmitting = true;
 
     const btn = this.getEl<HTMLButtonElement>("btn-publish");
     if (btn) {
@@ -294,6 +329,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
                   btn.querySelector("span")!.textContent = "Publish Challenge";
                 }
                 this.getEl("success-overlay")?.removeAttribute("hidden");
+                this.isSubmitting = false;
               },
               error: (uploadErr) => {
                 console.error('Error uploading demo files:', uploadErr);
@@ -303,6 +339,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
                   btn.querySelector("span")!.textContent = "Publish Challenge";
                 }
                 this.getEl("success-overlay")?.removeAttribute("hidden");
+                this.isSubmitting = false;
               }
             });
           } else {
@@ -311,6 +348,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
               btn.querySelector("span")!.textContent = "Publish Challenge";
             }
             this.getEl("success-overlay")?.removeAttribute("hidden");
+            this.isSubmitting = false;
           }
         } else {
           if (btn) {
@@ -318,6 +356,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
             btn.querySelector("span")!.textContent = "Publish Challenge";
           }
           alert(res.message || 'Error publishing challenge');
+          this.isSubmitting = false;
         }
       },
       error: (err) => {
@@ -326,6 +365,7 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
           btn.classList.remove("btn--loading");
           btn.querySelector("span")!.textContent = "Publish Challenge";
         }
+        this.isSubmitting = false;
       }
     });
   }
@@ -334,43 +374,19 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
   private init(): void {
     this.updateUI();
     this.updatePrizeTotal();
-    this.initPrizeListeners();
-    this.initFieldListeners();
     this.initNavButtons();
     this.initDateValidation();
-    this.initPrizeCards();
     this.initDemoFilesListener();
 
     console.info("[PostChallenge] Full System Rectified & Loaded ✓");
   }
 
   private initNavButtons(): void {
-    document.addEventListener("click", (e) => {
-      const target = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
-      if (!target) return;
-
-      const action = target.dataset["action"];
-      const from = parseInt(target.dataset["from"] ?? "0", 10);
-
-      if (action === "next") this.nextStep(from);
-      if (action === "prev") this.prevStep(from);
-      if (action === "publish") this.publishChallenge();
-    });
-
     // Success Overlay Handlers
     this.getEl("btn-post-another")?.addEventListener("click", () => location.reload());
     this.getEl("btn-view-dashboard")?.addEventListener("click", () => this.router.navigate(['/challenges']));
     this.getEl("success-overlay")?.addEventListener("click", (e) => {
       if (e.target === e.currentTarget) (e.target as HTMLElement).setAttribute("hidden", "");
-    });
-  }
-
-  private initFieldListeners(): void {
-    document.addEventListener("input", (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target.classList.contains("field-input")) {
-        this.clearFieldError(target);
-      }
     });
   }
 
@@ -383,16 +399,6 @@ export class PostchallengeComponent implements OnInit, AfterViewInit {
         deadline.min = start.value;
       });
     }
-  }
-
-  private initPrizeCards(): void {
-    document.querySelectorAll<HTMLElement>(".prize-card").forEach(card => {
-      card.addEventListener("click", (e) => {
-        if ((e.target as HTMLElement).tagName === "INPUT") return;
-        document.querySelectorAll(".prize-card").forEach(c => c.classList.remove("prize-card--selected"));
-        card.classList.add("prize-card--selected");
-      });
-    });
   }
 
   private initDemoFilesListener(): void {

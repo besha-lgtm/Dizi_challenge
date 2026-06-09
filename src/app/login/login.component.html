@@ -1,7 +1,7 @@
 <div class="login-page">
     <!-- Left Side - Details Container (50%) -->
     <div class="details-container">
-        
+
 
         <div class="brand-section">
             <!-- Use Angular assets folder for images -->
@@ -9,12 +9,13 @@
         </div>
 
         <div class="main-content">
-            
-            <h2>Sign in to access your dashboard</h2>
-            
-            <p class="description">Manage your account, track your progress, and explore new opportunities on our platform.</p>
 
-           <div class="register-types">
+            <h2>Sign in to access your dashboard</h2>
+
+            <p class="description">Manage your account, track your progress, and explore new opportunities on our
+                platform.</p>
+
+            <div class="register-types">
                 <div class="type-card">
                     <h3>Track Progress</h3>
                     <p>Monitor your achievements and statistics.</p>
@@ -70,15 +71,8 @@
                 <div class="form-group">
                     <label for="email">EMAIL ADDRESS</label>
                     <div class="input-group" [class.input-error]="email.invalid && (email.dirty || email.touched)">
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            [(ngModel)]="user.email"
-                            placeholder="you@example.com"
-                            required
-                            email
-                            #email="ngModel">
+                        <input type="email" id="email" name="email" [(ngModel)]="user.email"
+                            placeholder="you@example.com" required email #email="ngModel">
                     </div>
                     <span class="error-message" *ngIf="email.invalid && (email.dirty || email.touched)">
                         <span *ngIf="email.errors?.['required']">Email is required</span>
@@ -89,15 +83,10 @@
                 <!-- Password Field -->
                 <div class="form-group">
                     <label for="password">PASSWORD</label>
-                    <div class="input-group" [class.input-error]="password.invalid && (password.dirty || password.touched)">
-                        <input 
-                            [type]="showPassword ? 'text' : 'password'" 
-                            id="password" 
-                            name="password" 
-                            [(ngModel)]="user.password"
-                            placeholder="Min 8 characters"
-                            required
-                            minlength="8"
+                    <div class="input-group"
+                        [class.input-error]="password.invalid && (password.dirty || password.touched)">
+                        <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
+                            [(ngModel)]="user.password" placeholder="Min 8 characters" required minlength="8"
                             #password="ngModel">
                         <span class="toggle-password" (click)="togglePasswordVisibility()" role="button" tabindex="0">
                             <i [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
@@ -115,10 +104,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button 
-                    type="submit" 
-                    class="submit-btn"
-                    [disabled]="loginForm.invalid || isLoading">
+                <button type="submit" class="submit-btn" [disabled]="loginForm.invalid || isLoading">
                     <span *ngIf="!isLoading">Sign In →</span>
                     <span *ngIf="isLoading">Signing in...</span>
                 </button>
@@ -126,6 +112,6 @@
         </div>
 
         <!-- Sign Up Link  -->
-        <p class="signin-link">Don't have an account? <a href="#signup" (click)="goToSignUp($event)">Sign up instead</a></p>
+        <!-- <p class="signin-link">Don't have an account? <a href="#signup" (click)="goToSignUp($event)">Sign up instead</a></p> -->
     </div>
 </div>
