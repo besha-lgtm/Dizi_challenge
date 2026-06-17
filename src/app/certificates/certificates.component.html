@@ -12,42 +12,28 @@
         </p>
       </div>
 
-      <!-- SEARCH + FILTER -->
       <div class="cert-search-filter">
 
         <div class="cert-search-box">
           <span class="cert-search-icon">🔍</span>
-          <input 
-            type="text"
-            class="cert-search-input"
-            placeholder="Search certificates, challenges..."
-            [(ngModel)]="searchQuery"
-            (input)="onSearchChange($any($event.target).value)"
-          >
+          <input type="text" class="cert-search-input" placeholder="Search certificates, challenges..."
+            [(ngModel)]="searchQuery" (input)="onSearchChange($any($event.target).value)">
         </div>
 
         <div class="cert-filter-group">
-          <button class="cert-filter-btn"
-            [class.cert-active]="activeFilter === 'all'"
-            (click)="setFilter('all')">
+          <button class="cert-filter-btn" [class.cert-active]="activeFilter === 'all'" (click)="setFilter('all')">
             All ({{ filteredCertificates.length }})
           </button>
 
-          <button class="cert-filter-btn"
-            [class.cert-active]="activeFilter === 'gold'"
-            (click)="setFilter('gold')">
+          <button class="cert-filter-btn" [class.cert-active]="activeFilter === 'gold'" (click)="setFilter('gold')">
             Gold
           </button>
 
-          <button class="cert-filter-btn"
-            [class.cert-active]="activeFilter === 'silver'"
-            (click)="setFilter('silver')">
+          <button class="cert-filter-btn" [class.cert-active]="activeFilter === 'silver'" (click)="setFilter('silver')">
             Silver
           </button>
 
-          <button class="cert-filter-btn"
-            [class.cert-active]="activeFilter === 'bronze'"
-            (click)="setFilter('bronze')">
+          <button class="cert-filter-btn" [class.cert-active]="activeFilter === 'bronze'" (click)="setFilter('bronze')">
             Bronze
           </button>
         </div>
@@ -108,31 +94,23 @@
       <!-- PAGINATION CONTROLS -->
       <div class="cert-pagination" *ngIf="isPaginationVisible && filteredCertificates.length > 0">
         <div class="cert-pagination-info">
-          Showing {{ (currentPage - 1) * itemsPerPage + 1 }}-{{ Math.min(currentPage * itemsPerPage, filteredCertificates.length) }} of {{ filteredCertificates.length }}
+          Showing {{ (currentPage - 1) * itemsPerPage + 1 }}-{{ Math.min(currentPage * itemsPerPage,
+          filteredCertificates.length) }} of {{ filteredCertificates.length }}
         </div>
 
         <div class="cert-pagination-controls">
-          <button 
-            class="cert-pagination-btn" 
-            [disabled]="currentPage === 1"
-            (click)="previousPage()">
+          <button class="cert-pagination-btn" [disabled]="currentPage === 1" (click)="previousPage()">
             ← Previous
           </button>
 
           <div class="cert-page-numbers">
-            <button 
-              *ngFor="let page of getPageNumbers()" 
-              class="cert-page-number"
-              [class.cert-page-active]="currentPage === page"
-              (click)="goToPage(page)">
+            <button *ngFor="let page of getPageNumbers()" class="cert-page-number"
+              [class.cert-page-active]="currentPage === page" (click)="goToPage(page)">
               {{ page }}
             </button>
           </div>
 
-          <button 
-            class="cert-pagination-btn" 
-            [disabled]="currentPage === totalPages"
-            (click)="nextPage()">
+          <button class="cert-pagination-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
             Next →
           </button>
         </div>
@@ -158,13 +136,13 @@
 <!-- CERTIFICATE MODAL OVERLAY -->
 <div class="cert-modal-overlay" *ngIf="selectedCertificate" (click)="closeCertificateModal()">
   <div class="cert-modal-container" (click)="$event.stopPropagation()">
-    
+
     <!-- Close button -->
     <button class="cert-modal-close" (click)="closeCertificateModal()">✕</button>
-    
+
     <!-- Certificate Content -->
     <div class="cert-modal-content">
-      
+
       <!-- Certificate Header -->
       <div class="cert-modal-header">
         <h2 class="cert-modal-title">{{ selectedCertificate.title }}</h2>
