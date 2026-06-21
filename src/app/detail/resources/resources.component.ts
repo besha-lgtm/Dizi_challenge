@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SubmissionService } from '../../services/submission.service';
 import { ChallengeService } from '../../services/challenge.service';
+import { AuthService } from '../../services/auth.service';
 
 interface ResourceFile {
   id: number;
@@ -31,7 +32,8 @@ export class ResourcesComponent implements OnInit {
 
   constructor(
     private submissionService: SubmissionService,
-    private challengeService: ChallengeService
+    private challengeService: ChallengeService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -73,28 +75,38 @@ export class ResourcesComponent implements OnInit {
           }
         }
 
-        this.submissionService.getSubmissionsByChallenge(challengeId).subscribe({
-          next: (submissions) => {
-            const submissionSections = submissions.map(sub => ({
-              id: sub.id?.toString() || sub.team_name,
-              title: sub.team_name,
-              githubUrl: sub.github_repo,
-              files: this.mapSubmissionToFiles(sub)
-            }));
+        if (this.authService.isAdmin()) {
+          this.submissionService.getSubmissionsByChallenge(challengeId).subscribe({
+            next: (submissions) => {
+              const submissionSections = submissions.map(sub => ({
+                id: sub.id?.toString() || sub.team_name,
+                title: sub.team_name,
+                githubUrl: sub.github_repo,
+                files: this.mapSubmissionToFiles(sub)
+              }));
 
-            this.sections = referenceSection ? [referenceSection, ...submissionSections] : submissionSections;
-            this.isLoading = false;
-          },
-          error: (err) => {
-            console.error('Error fetching submissions:', err);
-            this.sections = referenceSection ? [referenceSection] : [];
-            this.isLoading = false;
-          }
-        });
+              this.sections = referenceSection ? [referenceSection, ...submissionSections] : submissionSections;
+              this.isLoading = false;
+            },
+            error: (err) => {
+              console.error('Error fetching submissions:', err);
+              this.sections = referenceSection ? [referenceSection] : [];
+              this.isLoading = false;
+            }
+          });
+        } else {
+          this.sections = referenceSection ? [referenceSection] : [];
+          this.isLoading = false;
+        }
       },
       error: (err) => {
         console.error('Error fetching challenge details:', err);
-        this.fetchSubmissionsOnly(challengeId);
+        if (this.authService.isAdmin()) {
+          this.fetchSubmissionsOnly(challengeId);
+        } else {
+          this.sections = [];
+          this.isLoading = false;
+        }
       }
     });
   }
